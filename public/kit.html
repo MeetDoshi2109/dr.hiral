@@ -13,13 +13,17 @@
 .remedy-item .r-name{font-weight:600;color:var(--text)}
 .remedy-item .r-meta{font-size:0.75rem;color:var(--text-muted);margin-top:0.15rem}
 .kit-tray{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-xl);padding:1.5rem}
-.tray-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:0.75rem}
-.tray-slot{aspect-ratio:1;border:2px dashed rgba(255,255,255,0.1);border-radius:var(--radius-md);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:0.72rem;color:var(--text-muted);transition:all 0.3s ease;cursor:pointer;padding:0.5rem;position:relative}
-.tray-slot:hover{border-color:rgba(13,148,136,0.5);background:rgba(13,148,136,0.05)}
+.tray-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.tray-slot{min-height:100px;border:2px dashed rgba(255,255,255,0.1);border-radius:var(--radius-lg);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:0.82rem;color:var(--text-muted);transition:all 0.35s cubic-bezier(0.4,0,0.2,1);cursor:pointer;padding:1rem 0.75rem;position:relative}
+.tray-slot:hover{border-color:rgba(13,148,136,0.5);background:rgba(13,148,136,0.05);transform:translateY(-2px)}
 .tray-slot.filled{border-style:solid;border-color:rgba(13,148,136,0.4);background:rgba(13,148,136,0.08)}
-.tray-slot.filled .slot-name{font-weight:600;color:var(--primary-light);font-size:0.78rem}
-.tray-slot.filled .slot-potency{color:var(--accent);font-size:0.68rem;margin-top:0.15rem}
-.tray-slot .remove-btn{position:absolute;top:2px;right:4px;background:none;border:none;color:var(--danger);cursor:pointer;font-size:0.7rem;opacity:0;transition:opacity 0.2s}
+.tray-slot.filled .slot-issue{font-weight:700;color:var(--primary-light);font-size:0.92rem;letter-spacing:-0.01em}
+.tray-slot.filled .slot-remedy{color:var(--text-secondary);font-size:0.78rem;margin-top:0.25rem;font-weight:500}
+.tray-slot.filled .slot-potency{color:var(--accent);font-size:0.68rem;margin-top:0.15rem;opacity:0.8}
+.tray-slot .remove-btn{position:absolute;top:6px;right:8px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;color:var(--danger);cursor:pointer;font-size:0.65rem;opacity:0;transition:all 0.2s}
+.add-slot-btn{min-height:100px;border:2px dashed rgba(124,58,237,0.3);border-radius:var(--radius-lg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.3rem;cursor:pointer;transition:all 0.3s ease;color:var(--secondary-light);font-size:0.85rem;background:rgba(124,58,237,0.03)}
+.add-slot-btn:hover{border-color:rgba(124,58,237,0.6);background:rgba(124,58,237,0.08);transform:translateY(-2px)}
+.add-slot-btn .plus-icon{font-size:1.8rem;line-height:1;font-weight:300;opacity:0.7}
 .tray-slot:hover .remove-btn{opacity:1}
 .templates-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem}
 .template-card{padding:1rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-md);cursor:pointer;transition:all 0.3s ease;text-align:center}
@@ -31,8 +35,9 @@
 .cat-btn{padding:0.25rem 0.65rem;border-radius:var(--radius-full);border:1px solid var(--glass-border);background:transparent;color:var(--text-secondary);cursor:pointer;font-size:0.72rem;transition:all 0.2s}
 .cat-btn:hover,.cat-btn.active{background:rgba(13,148,136,0.2);border-color:rgba(13,148,136,0.4);color:var(--primary-light)}
 .kit-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.5rem}
-@media(max-width:900px){.kit-layout{grid-template-columns:1fr}.tray-grid{grid-template-columns:repeat(4,1fr)}}
-@media print{.kit-sidebar,.navbar,.kit-header{display:none!important}.kit-wrap{padding:0}.kit-tray{border:2px solid #333;background:white}.tray-slot{border-color:#999;color:#333}.tray-slot.filled .slot-name{color:#006}.tray-slot.filled .slot-potency{color:#630}}
+@media(max-width:900px){.kit-layout{grid-template-columns:1fr}.tray-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.tray-grid{grid-template-columns:1fr}}
+@media print{.kit-sidebar,.navbar,.kit-header,.add-slot-btn{display:none!important}.kit-wrap{padding:0}.kit-tray{border:2px solid #333;background:white}.tray-slot{border-color:#999;color:#333}.tray-slot.filled .slot-issue{color:#006}.tray-slot.filled .slot-remedy{color:#333}.tray-slot.filled .slot-potency{color:#630}}
 </style></head><body>
 <nav class="navbar"><a href="/" class="navbar-brand"><div class="navbar-logo">🌿</div><div><div class="navbar-title">Dr. <span>Hiral</span></div><div style="font-size:0.7rem;color:var(--text-muted)">Medicine Kit Builder</div></div></a>
 <ul class="navbar-nav"><li><a href="/" class="hover-underline">Home</a></li><li><a href="/appointments.html" class="hover-underline">Appointments</a></li><li><a href="/patient.html" class="hover-underline">Patient Portal</a></li><li><a href="/dashboard.html" class="btn btn-primary btn-sm">Dashboard</a></li></ul></nav>
@@ -90,17 +95,21 @@
 <div id="toast-container" class="toast-container"></div>
 <script src="/js/api.js"></script><script src="/js/remedies.js"></script><script src="/js/scroll.js"></script>
 <script>
-const TOTAL_SLOTS=30;let kitSlots=new Array(TOTAL_SLOTS).fill(null);let currentCat='All';
+let slotCount=4;let kitSlots=new Array(slotCount).fill(null);let currentCat='All';
+
+function addSlots(n){n=n||2;for(let i=0;i<n;i++)kitSlots.push(null);slotCount=kitSlots.length;renderTray();toast(`Added ${n} more slots`,'success')}
 
 function renderTray(){const grid=document.getElementById('trayGrid');grid.innerHTML='';
 kitSlots.forEach((s,i)=>{const d=document.createElement('div');d.className='tray-slot'+(s?' filled':'');d.ondragover=e=>{e.preventDefault();d.style.borderColor='rgba(13,148,136,0.8)'};d.ondragleave=()=>{d.style.borderColor=''};
 d.ondrop=e=>{e.preventDefault();d.style.borderColor='';const data=JSON.parse(e.dataTransfer.getData('text/plain'));kitSlots[i]=data;renderTray()};
-if(s){d.innerHTML=`<button class="remove-btn" onclick="event.stopPropagation();kitSlots[${i}]=null;renderTray()">✕</button><div class="slot-name">${s.name}</div><div class="slot-potency">${s.potency||'30C'}</div>`}else{d.innerHTML=`<span style="font-size:1.2rem;opacity:0.3">+</span><span>Slot ${i+1}</span>`}
+if(s){d.innerHTML=`<button class="remove-btn" onclick="event.stopPropagation();kitSlots[${i}]=null;renderTray()">✕</button><div class="slot-issue">${s.keynotes||s.category||'Health Issue'}</div><div class="slot-remedy">💊 ${s.name}</div><div class="slot-potency">${s.potency||'30C'}</div>`}else{d.innerHTML=`<span style="font-size:1.5rem;opacity:0.25">💊</span><span>Empty Slot ${i+1}</span>`}
 grid.appendChild(d)});
-document.getElementById('kitCount').textContent=kitSlots.filter(Boolean).length+' / '+TOTAL_SLOTS}
+// Add "+ Add More Slots" button
+const addBtn=document.createElement('div');addBtn.className='add-slot-btn';addBtn.onclick=()=>addSlots(2);addBtn.innerHTML='<span class="plus-icon">+</span><span>Add More Slots</span>';grid.appendChild(addBtn);
+document.getElementById('kitCount').textContent=kitSlots.filter(Boolean).length+' / '+slotCount}
 
 function renderRemedies(list){const el=document.getElementById('remedyList');
-el.innerHTML=list.map(r=>`<div class="remedy-item" draggable="true" ondragstart="event.dataTransfer.setData('text/plain',JSON.stringify({name:'${r.name}',potency:'${r.potencies[0]}',category:'${r.category}'}))" onclick="addToFirstEmpty({name:'${r.name}',potency:'${r.potencies[0]}',category:'${r.category}'})"><div class="r-name">${r.name}</div><div class="r-meta">${r.category} · ${r.potencies.join(', ')}</div></div>`).join('')}
+el.innerHTML=list.map(r=>{const kn=r.keynotes.replace(/'/g,"\\'");return`<div class="remedy-item" draggable="true" ondragstart="event.dataTransfer.setData('text/plain',JSON.stringify({name:'${r.name}',potency:'${r.potencies[0]}',category:'${r.category}',keynotes:'${kn}'}))" onclick="addToFirstEmpty({name:'${r.name}',potency:'${r.potencies[0]}',category:'${r.category}',keynotes:'${kn}'})"><div class="r-name">${r.name}</div><div class="r-meta">${r.keynotes}</div></div>`}).join('')}
 
 function filterRemedies(){const q=document.getElementById('remedySearch').value.toLowerCase();let list=REMEDIES;
 if(currentCat!=='All')list=list.filter(r=>r.category===currentCat);
@@ -110,19 +119,19 @@ renderRemedies(list)}
 function initCatFilter(){const cats=['All',...REMEDY_CATEGORIES];const el=document.getElementById('catFilter');
 el.innerHTML=cats.map(c=>`<button class="cat-btn${c==='All'?' active':''}" onclick="currentCat='${c}';document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');filterRemedies()">${c}</button>`).join('')}
 
-function addToFirstEmpty(remedy){const idx=kitSlots.findIndex(s=>!s);if(idx===-1){toast('Kit is full! (30 slots)','warning');return}
+function addToFirstEmpty(remedy){let idx=kitSlots.findIndex(s=>!s);if(idx===-1){kitSlots.push(null);slotCount=kitSlots.length;idx=kitSlots.length-1}
 kitSlots[idx]=remedy;renderTray();toast(`Added ${remedy.name}`,'success')}
 
-function clearKit(){kitSlots.fill(null);renderTray();toast('Kit cleared','info')}
+function clearKit(){slotCount=4;kitSlots=new Array(slotCount).fill(null);renderTray();toast('Kit cleared','info')}
 
 const TEMPLATES={
-beginner:[{name:'Arnica',potency:'30C'},{name:'Belladonna',potency:'30C'},{name:'Bryonia',potency:'30C'},{name:'Chamomilla',potency:'30C'},{name:'Nux Vomica',potency:'30C'},{name:'Pulsatilla',potency:'30C'},{name:'Rhus Tox',potency:'30C'},{name:'Aconite',potency:'30C'},{name:'Arsenicum',potency:'30C'},{name:'Gelsemium',potency:'30C'},{name:'Ignatia',potency:'30C'},{name:'Sulphur',potency:'30C'}],
-travel:[{name:'Arnica',potency:'200C'},{name:'Arsenicum',potency:'30C'},{name:'Cocculus',potency:'30C'},{name:'Nux Vomica',potency:'30C'},{name:'Veratrum Alb',potency:'30C'},{name:'Ipecac',potency:'30C'},{name:'Gelsemium',potency:'30C'},{name:'Belladonna',potency:'30C'},{name:'Colocynth',potency:'30C'},{name:'Ledum',potency:'30C'}],
-womens:[{name:'Sepia',potency:'200C'},{name:'Pulsatilla',potency:'30C'},{name:'Lachesis',potency:'200C'},{name:'Ignatia',potency:'200C'},{name:'Nat Mur',potency:'200C'},{name:'Lilium Tig',potency:'30C'},{name:'Calc Carb',potency:'200'},{name:'Phosphorus',potency:'30C'},{name:'Belladonna',potency:'30C'},{name:'Chamomilla',potency:'30C'},{name:'Nux Vomica',potency:'30C'},{name:'Arnica',potency:'200C'},{name:'Staphysagria',potency:'200C'},{name:'Mag Phos',potency:'6X'},{name:'Ferrum Phos',potency:'6X'}],
-children:[{name:'Chamomilla',potency:'30C'},{name:'Belladonna',potency:'30C'},{name:'Pulsatilla',potency:'30C'},{name:'Calc Carb',potency:'30C'},{name:'Aconite',potency:'30C'},{name:'Arnica',potency:'30C'},{name:'Ipecac',potency:'30C'},{name:'Spongia',potency:'30C'},{name:'Mag Phos',potency:'6X'},{name:'Ferrum Phos',potency:'6X'}]
+beginner:[{name:'Arnica',potency:'30C',keynotes:'Trauma, bruising, overexertion'},{name:'Belladonna',potency:'30C',keynotes:'High fever, throbbing, redness'},{name:'Bryonia',potency:'30C',keynotes:'Worse motion, thirst, dryness'},{name:'Chamomilla',potency:'30C',keynotes:'Extreme irritability, teething, colic'},{name:'Nux Vomica',potency:'30C',keynotes:'Irritable, overindulgence, constipation'},{name:'Pulsatilla',potency:'30C',keynotes:'Weepy, shifting pains, worse warmth'},{name:'Rhus Tox',potency:'30C',keynotes:'Restlessness, stiffness, rheumatic'},{name:'Aconite',potency:'30C',keynotes:'Sudden onset, fear, fever, shock'},{name:'Arsenicum',potency:'30C',keynotes:'Anxiety, restlessness, burning pains'},{name:'Gelsemium',potency:'30C',keynotes:'Anticipation, trembling, flu'},{name:'Ignatia',potency:'30C',keynotes:'Grief, contradictions, sighing'},{name:'Sulphur',potency:'30C',keynotes:'Burning, untidy, worse heat'}],
+travel:[{name:'Arnica',potency:'200C',keynotes:'Trauma, bruising, jet lag'},{name:'Arsenicum',potency:'30C',keynotes:'Food poisoning, anxiety'},{name:'Cocculus',potency:'30C',keynotes:'Motion sickness, vertigo'},{name:'Nux Vomica',potency:'30C',keynotes:'Overindulgence, constipation'},{name:'Veratrum Alb',potency:'30C',keynotes:'Collapse, cold sweat, diarrhoea'},{name:'Ipecac',potency:'30C',keynotes:'Persistent nausea, vomiting'},{name:'Gelsemium',potency:'30C',keynotes:'Anticipation anxiety, flu'},{name:'Belladonna',potency:'30C',keynotes:'High fever, heat, throbbing'},{name:'Colocynth',potency:'30C',keynotes:'Colicky pain, cramps'},{name:'Ledum',potency:'30C',keynotes:'Insect bites, puncture wounds'}],
+womens:[{name:'Sepia',potency:'200C',keynotes:'Hormonal, bearing-down, indifference'},{name:'Pulsatilla',potency:'30C',keynotes:'Weepy, shifting pains'},{name:'Lachesis',potency:'200C',keynotes:'Jealous, talkative, hot flashes'},{name:'Ignatia',potency:'200C',keynotes:'Grief, emotional shock'},{name:'Nat Mur',potency:'200C',keynotes:'Reserved grief, craves salt'},{name:'Lilium Tig',potency:'30C',keynotes:'Hurried, uterine issues'},{name:'Calc Carb',potency:'200C',keynotes:'Obesity, sweating, stubborn'},{name:'Phosphorus',potency:'30C',keynotes:'Bleeding tendency, anxiety'},{name:'Belladonna',potency:'30C',keynotes:'Hot flashes, throbbing headache'},{name:'Chamomilla',potency:'30C',keynotes:'Labor pain, irritability'},{name:'Nux Vomica',potency:'30C',keynotes:'Morning sickness, constipation'},{name:'Arnica',potency:'200C',keynotes:'Postpartum bruising, soreness'},{name:'Staphysagria',potency:'200C',keynotes:'Suppressed anger, surgical wounds'},{name:'Mag Phos',potency:'6X',keynotes:'Menstrual cramps, spasms'},{name:'Ferrum Phos',potency:'6X',keynotes:'Anaemia, early inflammation'}],
+children:[{name:'Chamomilla',potency:'30C',keynotes:'Teething, colic, irritability'},{name:'Belladonna',potency:'30C',keynotes:'High fever, ear infection'},{name:'Pulsatilla',potency:'30C',keynotes:'Clingy, weepy, colds'},{name:'Calc Carb',potency:'30C',keynotes:'Slow development, sweating'},{name:'Aconite',potency:'30C',keynotes:'Sudden fever, fright'},{name:'Arnica',potency:'30C',keynotes:'Falls, bumps, bruises'},{name:'Ipecac',potency:'30C',keynotes:'Nausea, croupy cough'},{name:'Spongia',potency:'30C',keynotes:'Croupy cough, barking'},{name:'Mag Phos',potency:'6X',keynotes:'Growing pains, colic'},{name:'Ferrum Phos',potency:'6X',keynotes:'Early stage fever, fatigue'}]
 };
 
-function loadTemplate(name){kitSlots.fill(null);const t=TEMPLATES[name]||[];t.forEach((r,i)=>{if(i<TOTAL_SLOTS)kitSlots[i]=r});renderTray();toast(`Loaded ${name} template`,'success')}
+function loadTemplate(name){const t=TEMPLATES[name]||[];slotCount=Math.max(4,t.length);kitSlots=new Array(slotCount).fill(null);t.forEach((r,i)=>{kitSlots[i]=r});renderTray();toast(`Loaded ${name} template`,'success')}
 
 async function saveKit(){const name=document.getElementById('kitName').value||'My Kit';const slots=kitSlots.filter(Boolean);
 if(!slots.length){toast('Add remedies to your kit first','warning');return}
@@ -132,7 +141,7 @@ async function loadSavedKits(){try{const kits=await API.getKits();const el=docum
 if(!kits.length){el.innerHTML='<p class="text-muted text-sm">No saved kits yet</p>';return}
 el.innerHTML=kits.map(k=>{const slots=typeof k.slots==='string'?JSON.parse(k.slots):k.slots;return`<div class="flex justify-between items-center p-md" style="border-bottom:1px solid var(--glass-border)"><div><strong class="text-sm">${k.name}</strong><span class="badge badge-primary ml-sm">${slots.length} remedies</span></div><div class="flex gap-sm"><button class="btn btn-sm btn-outline" onclick="loadSavedKit('${k.id}')">Load</button><button class="btn btn-sm btn-danger" onclick="deleteSavedKit('${k.id}')">✕</button></div></div>`}).join('')}catch(e){}}
 
-async function loadSavedKit(id){try{const k=await API.getKit(id);const slots=typeof k.slots==='string'?JSON.parse(k.slots):k.slots;kitSlots.fill(null);slots.forEach((s,i)=>{if(i<TOTAL_SLOTS)kitSlots[i]=s});document.getElementById('kitName').value=k.name;renderTray();toast('Kit loaded!','success')}catch(e){toast(e.message,'error')}}
+async function loadSavedKit(id){try{const k=await API.getKit(id);const slots=typeof k.slots==='string'?JSON.parse(k.slots):k.slots;slotCount=Math.max(4,slots.length);kitSlots=new Array(slotCount).fill(null);slots.forEach((s,i)=>{kitSlots[i]=s});document.getElementById('kitName').value=k.name;renderTray();toast('Kit loaded!','success')}catch(e){toast(e.message,'error')}}
 
 async function deleteSavedKit(id){if(!confirm('Delete this kit?'))return;try{await API.deleteKit(id);toast('Kit deleted','success');loadSavedKits()}catch(e){toast(e.message,'error')}}
 
