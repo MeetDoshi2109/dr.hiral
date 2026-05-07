@@ -41,6 +41,33 @@ function initNavbarScroll() {
   }, { passive: true });
 }
 
+// ── Mobile hamburger menu ─────────────────────────
+function initMobileNav() {
+  const nav = document.querySelector('.navbar');
+  const navLinks = nav?.querySelector('.navbar-nav');
+  if (!nav || !navLinks) return;
+  // Inject hamburger button if not present
+  if (!nav.querySelector('.hamburger')) {
+    const btn = document.createElement('button');
+    btn.className = 'hamburger';
+    btn.setAttribute('aria-label', 'Toggle menu');
+    btn.innerHTML = '<span></span><span></span><span></span>';
+    nav.appendChild(btn);
+  }
+  const hamburger = nav.querySelector('.hamburger');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navLinks.classList.toggle('open');
+  });
+  // Close menu when a link is clicked
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('open');
+    });
+  });
+}
+
 // ── Parallax on hero ──────────────────────────────
 function initParallax() {
   const hero = document.querySelector('.hero-bg');
@@ -150,6 +177,7 @@ function initPageTransitions() {
 document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initNavbarScroll();
+  initMobileNav();
   initParallax();
   initCounters();
   initRipple();
