@@ -173,6 +173,13 @@ input, select, textarea, button { font-family: var(--font-body); }
   box-shadow: 0 0 20px rgba(13,148,136,0.3);
 }
 
+/* ── HAMBURGER ── */
+.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 0.4rem; z-index: 210; flex-direction: column; gap: 5px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); transform-origin: center; }
+.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
 /* ── SIDEBAR LAYOUT ── */
 .app-layout { display: flex; min-height: 100vh; padding-top: 65px; }
 .sidebar { width: 260px; background: var(--bg-secondary); border-right: 1px solid var(--glass-border); padding: 1.5rem 1rem; display: flex; flex-direction: column; gap: 0.4rem; position: fixed; top: 65px; bottom: 0; overflow-y: auto; }

@@ -31,13 +31,7 @@ function initNavbarScroll() {
   const nav = document.querySelector('.navbar');
   if (!nav) return;
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      nav.style.background = 'rgba(10,15,30,0.97)';
-      nav.style.boxShadow = '0 4px 30px rgba(0,0,0,0.5)';
-    } else {
-      nav.style.background = 'rgba(10,15,30,0.85)';
-      nav.style.boxShadow = 'none';
-    }
+    nav.classList.toggle('scrolled', window.scrollY > 50);
   }, { passive: true });
 }
 
