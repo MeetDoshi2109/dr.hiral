@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dr. Hiral — Classical Homeopathy</title>
+  <meta name="description"
+    content="Dr. Hiral BHMS, CCH — Trusted Classical Homeopathy Specialist. QR-powered patient records, digital prescriptions, and personalised wellness." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="/css/global.css" />
+  <link rel="stylesheet" href="/css/effects.css" />
+  <style>
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding-top: 65px
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 80% at 50% -20%, rgba(13, 148, 136, 0.25) 0%, transparent 60%), radial-gradient(ellipse 60% 60% at 80% 80%, rgba(124, 58, 237, 0.15) 0%, transparent 50%), var(--bg);
+      z-index: 0
+    }
+
+    .hero-particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: particleDrift linear infinite;
+      opacity: 0.4
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(13, 148, 136, 0.15);
+      border: 1px solid rgba(13, 148, 136, 0.35);
+      border-radius: var(--radius-full);
+      padding: 0.4rem 1rem;
+      font-size: 0.82rem;
+      color: var(--primary-light);
+      margin-bottom: 1.25rem
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      line-height: 1.1;
+      margin-bottom: 1rem
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      line-height: 1.7;
+      max-width: 480px
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 2.5rem
+    }
+
+    .hero-stat {
+      text-align: center;
+      padding: 1rem;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      transition: all 0.3s ease
+    }
+
+    .hero-stat:hover {
+      transform: translateY(-4px);
+      border-color: rgba(13, 148, 136, 0.4);
+      box-shadow: var(--shadow-glow)
+    }
+
+    .hero-stat-val {
+      font-size: 1.8rem;
+      font-weight: 700;
+      font-family: var(--font-heading)
+    }
+
+    .hero-stat-lbl {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 0.2rem
+    }
+
+    /* Doctor card */
+    .doctor-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 2rem;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease
+    }
+
+    .doctor-card:hover {
+      border-color: rgba(13, 148, 136, 0.4);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(13, 148, 136, 0.15);
+      transform: translateY(-8px)
+    }
+
+    .doctor-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(transparent 0deg, rgba(13, 148, 136, 0.06) 60deg, transparent 120deg);
+      animation: spin 8s linear infinite;
+      z-index: -1
+    }
+
+    .doctor-avatar {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      position: relative;
+      animation: glowPulse 3s ease-in-out infinite
+    }
+
+    .doctor-avatar::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid rgba(13, 148, 136, 0.5);
+      animation: spin 4s linear infinite
+    }
+
+    .doctor-name-card {
+      font-size: 1.5rem;
+      font-family: var(--font-heading);
+      margin-bottom: 0.3rem
+    }
+
+    .doctor-meta {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem
+    }
+
+    .doctor-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary)
+    }
+
+    /* Features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem
+    }
+
+    .feature-card {
+      padding: 1.75rem;
+      border-radius: var(--radius-lg);
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      cursor: default;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: rgba(13, 148, 136, 0.4);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(13, 148, 136, 0.2)
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      transition: transform 0.3s ease
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: scale(1.15) rotate(5deg)
+    }
+
+    .feature-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.5rem
+    }
+
+    .feature-card p {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      line-height: 1.6
+    }
+
+    /* Process */
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      position: relative
+    }
+
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 26px;
+      left: 12.5%;
+      right: 12.5%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      z-index: 0
+    }
+
+    .step-card {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s ease
+    }
+
+    .step-card:hover {
+      transform: translateY(-6px)
+    }
+
+    .step-num {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin: 0 auto 1rem;
+      box-shadow: 0 0 20px rgba(13, 148, 136, 0.4);
+      transition: box-shadow 0.3s ease
+    }
+
+    .step-card:hover .step-num {
+      box-shadow: 0 0 40px rgba(13, 148, 136, 0.7)
+    }
+
+    /* Testimonials */
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem
+    }
+
+    .test-card {
+      padding: 1.5rem;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      transition: all 0.35s ease
+    }
+
+    .test-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(124, 58, 237, 0.4);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3), var(--shadow-glow-v)
+    }
+
+    .stars {
+      color: var(--accent);
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+      letter-spacing: 2px
+    }
+
+    .test-text {
+      font-style: italic;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 1rem
+    }
+
+    .test-author {
+      font-weight: 600;
+      font-size: 0.85rem
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: linear-gradient(135deg, rgba(13, 148, 136, 0.15), rgba(124, 58, 237, 0.1));
+      border: 1px solid rgba(13, 148, 136, 0.25);
+      border-radius: 2rem;
+      padding: 3.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease
+    }
+
+    .cta-section:hover {
+      border-color: rgba(13, 148, 136, 0.45)
+    }
+
+    /* Floating shapes */
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.05;
+      animation: float 6s ease-in-out infinite
+    }
+
+    @media(max-width:900px) {
+
+      .hero-content,
+      .features-grid,
+      .process-steps,
+      .testimonial-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    @media(max-width:900px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center
+      }
+
+      .hero-sub {
+        margin: 0 auto 2rem
+      }
+
+      .hero-actions {
+        justify-content: center
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <a href="/" class="navbar-brand">
+      <div class="navbar-logo">🌿</div>
+      <div>
+        <div class="navbar-title">Dr. <span>Hiral</span></div>
+        <div style="font-size:0.7rem;color:var(--text-muted)">Classical Homeopathy</div>
+      </div>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="/" class="active hover-underline">Home</a></li>
+      <li><a href="/appointments.html" class="hover-underline">Book Appointment</a></li>
+      <li><a href="/patient.html" class="hover-underline">Patient Portal</a></li>
+      <li><a href="/kit.html" class="hover-underline">Medicine Kit</a></li>
+      <li><a href="/dashboard.html" class="btn btn-primary btn-sm">Doctor Login</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg" id="hero-bg"></div>
+    <div class="hero-particles" id="particles"></div>
+    <div class="hero-content">
+      <div class="animate-fadeIn">
+        <div class="hero-badge"><span class="status-dot online"></span>Accepting New Patients</div>
+        <h1>Heal Naturally with<br /><span class="doctor-name">Dr. Hiral</span></h1>
+        <p class="hero-sub">BHMS, CCH · Classical Homeopathy Specialist · 10+ Years of Trusted Care.<br />Experience
+          gentle, effective, and personalised homeopathic healing.</p>
+        <div class="hero-actions">
+          <a href="/appointments.html" class="btn btn-primary btn-lg">📅 Book Appointment</a>
+          <a href="/patient.html" class="btn btn-outline btn-lg">🔍 My Records</a>
+        </div>
+        <div class="hero-stats mt-xl stagger-children">
+          <div class="hero-stat tilt-card">
+            <div class="hero-stat-val highlight count-up">500</div>
+            <div class="hero-stat-lbl">Happy Patients</div>
+          </div>
+          <div class="hero-stat tilt-card">
+            <div class="hero-stat-val highlight count-up">10</div>
+            <div class="hero-stat-lbl">Years Experience</div>
+          </div>
+          <div class="hero-stat tilt-card">
+            <div class="hero-stat-val highlight count-up">95</div>
+            <div class="hero-stat-lbl">% Success Rate</div>
+          </div>
+        </div>
+      </div>
+      <div class="animate-float" style="animation-delay:0.3s">
+        <div class="doctor-card tilt-card">
+          <div class="doctor-avatar">👩‍⚕️</div>
+          <h2 class="doctor-name-card doctor-name">Dr. Hiral</h2>
+          <div style="color:var(--text-secondary);font-size:0.88rem">BHMS, CCH</div>
+          <div style="color:var(--primary-light);font-size:0.85rem;margin-top:0.25rem">Classical Homeopathy Specialist
+          </div>
+          <div class="doctor-meta">
+            <span class="badge badge-primary">🌿 Homeopathy</span>
+            <span class="badge badge-secondary">📍 Gujarat</span>
+            <span class="badge badge-success">✅ Verified</span>
+          </div>
+          <div class="divider"></div>
+          <div style="display:flex;flex-direction:column;gap:0.6rem">
+            <div class="doctor-info"><span>📞</span><span>+91 98765 43210</span></div>
+            <div class="doctor-info"><span>📧</span><span>dr.hiral@homeocare.in</span></div>
+            <div class="doctor-info"><span>🏥</span><span>Mehta Homeopathy Wellness Center</span></div>
+          </div>
+          <a href="/appointments.html" class="btn btn-primary w-full mt-md">Schedule Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section">
+    <div class="container">
+      <div class="text-center reveal mb-lg">
+        <div class="hero-badge" style="justify-content:center;margin-bottom:1rem">✨ Smart Healthcare</div>
+        <h2 style="font-size:2.2rem">Everything You Need,<br /><span class="highlight">In One Place</span></h2>
+        <p class="text-secondary mt-md" style="max-width:500px;margin:1rem auto 0">Dr. Hiral's portal combines
+          modern technology with classical homeopathy for a seamless healing experience.</p>
+      </div>
+      <div class="features-grid stagger-children">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(13,148,136,0.15);color:var(--primary-light)">📱</div>
+          <h3>QR Patient Records</h3>
+          <p>Each patient gets a unique QR code. Scan to instantly access complete medical history, prescriptions, and
+            treatment timeline.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(124,58,237,0.15);color:#a78bfa">📋</div>
+          <h3>Digital Prescriptions</h3>
+          <p>Dr. Hiral issues digital prescriptions with remedy, potency, and dosage — printable and shareable.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(245,158,11,0.15);color:var(--accent)">💊</div>
+          <h3>Medicine Kit Builder</h3>
+          <p>Build custom homeopathic remedy kits with 80+ remedies. Print physical labels for your personal kit box.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(16,185,129,0.15);color:#34d399">📅</div>
+          <h3>Smart Scheduling</h3>
+          <p>Book appointments online. Dr. Hiral reviews and confirms each slot with a personalised QR
+            confirmation.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(239,68,68,0.15);color:#f87171">📈</div>
+          <h3>Health Timeline</h3>
+          <p>Visual treatment history — track progress, remedy changes, and recovery milestones over time.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(59,130,246,0.15);color:#93c5fd">🔒</div>
+          <h3>Secure & Private</h3>
+          <p>Patient data is protected with session-based authentication. Doctors access via secure PIN; patients via
+            personal QR.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section" style="background:linear-gradient(180deg,transparent,rgba(13,148,136,0.04),transparent)">
+    <div class="container">
+      <div class="text-center reveal mb-lg">
+        <h2 style="font-size:2rem">How It Works</h2>
+        <p class="text-secondary mt-md">Your journey with <span class="doctor-name" style="font-size:inherit">Dr. Hiral
+            Mehta</span> in 4 simple steps</p>
+      </div>
+      <div class="process-steps stagger-children">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h3 style="font-size:0.95rem;margin-bottom:0.4rem">Book Online</h3>
+          <p class="text-secondary text-sm">Choose your slot on the appointment page</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h3 style="font-size:0.95rem;margin-bottom:0.4rem">Get Confirmed</h3>
+          <p class="text-secondary text-sm">Dr. Hiral accepts your request</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h3 style="font-size:0.95rem;margin-bottom:0.4rem">Consult & Heal</h3>
+          <p class="text-secondary text-sm">Receive personalised homeopathic treatment</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <h3 style="font-size:0.95rem;margin-bottom:0.4rem">Track Progress</h3>
+          <p class="text-secondary text-sm">Scan your QR anytime to view your records</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section">
+    <div class="container">
+      <div class="text-center reveal mb-lg">
+        <h2 style="font-size:2rem">Patient Stories</h2>
+        <p class="text-secondary mt-md">Real healing journeys with <span class="doctor-name"
+            style="font-size:inherit">Dr. Hiral</span></p>
+      </div>
+      <div class="testimonial-grid stagger-children">
+        <div class="test-card">
+          <div class="stars">★★★★★</div>
+          <p class="test-text">"Dr. Hiral cured my 7-year chronic migraine in just 3 months. No side effects. I
+            recommend her to everyone!"</p>
+          <div class="test-author">— Priya S., Ahmedabad</div>
+        </div>
+        <div class="test-card">
+          <div class="stars">★★★★★</div>
+          <p class="test-text">"The QR code system is brilliant. I can see all my records and prescriptions from Dr.
+            Hiral anytime I want."</p>
+          <div class="test-author">— Rajesh P., Surat</div>
+        </div>
+        <div class="test-card">
+          <div class="stars">★★★★★</div>
+          <p class="test-text">"My anxiety is completely gone after 4 months with Dr. Hiral. She truly listens and
+            finds the root cause."</p>
+          <div class="test-author">— Anita D., Vadodara</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-section reveal">
+        <div class="shape" style="width:300px;height:300px;background:var(--primary);top:-100px;right:-100px"></div>
+        <div class="shape"
+          style="width:200px;height:200px;background:var(--secondary);bottom:-80px;left:-80px;animation-delay:2s"></div>
+        <h2 style="font-size:2.2rem;margin-bottom:1rem">Ready to Begin Your <span class="highlight">Healing
+            Journey?</span></h2>
+        <p class="text-secondary mb-lg">Book your first consultation with <strong class="doctor-name">Dr. Hiral
+            Mehta</strong> today.<br />Classical homeopathy — gentle, effective, holistic.</p>
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+          <a href="/appointments.html" class="btn btn-primary btn-lg">📅 Book Appointment</a>
+          <a href="/patient.html" class="btn btn-outline btn-lg">🔍 Access Patient Portal</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="border-top:1px solid var(--glass-border);padding:2.5rem 0;margin-top:2rem">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem;margin-bottom:2rem">
+        <div>
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem">
+            <div class="navbar-logo">🌿</div>
+            <div>
+              <div class="doctor-name" style="font-size:1.1rem;font-family:var(--font-heading)">Dr. Hiral</div>
+              <div class="text-muted text-xs">BHMS, CCH · Classical Homeopathy</div>
+            </div>
+          </div>
+          <p class="text-secondary text-sm" style="line-height:1.7">Dedicated to bringing safe, gentle, and effective
+            homeopathic healing to every patient. Serving Gujarat with love and expertise.</p>
+        </div>
+        <div>
+          <h4
+            style="margin-bottom:1rem;color:var(--text-secondary);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase">
+            Quick Links</h4>
+          <div style="display:flex;flex-direction:column;gap:0.5rem">
+            <a href="/appointments.html" class="text-secondary text-sm hover-underline">Book Appointment</a>
+            <a href="/patient.html" class="text-secondary text-sm hover-underline">Patient Portal</a>
+            <a href="/kit.html" class="text-secondary text-sm hover-underline">Medicine Kit</a>
+            <a href="/dashboard.html" class="text-secondary text-sm hover-underline">Doctor Login</a>
+          </div>
+        </div>
+        <div>
+          <h4
+            style="margin-bottom:1rem;color:var(--text-secondary);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase">
+            Contact</h4>
+          <div style="display:flex;flex-direction:column;gap:0.5rem;font-size:0.85rem;color:var(--text-secondary)">
+            <div>📞 +91 79722 32216</div>
+            <div>📧 dr.hiral@homeocare.in</div>
+            <div>🏥 Dr. Hiral's Homeopathy Healing Center</div>
+            <div>📍 Pune, Maharastra, India</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+        <p class="text-muted text-sm">© 2025 <span class="doctor-name" style="font-size:inherit">Dr. Hiral</span>.
+          All rights reserved.</p>
+        <p class="text-muted text-sm">Crafted with 💚 for holistic healing</p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/scroll.js"></script>
+  <script>
+    // Generate particles
+    const pc = document.getElementById('particles');
+    for (let i = 0; i < 25; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.random() * 6 + 2;
+      const colors = ['rgba(13,148,136,', 'rgba(124,58,237,', 'rgba(245,158,11,'];
+      const c = colors[Math.floor(Math.random() * colors.length)];
+      p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random() * 100}%;top:${Math.random() * 100}%;background:${c}0.6);animation-duration:${8 + Math.random() * 12}s;animation-delay:${-Math.random() * 15}s`;
+      pc.appendChild(p);
+    }
+  </script>
+</body>
+
+</html>
+

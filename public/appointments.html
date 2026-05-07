@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Book Appointment — Dr. Hiral</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/css/global.css"/><link rel="stylesheet" href="/css/effects.css"/>
+<style>
+.appt-wrap{min-height:100vh;padding:85px 2rem 2rem;max-width:700px;margin:0 auto}
+.time-slots{display:grid;grid-template-columns:repeat(4,1fr);gap:0.6rem;margin-top:0.5rem}
+.time-slot{padding:0.5rem;text-align:center;border:1px solid var(--glass-border);border-radius:var(--radius-md);cursor:pointer;font-size:0.85rem;transition:all 0.3s ease;background:var(--glass)}
+.time-slot:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:0 4px 15px rgba(13,148,136,0.3)}
+.time-slot.selected{background:rgba(13,148,136,0.25);border-color:var(--primary);color:var(--primary-light);box-shadow:0 0 20px rgba(13,148,136,0.3)}
+.confirm-card{text-align:center;padding:2rem}
+.confirm-card .check{font-size:4rem;margin-bottom:1rem;animation:float 3s ease-in-out infinite}
+@media(max-width:600px){.time-slots{grid-template-columns:repeat(3,1fr)}}
+</style></head><body>
+<nav class="navbar"><a href="/" class="navbar-brand"><div class="navbar-logo">🌿</div><div><div class="navbar-title">Dr. <span>Hiral</span></div><div style="font-size:0.7rem;color:var(--text-muted)">Appointments</div></div></a>
+<ul class="navbar-nav"><li><a href="/" class="hover-underline">Home</a></li><li><a href="/patient.html" class="hover-underline">Patient Portal</a></li><li><a href="/kit.html" class="hover-underline">Kit Builder</a></li><li><a href="/dashboard.html" class="btn btn-primary btn-sm">Doctor Login</a></li></ul></nav>
+
+<div class="appt-wrap">
+<div id="bookingForm" class="animate-fadeIn">
+<div class="text-center mb-lg">
+<div style="font-size:3rem;margin-bottom:0.5rem">📅</div>
+<h1 style="font-size:1.8rem">Book with <span class="highlight">Dr. Hiral</span></h1>
+<p class="text-secondary text-sm">Schedule your homeopathy consultation</p>
+</div>
+<div class="glass-card p-xl reveal">
+<div class="form-row"><div class="form-group"><label class="form-label">Full Name*</label><input class="form-input" id="af_name" required/></div><div class="form-group"><label class="form-label">Phone*</label><input class="form-input" id="af_phone" required/></div></div>
+<div class="form-group"><label class="form-label">Email</label><input class="form-input" id="af_email" type="email"/></div>
+<div class="form-group"><label class="form-label">Preferred Date*</label><input class="form-input" id="af_date" type="date" required/></div>
+<div class="form-group"><label class="form-label">Select Time Slot*</label>
+<div class="time-slots" id="timeSlots"></div>
+<input type="hidden" id="af_time"/>
+</div>
+<div class="form-group"><label class="form-label">Reason for Visit</label><textarea class="form-textarea" id="af_reason" placeholder="Describe your symptoms or reason..."></textarea></div>
+<button class="btn btn-primary btn-lg w-full mt-sm" onclick="bookAppt()">Request Appointment</button>
+<p class="text-muted text-xs mt-md text-center">Dr. Hiral will review and confirm your appointment request</p>
+</div>
+</div>
+
+<div id="confirmView" class="hidden">
+<div class="glass-card confirm-card animate-fadeIn">
+<div class="check">✅</div>
+<h2 style="font-size:1.5rem;margin-bottom:0.5rem">Appointment <span class="highlight">Requested!</span></h2>
+<p class="text-secondary mb-md">Dr. Hiral will review your request and confirm shortly.</p>
+<div class="glass-card p-md mb-lg" style="text-align:left">
+<div class="text-sm"><strong>Name:</strong> <span id="cf_name"></span></div>
+<div class="text-sm mt-sm"><strong>Date:</strong> <span id="cf_date"></span></div>
+<div class="text-sm mt-sm"><strong>Time:</strong> <span id="cf_time"></span></div>
+<div class="text-sm mt-sm"><strong>Status:</strong> <span class="badge badge-warning">Pending Review</span></div>
+</div>
+<a href="/" class="btn btn-outline">← Back to Home</a>
+</div>
+</div>
+</div>
+
+<div id="toast-container" class="toast-container"></div>
+<script src="/js/api.js"></script><script src="/js/scroll.js"></script>
+<script>
+const slots=['09:00','09:30','10:00','10:30','11:00','11:30','12:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00'];
+const sc=document.getElementById('timeSlots');
+slots.forEach(s=>{const d=document.createElement('div');d.className='time-slot';d.textContent=s;d.onclick=()=>{document.querySelectorAll('.time-slot').forEach(x=>x.classList.remove('selected'));d.classList.add('selected');document.getElementById('af_time').value=s};sc.appendChild(d)});
+document.getElementById('af_date').min=new Date().toISOString().split('T')[0];
+async function bookAppt(){const name=document.getElementById('af_name').value.trim();const phone=document.getElementById('af_phone').value.trim();const email=document.getElementById('af_email').value;const date=document.getElementById('af_date').value;const time=document.getElementById('af_time').value;const reason=document.getElementById('af_reason').value;
+if(!name||!phone||!date||!time){toast('Please fill all required fields','warning');return}
+try{await API.bookAppointment({patient_name:name,phone,email,appt_date:date,appt_time:time,reason});
+document.getElementById('bookingForm').classList.add('hidden');document.getElementById('confirmView').classList.remove('hidden');document.getElementById('cf_name').textContent=name;document.getElementById('cf_date').textContent=date;document.getElementById('cf_time').textContent=time;toast('Appointment request sent!','success')}catch(e){toast(e.message,'error')}}
+</script></body></html>

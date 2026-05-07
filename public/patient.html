@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Patient Portal — Dr. Hiral</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/css/global.css"/><link rel="stylesheet" href="/css/effects.css"/>
+<style>
+.portal-wrap{min-height:100vh;padding:85px 2rem 2rem;max-width:900px;margin:0 auto}
+.lookup-box{max-width:500px;margin:0 auto;text-align:center;padding:3rem 0}
+.patient-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+.patient-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;animation:glowPulse 3s ease-in-out infinite}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
+.info-item{padding:1rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-md);transition:all 0.3s ease}
+.info-item:hover{border-color:rgba(13,148,136,0.4);transform:translateY(-3px)}
+.info-item .label{font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em}
+.info-item .value{font-size:1rem;margin-top:0.2rem}
+.timeline-item{position:relative;padding-left:2rem;padding-bottom:1.5rem;border-left:2px solid rgba(13,148,136,0.3)}
+.timeline-item::before{content:'';position:absolute;left:-6px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--primary);box-shadow:0 0 10px var(--primary)}
+.timeline-item:last-child{border-left-color:transparent}
+.rx-card{padding:1.25rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-lg);margin-bottom:1rem;transition:all 0.3s ease}
+.rx-card:hover{border-color:rgba(124,58,237,0.4);transform:translateY(-3px)}
+@media(max-width:768px){.info-grid{grid-template-columns:1fr}}
+</style></head><body>
+<nav class="navbar"><a href="/" class="navbar-brand"><div class="navbar-logo">🌿</div><div><div class="navbar-title">Dr. <span>Hiral</span></div><div style="font-size:0.7rem;color:var(--text-muted)">Patient Portal</div></div></a>
+<ul class="navbar-nav"><li><a href="/" class="hover-underline">Home</a></li><li><a href="/appointments.html" class="hover-underline">Book Appointment</a></li><li><a href="/kit.html" class="hover-underline">Medicine Kit</a></li></ul></nav>
+
+<div class="portal-wrap">
+<div id="lookupView" class="lookup-box animate-fadeIn">
+<div style="font-size:4rem;margin-bottom:1rem">🔍</div>
+<h1 style="font-size:1.8rem;margin-bottom:0.5rem">Patient <span class="highlight">Portal</span></h1>
+<p class="text-secondary mb-lg">Enter your Patient ID to view your records from <strong class="highlight">Dr. Hiral</strong></p>
+<div class="form-group"><input class="form-input" id="pidInput" placeholder="e.g. PAT-DEMO001" style="text-align:center;font-size:1.1rem"/></div>
+<button class="btn btn-primary btn-lg w-full" onclick="lookupPatient()">View My Records</button>
+<p class="text-muted text-sm mt-md">Or scan your QR code to open this page directly</p>
+</div>
+<div id="patientView" class="hidden"></div>
+</div>
+
+<div id="toast-container" class="toast-container"></div>
+<script src="/js/api.js"></script><script src="/js/scroll.js"></script>
+<script>
+const params=new URLSearchParams(location.search);
+if(params.get('pid')){document.getElementById('pidInput').value=params.get('pid');lookupPatient()}
+async function lookupPatient(){const id=document.getElementById('pidInput').value.trim();if(!id){toast('Enter a Patient ID','warning');return}
+try{const p=await API.getPatient(id);renderPatient(p)}catch(e){toast('Patient not found — check your ID','error')}}
+function renderPatient(p){document.getElementById('lookupView').classList.add('hidden');const v=document.getElementById('patientView');v.classList.remove('hidden');
+let h=`<div class="patient-header reveal"><div class="patient-avatar">👤</div><div><h1 style="font-size:1.6rem">${p.name}</h1><span class="badge badge-primary">${p.id}</span> <span class="badge badge-info">Patient of Dr. Hiral</span><p class="text-secondary text-sm mt-sm">Last visit: ${fmtDate(p.last_visit)}</p></div></div>`;
+h+=`<div class="info-grid stagger-children">`;
+const fields=[['Age',p.age||'—'],['Gender',p.gender||'—'],['Blood Group',p.blood_group||'—'],['Phone',p.phone||'—'],['Email',p.email||'—'],['Chief Complaint',p.chief_complaint||'—']];
+fields.forEach(([l,v])=>h+=`<div class="info-item"><div class="label">${l}</div><div class="value">${v}</div></div>`);
+h+=`</div>`;
+if(p.history){h+=`<div class="glass-card p-lg mb-lg reveal"><h3 style="font-size:1rem;margin-bottom:0.5rem">📋 Medical History</h3><p class="text-secondary text-sm">${p.history}</p></div>`}
+if(p.notes){h+=`<div class="glass-card p-lg mb-lg reveal"><h3 style="font-size:1rem;margin-bottom:0.5rem">📝 Notes by Dr. Hiral</h3><p class="text-secondary text-sm">${p.notes}</p></div>`}
+if(p.timeline&&p.timeline.length){h+=`<div class="reveal"><h3 style="font-size:1.1rem;margin-bottom:1rem">🕐 Treatment Timeline</h3>`;
+p.timeline.forEach(t=>{h+=`<div class="timeline-item"><div class="flex justify-between items-center mb-sm"><span class="badge badge-primary">${t.remedy||''} ${t.potency||''}</span><span class="text-muted text-xs">${fmtDate(t.visit_date)}</span></div><p class="text-sm text-secondary">${t.note||''}</p></div>`});
+h+=`</div>`}
+if(p.prescriptions&&p.prescriptions.length){h+=`<div class="reveal mt-lg"><h3 style="font-size:1.1rem;margin-bottom:1rem">💊 Prescriptions</h3>`;
+p.prescriptions.forEach(rx=>{const meds=typeof rx.medicines==='string'?JSON.parse(rx.medicines):rx.medicines;h+=`<div class="rx-card"><div class="flex justify-between items-center"><span class="text-sm">Issued: ${fmtDate(rx.issued_at)}</span>${rx.follow_up?`<span class="badge badge-warning">Follow-up: ${fmtDate(rx.follow_up)}</span>`:''}</div>${meds.map(m=>`<div class="text-sm mt-sm">• <strong>${m.name}</strong> ${m.potency||''} — ${m.dosage||''}</div>`).join('')}${rx.instructions?`<p class="text-secondary text-sm mt-sm">${rx.instructions}</p>`:''}</div>`});
+h+=`</div>`}
+h+=`<div class="text-center mt-xl"><button class="btn btn-outline" onclick="location.reload()">← Look Up Another Patient</button></div>`;
+v.innerHTML=h;setTimeout(()=>initScrollReveal(),100)}
+</script></body></html>

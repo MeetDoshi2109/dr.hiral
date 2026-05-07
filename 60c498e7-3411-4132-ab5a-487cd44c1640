@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dr. Hiral | Scientific Alchemy in Homeopathy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-border {
+            border-image: linear-gradient(to bottom right, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05)) 1;
+        }
+        .glow-teal:hover {
+            box-shadow: 0 0 20px rgba(107, 216, 203, 0.3);
+        }
+        .glow-violet:hover {
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+        }
+        .bg-mesh {
+            background-color: #051424;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(41, 161, 149, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(96, 1, 209, 0.15) 0px, transparent 50%);
+        }
+        .floating-particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary": "#c2c6db",
+                      "primary-container": "#29a195",
+                      "surface-bright": "#2c3a4c",
+                      "on-secondary-fixed-variant": "#5a00c6",
+                      "tertiary-fixed": "#dee1f7",
+                      "on-secondary-container": "#c9aeff",
+                      "on-error": "#690005",
+                      "on-primary-container": "#00302b",
+                      "secondary": "#d2bbff",
+                      "on-background": "#d4e4fa",
+                      "inverse-surface": "#d4e4fa",
+                      "surface-container-high": "#1c2b3c",
+                      "surface-tint": "#6bd8cb",
+                      "error": "#ffb4ab",
+                      "on-tertiary": "#2b3040",
+                      "on-secondary": "#3f008e",
+                      "surface": "#051424",
+                      "on-primary-fixed-variant": "#005049",
+                      "background": "#051424",
+                      "error-container": "#93000a",
+                      "surface-dim": "#051424",
+                      "on-primary": "#003732",
+                      "surface-container": "#122131",
+                      "surface-container-highest": "#273647",
+                      "on-tertiary-container": "#242939",
+                      "primary-fixed": "#89f5e7",
+                      "secondary-container": "#6001d1",
+                      "outline-variant": "#3d4947",
+                      "on-surface-variant": "#bcc9c6",
+                      "primary-fixed-dim": "#6bd8cb",
+                      "tertiary-container": "#8c90a4",
+                      "on-secondary-fixed": "#25005a",
+                      "on-error-container": "#ffdad6",
+                      "secondary-fixed": "#eaddff",
+                      "inverse-primary": "#006a61",
+                      "on-tertiary-fixed": "#161b2b",
+                      "outline": "#879391",
+                      "surface-container-lowest": "#010f1f",
+                      "on-primary-fixed": "#00201d",
+                      "on-surface": "#d4e4fa",
+                      "tertiary-fixed-dim": "#c2c6db",
+                      "surface-container-low": "#0d1c2d",
+                      "primary": "#6bd8cb",
+                      "on-tertiary-fixed-variant": "#414658",
+                      "inverse-on-surface": "#233143",
+                      "surface-variant": "#273647",
+                      "secondary-fixed-dim": "#d2bbff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sm": "8px",
+                      "xl": "40px",
+                      "gutter": "24px",
+                      "md": "16px",
+                      "xxl": "80px",
+                      "xs": "4px",
+                      "lg": "24px",
+                      "unit": "4px",
+                      "margin": "32px"
+              },
+              "fontFamily": {
+                      "h2": ["Manrope"],
+                      "h1": ["Manrope"],
+                      "h3": ["Manrope"],
+                      "body-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-caps": ["Inter"]
+              },
+              "fontSize": {
+                      "h2": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "h1": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "h3": ["24px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                      "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md selection:bg-primary/30 selection:text-primary min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 bg-surface/10 backdrop-blur-xl border-b border-white/20 px-gutter py-md">
+<div class="max-w-7xl mx-auto flex justify-between items-center">
+<div class="font-h3 text-h3 font-bold tracking-tight text-on-surface">Dr. Hiral</div>
+<div class="hidden md:flex gap-xl items-center">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-body-md" href="#">Home</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">Services</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">About</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">Reviews</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">Contact</a>
+</div>
+<button class="bg-gradient-to-r from-primary-container to-secondary-container text-white px-lg py-sm rounded-lg font-bold hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_15px_rgba(41,161,149,0.4)]">
+                Book Appointment
+            </button>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center justify-center pt-xxl overflow-hidden bg-mesh">
+<!-- Floating Particles Decoration -->
+<div class="absolute inset-0 z-0">
+<div class="floating-particle h-1 w-1 top-1/4 left-1/4"></div>
+<div class="floating-particle h-2 w-2 top-1/3 left-2/3"></div>
+<div class="floating-particle h-1 w-1 top-2/3 left-1/3"></div>
+<div class="floating-particle h-3 w-3 top-1/2 left-3/4"></div>
+<div class="floating-particle h-2 w-2 top-3/4 left-1/2"></div>
+</div>
+<div class="max-w-7xl mx-auto px-gutter grid grid-cols-1 lg:grid-cols-2 gap-xxl items-center relative z-10">
+<div>
+<div class="inline-flex items-center gap-sm bg-secondary/10 border border-secondary/20 px-md py-xs rounded-full mb-md">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-label-caps text-secondary uppercase tracking-widest">BHMS Qualified Specialist</span>
+</div>
+<h1 class="font-h1 text-[56px] md:text-[72px] leading-tight mb-md">
+                    Scientific <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Alchemy</span> in Modern Healing.
+                </h1>
+<p class="text-on-surface-variant text-body-lg mb-xl max-w-xl">
+                    Experience a transformative approach to wellness where ancient wisdom meets digital precision. Dr. Hiral provides premium homeopathic solutions for the modern achiever.
+                </p>
+<div class="flex flex-wrap gap-md">
+<button class="bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-fixed px-xl py-md rounded-lg font-bold text-body-lg glow-teal transition-all">
+                        Start Healing Journey
+                    </button>
+<button class="glass-card text-on-surface px-xl py-md rounded-lg font-bold text-body-lg border border-white/20 hover:bg-white/5 transition-all">
+                        Explore Services
+                    </button>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -inset-4 bg-gradient-to-tr from-primary/20 to-secondary/20 blur-3xl opacity-50 rounded-full"></div>
+<div class="glass-card p-gutter rounded-[32px] border border-white/10 relative overflow-hidden group">
+<img alt="Dr. Hiral" class="rounded-2xl w-full aspect-[4/5] object-cover mb-lg grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="A professional portrait of a modern homeopathy doctor in a minimalist dark-themed medical office. The doctor is wearing a sleek, contemporary white coat over dark professional attire. The lighting is soft and cinematic, with subtle teal and violet accent glows in the background. The mood is highly professional, trustworthy, and technologically advanced, echoing a premium wellness aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1KdSqofQcBUb_GWBuvsIw7BqFmACfMIYAgFaDELdh9VUBnb_JnwZHcwp9If1Z2wg909XAoPTMmjbS8pIK1KNrqbWl8LDlMff_jUFn0a3xJoRZvxu6PToW8HKx1kT6ZBPOi18x0Ns9T1BqdaZKNyby-ztwq3LVvT4jp1PcckvwCx-l49zuKjWSUYVtgu-_bWh_uiYtiuQljQSgmJOp58iSMnijCSv0A8x3Sx-o2Tkpjxst5S3WH9oj9z0vKfMh9CB84VEYSCZ0c04i"/>
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-h3 text-h3 text-on-surface">Dr. Hiral</h3>
+<p class="text-secondary text-body-md">Consultant Homeopath</p>
+</div>
+<div class="flex gap-xs">
+<div class="h-10 w-10 glass-card flex items-center justify-center rounded-full border border-white/20">
+<span class="material-symbols-outlined text-primary">medication</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Section -->
+<section class="py-xxl bg-surface-container-lowest relative">
+<div class="max-w-7xl mx-auto px-gutter">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-xl">
+<div class="glass-card p-xl rounded-2xl text-center border-t border-l border-white/10">
+<div class="font-h1 text-primary mb-xs">500+</div>
+<div class="text-label-caps text-on-surface-variant uppercase tracking-widest">Global Patients</div>
+</div>
+<div class="glass-card p-xl rounded-2xl text-center border-t border-l border-white/10">
+<div class="font-h1 text-secondary mb-xs">10+</div>
+<div class="text-label-caps text-on-surface-variant uppercase tracking-widest">Years Experience</div>
+</div>
+<div class="glass-card p-xl rounded-2xl text-center border-t border-l border-white/10">
+<div class="font-h1 text-primary mb-xs">95%</div>
+<div class="text-label-caps text-on-surface-variant uppercase tracking-widest">Success Rate</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Bento Grid -->
+<section class="py-xxl bg-surface">
+<div class="max-w-7xl mx-auto px-gutter">
+<div class="mb-xxl text-center max-w-2xl mx-auto">
+<span class="text-primary text-label-caps font-bold tracking-[0.2em] uppercase">The Digital Edge</span>
+<h2 class="font-h1 text-h1 text-on-surface mt-md">Next-Gen Patient Care</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Feature Card 1 -->
+<div class="md:col-span-8 glass-card p-lg rounded-3xl group hover:border-primary/50 transition-all duration-500 overflow-hidden relative">
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-primary/10 blur-3xl rounded-full group-hover:bg-primary/20 transition-all"></div>
+<div class="relative z-10 flex flex-col h-full justify-between">
+<div>
+<div class="h-14 w-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-lg border border-primary/20">
+<span class="material-symbols-outlined text-primary text-3xl">qr_code_2</span>
+</div>
+<h3 class="font-h3 text-h3 mb-md">QR Patient Records</h3>
+<p class="text-on-surface-variant text-body-lg max-w-md">Instantly access your complete medical history, lab results, and recovery milestones with a secure QR scan. Seamless synchronization across all your devices.</p>
+</div>
+<div class="mt-xl flex gap-md">
+<span class="bg-primary/5 text-primary text-xs px-md py-1 rounded-full border border-primary/20">Secure Encryption</span>
+<span class="bg-primary/5 text-primary text-xs px-md py-1 rounded-full border border-primary/20">Cloud Sync</span>
+</div>
+</div>
+</div>
+<!-- Feature Card 2 -->
+<div class="md:col-span-4 glass-card p-lg rounded-3xl group hover:border-secondary/50 transition-all duration-500 relative">
+<div class="h-14 w-14 bg-secondary/10 rounded-2xl flex items-center justify-center mb-lg border border-secondary/20">
+<span class="material-symbols-outlined text-secondary text-3xl">description</span>
+</div>
+<h3 class="font-h3 text-h3 mb-md">Digital Prescriptions</h3>
+<p class="text-on-surface-variant text-body-md">Paperless, smart prescriptions sent directly to your phone with integrated dosage reminders.</p>
+</div>
+<!-- Feature Card 3 -->
+<div class="md:col-span-4 glass-card p-lg rounded-3xl group hover:border-secondary/50 transition-all duration-500 relative">
+<div class="h-14 w-14 bg-secondary/10 rounded-2xl flex items-center justify-center mb-lg border border-secondary/20">
+<span class="material-symbols-outlined text-secondary text-3xl">medical_services</span>
+</div>
+<h3 class="font-h3 text-h3 mb-md">Medicine Kit Builder</h3>
+<p class="text-on-surface-variant text-body-md">Customized first-aid and constitutional kits tailored to your family's specific health profile.</p>
+</div>
+<!-- Feature Card 4 -->
+<div class="md:col-span-8 glass-card p-lg rounded-3xl group hover:border-primary/50 transition-all duration-500 overflow-hidden relative">
+<div class="absolute -right-10 -bottom-10 w-40 h-40 bg-secondary/10 blur-3xl rounded-full group-hover:bg-secondary/20 transition-all"></div>
+<div class="relative z-10 flex flex-col h-full justify-between">
+<div>
+<div class="h-14 w-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-lg border border-primary/20">
+<span class="material-symbols-outlined text-primary text-3xl">calendar_month</span>
+</div>
+<h3 class="font-h3 text-h3 mb-md">Smart Scheduling</h3>
+<p class="text-on-surface-variant text-body-lg max-w-md">AI-optimized booking system that values your time. Automated follow-up triggers ensure you never miss a vital potency shift in your treatment.</p>
+</div>
+<div class="mt-xl flex items-center justify-between">
+<div class="flex -space-x-3">
+<div class="h-10 w-10 rounded-full border-2 border-surface bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a male patient for a testimonial section, wearing modern casual attire. Soft studio lighting on a dark blue background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnAsua3d_lfR3_JLWWYyqWQNhuqcnhSkWo_mRFLmg5tgIfnE1IKPGRV36i9PldONFFARnNfE6IGrjwEzJgNhvDyJR2Wxjcq_nH7Z2fB13GLhWEDuNt0m3Gwpx_7QK55-Nq0JRpmOhCO-h4oW8ahP_dSyV3ezxpRsfyVBL6711lb8LZaMqHMr6JAEjBfaJEmM2pcVDkWbUXuAeZBnGLnAcbGu4P-fY0O00SuGtaxQIkhCRQQHgFG71zeE2TtI7quPDzcGV7M1yqXMbe"/>
+</div>
+<div class="h-10 w-10 rounded-full border-2 border-surface bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a female patient for a testimonial section, professional look. Soft studio lighting on a dark blue background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLrH_b2HJ9ikzDF-VjPk_-6n246I-7zcPVC-ywEl9B128uL73c5nesoVyE3nPcNkQzOViQ3beYdJwBRVD6x_qDgJq6hQO-Ut_FlaLalNG1NOWNn2dmTfHyd-DA-yi5QrurImZctlb07b98Xe5w0EcdDJMSnYtRUK7ItB-o6424D14yT-_y3Uoj30PxLkgC2rZmSR9EwsMYcfujhRrg1FXYwIxI01LYGNs6tnLWcABQrwWjPA-Xw_lcRCpRNukuyzZ-1PRoU53e3mTl"/>
+</div>
+<div class="h-10 w-10 rounded-full border-2 border-surface bg-surface-container flex items-center justify-center text-[10px] font-bold text-on-surface">+20</div>
+</div>
+<button class="text-primary font-bold text-body-md flex items-center gap-sm">Check Availability <span class="material-symbols-outlined">arrow_forward</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Appointment Section -->
+<section class="py-xxl bg-surface-container-lowest">
+<div class="max-w-5xl mx-auto px-gutter">
+<div class="glass-card rounded-[40px] p-xl md:p-xxl relative overflow-hidden border border-white/5">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary-container/20 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
+<div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-xl items-center">
+<div>
+<h2 class="font-h1 text-h1 text-on-surface mb-md">Ready to restore your vitality?</h2>
+<p class="text-on-surface-variant text-body-lg mb-xl">Take the first step toward a holistic recovery with a personalized consultation.</p>
+<div class="space-y-md">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+<span class="text-on-surface">Comprehensive Case Taking (60 mins)</span>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+<span class="text-on-surface">Digital Health Dashboard Access</span>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+<span class="text-on-surface">Priority WhatsApp Support</span>
+</div>
+</div>
+</div>
+<div class="space-y-md">
+<div class="glass-card p-md rounded-2xl border border-white/10">
+<label class="text-label-caps text-on-surface-variant mb-sm block">Full Name</label>
+<input class="bg-surface/50 border-none rounded-lg w-full text-on-surface focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Enter your name" type="text"/>
+</div>
+<div class="glass-card p-md rounded-2xl border border-white/10">
+<label class="text-label-caps text-on-surface-variant mb-sm block">Preferred Date</label>
+<input class="bg-surface/50 border-none rounded-lg w-full text-on-surface focus:ring-2 focus:ring-primary/50 transition-all" type="date"/>
+</div>
+<button class="w-full bg-gradient-to-r from-primary-container to-secondary-container text-on-primary-fixed py-md rounded-2xl font-bold text-body-lg shadow-xl hover:scale-[1.02] active:scale-95 transition-all">
+                            Confirm Appointment
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full py-xxl px-gutter flex flex-col md:flex-row justify-between items-center gap-md border-t border-white/10 bg-surface-container-lowest">
+<div class="flex flex-col items-center md:items-start gap-sm">
+<div class="font-h3 text-h3 text-primary dark:text-primary font-bold">Dr. Hiral</div>
+<p class="text-on-surface-variant text-sm text-center md:text-left">© 2024 Dr. Hiral Homeopathy. Scientific Alchemy in Healing.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-xl">
+<a class="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#">Patient Portal</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#">Careers</a>
+</div>
+<div class="flex gap-md">
+<div class="h-10 w-10 glass-card rounded-full flex items-center justify-center border border-white/10 hover:border-primary transition-all cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">share</span>
+</div>
+<div class="h-10 w-10 glass-card rounded-full flex items-center justify-center border border-white/10 hover:border-primary transition-all cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant text-xl">alternate_email</span>
+</div>
+</div>
+</footer>
+</body></html>

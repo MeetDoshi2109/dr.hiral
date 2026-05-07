@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Dashboard — Dr. Hiral Homeopathy</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/css/global.css"/><link rel="stylesheet" href="/css/effects.css"/>
+<style>
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding-top:65px}
+.login-box{max-width:420px;width:92%;padding:2.5rem;text-align:center}
+.login-box h1{font-size:1.6rem;margin-bottom:0.5rem}
+.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2rem}
+.stat-card{padding:1.25rem;border-radius:var(--radius-lg);background:var(--glass);border:1px solid var(--glass-border);transition:all 0.35s ease}
+.stat-card:hover{transform:translateY(-6px);border-color:rgba(13,148,136,0.4);box-shadow:var(--shadow-glow)}
+.stat-card .val{font-size:2rem;font-weight:700;font-family:var(--font-heading)}
+.stat-card .lbl{font-size:0.8rem;color:var(--text-secondary);margin-top:0.2rem}
+.tab-bar{display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab-btn{padding:0.5rem 1.2rem;border-radius:var(--radius-full);border:1px solid var(--glass-border);background:transparent;color:var(--text-secondary);cursor:pointer;font-size:0.85rem;transition:all 0.3s ease}
+.tab-btn:hover{background:var(--glass);color:var(--text)}
+.tab-btn.active{background:rgba(13,148,136,0.2);color:var(--primary-light);border-color:rgba(13,148,136,0.4)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.patient-row{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr auto;gap:1rem;align-items:center;padding:1rem;border-radius:var(--radius-md);border:1px solid var(--glass-border);background:var(--glass);margin-bottom:0.75rem;transition:all 0.3s ease}
+.patient-row:hover{transform:translateX(4px);border-color:rgba(13,148,136,0.3);box-shadow:var(--shadow-glow)}
+.appt-card{padding:1rem;border-radius:var(--radius-md);border:1px solid var(--glass-border);background:var(--glass);margin-bottom:0.75rem;display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center;transition:all 0.3s ease}
+.appt-card:hover{transform:translateX(4px);border-color:rgba(13,148,136,0.3)}
+.appt-actions{display:flex;gap:0.5rem}
+@media(max-width:900px){.dash-grid{grid-template-columns:repeat(2,1fr)}.patient-row{grid-template-columns:1fr}}
+</style></head><body>
+
+<nav class="navbar"><a href="/" class="navbar-brand"><div class="navbar-logo">🌿</div><div><div class="navbar-title">Dr. <span>Hiral</span></div><div style="font-size:0.7rem;color:var(--text-muted)">Dashboard</div></div></a>
+<ul class="navbar-nav"><li><a href="/" class="hover-underline">Home</a></li><li><a href="/appointments.html" class="hover-underline">Appointments</a></li><li><a href="/kit.html" class="hover-underline">Kit Builder</a></li><li><a id="logoutBtn" class="btn btn-outline btn-sm hidden" onclick="doLogout()">Logout</a></li></ul></nav>
+
+<!-- LOGIN -->
+<div id="loginView" class="login-wrap">
+<div class="login-box glass-card animate-fadeIn">
+<div style="font-size:3rem;margin-bottom:1rem">🔐</div>
+<h1>Dr. <span class="highlight">Hiral</span> Dashboard</h1>
+<p class="text-secondary text-sm mb-lg">Enter your password to access the doctor portal</p>
+<div class="form-group"><input type="password" id="pwdInput" class="form-input" placeholder="Enter password" autocomplete="off"/></div>
+<button class="btn btn-primary w-full" onclick="doLogin()">Unlock Dashboard</button>
+<p id="loginErr" class="text-danger text-sm mt-sm hidden">Invalid password</p>
+</div></div>
+
+<!-- DASHBOARD -->
+<div id="dashView" class="hidden" style="padding-top:85px;padding:85px 2rem 2rem">
+<div class="flex items-center justify-between mb-lg reveal">
+<div><h1 style="font-size:1.8rem">Welcome, <span class="highlight">Dr. Hiral</span></h1><p class="text-secondary text-sm">Your practice overview</p></div>
+<button class="btn btn-primary" onclick="openModal('addPatientModal')">+ Add Patient</button>
+</div>
+
+<div class="dash-grid stagger-children" id="statsRow">
+<div class="stat-card tilt-card"><div class="val highlight" id="sTotalP">0</div><div class="lbl">Total Patients</div></div>
+<div class="stat-card tilt-card"><div class="val highlight-violet" id="sTotalA">0</div><div class="lbl">Appointments</div></div>
+<div class="stat-card tilt-card"><div class="val" style="color:var(--accent)" id="sPending">0</div><div class="lbl">Pending Requests</div></div>
+<div class="stat-card tilt-card"><div class="val" style="color:var(--success)" id="sTotalK">0</div><div class="lbl">Medicine Kits</div></div>
+</div>
+
+<div class="tab-bar reveal">
+<button class="tab-btn active" data-tab="patients" onclick="switchTab('patients',this)">👥 Patients</button>
+<button class="tab-btn" data-tab="appts" onclick="switchTab('appts',this)">📅 Appointments</button>
+<button class="tab-btn" data-tab="rx" onclick="switchTab('rx',this)">💊 Prescriptions</button>
+</div>
+
+<div id="tab-patients" class="tab-panel active">
+<div class="search-wrap mb-md" style="max-width:400px"><span class="search-icon">🔍</span><input type="text" class="form-input" placeholder="Search patients..." id="patientSearch" oninput="loadPatients(this.value)"/></div>
+<div id="patientList"></div>
+</div>
+
+<div id="tab-appts" class="tab-panel">
+<div class="flex gap-sm mb-md"><button class="btn btn-sm btn-outline" onclick="filterAppts('pending')">Pending</button><button class="btn btn-sm btn-outline" onclick="filterAppts('accepted')">Accepted</button><button class="btn btn-sm btn-outline" onclick="filterAppts('rejected')">Rejected</button><button class="btn btn-sm btn-outline" onclick="filterAppts('')">All</button></div>
+<div id="apptList"></div>
+</div>
+
+<div id="tab-rx" class="tab-panel"><div id="rxList"></div></div>
+</div>
+
+<!-- ADD PATIENT MODAL -->
+<div class="modal-overlay" id="addPatientModal"><div class="modal">
+<div class="modal-header"><h3 class="modal-title">Add Patient</h3><button class="modal-close" onclick="closeModal('addPatientModal')">✕</button></div>
+<form id="patientForm" onsubmit="savePatient(event)">
+<input type="hidden" id="pf_id"/>
+<div class="form-row"><div class="form-group"><label class="form-label">Full Name*</label><input class="form-input" id="pf_name" required/></div><div class="form-group"><label class="form-label">Age</label><input class="form-input" id="pf_age" type="number"/></div></div>
+<div class="form-row"><div class="form-group"><label class="form-label">Gender</label><select class="form-select" id="pf_gender"><option value="">—</option><option>Male</option><option>Female</option><option>Other</option></select></div><div class="form-group"><label class="form-label">Blood Group</label><input class="form-input" id="pf_blood"/></div></div>
+<div class="form-row"><div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="pf_phone"/></div><div class="form-group"><label class="form-label">Email</label><input class="form-input" id="pf_email" type="email"/></div></div>
+<div class="form-group"><label class="form-label">Address</label><input class="form-input" id="pf_address"/></div>
+<div class="form-group"><label class="form-label">Chief Complaint</label><input class="form-input" id="pf_complaint"/></div>
+<div class="form-group"><label class="form-label">Medical History</label><textarea class="form-textarea" id="pf_history"></textarea></div>
+<div class="form-group"><label class="form-label">Notes</label><textarea class="form-textarea" id="pf_notes"></textarea></div>
+<button type="submit" class="btn btn-primary w-full mt-sm">Save Patient</button>
+</form></div></div>
+
+<!-- QR MODAL -->
+<div class="modal-overlay" id="qrModal"><div class="modal" style="text-align:center">
+<div class="modal-header"><h3 class="modal-title">Patient QR Code</h3><button class="modal-close" onclick="closeModal('qrModal')">✕</button></div>
+<p class="text-secondary text-sm mb-md">Scan this QR to access patient records</p>
+<img id="qrImg" style="max-width:250px;border-radius:1rem;margin:0 auto;display:block"/>
+<p class="text-sm text-muted mt-md" id="qrUrl"></p>
+<p class="text-sm mt-sm">Patient of <strong class="highlight">Dr. Hiral</strong></p>
+</div></div>
+
+<!-- REJECT REASON MODAL -->
+<div class="modal-overlay" id="rejectModal"><div class="modal">
+<div class="modal-header"><h3 class="modal-title">Reject Appointment</h3><button class="modal-close" onclick="closeModal('rejectModal')">✕</button></div>
+<div class="form-group"><label class="form-label">Reason for rejection</label><textarea class="form-textarea" id="rejectReason" placeholder="E.g. Slot unavailable, please reschedule..."></textarea></div>
+<button class="btn btn-danger w-full" onclick="confirmReject()">Confirm Reject</button>
+</div></div>
+
+<!-- VIEW PATIENT MODAL -->
+<div class="modal-overlay" id="viewPatientModal"><div class="modal" style="max-width:700px">
+<div class="modal-header"><h3 class="modal-title" id="vpName"></h3><button class="modal-close" onclick="closeModal('viewPatientModal')">✕</button></div>
+<div id="vpContent"></div>
+</div></div>
+
+<div id="toast-container" class="toast-container"></div>
+<script src="/js/api.js"></script><script src="/js/scroll.js"></script>
+<script>
+let rejectId='';
+async function checkAuth(){try{const s=await API.status();if(s.loggedIn){showDash();return}}catch(e){}document.getElementById('loginView').classList.remove('hidden')}
+async function doLogin(){const p=document.getElementById('pwdInput').value;try{await API.login(p);showDash();toast('Welcome back, Dr. Hiral!','success')}catch(e){document.getElementById('loginErr').classList.remove('hidden')}}
+async function doLogout(){await API.logout();location.reload()}
+document.getElementById('pwdInput')?.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+function showDash(){document.getElementById('loginView').classList.add('hidden');document.getElementById('dashView').classList.remove('hidden');document.getElementById('logoutBtn').classList.remove('hidden');loadStats();loadPatients();loadAppts()}
+async function loadStats(){try{const s=await API.stats();document.getElementById('sTotalP').textContent=s.totalPatients;document.getElementById('sTotalA').textContent=s.totalAppointments;document.getElementById('sPending').textContent=s.pendingAppointments;document.getElementById('sTotalK').textContent=s.totalKits}catch(e){}}
+async function loadPatients(q=''){try{const ps=await API.getPatients(q);const el=document.getElementById('patientList');if(!ps.length){el.innerHTML='<div class="empty-state"><div class="empty-state-icon">👥</div><h3>No patients found</h3></div>';return}
+el.innerHTML=ps.map(p=>`<div class="patient-row hover-lift"><div><strong>${p.name}</strong><br/><span class="text-muted text-xs">${p.id}</span></div><div class="text-sm">${p.age||'—'} / ${p.gender||'—'}</div><div class="text-sm">${p.phone||'—'}</div><div class="text-sm text-secondary">${p.chief_complaint||'—'}</div><div class="flex gap-sm"><button class="btn btn-sm btn-primary" onclick="viewPatient('${p.id}')">View</button><button class="btn btn-sm btn-outline" onclick="showQR('${p.id}')">QR</button><button class="btn btn-sm btn-accent" onclick="editPatient('${p.id}')">Edit</button><button class="btn btn-sm btn-danger" onclick="delPatient('${p.id}')">✕</button></div></div>`).join('')}catch(e){toast(e.message,'error')}}
+async function savePatient(e){e.preventDefault();const id=document.getElementById('pf_id').value;const data={name:document.getElementById('pf_name').value,age:parseInt(document.getElementById('pf_age').value)||null,gender:document.getElementById('pf_gender').value,blood_group:document.getElementById('pf_blood').value,phone:document.getElementById('pf_phone').value,email:document.getElementById('pf_email').value,address:document.getElementById('pf_address').value,chief_complaint:document.getElementById('pf_complaint').value,history:document.getElementById('pf_history').value,notes:document.getElementById('pf_notes').value};
+try{if(id){await API.updatePatient(id,data);toast('Patient updated','success')}else{await API.createPatient(data);toast('Patient added','success')}closeModal('addPatientModal');document.getElementById('patientForm').reset();document.getElementById('pf_id').value='';loadPatients();loadStats()}catch(e){toast(e.message,'error')}}
+async function editPatient(id){try{const p=await API.getPatient(id);document.getElementById('pf_id').value=p.id;document.getElementById('pf_name').value=p.name;document.getElementById('pf_age').value=p.age||'';document.getElementById('pf_gender').value=p.gender||'';document.getElementById('pf_blood').value=p.blood_group||'';document.getElementById('pf_phone').value=p.phone||'';document.getElementById('pf_email').value=p.email||'';document.getElementById('pf_address').value=p.address||'';document.getElementById('pf_complaint').value=p.chief_complaint||'';document.getElementById('pf_history').value=p.history||'';document.getElementById('pf_notes').value=p.notes||'';openModal('addPatientModal')}catch(e){toast(e.message,'error')}}
+async function delPatient(id){if(!confirm('Delete patient?'))return;try{await API.deletePatient(id);toast('Patient deleted','success');loadPatients();loadStats()}catch(e){toast(e.message,'error')}}
+async function showQR(id){try{const d=await API.getQR(id);document.getElementById('qrImg').src=d.qr;document.getElementById('qrUrl').textContent=d.url;openModal('qrModal')}catch(e){toast(e.message,'error')}}
+async function viewPatient(id){try{const p=await API.getPatient(id);document.getElementById('vpName').innerHTML=p.name+' <span class="badge badge-primary">'+p.id+'</span>';
+let h=`<div class="grid-2 mb-md"><div><span class="text-muted text-xs">Age/Gender</span><div>${p.age||'—'} / ${p.gender||'—'}</div></div><div><span class="text-muted text-xs">Blood</span><div>${p.blood_group||'—'}</div></div><div><span class="text-muted text-xs">Phone</span><div>${p.phone||'—'}</div></div><div><span class="text-muted text-xs">Email</span><div>${p.email||'—'}</div></div></div>`;
+h+=`<div class="mb-md"><span class="text-muted text-xs">Chief Complaint</span><div>${p.chief_complaint||'—'}</div></div>`;
+h+=`<div class="mb-md"><span class="text-muted text-xs">History</span><div class="text-sm">${p.history||'—'}</div></div>`;
+h+=`<div class="mb-md"><span class="text-muted text-xs">Notes by Dr. Hiral</span><div class="text-sm">${p.notes||'—'}</div></div>`;
+if(p.timeline&&p.timeline.length){h+=`<div class="divider"></div><h4 class="mb-sm">Treatment Timeline</h4>`;p.timeline.forEach(t=>{h+=`<div class="glass-card p-md mb-sm"><div class="flex justify-between items-center"><span class="badge badge-primary">${t.remedy||''} ${t.potency||''}</span><span class="text-muted text-xs">${fmtDate(t.visit_date)}</span></div><p class="text-sm mt-sm">${t.note||''}</p></div>`})}
+document.getElementById('vpContent').innerHTML=h;openModal('viewPatientModal')}catch(e){toast(e.message,'error')}}
+async function loadAppts(status=''){try{const params=status?{status}:{};const as=await API.getAppointments(params);const el=document.getElementById('apptList');if(!as.length){el.innerHTML='<div class="empty-state"><div class="empty-state-icon">📅</div><h3>No appointments</h3></div>';return}
+el.innerHTML=as.map(a=>{const statusBadge=a.status==='pending'?'badge-warning':a.status==='accepted'?'badge-success':'badge-danger';return`<div class="appt-card"><div><strong>${a.patient_name}</strong> <span class="badge ${statusBadge}">${a.status}</span><br/><span class="text-sm text-secondary">${fmtDate(a.appt_date)} at ${a.appt_time} — ${a.reason||'—'}</span>${a.reject_reason?`<br/><span class="text-sm text-danger">Reason: ${a.reject_reason}</span>`:''}</div><div class="appt-actions">${a.status==='pending'?`<button class="btn btn-sm btn-success" onclick="acceptAppt('${a.id}')">✓ Accept</button><button class="btn btn-sm btn-danger" onclick="startReject('${a.id}')">✕ Reject</button>`:'<span class="text-muted text-xs">Reviewed</span>'}</div></div>`}).join('')}catch(e){toast(e.message,'error')}}
+function filterAppts(s){loadAppts(s)}
+async function acceptAppt(id){try{await API.acceptAppt(id);toast('Appointment accepted','success');loadAppts();loadStats()}catch(e){toast(e.message,'error')}}
+function startReject(id){rejectId=id;openModal('rejectModal')}
+async function confirmReject(){const reason=document.getElementById('rejectReason').value;try{await API.rejectAppt(rejectId,reason);toast('Appointment rejected','warning');closeModal('rejectModal');loadAppts();loadStats()}catch(e){toast(e.message,'error')}}
+function switchTab(name,btn){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+name).classList.add('active');if(name==='appts')loadAppts();if(name==='patients')loadPatients()}
+checkAuth();
+</script></body></html>

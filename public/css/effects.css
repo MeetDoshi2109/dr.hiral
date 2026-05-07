@@ -1,0 +1,164 @@
+/* ═══════════════════════════════════════════════════
+   Scroll Reveal & Hover Effects — global additions
+═══════════════════════════════════════════════════ */
+
+/* ── Scroll reveal base states ── */
+.reveal, .reveal-left, .reveal-right, .reveal-scale {
+  opacity: 0;
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  will-change: opacity, transform;
+}
+.reveal         { transform: translateY(40px); }
+.reveal-left    { transform: translateX(-50px); }
+.reveal-right   { transform: translateX(50px); }
+.reveal-scale   { transform: scale(0.88); }
+
+.reveal.revealed,
+.reveal-left.revealed,
+.reveal-right.revealed,
+.reveal-scale.revealed { opacity: 1; transform: none; }
+
+/* Stagger children */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.stagger-children > *.revealed { opacity: 1; transform: none; }
+
+/* ── Ripple keyframe ── */
+@keyframes ripple {
+  to { transform: scale(2.5); opacity: 0; }
+}
+
+/* ── Card hover enhancements ── */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 20px rgba(13,148,136,0.2);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 30px rgba(13,148,136,0.45), 0 0 60px rgba(13,148,136,0.15);
+  border-color: rgba(13,148,136,0.5) !important;
+}
+
+.hover-scale {
+  transition: transform 0.25s ease;
+}
+.hover-scale:hover { transform: scale(1.04); }
+
+/* ── Link underline slide hover ── */
+.hover-underline {
+  position: relative;
+  display: inline-block;
+}
+.hover-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 2px;
+  background: linear-gradient(135deg, var(--primary-light), var(--accent));
+  transition: width 0.35s ease;
+}
+.hover-underline:hover::after { width: 100%; }
+
+/* ── Image hover zoom ── */
+.hover-zoom { overflow: hidden; border-radius: var(--radius-lg); }
+.hover-zoom img { transition: transform 0.5s ease; }
+.hover-zoom:hover img { transform: scale(1.08); }
+
+/* ── Table row hover ── */
+tbody tr {
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+tbody tr:hover {
+  background: rgba(13,148,136,0.07) !important;
+  transform: translateX(3px);
+}
+
+/* ── Sidebar item hover ── */
+.sidebar-item {
+  position: relative;
+  overflow: hidden;
+}
+.sidebar-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--primary), var(--secondary));
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+  border-radius: 2px;
+}
+.sidebar-item:hover::before,
+.sidebar-item.active::before { transform: scaleY(1); }
+
+/* ── Button shine sweep ── */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: skewX(-20deg);
+  transition: none;
+}
+.btn:hover::after {
+  left: 150%;
+  transition: left 0.5s ease;
+}
+
+/* ── Input focus ring animation ── */
+.form-input, .form-select, .form-textarea {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, transform 0.2s ease;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  transform: translateY(-1px);
+}
+
+/* ── Badge hover ── */
+.badge {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.badge:hover { transform: scale(1.08); box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+
+/* ── Glass card shimmer border on hover ── */
+.glass-card {
+  position: relative;
+  overflow: hidden;
+}
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(13,148,136,0.12), rgba(124,58,237,0.08), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.glass-card:hover::before { opacity: 1; }
+
+/* ── Smooth page transitions ── */
+body { animation: pageEnter 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+@keyframes pageEnter {
+  0% { opacity: 0; transform: translateY(12px); filter: blur(4px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+body.page-exit { animation: pageExit 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+@keyframes pageExit {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+/* Page transition link handler via JS */
+
+/* ── Tilt card ── */
+.tilt-card { transition: transform 0.1s ease; }
