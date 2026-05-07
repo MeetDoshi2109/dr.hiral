@@ -88,7 +88,8 @@
 
 <div class="kit-layout">
 <!-- Sidebar: remedies + templates -->
-<div class="kit-sidebar">
+<div class="kit-sidebar" id="kitSidebar">
+<button class="sidebar-toggle" onclick="toggleSidebar(this)">Remedies & Templates</button>
 <div class="glass-card p-lg mb-md reveal-left">
 <h3 style="font-size:1rem;margin-bottom:0.75rem">📋 Remedies</h3>
 <div class="search-wrap mb-sm"><span class="search-icon">🔍</span><input type="text" class="form-input" placeholder="Search remedies..." id="remedySearch" oninput="filterRemedies()"/></div>
@@ -153,6 +154,12 @@ function filterRemedies(){const q=document.getElementById('remedySearch').value.
 if(currentCat!=='All')list=list.filter(r=>r.category===currentCat);
 if(q)list=list.filter(r=>r.name.toLowerCase().includes(q)||r.keynotes.toLowerCase().includes(q));
 renderRemedies(list)}
+
+function toggleSidebar(btn){
+  const sidebar = document.getElementById('kitSidebar');
+  sidebar.classList.toggle('sidebar-open');
+  btn.classList.toggle('open');
+}
 
 function initCatFilter(){const cats=['All',...REMEDY_CATEGORIES];const el=document.getElementById('catFilter');
 el.innerHTML=cats.map(c=>`<button class="cat-btn${c==='All'?' active':''}" onclick="currentCat='${c}';document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');filterRemedies()">${c}</button>`).join('')}
