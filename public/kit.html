@@ -35,9 +35,47 @@
 .cat-btn{padding:0.25rem 0.65rem;border-radius:var(--radius-full);border:1px solid var(--glass-border);background:transparent;color:var(--text-secondary);cursor:pointer;font-size:0.72rem;transition:all 0.2s}
 .cat-btn:hover,.cat-btn.active{background:rgba(13,148,136,0.2);border-color:rgba(13,148,136,0.4);color:var(--primary-light)}
 .kit-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.5rem}
-@media(max-width:900px){.kit-layout{grid-template-columns:1fr}.tray-grid{grid-template-columns:1fr}}
-@media(max-width:600px){.tray-grid{grid-template-columns:1fr}}
-@media print{.kit-sidebar,.navbar,.kit-header,.add-slot-btn{display:none!important}.kit-wrap{padding:0}.kit-tray{border:2px solid #333;background:white}.tray-slot{border-color:#999;color:#333}.tray-slot.filled .slot-issue{color:#006}.tray-slot.filled .slot-remedy{color:#333}.tray-slot.filled .slot-potency{color:#630}}
+
+/* Mobile toggle button for sidebar */
+.sidebar-toggle{display:none;width:100%;padding:0.75rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-md);color:var(--primary-light);font-size:0.9rem;font-weight:600;cursor:pointer;text-align:center;transition:all 0.3s ease;margin-bottom:0.75rem}
+.sidebar-toggle:hover{background:rgba(13,148,136,0.1);border-color:rgba(13,148,136,0.3)}
+.sidebar-toggle::after{content:' ▼';font-size:0.7rem}
+.sidebar-toggle.open::after{content:' ▲'}
+
+/* ── TABLET ── */
+@media(max-width:900px){
+  .kit-layout{grid-template-columns:1fr}
+  .kit-sidebar{position:static;max-height:none}
+  .tray-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .kit-wrap{padding:75px 0.75rem 1rem}
+  .kit-layout{gap:1rem}
+  .sidebar-toggle{display:block}
+  .kit-sidebar .glass-card{display:none}
+  .kit-sidebar.sidebar-open .glass-card{display:block}
+  .tray-grid{grid-template-columns:1fr;gap:0.75rem}
+  .kit-tray{padding:0.75rem;border-radius:var(--radius-md)}
+  .tray-slot{min-height:80px;padding:0.75rem 0.5rem}
+  .tray-slot.filled .slot-issue{font-size:0.82rem}
+  .tray-slot .remove-btn{opacity:1}
+  .add-slot-btn{min-height:70px}
+  .kit-header{flex-direction:column;align-items:stretch}
+  .kit-header .flex{justify-content:center;flex-wrap:wrap}
+  .kit-header #kitName{max-width:100%!important;text-align:center}
+  .templates-grid{grid-template-columns:repeat(2,1fr);gap:0.5rem}
+  .template-card{padding:0.75rem}
+  .template-card .t-icon{font-size:1.4rem;margin-bottom:0.2rem}
+  .template-card .t-name{font-size:0.78rem}
+  .cat-filter{gap:0.3rem}
+  .cat-btn{padding:0.2rem 0.5rem;font-size:0.68rem}
+  .remedy-list{max-height:250px}
+  .remedy-item{padding:0.6rem 0.75rem}
+}
+
+@media print{.kit-sidebar,.navbar,.kit-header,.add-slot-btn,.sidebar-toggle{display:none!important}.kit-wrap{padding:0}.kit-tray{border:2px solid #333;background:white}.tray-slot{border-color:#999;color:#333}.tray-slot.filled .slot-issue{color:#006}.tray-slot.filled .slot-remedy{color:#333}.tray-slot.filled .slot-potency{color:#630}}
 </style></head><body>
 <nav class="navbar"><a href="/" class="navbar-brand"><div class="navbar-logo">🌿</div><div><div class="navbar-title">Dr. <span>Hiral</span></div><div style="font-size:0.7rem;color:var(--text-muted)">Medicine Kit Builder</div></div></a>
 <ul class="navbar-nav"><li><a href="/" class="hover-underline">Home</a></li><li><a href="/appointments.html" class="hover-underline">Appointments</a></li><li><a href="/patient.html" class="hover-underline">Patient Portal</a></li><li><a href="/dashboard.html" class="btn btn-primary btn-sm">Dashboard</a></li></ul></nav>
