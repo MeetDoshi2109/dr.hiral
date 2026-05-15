@@ -12,6 +12,9 @@
   <link rel="stylesheet" href="/css/effects.css">
 </head>
 <body>
+<!-- FLOATING PARTICLES -->
+<div class="particles-container" id="particles" aria-hidden="true"></div>
+
 <!-- NAVBAR -->
 <div class="navbar-wrap">
   <nav class="navbar" id="main-nav">
@@ -28,8 +31,8 @@
       <button class="btn-ghost theme-toggle-icon" id="theme-toggle" aria-label="Toggle theme">
         <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
       </button>
-      <a href="/dashboard.html" class="btn btn-primary btn-sm" style="display:none" id="desk-login">Doctor Login</a>
-      <button class="btn-ghost" id="menu-open" style="display:none" aria-label="Menu">
+      <a href="/dashboard.html" class="btn btn-primary btn-sm" id="desk-login">Doctor Login</a>
+      <button class="btn-ghost" id="menu-open" aria-label="Menu">
         <span class="material-symbols-outlined">menu</span>
       </button>
     </div>
@@ -55,9 +58,9 @@
   <div class="blob blob-secondary blob-animate blob-animate-delay" style="width:45vw;height:45vw;bottom:-10%;right:-10%"></div>
   <div class="container" style="position:relative;z-index:1">
     <div class="hero-grid">
-      <div class="reveal">
+      <div class="reveal-left">
         <div class="badge badge-primary mb-md"><span class="status-dot online"></span> Accepting New Patients</div>
-        <h1>Heal Naturally with<br><span class="highlight">Dr. Hiral</span></h1>
+        <h1>Heal Naturally with<br><span class="shimmer-text">Dr. Hiral</span></h1>
         <p class="hero-sub">BHMS (MUHS) · Classical Homeopathy Specialist<br>Experience gentle, effective, and personalised homeopathic healing.</p>
         <div class="hero-actions">
           <a href="/appointments.html" class="btn btn-primary btn-lg">
@@ -73,8 +76,8 @@
           <div class="hero-stat"><div class="hero-stat-val count-up" data-target="95">0</div><div class="hero-stat-lbl">% Success Rate</div></div>
         </div>
       </div>
-      <div class="reveal" style="animation-delay:0.2s">
-        <div class="doctor-card">
+      <div class="reveal-right">
+        <div class="doctor-card gradient-border tilt-card">
           <div class="doctor-avatar">
             <span class="material-symbols-outlined" style="font-size:40px;color:#fff;font-variation-settings:'FILL' 1">person</span>
           </div>
@@ -162,6 +165,14 @@
   </div>
 </section>
 
+<!-- ANIMATED WAVE DIVIDER -->
+<div class="wave-divider-wrap" aria-hidden="true">
+  <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path class="wave-path-1" d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"/>
+    <path class="wave-path-2" d="M0,50 C360,10 720,70 1080,30 C1260,10 1380,50 1440,50 L1440,80 L0,80 Z"/>
+  </svg>
+</div>
+
 <!-- HOW IT WORKS -->
 <section class="section" style="background:var(--bg-surface-alt)">
   <div class="container">
@@ -174,6 +185,77 @@
       <div class="step-card"><div class="step-num">2</div><h3 style="font-size:1rem;margin-bottom:0.3rem">Get Confirmed</h3><p class="text-secondary-c text-sm">Dr. Hiral accepts your request</p></div>
       <div class="step-card"><div class="step-num">3</div><h3 style="font-size:1rem;margin-bottom:0.3rem">Consult &amp; Heal</h3><p class="text-secondary-c text-sm">Receive personalised homeopathic treatment</p></div>
       <div class="step-card"><div class="step-num">4</div><h3 style="font-size:1rem;margin-bottom:0.3rem">Track Progress</h3><p class="text-secondary-c text-sm">Scan your QR to view records anytime</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONDITIONS WE TREAT -->
+<section class="section" id="conditions">
+  <div class="container">
+    <div class="text-center reveal mb-xl">
+      <div class="badge badge-secondary" style="margin-bottom:1rem">
+        <span class="material-symbols-outlined" style="font-size:14px">healing</span> Conditions We Treat
+      </div>
+      <h2 style="font-size:2rem">Specialised <span class="highlight">Homeopathic Care</span></h2>
+      <p class="text-secondary-c mt-md" style="max-width:520px;margin-left:auto;margin-right:auto">Comprehensive treatment for chronic and acute conditions using classical homeopathic remedies.</p>
+    </div>
+    <div class="features-grid stagger-children" style="grid-template-columns:repeat(4,1fr)">
+      <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+        <div class="feature-icon" style="background:rgba(239,68,68,0.1);color:#EF4444;margin:0 auto 0.75rem">
+          <span class="material-symbols-outlined">allergy</span>
+        </div>
+        <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Allergies</h3>
+        <p class="text-secondary-c text-xs">Seasonal, food, and environmental allergies</p>
+      </div>
+      <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+        <div class="feature-icon" style="background:rgba(245,158,11,0.1);color:#D97706;margin:0 auto 0.75rem">
+          <span class="material-symbols-outlined">dermatology</span>
+        </div>
+        <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Skin Disorders</h3>
+        <p class="text-secondary-c text-xs">Eczema, psoriasis, and chronic skin issues</p>
+      </div>
+      <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+        <div class="feature-icon" style="background:rgba(5,150,105,0.1);color:var(--secondary);margin:0 auto 0.75rem">
+          <span class="material-symbols-outlined">gastroenterology</span>
+        </div>
+        <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Digestive Issues</h3>
+        <p class="text-secondary-c text-xs">IBS, acidity, bloating, and gut health</p>
+      </div>
+      <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+        <div class="feature-icon" style="background:rgba(124,58,237,0.1);color:#7C3AED;margin:0 auto 0.75rem">
+          <span class="material-symbols-outlined">psychology</span>
+        </div>
+        <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Anxiety &amp; Stress</h3>
+        <p class="text-secondary-c text-xs">Mental wellness and emotional balance</p>
+      </div>
+      <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+        <div class="feature-icon" style="background:rgba(8,145,178,0.1);color:var(--primary);margin:0 auto 0.75rem">
+          <span class="material-symbols-outlined">neurology</span>
+        </div>
+        <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Migraines</h3>
+        <p class="text-secondary-c text-xs">Chronic headaches and neurological pain</p>
+      </div>
+      <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+        <div class="feature-icon" style="background:rgba(59,130,246,0.1);color:#3B82F6;margin:0 auto 0.75rem">
+          <span class="material-symbols-outlined">rheumatology</span>
+        </div>
+        <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Joint Pain</h3>
+        <p class="text-secondary-c text-xs">Arthritis, stiffness, and mobility issues</p>
+      </div>
+      <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+        <div class="feature-icon" style="background:rgba(236,72,153,0.1);color:#EC4899;margin:0 auto 0.75rem">
+          <span class="material-symbols-outlined">female</span>
+        </div>
+        <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Hormonal Imbalance</h3>
+        <p class="text-secondary-c text-xs">PCOS, thyroid, and reproductive health</p>
+      </div>
+      <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+        <div class="feature-icon" style="background:rgba(16,185,129,0.1);color:#10B981;margin:0 auto 0.75rem">
+          <span class="material-symbols-outlined">pulmonology</span>
+        </div>
+        <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Respiratory Issues</h3>
+        <p class="text-secondary-c text-xs">Asthma, sinusitis, and breathing problems</p>
+      </div>
     </div>
   </div>
 </section>
@@ -384,25 +466,54 @@
   document.getElementById('menu-close').addEventListener('click', () => mobileMenu.classList.remove('open'));
   mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
 
-  // ── Scroll Reveal ──
-  const revealEls = document.querySelectorAll('.reveal, .stagger-children');
+  // ── Scroll Reveal (all variants) ──
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children');
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
-  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-  revealEls.forEach(el => observer.observe(el));
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.01, rootMargin: '50px 0px 0px 0px' });
+  requestAnimationFrame(() => {
+    revealEls.forEach(el => observer.observe(el));
+  });
+
+  // ── Navbar Scroll Effect ──
+  const navbar = document.getElementById('main-nav');
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    navbar.style.boxShadow = y > 50 ? 'var(--shadow-md)' : 'var(--shadow-sm)';
+    // Subtle navbar background opacity increase on scroll
+    navbar.style.background = y > 100 ? 'var(--glass)' : 'var(--glass)';
+    lastScroll = y;
+  }, { passive: true });
 
   // ── Count-Up ──
-  document.querySelectorAll('.count-up').forEach(el => {
-    const target = parseInt(el.dataset.target);
-    if (isNaN(target)) return;
-    let current = 0;
-    const step = Math.max(1, Math.floor(target / 60));
-    const timer = setInterval(() => {
-      current += step;
-      if (current >= target) { current = target; clearInterval(timer); }
-      el.textContent = current;
-    }, 25);
-  });
+  const countObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        const target = parseInt(el.dataset.target);
+        if (isNaN(target)) return;
+        let current = 0;
+        const duration = 1500;
+        const startTime = performance.now();
+        function step(now) {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+          current = Math.floor(eased * target);
+          el.textContent = current;
+          if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+        countObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.count-up').forEach(el => countObserver.observe(el));
 
   // ── FAQ Accordion ──
   document.querySelectorAll('.faq-item').forEach(item => {
@@ -417,12 +528,112 @@
   const vaTrigger = document.getElementById('va-trigger');
   const vaPopover = document.getElementById('va-popover');
   const vaClose = document.getElementById('va-close');
-  window.toggleVA = function() {
-    vaPopover.classList.toggle('open');
-  };
+  window.toggleVA = function() { vaPopover.classList.toggle('open'); };
   vaTrigger.addEventListener('click', toggleVA);
   vaClose.addEventListener('click', toggleVA);
+
+  // ── Floating Particles ──
+  const particlesEl = document.getElementById('particles');
+  if (particlesEl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.random() * 4 + 2;
+      p.style.cssText = `
+        width:${size}px;height:${size}px;
+        left:${Math.random()*100}%;
+        animation-duration:${Math.random()*20+15}s;
+        animation-delay:${Math.random()*10}s;
+      `;
+      particlesEl.appendChild(p);
+    }
+  }
+
+  // ── Tilt Card Effect (desktop only) ──
+  if (window.innerWidth >= 768) {
+    document.querySelectorAll('.tilt-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = `perspective(800px) rotateX(${-y*6}deg) rotateY(${x*6}deg) translateZ(5px)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateZ(0)';
+        card.style.transition = 'transform 0.5s ease';
+      });
+      card.addEventListener('mouseenter', () => {
+        card.style.transition = 'transform 0.1s ease';
+      });
+    });
+  }
+
+  // ── Cursor Glow (desktop only) ──
+  if (window.innerWidth >= 768) {
+    const glow = document.createElement('div');
+    glow.style.cssText = 'position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(8,145,178,0.05) 0%,transparent 70%);pointer-events:none;transform:translate(-50%,-50%);z-index:0;transition:opacity 0.3s;';
+    document.body.appendChild(glow);
+    document.addEventListener('mousemove', e => { glow.style.left = e.clientX+'px'; glow.style.top = e.clientY+'px'; }, { passive: true });
+  }
+
+  // ── Ripple on Buttons ──
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.btn');
+    if (!btn) return;
+    const ripple = document.createElement('span');
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.cssText = `position:absolute;width:${size}px;height:${size}px;border-radius:50%;background:rgba(255,255,255,0.2);top:${e.clientY-rect.top-size/2}px;left:${e.clientX-rect.left-size/2}px;transform:scale(0);animation:ripple 0.5s ease forwards;pointer-events:none;`;
+    btn.style.position = 'relative';
+    btn.style.overflow = 'hidden';
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  });
 })();
 </script>
+
+<!-- Framer Motion (vanilla JS API) for enhanced scroll animations -->
+<script type="module">
+  import { animate, inView } from 'https://cdn.jsdelivr.net/npm/motion@11.15.0/+esm';
+
+  // Animate hero stats with spring physics
+  inView('.hero-stats', () => {
+    document.querySelectorAll('.hero-stat').forEach((el, i) => {
+      animate(el, { opacity: [0, 1], y: [20, 0] }, { delay: i * 0.15, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
+    });
+  });
+
+  // Animate feature cards with stagger
+  inView('.features-grid', ({ target }) => {
+    target.querySelectorAll('.card').forEach((el, i) => {
+      animate(el, { opacity: [0, 1], y: [30, 0], scale: [0.95, 1] }, { delay: i * 0.08, duration: 0.5, easing: [0.22, 1, 0.36, 1] });
+    });
+  });
+
+  // Animate process steps
+  inView('.process-steps', ({ target }) => {
+    target.querySelectorAll('.step-card').forEach((el, i) => {
+      animate(el, { opacity: [0, 1], x: [-20, 0] }, { delay: i * 0.12, duration: 0.5, easing: [0.22, 1, 0.36, 1] });
+    });
+  });
+
+  // Animate CTA section
+  inView('.cta-section', ({ target }) => {
+    animate(target, { scale: [0.96, 1], opacity: [0, 1] }, { duration: 0.7, easing: [0.22, 1, 0.36, 1] });
+  });
+
+  // Animate doctor card with float
+  inView('.doctor-card', ({ target }) => {
+    animate(target, { y: [30, 0], opacity: [0, 1], rotate: [2, 0] }, { duration: 0.8, easing: [0.22, 1, 0.36, 1] });
+  });
+
+  // Animate testimonial cards
+  inView('.testimonial-grid', ({ target }) => {
+    target.querySelectorAll('.test-card').forEach((el, i) => {
+      animate(el, { opacity: [0, 1], y: [25, 0] }, { delay: i * 0.1, duration: 0.5, easing: [0.22, 1, 0.36, 1] });
+    });
+  });
+</script>
+<style>@keyframes ripple{to{transform:scale(2.5);opacity:0}}</style>
 </body>
 </html>

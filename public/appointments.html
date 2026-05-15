@@ -1,67 +1,280 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Book Appointment — Dr. Hiral</title>
-<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="/css/global.css"/><link rel="stylesheet" href="/css/effects.css"/>
-<style>
-.appt-wrap{min-height:100vh;padding:85px 2rem 2rem;max-width:700px;margin:0 auto}
-.time-slots{display:grid;grid-template-columns:repeat(4,1fr);gap:0.6rem;margin-top:0.5rem}
-.time-slot{padding:0.5rem;text-align:center;border:1px solid var(--glass-border);border-radius:var(--radius-md);cursor:pointer;font-size:0.85rem;transition:all 0.3s ease;background:var(--glass)}
-.time-slot:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:0 4px 15px rgba(13,148,136,0.3)}
-.time-slot.selected{background:rgba(13,148,136,0.25);border-color:var(--primary);color:var(--primary-light);box-shadow:0 0 20px rgba(13,148,136,0.3)}
-.confirm-card{text-align:center;padding:2rem}
-.confirm-card .check{font-size:4rem;margin-bottom:1rem;animation:float 3s ease-in-out infinite}
-@media(max-width:600px){.time-slots{grid-template-columns:repeat(3,1fr)}}
-</style></head><body>
-<nav class="navbar"><a href="/" class="navbar-brand"><div class="navbar-logo">🌿</div><div><div class="navbar-title">Dr. <span>Hiral</span></div><div style="font-size:0.7rem;color:var(--text-muted)">Appointments</div></div></a>
-<ul class="navbar-nav"><li><a href="/" class="hover-underline">Home</a></li><li><a href="/patient.html" class="hover-underline">Patient Portal</a></li><li><a href="/kit.html" class="hover-underline">Kit Builder</a></li><li><a href="/dashboard.html" class="btn btn-primary btn-sm">Doctor Login</a></li></ul></nav>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment — Dr. Hiral Homoeopathy</title>
+  <meta name="description" content="Book your homeopathy consultation with Dr. Hiral. Choose your preferred date and time slot.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/effects.css">
+  <style>
+    .page-wrap { min-height: 100vh; padding: 6rem 1.5rem 3rem; }
+    .appt-container { max-width: 680px; margin: 0 auto; }
+    .page-hero { text-align: center; margin-bottom: 2.5rem; }
+    .page-hero .page-icon {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.25rem; box-shadow: var(--shadow-glow);
+    }
+    .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-top: 0.5rem; }
+    .time-slot {
+      padding: 0.55rem 0.25rem; text-align: center;
+      border: 1.5px solid var(--border); border-radius: var(--radius-md);
+      cursor: pointer; font-size: 0.82rem; font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg-surface);
+      transition: all 0.2s ease;
+    }
+    .time-slot:hover { border-color: var(--primary); color: var(--primary); background: rgba(8,145,178,0.06); transform: translateY(-1px); }
+    .time-slot.selected { background: rgba(8,145,178,0.12); border-color: var(--primary); color: var(--primary-dark); font-weight: 600; }
+    .confirm-card { text-align: center; padding: 2.5rem 2rem; }
+    .confirm-icon { width: 80px; height: 80px; border-radius: 50%; background: rgba(5,150,105,0.1); border: 2px solid rgba(5,150,105,0.3); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; animation: float 3s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .detail-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .detail-row:last-child { border-bottom: none; }
+    @media(max-width: 600px) { .time-grid { grid-template-columns: repeat(3, 1fr); } }
+  </style>
+</head>
+<body>
+<div class="particles-container" id="particles" aria-hidden="true"></div>
 
-<div class="appt-wrap">
-<div id="bookingForm" class="animate-fadeIn">
-<div class="text-center mb-lg">
-<div style="font-size:3rem;margin-bottom:0.5rem">📅</div>
-<h1 style="font-size:1.8rem">Book with <span class="highlight">Dr. Hiral</span></h1>
-<p class="text-secondary text-sm">Schedule your homeopathy consultation</p>
-</div>
-<div class="glass-card p-xl reveal">
-<div class="form-row"><div class="form-group"><label class="form-label">Full Name*</label><input class="form-input" id="af_name" required/></div><div class="form-group"><label class="form-label">Phone*</label><input class="form-input" id="af_phone" required/></div></div>
-<div class="form-group"><label class="form-label">Email</label><input class="form-input" id="af_email" type="email"/></div>
-<div class="form-group"><label class="form-label">Preferred Date*</label><input class="form-input" id="af_date" type="date" required/></div>
-<div class="form-group"><label class="form-label">Select Time Slot*</label>
-<div class="time-slots" id="timeSlots"></div>
-<input type="hidden" id="af_time"/>
-</div>
-<div class="form-group"><label class="form-label">Reason for Visit</label><textarea class="form-textarea" id="af_reason" placeholder="Describe your symptoms or reason..."></textarea></div>
-<button class="btn btn-primary btn-lg w-full mt-sm" onclick="bookAppt()">Request Appointment</button>
-<p class="text-muted text-xs mt-md text-center">Dr. Hiral will review and confirm your appointment request</p>
-</div>
+<!-- NAVBAR -->
+<div class="navbar-wrap">
+  <nav class="navbar" id="main-nav">
+    <a href="/" class="navbar-brand">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;color:var(--primary)">spa</span>
+      Dr. Hiral
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="/">Home</a></li>
+      <li><a href="/appointments.html" class="active">Book Appointment</a></li>
+      <li><a href="/patient.html">Patient Portal</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <button class="btn-ghost theme-toggle-icon" id="theme-toggle" aria-label="Toggle theme">
+        <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+      </button>
+      <a href="/dashboard.html" class="btn btn-primary btn-sm" id="desk-login">Doctor Login</a>
+      <button class="btn-ghost" id="menu-open" aria-label="Menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </nav>
 </div>
 
-<div id="confirmView" class="hidden">
-<div class="glass-card confirm-card animate-fadeIn">
-<div class="check">✅</div>
-<h2 style="font-size:1.5rem;margin-bottom:0.5rem">Appointment <span class="highlight">Requested!</span></h2>
-<p class="text-secondary mb-md">Dr. Hiral will review your request and confirm shortly.</p>
-<div class="glass-card p-md mb-lg" style="text-align:left">
-<div class="text-sm"><strong>Name:</strong> <span id="cf_name"></span></div>
-<div class="text-sm mt-sm"><strong>Date:</strong> <span id="cf_date"></span></div>
-<div class="text-sm mt-sm"><strong>Time:</strong> <span id="cf_time"></span></div>
-<div class="text-sm mt-sm"><strong>Status:</strong> <span class="badge badge-warning">Pending Review</span></div>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="btn-ghost" id="menu-close" style="position:absolute;top:1.5rem;right:1.5rem" aria-label="Close">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <nav style="display:flex;flex-direction:column;gap:1.5rem;margin-top:2rem">
+    <a href="/" style="font-size:1.2rem;font-weight:600;color:var(--text)">Home</a>
+    <a href="/appointments.html" style="font-size:1.2rem;font-weight:600;color:var(--primary)">Book Appointment</a>
+    <a href="/patient.html" style="font-size:1.2rem;font-weight:600;color:var(--text)">Patient Portal</a>
+  </nav>
+  <a href="/dashboard.html" class="btn btn-primary w-full" style="margin-top:auto">Doctor Login</a>
 </div>
-<a href="/" class="btn btn-outline">← Back to Home</a>
-</div>
-</div>
+
+<div class="page-wrap">
+  <div class="appt-container">
+
+    <!-- BOOKING FORM -->
+    <div id="bookingForm" class="reveal">
+      <div class="page-hero">
+        <div class="page-icon">
+          <span class="material-symbols-outlined" style="font-size:32px;color:white;font-variation-settings:'FILL' 1">calendar_month</span>
+        </div>
+        <div class="badge badge-primary" style="margin-bottom:0.75rem"><span class="status-dot online"></span> Accepting New Patients</div>
+        <h1 style="font-size:2rem;margin-bottom:0.5rem">Book with <span class="highlight">Dr. Hiral</span></h1>
+        <p class="text-secondary-c">Schedule your personalised homeopathy consultation</p>
+      </div>
+
+      <div class="card" style="padding:2rem">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div class="form-group">
+            <label class="form-label">
+              <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">person</span> Full Name *
+            </label>
+            <input class="form-input" id="af_name" placeholder="Your full name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">
+              <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">call</span> Phone *
+            </label>
+            <input class="form-input" id="af_phone" placeholder="+91 XXXXX XXXXX" required>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:1rem">
+          <label class="form-label">
+            <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">mail</span> Email
+          </label>
+          <input class="form-input" id="af_email" type="email" placeholder="your@email.com">
+        </div>
+        <div class="form-group" style="margin-bottom:1rem">
+          <label class="form-label">
+            <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">event</span> Preferred Date *
+          </label>
+          <input class="form-input" id="af_date" type="date" required>
+        </div>
+        <div class="form-group" style="margin-bottom:1rem">
+          <label class="form-label">
+            <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">schedule</span> Select Time Slot *
+          </label>
+          <div class="time-grid" id="timeSlots"></div>
+          <input type="hidden" id="af_time">
+        </div>
+        <div class="form-group" style="margin-bottom:1.5rem">
+          <label class="form-label">
+            <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">note_alt</span> Reason for Visit
+          </label>
+          <textarea class="form-input" id="af_reason" rows="3" placeholder="Describe your symptoms or reason for consultation..." style="resize:vertical"></textarea>
+        </div>
+        <button class="btn btn-primary btn-lg w-full" id="submitBtn" onclick="bookAppt()">
+          <span class="material-symbols-outlined" style="font-size:18px">send</span>
+          Request Appointment
+        </button>
+        <p class="text-secondary-c text-xs mt-md text-center">
+          <span class="material-symbols-outlined" style="font-size:13px;vertical-align:middle">info</span>
+          Dr. Hiral personally reviews and confirms each appointment
+        </p>
+      </div>
+    </div>
+
+    <!-- CONFIRMATION VIEW -->
+    <div id="confirmView" class="hidden">
+      <div class="card confirm-card reveal">
+        <div class="confirm-icon">
+          <span class="material-symbols-outlined" style="font-size:36px;color:var(--secondary);font-variation-settings:'FILL' 1">check_circle</span>
+        </div>
+        <div class="badge badge-secondary" style="margin-bottom:1rem">Appointment Requested</div>
+        <h2 style="font-size:1.75rem;margin-bottom:0.5rem">Request <span class="highlight">Submitted!</span></h2>
+        <p class="text-secondary-c mb-xl">Dr. Hiral will review your request and confirm shortly via phone or email.</p>
+
+        <div class="card" style="text-align:left;margin-bottom:1.5rem;padding:1.25rem">
+          <div class="detail-row">
+            <span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">person</span>
+            <div><div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">Patient</div><div id="cf_name" style="font-weight:600"></div></div>
+          </div>
+          <div class="detail-row">
+            <span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">calendar_today</span>
+            <div><div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">Date</div><div id="cf_date" style="font-weight:600"></div></div>
+          </div>
+          <div class="detail-row">
+            <span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">schedule</span>
+            <div><div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">Time</div><div id="cf_time" style="font-weight:600"></div></div>
+          </div>
+          <div class="detail-row">
+            <span class="material-symbols-outlined" style="color:var(--secondary);font-size:18px">pending</span>
+            <div><div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">Status</div><div><span class="badge badge-warning">Pending Review</span></div></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center">
+          <a href="/" class="btn btn-primary">
+            <span class="material-symbols-outlined" style="font-size:16px">home</span> Back to Home
+          </a>
+          <a href="/patient.html" class="btn btn-outline">
+            <span class="material-symbols-outlined" style="font-size:16px">person_search</span> My Records
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <div id="toast-container" class="toast-container"></div>
-<script src="/js/api.js"></script><script src="/js/scroll.js"></script>
+<script src="/js/api.js"></script>
 <script>
-const slots=['09:00','09:30','10:00','10:30','11:00','11:30','12:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00'];
-const sc=document.getElementById('timeSlots');
-slots.forEach(s=>{const d=document.createElement('div');d.className='time-slot';d.textContent=s;d.onclick=()=>{document.querySelectorAll('.time-slot').forEach(x=>x.classList.remove('selected'));d.classList.add('selected');document.getElementById('af_time').value=s};sc.appendChild(d)});
-document.getElementById('af_date').min=new Date().toISOString().split('T')[0];
-async function bookAppt(){const name=document.getElementById('af_name').value.trim();const phone=document.getElementById('af_phone').value.trim();const email=document.getElementById('af_email').value;const date=document.getElementById('af_date').value;const time=document.getElementById('af_time').value;const reason=document.getElementById('af_reason').value;
-if(!name||!phone||!date||!time){toast('Please fill all required fields','warning');return}
-try{await API.bookAppointment({patient_name:name,phone,email,appt_date:date,appt_time:time,reason});
-document.getElementById('bookingForm').classList.add('hidden');document.getElementById('confirmView').classList.remove('hidden');document.getElementById('cf_name').textContent=name;document.getElementById('cf_date').textContent=date;document.getElementById('cf_time').textContent=time;toast('Appointment request sent!','success')}catch(e){toast(e.message,'error')}}
-</script></body></html>
+(function() {
+  // Theme
+  const html = document.documentElement;
+  const themeBtn = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+  function setTheme(dark) {
+    if (dark) { html.classList.add('dark'); themeIcon.textContent = 'light_mode'; }
+    else { html.classList.remove('dark'); themeIcon.textContent = 'dark_mode'; }
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  }
+  setTheme(localStorage.getItem('theme') === 'dark');
+  themeBtn.addEventListener('click', () => setTheme(!html.classList.contains('dark')));
+
+  // Navbar responsive
+  const deskLogin = document.getElementById('desk-login');
+  const menuOpen = document.getElementById('menu-open');
+  function handleResize() {
+    const m = window.innerWidth < 768;
+    deskLogin.style.display = m ? 'none' : 'inline-flex';
+    menuOpen.style.display = m ? 'inline-flex' : 'none';
+  }
+  handleResize();
+  window.addEventListener('resize', handleResize);
+
+  // Mobile menu
+  const mm = document.getElementById('mobile-menu');
+  menuOpen.addEventListener('click', () => mm.classList.add('open'));
+  document.getElementById('menu-close').addEventListener('click', () => mm.classList.remove('open'));
+
+  // Reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.01, rootMargin: '50px 0px 0px 0px' });
+  requestAnimationFrame(() => document.querySelectorAll('.reveal').forEach(el => obs.observe(el)));
+
+  // Particles
+  const pc = document.getElementById('particles');
+  if (pc && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    for (let i = 0; i < 12; i++) {
+      const p = document.createElement('div'); p.className = 'particle';
+      const s = Math.random() * 4 + 2;
+      p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*20+15}s;animation-delay:${Math.random()*10}s`;
+      pc.appendChild(p);
+    }
+  }
+
+  // Time slots
+  const slots = ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00'];
+  const sc = document.getElementById('timeSlots');
+  slots.forEach(s => {
+    const d = document.createElement('div'); d.className = 'time-slot'; d.textContent = s;
+    d.onclick = () => { document.querySelectorAll('.time-slot').forEach(x => x.classList.remove('selected')); d.classList.add('selected'); document.getElementById('af_time').value = s; };
+    sc.appendChild(d);
+  });
+  document.getElementById('af_date').min = new Date().toISOString().split('T')[0];
+})();
+
+async function bookAppt() {
+  const name = document.getElementById('af_name').value.trim();
+  const phone = document.getElementById('af_phone').value.trim();
+  const email = document.getElementById('af_email').value;
+  const date = document.getElementById('af_date').value;
+  const time = document.getElementById('af_time').value;
+  const reason = document.getElementById('af_reason').value;
+  if (!name || !phone || !date || !time) { toast('Please fill all required fields', 'warning'); return; }
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;animation:spin 1s linear infinite">refresh</span> Sending...';
+  try {
+    await API.bookAppointment({ patient_name: name, phone, email, appt_date: date, appt_time: time, reason });
+    document.getElementById('bookingForm').classList.add('hidden');
+    document.getElementById('confirmView').classList.remove('hidden');
+    document.getElementById('cf_name').textContent = name;
+    document.getElementById('cf_date').textContent = new Date(date).toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+    document.getElementById('cf_time').textContent = time;
+    toast('Appointment request sent!', 'success');
+  } catch (e) {
+    toast(e.message || 'Failed to book. Please try again.', 'error');
+    btn.disabled = false; btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px">send</span> Request Appointment';
+  }
+}
+</script>
+<style>
+@keyframes spin { to { transform: rotate(360deg); } }
+.w-full { width: 100%; }
+.form-input, .form-group textarea { font-family: var(--font-body); }
+.form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(8,145,178,0.12); }
+</style>
+</body>
+</html>
