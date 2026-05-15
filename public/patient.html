@@ -1,135 +1,332 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Patient Portal — Dr. Hiral</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Manrope:wght@600;700&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
-tailwind.config = {
-    darkMode: 'class',
-    theme: {
-        extend: {
-            colors: {
-                'surface-container-highest': '#273647', 'background': '#051424', 'on-surface-variant': '#bcc9c6',
-                'primary-container': '#29a195', 'primary-fixed': '#89f5e7', 'on-primary': '#003732',
-                'on-background': '#d4e4fa', 'surface-variant': '#273647', 'primary': '#6bd8cb',
-                'inverse-surface': '#d4e4fa', 'surface-container': '#122131', 'surface': '#051424',
-                'secondary': '#d2bbff', 'surface-dim': '#051424', 'outline-variant': '#3d4947',
-                'inverse-on-surface': '#233143', 'on-surface': '#d4e4fa', 'error': '#ffb4ab',
-                'secondary-container': '#6001d1', 'outline': '#879391', 'text-muted': '#8c90a4', 'text-secondary': '#bcc9c6', 'glass-border': 'rgba(255,255,255,0.2)'
-            },
-            borderRadius: { DEFAULT: '0.25rem', lg: '0.5rem', xl: '0.75rem', full: '9999px' },
-            spacing: { xxl: '80px', xl: '40px', xs: '4px', sm: '8px', margin: '32px', unit: '4px', md: '16px', lg: '24px', gutter: '24px' },
-            fontFamily: { 'label-caps': ['Inter'], h1: ['Manrope'], 'body-md': ['Inter'], 'body-lg': ['Inter'], h2: ['Manrope'], h3: ['Manrope'] },
-            fontSize: {
-                'label-caps': ['12px', { lineHeight: '1', letterSpacing: '0.1em', fontWeight: '600' }],
-                h1: ['48px', { lineHeight: '1.2', letterSpacing: '-0.02em', fontWeight: '700' }],
-                'body-md': ['16px', { lineHeight: '1.6', letterSpacing: '0', fontWeight: '400' }],
-                'body-lg': ['18px', { lineHeight: '1.6', letterSpacing: '0', fontWeight: '400' }],
-                h2: ['32px', { lineHeight: '1.3', letterSpacing: '-0.01em', fontWeight: '600' }],
-                h3: ['24px', { lineHeight: '1.4', letterSpacing: '0', fontWeight: '600' }]
-            }
-        }
-    }
-};
-</script>
-<link rel="stylesheet" href="/css/global.css"/><link rel="stylesheet" href="/css/effects.css"/>
-<style>
-#mobile-menu { transition: transform 0.3s ease-in-out; }
-.portal-wrap{min-height:100vh;padding:85px 2rem 2rem;max-width:900px;margin:0 auto}
-.lookup-box{max-width:500px;margin:0 auto;text-align:center;padding:3rem 0}
-.patient-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
-.patient-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;animation:glowPulse 3s ease-in-out infinite}
-.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
-.info-item{padding:1rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-md);transition:all 0.3s ease}
-.info-item:hover{border-color:rgba(13,148,136,0.4);transform:translateY(-3px)}
-.info-item .label{font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em}
-.info-item .value{font-size:1rem;margin-top:0.2rem}
-.timeline-item{position:relative;padding-left:2rem;padding-bottom:1.5rem;border-left:2px solid rgba(13,148,136,0.3)}
-.timeline-item::before{content:'';position:absolute;left:-6px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--primary);box-shadow:0 0 10px var(--primary)}
-.timeline-item:last-child{border-left-color:transparent}
-.rx-card{padding:1.25rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-lg);margin-bottom:1rem;transition:all 0.3s ease}
-.rx-card:hover{border-color:rgba(124,58,237,0.4);transform:translateY(-3px)}
-@media(max-width:768px){.info-grid{grid-template-columns:1fr}}
-<body class="bg-background text-on-background min-h-screen relative overflow-x-hidden">
-<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter py-md max-w-7xl mx-auto docked full-width top-0 pointer-events-none">
-    <div class="w-full mx-auto bg-surface/10 backdrop-blur-xl border border-white/20 shadow-sm backdrop-saturate-150 rounded-full flex justify-between items-center px-lg py-md md:py-sm pointer-events-auto">
-        <a class="font-h3 text-h3 font-bold tracking-tight text-on-surface flex items-center gap-sm" href="/">
-            <span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'FILL' 1;">spa</span> Dr. Hiral
-        </a>
-        <nav class="hidden md:flex items-center gap-margin font-h3 text-h3 md:font-body-md md:text-body-md">
-            <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 hover:backdrop-blur-lg duration-300 px-sm py-xs rounded-lg" href="/">Home</a>
-            <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 hover:backdrop-blur-lg duration-300 px-sm py-xs rounded-lg" href="/appointments.html">Book Appointment</a>
-            <a class="text-primary font-bold border-b-2 border-primary pb-1 flex items-center gap-xs" href="/patient.html">Patient Portal</a>
-        </nav>
-        <div class="flex items-center gap-md">
-            <a href="/dashboard.html" class="hidden md:flex items-center justify-center bg-gradient-to-r from-primary-container to-secondary-container text-white px-lg py-sm rounded-full font-label-caps text-label-caps uppercase tracking-wider hover:shadow-[0_0_15px_rgba(41,161,149,0.5)] transition-all duration-300 border border-white/10">Doctor Login</a>
-            <button id="mobile-menu-open" class="md:hidden text-on-surface p-sm rounded-full hover:bg-white/10 transition-colors pointer-events-auto"><span class="material-symbols-outlined">menu</span></button>
-        </div>
-    </div>
-</header>
-<div class="fixed inset-0 z-[100] bg-background/95 backdrop-blur-3xl transform translate-x-full transition-transform duration-300 flex flex-col pt-[100px] px-margin pb-margin border-l border-white/10" id="mobile-menu">
-    <div class="absolute top-margin right-margin"><button id="mobile-menu-close" class="text-on-surface-variant hover:text-primary transition-colors duration-300 p-sm rounded-full focus:outline-none"><span class="material-symbols-outlined text-[28px]">close</span></button></div>
-    <ul class="flex flex-col gap-lg mt-xl">
-        <li><a class="flex items-center gap-md font-h3 text-h3 text-on-surface-variant hover:text-primary hover:pl-md transition-all duration-300 py-sm" href="/"><span class="material-symbols-outlined">home</span>Home</a></li>
-        <li><a class="flex items-center gap-md font-h3 text-h3 text-on-surface-variant hover:text-primary hover:pl-md transition-all duration-300 py-sm" href="/appointments.html"><span class="material-symbols-outlined">calendar_month</span>Book Appointment</a></li>
-        <li><a class="flex items-center gap-md font-h3 text-h3 text-primary border-l-4 border-primary pl-md py-sm bg-surface-container/20" href="/patient.html"><span class="material-symbols-outlined">person</span>Patient Portal</a></li>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Portal — Dr. Hiral Homoeopathy</title>
+  <meta name="description" content="Access your patient records, prescription transport status, and treatment timeline from Dr. Hiral.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/effects.css">
+  <style>
+    .page-wrap { min-height: 100vh; padding: 6rem 1.5rem 3rem; }
+    .portal-container { max-width: 860px; margin: 0 auto; }
+
+    /* Lookup */
+    .lookup-center { max-width: 480px; margin: 0 auto; text-align: center; padding: 3rem 0 2rem; }
+    .lookup-icon { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg,var(--primary),var(--secondary)); display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem; box-shadow:var(--shadow-glow); }
+
+    /* Patient header */
+    .patient-header { display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap; }
+    .patient-avatar { width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-glow); }
+
+    /* Info grid */
+    .info-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem; }
+    .info-item { padding:1rem;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-md);transition:all 0.25s ease; }
+    .info-item:hover { border-color:rgba(8,145,178,0.3);transform:translateY(-2px); }
+    .info-label { font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.2rem; }
+    .info-value { font-size:0.95rem;font-weight:600;color:var(--text); }
+
+    /* Timeline */
+    .timeline { position:relative; }
+    .timeline-item { position:relative;padding-left:2rem;padding-bottom:1.5rem;border-left:2px solid rgba(8,145,178,0.2); }
+    .timeline-item::before { content:'';position:absolute;left:-6px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--primary);box-shadow:0 0 8px rgba(8,145,178,0.5); }
+    .timeline-item:last-child { border-left-color:transparent; }
+
+    /* Prescription / Transport card */
+    .rx-card { padding:1.25rem;background:var(--bg-surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:1rem;transition:all 0.25s ease; }
+    .rx-card:hover { border-color:rgba(8,145,178,0.3);transform:translateY(-2px);box-shadow:var(--shadow-md); }
+    .transport-status { display:inline-flex;align-items:center;gap:0.4rem;padding:0.35rem 0.75rem;border-radius:var(--radius-full);font-size:0.8rem;font-weight:600; }
+    .status-delivered { background:rgba(5,150,105,0.1);color:var(--secondary); }
+    .status-transit { background:rgba(245,158,11,0.1);color:#D97706; }
+    .status-dispensed { background:rgba(8,145,178,0.1);color:var(--primary); }
+
+    /* Section titles */
+    .section-title { display:flex;align-items:center;gap:0.6rem;font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--border); }
+
+    @media(max-width:768px) { .info-grid { grid-template-columns:1fr 1fr; } }
+    @media(max-width:480px) { .info-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<div class="particles-container" id="particles" aria-hidden="true"></div>
+
+<!-- NAVBAR -->
+<div class="navbar-wrap">
+  <nav class="navbar" id="main-nav">
+    <a href="/" class="navbar-brand">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;color:var(--primary)">spa</span>
+      Dr. Hiral
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="/">Home</a></li>
+      <li><a href="/appointments.html">Book Appointment</a></li>
+      <li><a href="/patient.html" class="active">Patient Portal</a></li>
     </ul>
-    <div class="mt-auto pt-xl border-t border-white/10"><a href="/dashboard.html" class="w-full py-md px-lg rounded-full bg-gradient-to-r from-primary to-secondary text-on-primary font-label-caps text-label-caps shadow-[0_0_15px_rgba(107,216,203,0.3)] hover:shadow-[0_0_25px_rgba(107,216,203,0.5)] transition-all flex justify-center items-center gap-sm"><span class="material-symbols-outlined text-[18px]">lock</span> Doctor Login</a></div>
+    <div class="navbar-actions">
+      <button class="btn-ghost theme-toggle-icon" id="theme-toggle" aria-label="Toggle theme">
+        <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+      </button>
+      <a href="/dashboard.html" class="btn btn-primary btn-sm" id="desk-login">Doctor Login</a>
+      <button class="btn-ghost" id="menu-open" aria-label="Menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </nav>
 </div>
 
-<div class="portal-wrap">
-<div id="lookupView" class="lookup-box animate-fadeIn">
-<div style="font-size:4rem;margin-bottom:1rem">🔍</div>
-<h1 style="font-size:1.8rem;margin-bottom:0.5rem">Patient <span class="highlight">Portal</span></h1>
-<p class="text-secondary mb-lg">Enter your Patient ID to view your records from <strong class="highlight">Dr. Hiral</strong></p>
-<div class="form-group"><input class="form-input" id="pidInput" placeholder="e.g. PAT-DEMO001" style="text-align:center;font-size:1.1rem"/></div>
-<button class="btn btn-primary btn-lg w-full" onclick="lookupPatient()">View My Records</button>
-<p class="text-muted text-sm mt-md">Or scan your QR code to open this page directly</p>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="btn-ghost" id="menu-close" style="position:absolute;top:1.5rem;right:1.5rem" aria-label="Close">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <nav style="display:flex;flex-direction:column;gap:1.5rem;margin-top:2rem">
+    <a href="/" style="font-size:1.2rem;font-weight:600;color:var(--text)">Home</a>
+    <a href="/appointments.html" style="font-size:1.2rem;font-weight:600;color:var(--text)">Book Appointment</a>
+    <a href="/patient.html" style="font-size:1.2rem;font-weight:600;color:var(--primary)">Patient Portal</a>
+  </nav>
+  <a href="/dashboard.html" class="btn btn-primary w-full" style="margin-top:auto">Doctor Login</a>
 </div>
-<div id="patientView" class="hidden"></div>
+
+<div class="page-wrap">
+  <div class="portal-container">
+
+    <!-- LOOKUP VIEW -->
+    <div id="lookupView" class="reveal">
+      <div class="lookup-center">
+        <div class="lookup-icon">
+          <span class="material-symbols-outlined" style="font-size:36px;color:white;font-variation-settings:'FILL' 1">person_search</span>
+        </div>
+        <div class="badge badge-primary" style="margin-bottom:0.75rem">
+          <span class="status-dot online"></span> Patient Portal
+        </div>
+        <h1 style="font-size:1.9rem;margin-bottom:0.5rem">Your Health <span class="highlight">Records</span></h1>
+        <p class="text-secondary-c" style="margin-bottom:1.75rem">Enter your Patient ID to view your treatment history, prescriptions, and medicine transport status from Dr. Hiral.</p>
+        <div style="display:flex;gap:0.75rem;margin-bottom:0.75rem">
+          <input class="form-input" id="pidInput" placeholder="e.g. PAT-001" style="text-align:center;font-size:1rem;flex:1" autocomplete="off">
+          <button class="btn btn-primary" onclick="lookupPatient()" id="lookupBtn">
+            <span class="material-symbols-outlined" style="font-size:18px">search</span>
+          </button>
+        </div>
+        <p class="text-secondary-c text-xs">Or scan your QR code to open this page directly</p>
+      </div>
+    </div>
+
+    <!-- PATIENT VIEW (rendered by JS) -->
+    <div id="patientView" class="hidden"></div>
+
+  </div>
 </div>
 
 <div id="toast-container" class="toast-container"></div>
-<script src="/js/api.js"></script><script src="/js/scroll.js"></script>
+<script src="/js/api.js"></script>
 <script>
-const params=new URLSearchParams(location.search);
-if(params.get('pid')){document.getElementById('pidInput').value=params.get('pid');lookupPatient()}
-async function lookupPatient(){const id=document.getElementById('pidInput').value.trim();if(!id){toast('Enter a Patient ID','warning');return}
-try{const p=await API.getPatient(id);renderPatient(p)}catch(e){toast('Patient not found — check your ID','error')}}
-function renderPatient(p){document.getElementById('lookupView').classList.add('hidden');const v=document.getElementById('patientView');v.classList.remove('hidden');
-let h=`<div class="patient-header reveal"><div class="patient-avatar">👤</div><div><h1 style="font-size:1.6rem">${p.name}</h1><span class="badge badge-primary">${p.id}</span> <span class="badge badge-info">Patient of Dr. Hiral</span><p class="text-secondary text-sm mt-sm">Last visit: ${fmtDate(p.last_visit)}</p></div></div>`;
-h+=`<div class="info-grid stagger-children">`;
-const fields=[['Age',p.age||'—'],['Gender',p.gender||'—'],['Blood Group',p.blood_group||'—'],['Phone',p.phone||'—'],['Email',p.email||'—'],['Chief Complaint',p.chief_complaint||'—']];
-fields.forEach(([l,v])=>h+=`<div class="info-item"><div class="label">${l}</div><div class="value">${v}</div></div>`);
-h+=`</div>`;
-if(p.history){h+=`<div class="glass-card p-lg mb-lg reveal"><h3 style="font-size:1rem;margin-bottom:0.5rem">📋 Medical History</h3><p class="text-secondary text-sm">${p.history}</p></div>`}
-if(p.notes){h+=`<div class="glass-card p-lg mb-lg reveal"><h3 style="font-size:1rem;margin-bottom:0.5rem">📝 Notes by Dr. Hiral</h3><p class="text-secondary text-sm">${p.notes}</p></div>`}
-if(p.timeline&&p.timeline.length){h+=`<div class="reveal"><h3 style="font-size:1.1rem;margin-bottom:1rem">🕐 Treatment Timeline</h3>`;
-p.timeline.forEach(t=>{h+=`<div class="timeline-item"><div class="flex justify-between items-center mb-sm"><span class="badge badge-primary">${t.remedy||''} ${t.potency||''}</span><span class="text-muted text-xs">${fmtDate(t.visit_date)}</span></div><p class="text-sm text-secondary">${t.note||''}</p></div>`});
-h+=`</div>`}
-if(p.prescriptions&&p.prescriptions.length){h+=`<div class="reveal mt-lg"><h3 style="font-size:1.1rem;margin-bottom:1rem">💊 Transport & Dispensation</h3>`;
-p.prescriptions.forEach(rx=>{
-    h+=`<div class="rx-card"><div class="flex justify-between items-center mb-sm"><span class="text-sm">Issued: ${fmtDate(rx.issued_at)}</span>${rx.follow_up?`<span class="badge badge-warning">Follow-up: ${fmtDate(rx.follow_up)}</span>`:''}</div>`;
-    h+=`<div class="text-sm text-on-surface-variant"><span class="material-symbols-outlined text-[16px] align-middle">local_shipping</span> <strong>Status:</strong> ${rx.transport_status || 'Dispensed at Clinic / Sent for Transport'}</div>`;
-    h+=`<div class="mt-md pt-sm border-t border-glass-border flex gap-sm">
-            <a href="mailto:dr.hiral@homeocare.in?subject=Reorder%20Medicines%20for%20${p.id}" class="btn btn-sm" style="background:var(--primary);color:var(--background);font-weight:600">Reorder Medicines</a>
-            <a href="mailto:dr.hiral@homeocare.in?subject=Question%20about%20Medicines%20${p.id}" class="btn btn-sm btn-outline">Contact Clinic</a>
-        </div></div>`;
-});
-h+=`</div>`}
-h+=`<div class="text-center mt-xl"><button class="btn btn-outline" onclick="location.reload()">← Look Up Another Patient</button></div>`;
-v.innerHTML=h;setTimeout(()=>initScrollReveal(),100)}
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const openBtn = document.getElementById('mobile-menu-open');
-    const closeBtn = document.getElementById('mobile-menu-close');
-    const menu = document.getElementById('mobile-menu');
-    if(openBtn && closeBtn && menu) {
-        openBtn.addEventListener('click', () => menu.classList.remove('translate-x-full'));
-        closeBtn.addEventListener('click', () => menu.classList.add('translate-x-full'));
+(function() {
+  // Theme
+  const html = document.documentElement;
+  const themeBtn = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+  function setTheme(dark) {
+    html.classList.toggle('dark', dark);
+    themeIcon.textContent = dark ? 'light_mode' : 'dark_mode';
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  }
+  setTheme(localStorage.getItem('theme') === 'dark');
+  themeBtn.addEventListener('click', () => setTheme(!html.classList.contains('dark')));
+
+  // Navbar
+  const deskLogin = document.getElementById('desk-login');
+  const menuOpen = document.getElementById('menu-open');
+  function handleResize() {
+    const m = window.innerWidth < 768;
+    deskLogin.style.display = m ? 'none' : 'inline-flex';
+    menuOpen.style.display = m ? 'inline-flex' : 'none';
+  }
+  handleResize();
+  window.addEventListener('resize', handleResize);
+  const mm = document.getElementById('mobile-menu');
+  menuOpen.addEventListener('click', () => mm.classList.add('open'));
+  document.getElementById('menu-close').addEventListener('click', () => mm.classList.remove('open'));
+
+  // Reveal
+  const obs = new IntersectionObserver(e => e.forEach(el => { if (el.isIntersecting) { el.target.classList.add('visible'); obs.unobserve(el.target); } }), { threshold: 0.01, rootMargin: '50px 0px 0px 0px' });
+  requestAnimationFrame(() => document.querySelectorAll('.reveal').forEach(el => obs.observe(el)));
+
+  // Particles
+  const pc = document.getElementById('particles');
+  if (pc && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    for (let i = 0; i < 12; i++) {
+      const p = document.createElement('div'); p.className = 'particle';
+      const s = Math.random() * 4 + 2;
+      p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*20+15}s;animation-delay:${Math.random()*10}s`;
+      pc.appendChild(p);
     }
-});
+  }
+
+  // Auto-lookup from URL ?pid=
+  const pid = new URLSearchParams(location.search).get('pid');
+  if (pid) { document.getElementById('pidInput').value = pid; lookupPatient(); }
+
+  // Enter key
+  document.getElementById('pidInput').addEventListener('keydown', e => { if (e.key === 'Enter') lookupPatient(); });
+})();
+
+async function lookupPatient() {
+  const id = document.getElementById('pidInput').value.trim();
+  if (!id) { toast('Please enter your Patient ID', 'warning'); return; }
+  const btn = document.getElementById('lookupBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;animation:spin 1s linear infinite">refresh</span>';
+  try {
+    const p = await API.getPatient(id);
+    renderPatient(p);
+  } catch (e) {
+    toast('Patient not found — please check your ID', 'error');
+    btn.disabled = false;
+    btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px">search</span>';
+  }
+}
+
+function getTransportClass(status) {
+  if (!status) return 'status-dispensed';
+  const s = status.toLowerCase();
+  if (s.includes('deliver')) return 'status-delivered';
+  if (s.includes('transit') || s.includes('sent') || s.includes('ship')) return 'status-transit';
+  return 'status-dispensed';
+}
+function getTransportIcon(status) {
+  if (!status) return 'local_pharmacy';
+  const s = status.toLowerCase();
+  if (s.includes('deliver')) return 'home_health';
+  if (s.includes('transit') || s.includes('sent')) return 'local_shipping';
+  return 'local_pharmacy';
+}
+
+function renderPatient(p) {
+  document.getElementById('lookupView').classList.add('hidden');
+  const v = document.getElementById('patientView');
+  v.classList.remove('hidden');
+
+  let h = `<div class="patient-header reveal">
+    <div class="patient-avatar">
+      <span class="material-symbols-outlined" style="font-size:32px;color:white;font-variation-settings:'FILL' 1">person</span>
+    </div>
+    <div>
+      <h1 style="font-size:1.6rem;margin-bottom:0.35rem">${p.name}</h1>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;margin-bottom:0.3rem">
+        <span class="badge badge-primary">${p.id}</span>
+        <span class="badge badge-secondary">Patient of Dr. Hiral</span>
+      </div>
+      <p class="text-secondary-c text-sm">Last visit: <strong>${fmtDate(p.last_visit) || '—'}</strong></p>
+    </div>
+  </div>`;
+
+  // Info Grid
+  const fields = [
+    ['Age', p.age || '—', 'cake'],
+    ['Gender', p.gender || '—', 'wc'],
+    ['Blood Group', p.blood_group || '—', 'bloodtype'],
+    ['Phone', p.phone || '—', 'call'],
+    ['Email', p.email || '—', 'mail'],
+    ['Chief Complaint', p.chief_complaint || '—', 'healing'],
+  ];
+  h += `<div class="info-grid stagger-children reveal">`;
+  fields.forEach(([l, val, icon]) => {
+    h += `<div class="info-item">
+      <div class="info-label"><span class="material-symbols-outlined" style="font-size:12px;vertical-align:middle">${icon}</span> ${l}</div>
+      <div class="info-value">${val}</div>
+    </div>`;
+  });
+  h += `</div>`;
+
+  // Medical history + notes
+  if (p.history) {
+    h += `<div class="card reveal" style="margin-bottom:1rem;padding:1.25rem">
+      <div class="section-title"><span class="material-symbols-outlined" style="color:var(--primary)">history_edu</span> Medical History</div>
+      <p class="text-secondary-c text-sm">${p.history}</p>
+    </div>`;
+  }
+  if (p.notes) {
+    h += `<div class="card reveal" style="margin-bottom:1rem;padding:1.25rem">
+      <div class="section-title"><span class="material-symbols-outlined" style="color:var(--secondary)">note_alt</span> Notes by Dr. Hiral</div>
+      <p class="text-secondary-c text-sm">${p.notes}</p>
+    </div>`;
+  }
+
+  // Treatment Timeline
+  if (p.timeline && p.timeline.length) {
+    h += `<div class="card reveal" style="margin-bottom:1rem;padding:1.25rem">
+      <div class="section-title"><span class="material-symbols-outlined" style="color:var(--primary)">timeline</span> Treatment Timeline</div>
+      <div class="timeline">`;
+    p.timeline.forEach(t => {
+      h += `<div class="timeline-item">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;flex-wrap:wrap;gap:0.4rem">
+          <span class="badge badge-primary">${t.remedy || ''} ${t.potency || ''}</span>
+          <span class="text-secondary-c text-xs">${fmtDate(t.visit_date)}</span>
+        </div>
+        <p class="text-sm text-secondary-c">${t.note || ''}</p>
+      </div>`;
+    });
+    h += `</div></div>`;
+  }
+
+  // Prescriptions / Transport
+  if (p.prescriptions && p.prescriptions.length) {
+    h += `<div class="reveal" style="margin-bottom:1.5rem">
+      <div class="section-title" style="margin-bottom:1rem"><span class="material-symbols-outlined" style="color:var(--primary)">local_shipping</span> Medicine Transport &amp; Dispensation</div>`;
+    p.prescriptions.forEach((rx, i) => {
+      const statusClass = getTransportClass(rx.transport_status);
+      const statusIcon = getTransportIcon(rx.transport_status);
+      const statusText = rx.transport_status || 'Dispensed at Clinic';
+      h += `<div class="rx-card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.75rem">
+          <div>
+            <div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.2rem">Prescription #${i+1}</div>
+            <div style="font-size:0.9rem;font-weight:600;color:var(--text)">Issued: ${fmtDate(rx.issued_at)}</div>
+          </div>
+          ${rx.follow_up ? `<div class="badge badge-warning"><span class="material-symbols-outlined" style="font-size:12px">event</span> Follow-up: ${fmtDate(rx.follow_up)}</div>` : ''}
+        </div>
+        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem">
+          <span class="transport-status ${statusClass}">
+            <span class="material-symbols-outlined" style="font-size:14px;font-variation-settings:'FILL' 1">${statusIcon}</span>
+            ${statusText}
+          </span>
+        </div>
+        <div style="display:flex;gap:0.6rem;flex-wrap:wrap;padding-top:0.75rem;border-top:1px solid var(--border)">
+          <a href="mailto:dr.hiral@homeocare.in?subject=Reorder%20Medicines%20for%20${p.id}&body=Hello%20Dr.%20Hiral%2C%20I%20would%20like%20to%20reorder%20my%20medicines.%20Patient%20ID:%20${p.id}"
+             class="btn btn-primary btn-sm">
+            <span class="material-symbols-outlined" style="font-size:14px">shopping_cart</span> Reorder Medicines
+          </a>
+          <a href="mailto:dr.hiral@homeocare.in?subject=Question%20about%20Medicines%20${p.id}"
+             class="btn btn-outline btn-sm">
+            <span class="material-symbols-outlined" style="font-size:14px">support_agent</span> Contact Clinic
+          </a>
+        </div>
+      </div>`;
+    });
+    h += `</div>`;
+  }
+
+  // Back button
+  h += `<div class="text-center" style="margin-top:2rem">
+    <button class="btn btn-outline" onclick="location.reload()">
+      <span class="material-symbols-outlined" style="font-size:16px">arrow_back</span> Look Up Another Patient
+    </button>
+  </div>`;
+
+  v.innerHTML = h;
+
+  // Re-run reveal observer on newly inserted elements
+  const obs = new IntersectionObserver(e => e.forEach(el => { if (el.isIntersecting) { el.target.classList.add('visible'); obs.unobserve(el.target); } }), { threshold: 0.01, rootMargin: '50px 0px 0px 0px' });
+  requestAnimationFrame(() => v.querySelectorAll('.reveal, .stagger-children').forEach(el => obs.observe(el)));
+}
 </script>
-</body></html>
+<style>
+@keyframes spin { to { transform: rotate(360deg); } }
+.w-full { width: 100%; }
+.form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(8,145,178,0.12); }
+</style>
+</body>
+</html>
