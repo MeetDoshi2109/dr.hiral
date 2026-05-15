@@ -1,8 +1,110 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html><html lang="en" class="dark"><head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Medicine Kit Builder — Dr. Hiral</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/css/global.css"/><link rel="stylesheet" href="/css/effects.css"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Manrope:wght@600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                "colors": {
+                    "surface-container-highest": "#273647",
+                    "background": "#051424",
+                    "on-surface-variant": "#bcc9c6",
+                    "on-error": "#690005",
+                    "tertiary-fixed": "#dee1f7",
+                    "secondary-fixed": "#eaddff",
+                    "primary-container": "#29a195",
+                    "on-secondary-container": "#c9aeff",
+                    "on-primary-fixed": "#00201d",
+                    "primary-fixed": "#89f5e7",
+                    "primary-fixed-dim": "#6bd8cb",
+                    "on-primary": "#003732",
+                    "tertiary": "#c2c6db",
+                    "on-tertiary-container": "#242939",
+                    "on-background": "#d4e4fa",
+                    "tertiary-container": "#8c90a4",
+                    "surface-variant": "#273647",
+                    "surface-tint": "#6bd8cb",
+                    "primary": "#6bd8cb",
+                    "on-secondary-fixed-variant": "#5a00c6",
+                    "on-secondary-fixed": "#25005a",
+                    "inverse-surface": "#d4e4fa",
+                    "on-tertiary": "#2b3040",
+                    "on-primary-fixed-variant": "#005049",
+                    "surface-container": "#122131",
+                    "surface": "#051424",
+                    "on-tertiary-fixed": "#161b2b",
+                    "inverse-primary": "#006a61",
+                    "error-container": "#93000a",
+                    "secondary-fixed-dim": "#d2bbff",
+                    "secondary": "#d2bbff",
+                    "on-error-container": "#ffdad6",
+                    "surface-dim": "#051424",
+                    "outline-variant": "#3d4947",
+                    "tertiary-fixed-dim": "#c2c6db",
+                    "surface-container-lowest": "#010f1f",
+                    "inverse-on-surface": "#233143",
+                    "on-primary-container": "#00302b",
+                    "surface-container-low": "#0d1c2d",
+                    "surface-container-high": "#1c2b3c",
+                    "on-secondary": "#3f008e",
+                    "surface-bright": "#2c3a4c",
+                    "on-surface": "#d4e4fa",
+                    "error": "#ffb4ab",
+                    "secondary-container": "#6001d1",
+                    "outline": "#879391",
+                    "on-tertiary-fixed-variant": "#414658"
+                },
+                "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+                },
+                "spacing": {
+                    "xxl": "80px",
+                    "xl": "40px",
+                    "xs": "4px",
+                    "sm": "8px",
+                    "margin": "32px",
+                    "unit": "4px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "gutter": "24px"
+                },
+                "fontFamily": {
+                    "label-caps": ["Inter"],
+                    "h1": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "h2": ["Manrope"],
+                    "h3": ["Manrope"]
+                },
+                "fontSize": {
+                    "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                    "h1": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                    "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                    "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                    "h2": ["32px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                    "h3": ["24px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600" }]
+                }
+            }
+        }
+    }
+</script>
+<style>
+    .glass-border-gradient {
+        border-image: linear-gradient(to bottom right, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%) 1;
+    }
+    #mobile-menu {
+        transition: transform 0.3s ease-in-out;
+    }
+</style>
 <style>
 .kit-wrap{min-height:100vh;padding:85px 2rem 2rem}
 .kit-layout{display:grid;grid-template-columns:300px 1fr;gap:2rem;max-width:1300px;margin:0 auto}
@@ -76,9 +178,56 @@
 }
 
 @media print{.kit-sidebar,.navbar,.kit-header,.add-slot-btn,.sidebar-toggle{display:none!important}.kit-wrap{padding:0}.kit-tray{border:2px solid #333;background:white}.tray-slot{border-color:#999;color:#333}.tray-slot.filled .slot-issue{color:#006}.tray-slot.filled .slot-remedy{color:#333}.tray-slot.filled .slot-potency{color:#630}}
-</style></head><body>
-<nav class="navbar"><a href="/" class="navbar-brand"><div class="navbar-logo">🌿</div><div><div class="navbar-title">Dr. <span>Hiral</span></div><div style="font-size:0.7rem;color:var(--text-muted)">Medicine Kit Builder</div></div></a>
-<ul class="navbar-nav"><li><a href="/" class="hover-underline">Home</a></li><li><a href="/appointments.html" class="hover-underline">Appointments</a></li><li><a href="/patient.html" class="hover-underline">Patient Portal</a></li><li><a href="/dashboard.html" class="btn btn-primary btn-sm">Dashboard</a></li></ul></nav>
+</style></head><body class="bg-background text-on-background min-h-screen relative overflow-x-hidden">
+
+  <!-- TopNavBar & Mobile Menu Overlay -->
+  <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter py-md max-w-7xl mx-auto docked full-width top-0 pointer-events-none">
+    <!-- Floating Pill Container -->
+    <div class="w-full mx-auto bg-surface/10 dark:bg-surface/10 backdrop-blur-xl border border-white/20 shadow-sm backdrop-saturate-150 rounded-full flex justify-between items-center px-lg py-md md:py-sm pointer-events-auto">
+      <!-- Brand -->
+      <a class="font-h3 text-h3 font-bold tracking-tight text-on-surface dark:text-on-surface flex items-center gap-sm" href="/">
+        <span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'FILL' 1;">spa</span>
+        Dr. Hiral
+      </a>
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-margin font-h3 text-h3 md:font-body-md md:text-body-md">
+        <a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 hover:backdrop-blur-lg duration-300 px-sm py-xs rounded-lg" href="/">Home</a>
+        <a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 hover:backdrop-blur-lg duration-300 px-sm py-xs rounded-lg" href="/appointments.html">Book Appointment</a>
+        <a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors hover:bg-white/5 hover:backdrop-blur-lg duration-300 px-sm py-xs rounded-lg" href="/patient.html">Patient Portal</a>
+      </nav>
+      <!-- Actions -->
+      <div class="flex items-center gap-md">
+        <a href="/dashboard.html" class="hidden md:flex items-center justify-center bg-gradient-to-r from-primary-container to-secondary-container text-white px-lg py-sm rounded-full font-label-caps text-label-caps uppercase tracking-wider hover:shadow-[0_0_15px_rgba(41,161,149,0.5)] transition-all duration-300 border border-white/10">
+          Doctor Login
+        </a>
+        <!-- Mobile Menu Toggle -->
+        <button id="mobile-menu-open" class="md:hidden text-on-surface p-sm rounded-full hover:bg-white/10 transition-colors pointer-events-auto">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Slide-out Menu Overlay -->
+  <div class="fixed inset-0 z-[100] bg-background/95 backdrop-blur-3xl transform translate-x-full transition-transform duration-300 flex flex-col pt-[100px] px-margin pb-margin border-l border-white/10" id="mobile-menu">
+      <div class="absolute top-margin right-margin">
+          <button id="mobile-menu-close" class="text-on-surface-variant hover:text-primary transition-colors duration-300 p-sm rounded-full focus:outline-none">
+              <span class="material-symbols-outlined text-[28px]">close</span>
+          </button>
+      </div>
+      <ul class="flex flex-col gap-lg mt-xl">
+          <li><a class="flex items-center gap-md font-h3 text-h3 text-on-surface-variant hover:text-primary hover:pl-md transition-all duration-300 py-sm" href="/"><span class="material-symbols-outlined">home</span>Home</a></li>
+          <li><a class="flex items-center gap-md font-h3 text-h3 text-on-surface-variant hover:text-primary hover:pl-md transition-all duration-300 py-sm" href="/appointments.html"><span class="material-symbols-outlined">calendar_month</span>Book Appointment</a></li>
+          <li><a class="flex items-center gap-md font-h3 text-h3 text-on-surface-variant hover:text-primary hover:pl-md transition-all duration-300 py-sm" href="/patient.html"><span class="material-symbols-outlined">person</span>Patient Portal</a></li>
+      </ul>
+      <div class="mt-auto pt-xl border-t border-white/10">
+          <a href="/dashboard.html" class="w-full py-md px-lg rounded-full bg-gradient-to-r from-primary to-secondary text-on-primary font-label-caps text-label-caps shadow-[0_0_15px_rgba(107,216,203,0.3)] hover:shadow-[0_0_25px_rgba(107,216,203,0.5)] transition-all flex justify-center items-center gap-sm">
+              <span class="material-symbols-outlined text-[18px]">lock</span> Doctor Login
+          </a>
+      </div>
+  </div>
+
+  <div class="mt-xl"></div>
 
 <div class="kit-wrap">
 <div class="text-center mb-lg reveal">
@@ -92,7 +241,7 @@
 <button class="sidebar-toggle" onclick="toggleSidebar(this)">Remedies & Templates</button>
 <div class="glass-card p-lg mb-md reveal-left">
 <h3 style="font-size:1rem;margin-bottom:0.75rem">📋 Remedies</h3>
-<div class="search-wrap mb-sm"><span class="search-icon">🔍</span><input type="text" class="form-input" placeholder="Search remedies..." id="remedySearch" oninput="filterRemedies()"/></div>
+<div class="search-wrap mb-sm"><span class="search-icon">🔍</span><input type="text" class="form-input" placeholder="Search remedies..." id="remedySearch" oninput="filterRemedies()" style="background:var(--surface);color:var(--text);border:1px solid var(--glass-border)"/></div>
 <div class="cat-filter" id="catFilter"></div>
 <div class="remedy-list" id="remedyList"></div>
 </div>
@@ -114,7 +263,7 @@
 <input class="form-input" id="kitName" placeholder="My Custom Kit" style="max-width:250px;font-weight:600"/>
 <span class="badge badge-primary" id="kitCount">0 / 30</span>
 </div>
-<div class="flex gap-sm">
+<div class="flex items-center gap-sm">
 <button class="btn btn-sm btn-outline" onclick="clearKit()">Clear</button>
 <button class="btn btn-sm btn-accent" onclick="printKit()">🖨️ Print Labels</button>
 <button class="btn btn-sm btn-primary" onclick="saveKit()">💾 Save Kit</button>
@@ -132,7 +281,101 @@
 </div>
 
 <div id="toast-container" class="toast-container"></div>
-<script src="/js/api.js"></script><script src="/js/remedies.js"></script><script src="/js/scroll.js"></script>
+  
+  <!-- Footer Component -->
+  <footer class="relative w-full bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-white/10 pt-xxl pb-xl px-gutter mt-xxl backdrop-blur-xl">
+    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-secondary/30 shadow-[0_-2px_10px_rgba(107,216,203,0.3)]"></div>
+    <div class="max-w-7xl mx-auto flex flex-col gap-xxl">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-xl lg:gap-gutter">
+            <!-- Brand & Bio -->
+            <div class="flex flex-col gap-md">
+                <div class="flex items-center gap-sm">
+                    <span class="material-symbols-outlined text-primary text-h2" style="font-variation-settings: 'FILL' 1;">spa</span>
+                    <h2 class="font-h3 text-h3 text-primary dark:text-primary">Dr. Hiral</h2>
+                </div>
+                <p class="font-label-caps text-label-caps text-secondary uppercase tracking-widest">BHMS, MD (Hom.)</p>
+                <p class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant mt-sm">
+                    Merging ancient homeopathic wisdom with modern clinical precision to restore your vital essence.
+                </p>
+            </div>
+            <!-- Quick Links -->
+            <div class="flex flex-col gap-md">
+                <h3 class="font-h3 text-h3 text-on-surface">Quick Links</h3>
+                <ul class="flex flex-col gap-sm">
+                    <li><a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors" href="/">Home</a></li>
+                    <li><a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors" href="/appointments.html">Book Appointment</a></li>
+                    <li><a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors" href="/patient.html">Patient Portal</a></li>
+                    <li><a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors" href="/kit.html">Medicine Kit</a></li>
+                </ul>
+            </div>
+            <!-- Contact Info -->
+            <div class="flex flex-col gap-md">
+                <h3 class="font-h3 text-h3 text-on-surface">Contact</h3>
+                <ul class="flex flex-col gap-sm">
+                    <li class="flex items-start gap-sm">
+                        <span class="material-symbols-outlined text-primary mt-1 text-[20px]">call</span>
+                        <span class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant">+91 79722 32216</span>
+                    </li>
+                    <li class="flex items-start gap-sm">
+                        <span class="material-symbols-outlined text-primary mt-1 text-[20px]">mail</span>
+                        <span class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant">dr.hiral@homeocare.in</span>
+                    </li>
+                    <li class="flex items-start gap-sm">
+                        <span class="material-symbols-outlined text-primary mt-1 text-[20px]">location_on</span>
+                        <span class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant">Homoeopathy Wellness Centre<br/>Pune, Maharashtra, India</span>
+                    </li>
+                </ul>
+            </div>
+            <!-- Clinic Hours -->
+            <div class="flex flex-col gap-md">
+                <h3 class="font-h3 text-h3 text-on-surface">Hours</h3>
+                <ul class="flex flex-col gap-sm">
+                    <li class="flex justify-start gap-xl items-center border-b border-surface-variant pb-xs">
+                        <span class="font-body-md text-body-md text-on-surface-variant w-16">Mon-Fri</span>
+                        <span class="font-body-md text-body-md text-on-surface">9 AM - 6 PM</span>
+                    </li>
+                    <li class="flex justify-start gap-xl items-center border-b border-surface-variant pb-xs">
+                        <span class="font-body-md text-body-md text-on-surface-variant w-16">Sat</span>
+                        <span class="font-body-md text-body-md text-on-surface">10 AM - 2 PM</span>
+                    </li>
+                    <li class="flex justify-start gap-xl items-center border-b border-surface-variant pb-xs">
+                        <span class="font-body-md text-body-md text-on-surface-variant w-16">Sun</span>
+                        <span class="font-body-md text-body-md text-secondary">Closed</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- Bottom Bar -->
+        <div class="flex flex-col md:flex-row justify-between items-center gap-md border-t border-white/10 pt-xl mt-md">
+            <p class="font-body-md text-body-md text-on-surface-variant text-center md:text-left">
+                © 2024 Dr. Hiral Homeopathy. Scientific Alchemy in Healing.
+            </p>
+            <div class="flex items-center gap-md">
+                <a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary-container transition-colors" href="#">Privacy Policy</a>
+                <span class="text-surface-variant">•</span>
+                <a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary-container transition-colors" href="#">Terms of Service</a>
+            </div>
+        </div>
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script><script src="/js/remedies.js"></script><script src="/js/scroll.js"></script>
+  <script>
+    // Mobile Menu script
+    document.addEventListener('DOMContentLoaded', () => {
+        const openBtn = document.getElementById('mobile-menu-open');
+        const closeBtn = document.getElementById('mobile-menu-close');
+        const menu = document.getElementById('mobile-menu');
+        if (openBtn && closeBtn && menu) {
+            openBtn.addEventListener('click', () => {
+                menu.classList.remove('translate-x-full');
+            });
+            closeBtn.addEventListener('click', () => {
+                menu.classList.add('translate-x-full');
+            });
+        }
+    });
+  </script>
 <script>
 let slotCount=4;let kitSlots=new Array(slotCount).fill(null);let currentCat='All';
 
