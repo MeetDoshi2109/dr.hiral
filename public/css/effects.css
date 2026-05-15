@@ -1,164 +1,203 @@
-/* ═══════════════════════════════════════════════════
-   Scroll Reveal & Hover Effects — global additions
-═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   Effects & Micro-interactions
+   Framer Motion compatible
+   ═══════════════════════════════════════════ */
 
-/* ── Scroll reveal base states ── */
-.reveal, .reveal-left, .reveal-right, .reveal-scale {
-  opacity: 0;
-  transition: opacity 0.7s ease, transform 0.7s ease;
-  will-change: opacity, transform;
+/* ── Theme Toggle Animation ── */
+.theme-toggle-icon {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.reveal         { transform: translateY(40px); }
-.reveal-left    { transform: translateX(-50px); }
-.reveal-right   { transform: translateX(50px); }
-.reveal-scale   { transform: scale(0.88); }
+.theme-toggle-icon:hover {
+  transform: rotate(15deg);
+}
 
-.reveal.revealed,
-.reveal-left.revealed,
-.reveal-right.revealed,
-.reveal-scale.revealed { opacity: 1; transform: none; }
-
-/* Stagger children */
+/* ── Stagger Children ── */
 .stagger-children > * {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(16px);
 }
-.stagger-children > *.revealed { opacity: 1; transform: none; }
+.stagger-children.visible > *:nth-child(1) { animation: revealUp 0.5s 0.05s ease forwards; }
+.stagger-children.visible > *:nth-child(2) { animation: revealUp 0.5s 0.12s ease forwards; }
+.stagger-children.visible > *:nth-child(3) { animation: revealUp 0.5s 0.19s ease forwards; }
+.stagger-children.visible > *:nth-child(4) { animation: revealUp 0.5s 0.26s ease forwards; }
+.stagger-children.visible > *:nth-child(5) { animation: revealUp 0.5s 0.33s ease forwards; }
+.stagger-children.visible > *:nth-child(6) { animation: revealUp 0.5s 0.40s ease forwards; }
 
-/* ── Ripple keyframe ── */
-@keyframes ripple {
-  to { transform: scale(2.5); opacity: 0; }
-}
-
-/* ── Card hover enhancements ── */
-.hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.hover-lift:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 20px rgba(13,148,136,0.2);
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.hover-glow:hover {
-  box-shadow: 0 0 30px rgba(13,148,136,0.45), 0 0 60px rgba(13,148,136,0.15);
-  border-color: rgba(13,148,136,0.5) !important;
+/* ── Blob Float Animation ── */
+.blob-animate {
+  animation: blobFloat 20s infinite ease-in-out;
+}
+.blob-animate-delay { animation-delay: -7s; }
+.blob-animate-delay-2 { animation-delay: -14s; }
+
+/* ── Card Hover Lift ── */
+.card-hover {
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(8, 145, 178, 0.2);
 }
 
-.hover-scale {
-  transition: transform 0.25s ease;
+/* ── Glow on Hover ── */
+.glow-hover:hover {
+  box-shadow: var(--shadow-glow);
 }
-.hover-scale:hover { transform: scale(1.04); }
 
-/* ── Link underline slide hover ── */
-.hover-underline {
-  position: relative;
+/* ── Pulse Animation ── */
+.pulse {
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ── Status Dot ── */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
   display: inline-block;
 }
-.hover-underline::after {
-  content: '';
-  position: absolute;
-  bottom: -2px; left: 0;
-  width: 0; height: 2px;
-  background: linear-gradient(135deg, var(--primary-light), var(--accent));
-  transition: width 0.35s ease;
-}
-.hover-underline:hover::after { width: 100%; }
-
-/* ── Image hover zoom ── */
-.hover-zoom { overflow: hidden; border-radius: var(--radius-lg); }
-.hover-zoom img { transition: transform 0.5s ease; }
-.hover-zoom:hover img { transform: scale(1.08); }
-
-/* ── Table row hover ── */
-tbody tr {
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-tbody tr:hover {
-  background: rgba(13,148,136,0.07) !important;
-  transform: translateX(3px);
+.status-dot.online {
+  background: #10B981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+  animation: pulse 2s infinite;
 }
 
-/* ── Sidebar item hover ── */
-.sidebar-item {
-  position: relative;
+/* ── FAQ Accordion Animation ── */
+.faq-content {
+  max-height: 0;
   overflow: hidden;
-}
-.sidebar-item::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: linear-gradient(to bottom, var(--primary), var(--secondary));
-  transform: scaleY(0);
-  transition: transform 0.3s ease;
-  border-radius: 2px;
-}
-.sidebar-item:hover::before,
-.sidebar-item.active::before { transform: scaleY(1); }
-
-/* ── Button shine sweep ── */
-.btn {
-  position: relative;
-  overflow: hidden;
-}
-.btn::after {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 60%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
-  transform: skewX(-20deg);
-  transition: none;
-}
-.btn:hover::after {
-  left: 150%;
-  transition: left 0.5s ease;
-}
-
-/* ── Input focus ring animation ── */
-.form-input, .form-select, .form-textarea {
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, transform 0.2s ease;
-}
-.form-input:focus, .form-select:focus, .form-textarea:focus {
-  transform: translateY(-1px);
-}
-
-/* ── Badge hover ── */
-.badge {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.badge:hover { transform: scale(1.08); box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-
-/* ── Glass card shimmer border on hover ── */
-.glass-card {
-  position: relative;
-  overflow: hidden;
-}
-.glass-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(135deg, rgba(13,148,136,0.12), rgba(124,58,237,0.08), transparent);
+  transition: max-height 0.35s ease, padding 0.35s ease, opacity 0.3s ease;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.faq-item.open .faq-content {
+  max-height: 300px;
+  opacity: 1;
+  padding-top: 1rem;
+  padding-bottom: 0.25rem;
+}
+.faq-item .faq-icon {
+  transition: transform 0.3s ease;
+}
+.faq-item.open .faq-icon {
+  transform: rotate(180deg);
+}
+
+/* ── Mobile Menu Slide ── */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--bg);
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  display: flex;
+  flex-direction: column;
+  padding: 5rem 2rem 2rem;
+}
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+/* ── Virtual Assistant ── */
+.va-trigger {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(8, 145, 178, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+}
+.va-trigger:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 28px rgba(8, 145, 178, 0.45);
+}
+.va-trigger .online-dot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background: #10B981;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+  animation: pulse 2s infinite;
+}
+
+.va-popover {
+  position: absolute;
+  bottom: calc(100% + 0.75rem);
+  right: 0;
+  width: 300px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transform: translateY(8px) scale(0.95);
   pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: bottom right;
 }
-.glass-card:hover::before { opacity: 1; }
+.va-popover.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
 
-/* ── Smooth page transitions ── */
-body { animation: pageEnter 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-@keyframes pageEnter {
-  0% { opacity: 0; transform: translateY(12px); filter: blur(4px); }
-  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+/* ── Count Up ── */
+.count-up {
+  font-variant-numeric: tabular-nums;
 }
-body.page-exit { animation: pageExit 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-@keyframes pageExit {
-  0% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-10px); }
-}
-/* Page transition link handler via JS */
 
-/* ── Tilt card ── */
-.tilt-card { transition: transform 0.1s ease; }
+/* ── Organic Shapes ── */
+.organic-divider {
+  width: 100%;
+  height: 60px;
+  overflow: hidden;
+}
+.organic-divider svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Skeleton / Loading ── */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-muted) 25%, var(--border) 50%, var(--bg-muted) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .stagger-children > * { opacity: 1; transform: none; }
+  .blob-animate { animation: none; }
+  .faq-content { transition: none; }
+  .mobile-menu { transition: none; }
+  .va-popover { transition: none; }
+  .pulse { animation: none; }
+}
