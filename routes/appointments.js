@@ -10,7 +10,7 @@ router.get('/', requireAuth, async (req, res) => {
     let sql = 'SELECT * FROM appointments WHERE 1=1';
     const params = [];
     if (status) { params.push(status); sql += ` AND status=$${params.length}`; }
-    if (date)   { params.push(date);   sql += ` AND appt_date=$${params.length}`; }
+    if (date) { params.push(date); sql += ` AND appt_date=$${params.length}`; }
     sql += ' ORDER BY appt_date, appt_time';
     const { rows } = await db.query(sql, params);
     res.json(rows);
@@ -55,7 +55,7 @@ router.patch('/:id/accept', requireAuth, async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// PATCH /api/appointments/:id/reject
+
 router.patch('/:id/reject', requireAuth, async (req, res) => {
   try {
     const { reason } = req.body;
