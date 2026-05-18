@@ -218,29 +218,109 @@
 
 <!-- CASE RECORD MODAL -->
 <div class="modal-overlay" id="caseRecordModal">
-  <div class="modal" style="max-width:800px;max-height:90vh;overflow-y:auto">
-    <div class="modal-header">
+  <div class="modal" style="max-width:900px;max-height:90vh;overflow-y:auto;padding:2rem 2.5rem;">
+    <div class="modal-header" style="position:sticky;top:-2rem;background:var(--bg-surface);z-index:10;padding-bottom:1rem;margin-bottom:1rem;border-bottom:1px solid var(--border);">
       <h3 class="modal-title">Case Record Proforma</h3>
       <button class="btn-ghost" onclick="closeModal('caseRecordModal')"><span class="material-symbols-outlined">close</span></button>
     </div>
     <form id="caseRecordForm" onsubmit="saveCaseRecord(event)">
       <input type="hidden" id="cr_pid">
-      <h4 class="mb-sm text-primary" style="border-bottom:1px solid var(--border);padding-bottom:0.5rem">Clinical Assessment</h4>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
-        <div class="form-group"><label class="form-label">Symptoms & Observations</label><textarea class="form-input" id="cr_symptoms" rows="3" required></textarea></div>
-        <div class="form-group"><label class="form-label">Suggested Investigations (Labs)</label><textarea class="form-input" id="cr_investigations" rows="3"></textarea></div>
+      
+      <!-- Preliminary Data (Some inputs for extra details) -->
+      <h4 class="mb-sm text-primary" style="border-bottom:1px solid var(--border);padding-bottom:0.5rem">Preliminary Data</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+        <div class="form-group"><label class="form-label">OPD Number</label><input class="form-input" id="cr_opd"></div>
+        <div class="form-group"><label class="form-label">Physician In-charge</label><input class="form-input" id="cr_physician" value="Dr. Hiral"></div>
       </div>
-      <h4 class="mb-sm text-secondary" style="border-bottom:1px solid var(--border);padding-bottom:0.5rem">Wellness Modules</h4>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
-        <div class="form-group"><label class="form-label">Diet & Lifestyle Guidance</label><textarea class="form-input" id="cr_diet" rows="2"></textarea></div>
-        <div class="form-group"><label class="form-label">Exercise Recommendations</label><textarea class="form-input" id="cr_exercise" rows="2"></textarea></div>
+
+      <!-- Chief Complaint -->
+      <h4 class="mb-sm text-secondary" style="border-bottom:1px solid var(--border);padding-bottom:0.5rem">Chief Complaint</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:0.5rem">
+        <div class="form-group"><label class="form-label">Location</label><input class="form-input" id="cr_cc_location"></div>
+        <div class="form-group"><label class="form-label">Sensation</label><input class="form-input" id="cr_cc_sensation"></div>
+        <div class="form-group"><label class="form-label">Modalities (Agg/Amel)</label><input class="form-input" id="cr_cc_modalities"></div>
+        <div class="form-group"><label class="form-label">Concomitant</label><input class="form-input" id="cr_cc_concomitant"></div>
       </div>
-      <h4 class="mb-sm text-primary" style="border-bottom:1px solid var(--border);padding-bottom:0.5rem">Treatment & Follow-up</h4>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
-        <div class="form-group"><label class="form-label">Prescription (Remedy & Potency)</label><input class="form-input" id="cr_rx" required></div>
-        <div class="form-group"><label class="form-label">Follow-up Reminder</label><input type="date" class="form-input" id="cr_followup"></div>
+      <div class="form-group" style="margin-bottom:1.5rem"><label class="form-label">Associated Complaints</label><textarea class="form-input" id="cr_assoc_complaints" rows="2"></textarea></div>
+
+      <!-- Physical Generals -->
+      <h4 class="mb-sm text-primary" style="border-bottom:1px solid var(--border);padding-bottom:0.5rem">Physical Generals</h4>
+      <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:1rem;margin-bottom:1.5rem">
+        <div class="form-group"><label class="form-label">Appetite</label><input class="form-input" id="cr_pg_appetite"></div>
+        <div class="form-group"><label class="form-label">Thirst</label><input class="form-input" id="cr_pg_thirst"></div>
+        <div class="form-group"><label class="form-label">Likes</label><input class="form-input" id="cr_pg_likes"></div>
+        <div class="form-group"><label class="form-label">Dislikes</label><input class="form-input" id="cr_pg_dislikes"></div>
+        <div class="form-group"><label class="form-label">Stool</label><input class="form-input" id="cr_pg_stool"></div>
+        <div class="form-group"><label class="form-label">Urine</label><input class="form-input" id="cr_pg_urine"></div>
+        <div class="form-group"><label class="form-label">Perspiration</label><input class="form-input" id="cr_pg_perspiration"></div>
+        <div class="form-group"><label class="form-label">Thermals</label><input class="form-input" id="cr_pg_thermals"></div>
+        <div class="form-group"><label class="form-label">Physical factors</label><input class="form-input" id="cr_pg_factors"></div>
+        <div class="form-group"><label class="form-label">Sleep</label><input class="form-input" id="cr_pg_sleep"></div>
+        <div class="form-group"><label class="form-label">Dreams</label><input class="form-input" id="cr_pg_dreams"></div>
       </div>
-      <button type="submit" class="btn btn-primary w-full">Save Case Record</button>
+
+      <!-- Medical History -->
+      <h4 class="mb-sm text-secondary" style="border-bottom:1px solid var(--border);padding-bottom:0.5rem">Medical History</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+        <div class="form-group"><label class="form-label">Family History</label><textarea class="form-input" id="cr_mh_family" rows="2"></textarea></div>
+        <div class="form-group"><label class="form-label">Past History</label><textarea class="form-input" id="cr_mh_past" rows="2"></textarea></div>
+      </div>
+
+      <!-- Birth & Developmental Details -->
+      <h4 class="mb-sm text-primary" style="border-bottom:1px solid var(--border);padding-bottom:0.5rem">Birth & Developmental Details</h4>
+      <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:1rem;margin-bottom:0.5rem">
+        <div class="form-group"><label class="form-label">Ante-natal</label><input class="form-input" id="cr_bd_ante"></div>
+        <div class="form-group"><label class="form-label">Natal</label><input class="form-input" id="cr_bd_natal"></div>
+        <div class="form-group"><label class="form-label">Post-natal</label><input class="form-input" id="cr_bd_post"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+        <div class="form-group"><label class="form-label">Immunisation History</label><textarea class="form-input" id="cr_bd_immunisation" rows="2"></textarea></div>
+        <div class="form-group"><label class="form-label">Developmental Milestones</label><textarea class="form-input" id="cr_bd_milestones" rows="2"></textarea></div>
+        <div class="form-group" style="grid-column: span 2;"><label class="form-label">Mother's history during pregnancy</label><textarea class="form-input" id="cr_bd_mother" rows="2"></textarea></div>
+      </div>
+
+      <!-- Mental Generals -->
+      <h4 class="mb-sm text-secondary" style="border-bottom:1px solid var(--border);padding-bottom:0.5rem">Mental Generals</h4>
+      <div class="form-group" style="margin-bottom:1.5rem"><textarea class="form-input" id="cr_mental_generals" rows="3"></textarea></div>
+
+      <!-- Examination -->
+      <h4 class="mb-sm text-primary" style="border-bottom:1px solid var(--border);padding-bottom:0.5rem">General Examination</h4>
+      <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:1rem;margin-bottom:1.5rem">
+        <div class="form-group"><label class="form-label">Height</label><input class="form-input" id="cr_ex_height"></div>
+        <div class="form-group"><label class="form-label">Weight</label><input class="form-input" id="cr_ex_weight"></div>
+        <div class="form-group"><label class="form-label">Build</label><input class="form-input" id="cr_ex_build"></div>
+        <div class="form-group"><label class="form-label">Temperature</label><input class="form-input" id="cr_ex_temp"></div>
+        <div class="form-group"><label class="form-label">Pulse rate</label><input class="form-input" id="cr_ex_pulse"></div>
+        <div class="form-group"><label class="form-label">Blood pressure</label><input class="form-input" id="cr_ex_bp"></div>
+        <div class="form-group"><label class="form-label">Resp. rate</label><input class="form-input" id="cr_ex_rr"></div>
+        <div class="form-group"><label class="form-label">Pallor</label><input class="form-input" id="cr_ex_pallor"></div>
+        <div class="form-group"><label class="form-label">Skin complexion</label><input class="form-input" id="cr_ex_skin"></div>
+        <div class="form-group"><label class="form-label">Lymphadenopathy</label><input class="form-input" id="cr_ex_lymph"></div>
+        <div class="form-group"><label class="form-label">Oedema</label><input class="form-input" id="cr_ex_oedema"></div>
+        <div class="form-group"><label class="form-label">Cyanosis</label><input class="form-input" id="cr_ex_cyanosis"></div>
+      </div>
+      
+      <h4 class="mb-sm text-secondary" style="border-bottom:1px solid var(--border);padding-bottom:0.5rem">Systemic Examination</h4>
+      <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:1rem;margin-bottom:1.5rem">
+        <div class="form-group"><label class="form-label">CVS</label><input class="form-input" id="cr_sys_cvs"></div>
+        <div class="form-group"><label class="form-label">CNS</label><input class="form-input" id="cr_sys_cns"></div>
+        <div class="form-group"><label class="form-label">RS</label><input class="form-input" id="cr_sys_rs"></div>
+        <div class="form-group"><label class="form-label">P/A</label><input class="form-input" id="cr_sys_pa"></div>
+      </div>
+
+      <!-- Diagnosis & Treatment -->
+      <h4 class="mb-sm text-primary" style="border-bottom:1px solid var(--border);padding-bottom:0.5rem">Diagnosis & Treatment</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:0.5rem">
+        <div class="form-group"><label class="form-label">Diagnosis</label><input class="form-input" id="cr_diagnosis"></div>
+        <div class="form-group"><label class="form-label">Miasmatic Diagnosis</label><input class="form-input" id="cr_miasmatic"></div>
+        <div class="form-group"><label class="form-label">Investigation</label><textarea class="form-input" id="cr_investigation" rows="2"></textarea></div>
+        <div class="form-group"><label class="form-label">Prescription (Remedy/Potency)</label><textarea class="form-input" id="cr_prescription" rows="2" required></textarea></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+        <div class="form-group"><label class="form-label">Follow-Up Date</label><input type="date" class="form-input" id="cr_followup"></div>
+      </div>
+      
+      <button type="submit" class="btn btn-primary w-full" style="position:sticky;bottom:-2rem;padding:1rem;">Save Comprehensive Case Record</button>
     </form>
   </div>
 </div>
@@ -393,21 +473,49 @@ function openCaseRecord(id) {
 async function saveCaseRecord(e) {
   e.preventDefault();
   const id = document.getElementById('cr_pid').value;
-  const s = document.getElementById('cr_symptoms').value;
-  const i = document.getElementById('cr_investigations').value;
-  const d = document.getElementById('cr_diet').value;
-  const ex = document.getElementById('cr_exercise').value;
-  const rx = document.getElementById('cr_rx').value;
-  const fu = document.getElementById('cr_followup').value;
   
-  let noteParts = [`Symptoms: ${s}`];
-  if (i) noteParts.push(`Investigations: ${i}`);
-  if (d) noteParts.push(`Diet: ${d}`);
-  if (ex) noteParts.push(`Exercise: ${ex}`);
-  if (fu) noteParts.push(`Follow-up: ${fmtDate(fu)}`);
+  // Helper to get val
+  const val = (elId) => document.getElementById(elId).value.trim();
+  
+  let details = [];
+  
+  // Chief Complaint
+  const loc = val('cr_cc_location'), sens = val('cr_cc_sensation'), mods = val('cr_cc_modalities'), conc = val('cr_cc_concomitant'), assoc = val('cr_assoc_complaints');
+  if(loc||sens||mods||conc||assoc) {
+    details.push(`<strong>Chief Complaint:</strong> Location: ${loc}, Sensation: ${sens}, Modalities: ${mods}, Concomitant: ${conc}. Associated: ${assoc}`);
+  }
+  
+  // Physical Generals
+  const app = val('cr_pg_appetite'), th = val('cr_pg_thirst'), lk = val('cr_pg_likes'), dk = val('cr_pg_dislikes'), st = val('cr_pg_stool'), ur = val('cr_pg_urine'), per = val('cr_pg_perspiration'), therm = val('cr_pg_thermals'), pf = val('cr_pg_factors'), sl = val('cr_pg_sleep'), dr = val('cr_pg_dreams');
+  if(app||th||lk||dk||st||ur||per||therm||pf||sl||dr) {
+    details.push(`<strong>Physical Generals:</strong> Appetite: ${app}, Thirst: ${th}, Likes: ${lk}, Dislikes: ${dk}, Stool: ${st}, Urine: ${ur}, Perspiration: ${per}, Thermals: ${therm}, Sleep/Dreams: ${sl}/${dr}`);
+  }
+  
+  // Medical History
+  const fam = val('cr_mh_family'), past = val('cr_mh_past');
+  if(fam||past) details.push(`<strong>History:</strong> Family: ${fam}. Past: ${past}`);
+  
+  // Birth
+  const ante = val('cr_bd_ante'), nat = val('cr_bd_natal'), post = val('cr_bd_post'), imm = val('cr_bd_immunisation'), mile = val('cr_bd_milestones'), moth = val('cr_bd_mother');
+  if(ante||nat||post||imm||mile||moth) details.push(`<strong>Birth details:</strong> Ante: ${ante}, Natal: ${nat}, Post: ${post}. Immunisation: ${imm}, Milestones: ${mile}. Mother hx: ${moth}`);
+  
+  // Mental
+  const men = val('cr_mental_generals');
+  if(men) details.push(`<strong>Mental Generals:</strong> ${men}`);
+  
+  // Gen/Sys Exam
+  const ex = [val('cr_ex_height'), val('cr_ex_weight'), val('cr_ex_bp'), val('cr_ex_temp')].filter(Boolean).join(', ');
+  const sys = [val('cr_sys_cvs'), val('cr_sys_cns'), val('cr_sys_rs'), val('cr_sys_pa')].filter(Boolean).join(', ');
+  if(ex || sys) details.push(`<strong>Examination:</strong> Gen: ${ex} | Sys: ${sys}`);
+  
+  // Diag/Treat
+  const diag = val('cr_diagnosis'), miasm = val('cr_miasmatic'), inv = val('cr_investigation'), fu = val('cr_followup');
+  if(diag||miasm||inv||fu) details.push(`<strong>Diagnosis:</strong> ${diag} (Miasm: ${miasm}). Investigations: ${inv}. Follow-up: ${fu ? fmtDate(fu) : '—'}`);
+
+  const rx = val('cr_prescription');
   
   const data = {
-    note: noteParts.join(' | '),
+    note: details.join('<br><br>'),
     remedy: rx,
     potency: "",
     visit_date: new Date().toISOString()
@@ -415,7 +523,7 @@ async function saveCaseRecord(e) {
   
   try {
     await API.addTimeline(id, data);
-    toast('Case Record Saved successfully', 'success');
+    toast('Comprehensive Case Record Saved', 'success');
     closeModal('caseRecordModal');
     loadPatients();
   } catch(err) {
