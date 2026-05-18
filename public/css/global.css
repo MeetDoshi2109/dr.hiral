@@ -1,8 +1,8 @@
 /* ═══════════════════════════════════════════════════════════
-   Dr. Hiral — Organic Biophilic Design System
-   Light-first with dark mode toggle
+   Dr. Hiral — Ethereal Wellness Design System
+   Dark-first with light mode toggle
    UI UX Pro Max: healthcare + wellness + elegant
-   Typography: Figtree (heading) + Noto Sans (body)
+   Typography: Manrope (heading) + Inter (body)
    ═══════════════════════════════════════════════════════════ */
 
 /* ── Reset ── */
@@ -10,25 +10,25 @@
 
 /* ── Design Tokens (Light) ── */
 :root {
-  --primary: #0891B2;
-  --primary-light: #22D3EE;
-  --primary-dark: #0E7490;
-  --secondary: #059669;
-  --secondary-light: #34D399;
-  --accent: #0891B2;
+  --primary: #0d9488;
+  --primary-light: #2dd4bf;
+  --primary-dark: #0f766e;
+  --secondary: #7c3aed;
+  --secondary-light: #a78bfa;
+  --accent: #6bd8cb;
 
   --bg: #FAFCFC;
   --bg-surface: #FFFFFF;
-  --bg-surface-alt: #F0FDFA;
-  --bg-muted: #F1F5F9;
+  --bg-surface-alt: #f0fdfa;
+  --bg-muted: #f1f5f9;
 
-  --text: #164E63;
+  --text: #051424;
   --text-secondary: #475569;
   --text-muted: #64748B;
   --text-inverse: #FFFFFF;
 
   --border: #E2E8F0;
-  --border-focus: #0891B2;
+  --border-focus: #0d9488;
 
   --glass: rgba(255, 255, 255, 0.80);
   --glass-border: rgba(0, 0, 0, 0.06);
@@ -38,7 +38,7 @@
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.10);
-  --shadow-glow: 0 0 20px rgba(8, 145, 178, 0.15);
+  --shadow-glow: 0 0 20px rgba(13, 148, 136, 0.15);
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -46,8 +46,8 @@
   --radius-xl: 24px;
   --radius-full: 9999px;
 
-  --font-heading: 'Figtree', sans-serif;
-  --font-body: 'Noto Sans', sans-serif;
+  --font-heading: 'Manrope', 'Figtree', sans-serif;
+  --font-body: 'Inter', 'Noto Sans', sans-serif;
 
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
@@ -56,33 +56,33 @@
 
 /* ── Dark Mode Tokens ── */
 .dark {
-  --primary: #22D3EE;
-  --primary-light: #67E8F9;
-  --primary-dark: #0891B2;
-  --secondary: #34D399;
-  --secondary-light: #6EE7B7;
+  --primary: #6bd8cb;
+  --primary-light: #89f5e7;
+  --primary-dark: #0d9488;
+  --secondary: #d2bbff;
+  --secondary-light: #eaddff;
 
-  --bg: #0F172A;
-  --bg-surface: #1E293B;
-  --bg-surface-alt: #0F2A2E;
-  --bg-muted: #334155;
+  --bg: #051424;
+  --bg-surface: #122131;
+  --bg-surface-alt: #0d1c2d;
+  --bg-muted: #1c2b3c;
 
-  --text: #E2E8F0;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
-  --text-inverse: #0F172A;
+  --text: #d4e4fa;
+  --text-secondary: #bcc9c6;
+  --text-muted: #879391;
+  --text-inverse: #051424;
 
-  --border: #334155;
-  --border-focus: #22D3EE;
+  --border: #273647;
+  --border-focus: #6bd8cb;
 
-  --glass: rgba(30, 41, 59, 0.80);
+  --glass: rgba(18, 33, 49, 0.80);
   --glass-border: rgba(255, 255, 255, 0.08);
 
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 20px rgba(34, 211, 238, 0.2);
+  --shadow-glow: 0 0 20px rgba(107, 216, 203, 0.2);
 }
 
 /* ── Base ── */

@@ -1,144 +1,515 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Dashboard — Dr. Hiral Homeopathy</title>
-<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="/css/global.css"/><link rel="stylesheet" href="/css/effects.css"/>
-<style>
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding-top:65px}
-.login-box{max-width:420px;width:92%;padding:2.5rem;text-align:center}
-.login-box h1{font-size:1.6rem;margin-bottom:0.5rem}
-.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2rem}
-.stat-card{padding:1.25rem;border-radius:var(--radius-lg);background:var(--glass);border:1px solid var(--glass-border);transition:all 0.35s ease}
-.stat-card:hover{transform:translateY(-6px);border-color:rgba(13,148,136,0.4);box-shadow:var(--shadow-glow)}
-.stat-card .val{font-size:2rem;font-weight:700;font-family:var(--font-heading)}
-.stat-card .lbl{font-size:0.8rem;color:var(--text-secondary);margin-top:0.2rem}
-.tab-bar{display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
-.tab-btn{padding:0.5rem 1.2rem;border-radius:var(--radius-full);border:1px solid var(--glass-border);background:transparent;color:var(--text-secondary);cursor:pointer;font-size:0.85rem;transition:all 0.3s ease}
-.tab-btn:hover{background:var(--glass);color:var(--text)}
-.tab-btn.active{background:rgba(13,148,136,0.2);color:var(--primary-light);border-color:rgba(13,148,136,0.4)}
-.tab-panel{display:none}.tab-panel.active{display:block}
-.patient-row{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr auto;gap:1rem;align-items:center;padding:1rem;border-radius:var(--radius-md);border:1px solid var(--glass-border);background:var(--glass);margin-bottom:0.75rem;transition:all 0.3s ease}
-.patient-row:hover{transform:translateX(4px);border-color:rgba(13,148,136,0.3);box-shadow:var(--shadow-glow)}
-.appt-card{padding:1rem;border-radius:var(--radius-md);border:1px solid var(--glass-border);background:var(--glass);margin-bottom:0.75rem;display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center;transition:all 0.3s ease}
-.appt-card:hover{transform:translateX(4px);border-color:rgba(13,148,136,0.3)}
-.appt-actions{display:flex;gap:0.5rem}
-@media(max-width:900px){.dash-grid{grid-template-columns:repeat(2,1fr)}.patient-row{grid-template-columns:1fr}}
-</style></head><body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Dr. Hiral Homoeopathy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/effects.css">
+  <style>
+    .page-wrap { min-height: 100vh; padding: 6rem 1.5rem 3rem; }
+    .dash-container { max-width: 1000px; margin: 0 auto; }
+    
+    /* Login */
+    .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+    .login-box { max-width: 420px; width: 100%; text-align: center; padding: 2.5rem; }
+    
+    /* Stats */
+    .dash-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    .stat-card { padding: 1.25rem; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-md); text-align: center; transition: all 0.25s ease; }
+    .stat-card:hover { transform: translateY(-4px); border-color: rgba(8,145,178,0.3); box-shadow: var(--shadow-md); }
+    .stat-card .val { font-size: 2rem; font-weight: 700; font-family: var(--font-heading); color: var(--primary); }
+    .stat-card .lbl { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem; }
+    
+    /* Tabs */
+    .tab-bar { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; overflow-x: auto; scrollbar-width: none; }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tab-btn { padding: 0.5rem 1.25rem; border-radius: var(--radius-full); border: 1px solid transparent; background: transparent; color: var(--text-secondary); cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; white-space: nowrap; }
+    .tab-btn:hover { background: var(--bg-surface); color: var(--text); border-color: var(--border); }
+    .tab-btn.active { background: rgba(8,145,178,0.1); color: var(--primary); border-color: var(--primary); font-weight: 600; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    
+    /* Lists */
+    .list-item { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 0.75rem; transition: all 0.2s ease; }
+    .list-item:hover { border-color: rgba(8,145,178,0.3); box-shadow: var(--shadow-sm); }
+    .patient-row { display: grid; grid-template-columns: 2fr 1fr 1fr 2fr auto; gap: 1rem; align-items: center; }
+    .appt-row { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center; }
+    
+    .empty-state { text-align: center; padding: 3rem 1rem; color: var(--text-muted); }
+    .empty-state .material-symbols-outlined { font-size: 48px; opacity: 0.5; margin-bottom: 1rem; }
+    
+    @media(max-width: 900px) { .dash-grid { grid-template-columns: repeat(2, 1fr); } .patient-row { grid-template-columns: 1fr; } }
+    @media(max-width: 600px) { .dash-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="particles-container" id="particles" aria-hidden="true"></div>
 
-<nav class="navbar"><a href="/" class="navbar-brand"><div class="navbar-logo">🌿</div><div><div class="navbar-title">Dr. <span>Hiral</span></div><div style="font-size:0.7rem;color:var(--text-muted)">Dashboard</div></div></a>
-<ul class="navbar-nav"><li><a href="/" class="hover-underline">Home</a></li><li><a href="/appointments.html" class="hover-underline">Appointments</a></li><li><a href="/kit.html" class="hover-underline">Kit Builder</a></li><li><a id="logoutBtn" class="btn btn-outline btn-sm hidden" onclick="doLogout()">Logout</a></li></ul></nav>
+<!-- NAVBAR -->
+<div class="navbar-wrap">
+  <nav class="navbar" id="main-nav">
+    <a href="/" class="navbar-brand">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;color:var(--primary)">spa</span>
+      Dr. Hiral
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="/">Home</a></li>
+      <li><a href="/appointments.html">Appointments</a></li>
+      <li><a href="/patient.html">Patient Portal</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <button class="btn-ghost theme-toggle-icon" id="theme-toggle" aria-label="Toggle theme">
+        <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+      </button>
+      <button id="logoutBtn" class="btn btn-outline btn-sm hidden" onclick="doLogout()">Logout</button>
+      <button class="btn-ghost" id="menu-open" aria-label="Menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </nav>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="btn-ghost" id="menu-close" style="position:absolute;top:1.5rem;right:1.5rem" aria-label="Close">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <nav style="display:flex;flex-direction:column;gap:1.5rem;margin-top:2rem">
+    <a href="/" style="font-size:1.2rem;font-weight:600;color:var(--text)">Home</a>
+    <a href="/appointments.html" style="font-size:1.2rem;font-weight:600;color:var(--text)">Appointments</a>
+    <a href="/patient.html" style="font-size:1.2rem;font-weight:600;color:var(--text)">Patient Portal</a>
+    <a id="mobileLogout" class="hidden" style="font-size:1.2rem;font-weight:600;color:var(--danger);cursor:pointer" onclick="doLogout()">Logout</a>
+  </nav>
+</div>
 
 <!-- LOGIN -->
 <div id="loginView" class="login-wrap">
-<div class="login-box glass-card animate-fadeIn">
-<div style="font-size:3rem;margin-bottom:1rem">🔐</div>
-<h1>Dr. <span class="highlight">Hiral</span> Dashboard</h1>
-<p class="text-secondary text-sm mb-lg">Enter your password to access the doctor portal</p>
-<div class="form-group"><input type="password" id="pwdInput" class="form-input" placeholder="Enter password" autocomplete="off"/></div>
-<button class="btn btn-primary w-full" onclick="doLogin()">Unlock Dashboard</button>
-<p id="loginErr" class="text-danger text-sm mt-sm hidden">Invalid password</p>
-</div></div>
+  <div class="card login-box reveal">
+    <div class="badge badge-primary" style="margin-bottom:1rem">Doctor Portal</div>
+    <h1 style="font-size:1.8rem;margin-bottom:0.5rem">Dr. <span class="highlight">Hiral</span></h1>
+    <p class="text-secondary-c text-sm" style="margin-bottom:2rem">Enter your password to access the dashboard</p>
+    <div class="form-group" style="text-align:left;margin-bottom:1.5rem">
+      <label class="form-label">Password</label>
+      <input type="password" id="pwdInput" class="form-input" placeholder="Enter password" autocomplete="off">
+    </div>
+    <button class="btn btn-primary btn-lg w-full" onclick="doLogin()">Unlock Dashboard</button>
+    <p id="loginErr" class="text-xs mt-sm hidden" style="color:#EF4444">Invalid password</p>
+  </div>
+</div>
 
 <!-- DASHBOARD -->
-<div id="dashView" class="hidden" style="padding-top:85px;padding:85px 2rem 2rem">
-<div class="flex items-center justify-between mb-lg reveal">
-<div><h1 style="font-size:1.8rem">Welcome, <span class="highlight">Dr. Hiral</span></h1><p class="text-secondary text-sm">Your practice overview</p></div>
-<button class="btn btn-primary" onclick="openModal('addPatientModal')">+ Add Patient</button>
+<div id="dashView" class="hidden page-wrap">
+  <div class="dash-container">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:2rem" class="reveal">
+      <div>
+        <h1 style="font-size:2rem">Welcome, <span class="highlight">Dr. Hiral</span></h1>
+        <p class="text-secondary-c">Your practice overview and patient management</p>
+      </div>
+      <button class="btn btn-primary" onclick="openModal('addPatientModal')">
+        <span class="material-symbols-outlined" style="font-size:18px">person_add</span> Add Patient
+      </button>
+    </div>
+
+    <div class="dash-grid stagger-children" id="statsRow">
+      <div class="stat-card tilt-card"><div class="val" id="sTotalP">0</div><div class="lbl">Total Patients</div></div>
+      <div class="stat-card tilt-card"><div class="val" id="sTotalA" style="color:var(--secondary)">0</div><div class="lbl">Appointments</div></div>
+      <div class="stat-card tilt-card"><div class="val" id="sPending" style="color:#F59E0B">0</div><div class="lbl">Pending Requests</div></div>
+      <div class="stat-card tilt-card"><div class="val" id="sTotalK" style="color:#8B5CF6">0</div><div class="lbl">Medicine Kits</div></div>
+    </div>
+
+    <div class="tab-bar reveal">
+      <button class="tab-btn active" data-tab="patients" onclick="switchTab('patients',this)"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom">group</span> Patients</button>
+      <button class="tab-btn" data-tab="appts" onclick="switchTab('appts',this)"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom">calendar_month</span> Appointments</button>
+      <button class="tab-btn" data-tab="rx" onclick="switchTab('rx',this)"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom">prescriptions</span> Prescriptions</button>
+    </div>
+
+    <div id="tab-patients" class="tab-panel active reveal">
+      <div style="margin-bottom:1rem;max-width:400px;position:relative">
+        <span class="material-symbols-outlined" style="position:absolute;left:12px;top:10px;color:var(--text-muted)">search</span>
+        <input type="text" class="form-input" style="padding-left:2.5rem" placeholder="Search patients by name or ID..." id="patientSearch" oninput="loadPatients(this.value)">
+      </div>
+      <div id="patientList"></div>
+    </div>
+
+    <div id="tab-appts" class="tab-panel reveal">
+      <div style="display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap">
+        <button class="btn btn-sm btn-outline" onclick="filterAppts('pending')">Pending</button>
+        <button class="btn btn-sm btn-outline" onclick="filterAppts('accepted')">Accepted</button>
+        <button class="btn btn-sm btn-outline" onclick="filterAppts('rejected')">Rejected</button>
+        <button class="btn btn-sm btn-outline" onclick="filterAppts('')">All</button>
+      </div>
+      <div id="apptList"></div>
+    </div>
+
+    <div id="tab-rx" class="tab-panel reveal">
+      <div class="empty-state">
+        <span class="material-symbols-outlined">prescriptions</span>
+        <h3>Prescription Management</h3>
+        <p>Manage medicine dispensation and transport status.</p>
+        <button class="btn btn-primary mt-sm" onclick="switchTab('patients', document.querySelector('[data-tab=\'patients\']'))">Select a patient to prescribe</button>
+      </div>
+      <div id="rxList"></div>
+    </div>
+  </div>
 </div>
 
-<div class="dash-grid stagger-children" id="statsRow">
-<div class="stat-card tilt-card"><div class="val highlight" id="sTotalP">0</div><div class="lbl">Total Patients</div></div>
-<div class="stat-card tilt-card"><div class="val highlight-violet" id="sTotalA">0</div><div class="lbl">Appointments</div></div>
-<div class="stat-card tilt-card"><div class="val" style="color:var(--accent)" id="sPending">0</div><div class="lbl">Pending Requests</div></div>
-<div class="stat-card tilt-card"><div class="val" style="color:var(--success)" id="sTotalK">0</div><div class="lbl">Medicine Kits</div></div>
+<!-- MODALS -->
+<!-- ADD PATIENT -->
+<div class="modal-overlay" id="addPatientModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Patient Details</h3>
+      <button class="btn-ghost" onclick="closeModal('addPatientModal')"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <form id="patientForm" onsubmit="savePatient(event)">
+      <input type="hidden" id="pf_id">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+        <div class="form-group"><label class="form-label">Full Name*</label><input class="form-input" id="pf_name" required></div>
+        <div class="form-group"><label class="form-label">Age</label><input class="form-input" id="pf_age" type="number"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+        <div class="form-group"><label class="form-label">Gender</label><select class="form-input" id="pf_gender"><option value="">—</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+        <div class="form-group"><label class="form-label">Blood Group</label><input class="form-input" id="pf_blood"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+        <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="pf_phone"></div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="pf_email" type="email"></div>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem"><label class="form-label">Address</label><input class="form-input" id="pf_address"></div>
+      <div class="form-group" style="margin-bottom:1rem"><label class="form-label">Chief Complaint</label><input class="form-input" id="pf_complaint"></div>
+      <div class="form-group" style="margin-bottom:1rem"><label class="form-label">Medical History</label><textarea class="form-input" id="pf_history" rows="2"></textarea></div>
+      <div class="form-group" style="margin-bottom:1.5rem"><label class="form-label">Notes</label><textarea class="form-input" id="pf_notes" rows="2"></textarea></div>
+      <button type="submit" class="btn btn-primary w-full">Save Patient</button>
+    </form>
+  </div>
 </div>
-
-<div class="tab-bar reveal">
-<button class="tab-btn active" data-tab="patients" onclick="switchTab('patients',this)">👥 Patients</button>
-<button class="tab-btn" data-tab="appts" onclick="switchTab('appts',this)">📅 Appointments</button>
-<button class="tab-btn" data-tab="rx" onclick="switchTab('rx',this)">💊 Prescriptions</button>
-</div>
-
-<div id="tab-patients" class="tab-panel active">
-<div class="search-wrap mb-md" style="max-width:400px"><span class="search-icon">🔍</span><input type="text" class="form-input" placeholder="Search patients..." id="patientSearch" oninput="loadPatients(this.value)"/></div>
-<div id="patientList"></div>
-</div>
-
-<div id="tab-appts" class="tab-panel">
-<div class="flex gap-sm mb-md"><button class="btn btn-sm btn-outline" onclick="filterAppts('pending')">Pending</button><button class="btn btn-sm btn-outline" onclick="filterAppts('accepted')">Accepted</button><button class="btn btn-sm btn-outline" onclick="filterAppts('rejected')">Rejected</button><button class="btn btn-sm btn-outline" onclick="filterAppts('')">All</button></div>
-<div id="apptList"></div>
-</div>
-
-<div id="tab-rx" class="tab-panel"><div id="rxList"></div></div>
-</div>
-
-<!-- ADD PATIENT MODAL -->
-<div class="modal-overlay" id="addPatientModal"><div class="modal">
-<div class="modal-header"><h3 class="modal-title">Add Patient</h3><button class="modal-close" onclick="closeModal('addPatientModal')">✕</button></div>
-<form id="patientForm" onsubmit="savePatient(event)">
-<input type="hidden" id="pf_id"/>
-<div class="form-row"><div class="form-group"><label class="form-label">Full Name*</label><input class="form-input" id="pf_name" required/></div><div class="form-group"><label class="form-label">Age</label><input class="form-input" id="pf_age" type="number"/></div></div>
-<div class="form-row"><div class="form-group"><label class="form-label">Gender</label><select class="form-select" id="pf_gender"><option value="">—</option><option>Male</option><option>Female</option><option>Other</option></select></div><div class="form-group"><label class="form-label">Blood Group</label><input class="form-input" id="pf_blood"/></div></div>
-<div class="form-row"><div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="pf_phone"/></div><div class="form-group"><label class="form-label">Email</label><input class="form-input" id="pf_email" type="email"/></div></div>
-<div class="form-group"><label class="form-label">Address</label><input class="form-input" id="pf_address"/></div>
-<div class="form-group"><label class="form-label">Chief Complaint</label><input class="form-input" id="pf_complaint"/></div>
-<div class="form-group"><label class="form-label">Medical History</label><textarea class="form-textarea" id="pf_history"></textarea></div>
-<div class="form-group"><label class="form-label">Notes</label><textarea class="form-textarea" id="pf_notes"></textarea></div>
-<button type="submit" class="btn btn-primary w-full mt-sm">Save Patient</button>
-</form></div></div>
 
 <!-- QR MODAL -->
-<div class="modal-overlay" id="qrModal"><div class="modal" style="text-align:center">
-<div class="modal-header"><h3 class="modal-title">Patient QR Code</h3><button class="modal-close" onclick="closeModal('qrModal')">✕</button></div>
-<p class="text-secondary text-sm mb-md">Scan this QR to access patient records</p>
-<img id="qrImg" style="max-width:250px;border-radius:1rem;margin:0 auto;display:block"/>
-<p class="text-sm text-muted mt-md" id="qrUrl"></p>
-<p class="text-sm mt-sm">Patient of <strong class="highlight">Dr. Hiral</strong></p>
-</div></div>
+<div class="modal-overlay" id="qrModal">
+  <div class="modal" style="text-align:center;max-width:320px">
+    <div class="modal-header">
+      <h3 class="modal-title">Patient QR</h3>
+      <button class="btn-ghost" onclick="closeModal('qrModal')"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <p class="text-secondary-c text-sm mb-md">Scan to access patient portal</p>
+    <img id="qrImg" style="width:100%;max-width:250px;border-radius:var(--radius-md);margin:0 auto 1rem;display:block">
+    <p class="text-xs text-muted" id="qrUrl" style="word-break:break-all"></p>
+  </div>
+</div>
 
-<!-- REJECT REASON MODAL -->
-<div class="modal-overlay" id="rejectModal"><div class="modal">
-<div class="modal-header"><h3 class="modal-title">Reject Appointment</h3><button class="modal-close" onclick="closeModal('rejectModal')">✕</button></div>
-<div class="form-group"><label class="form-label">Reason for rejection</label><textarea class="form-textarea" id="rejectReason" placeholder="E.g. Slot unavailable, please reschedule..."></textarea></div>
-<button class="btn btn-danger w-full" onclick="confirmReject()">Confirm Reject</button>
-</div></div>
+<!-- REJECT APP MODAL -->
+<div class="modal-overlay" id="rejectModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title">Reject Appointment</h3>
+      <button class="btn-ghost" onclick="closeModal('rejectModal')"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="form-group" style="margin-bottom:1.5rem">
+      <label class="form-label">Reason for rejection</label>
+      <textarea class="form-input" id="rejectReason" rows="3" placeholder="E.g. Slot unavailable, please reschedule..."></textarea>
+    </div>
+    <button class="btn btn-primary w-full" style="background:#EF4444;border-color:#EF4444" onclick="confirmReject()">Confirm Reject</button>
+  </div>
+</div>
+
+<!-- CASE RECORD MODAL -->
+<div class="modal-overlay" id="caseRecordModal">
+  <div class="modal" style="max-width:800px;max-height:90vh;overflow-y:auto">
+    <div class="modal-header">
+      <h3 class="modal-title">Case Record Proforma</h3>
+      <button class="btn-ghost" onclick="closeModal('caseRecordModal')"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <form id="caseRecordForm" onsubmit="saveCaseRecord(event)">
+      <input type="hidden" id="cr_pid">
+      <h4 class="mb-sm text-primary" style="border-bottom:1px solid var(--border);padding-bottom:0.5rem">Clinical Assessment</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+        <div class="form-group"><label class="form-label">Symptoms & Observations</label><textarea class="form-input" id="cr_symptoms" rows="3" required></textarea></div>
+        <div class="form-group"><label class="form-label">Suggested Investigations (Labs)</label><textarea class="form-input" id="cr_investigations" rows="3"></textarea></div>
+      </div>
+      <h4 class="mb-sm text-secondary" style="border-bottom:1px solid var(--border);padding-bottom:0.5rem">Wellness Modules</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+        <div class="form-group"><label class="form-label">Diet & Lifestyle Guidance</label><textarea class="form-input" id="cr_diet" rows="2"></textarea></div>
+        <div class="form-group"><label class="form-label">Exercise Recommendations</label><textarea class="form-input" id="cr_exercise" rows="2"></textarea></div>
+      </div>
+      <h4 class="mb-sm text-primary" style="border-bottom:1px solid var(--border);padding-bottom:0.5rem">Treatment & Follow-up</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+        <div class="form-group"><label class="form-label">Prescription (Remedy & Potency)</label><input class="form-input" id="cr_rx" required></div>
+        <div class="form-group"><label class="form-label">Follow-up Reminder</label><input type="date" class="form-input" id="cr_followup"></div>
+      </div>
+      <button type="submit" class="btn btn-primary w-full">Save Case Record</button>
+    </form>
+  </div>
+</div>
 
 <!-- VIEW PATIENT MODAL -->
-<div class="modal-overlay" id="viewPatientModal"><div class="modal" style="max-width:700px">
-<div class="modal-header"><h3 class="modal-title" id="vpName"></h3><button class="modal-close" onclick="closeModal('viewPatientModal')">✕</button></div>
-<div id="vpContent"></div>
-</div></div>
+<div class="modal-overlay" id="viewPatientModal">
+  <div class="modal" style="max-width:700px;max-height:90vh;overflow-y:auto">
+    <div class="modal-header" style="position:sticky;top:0;background:var(--bg-surface);z-index:10;padding-bottom:1rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem">
+      <h3 class="modal-title" id="vpName"></h3>
+      <button class="btn-ghost" onclick="closeModal('viewPatientModal')"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div id="vpContent"></div>
+  </div>
+</div>
 
 <div id="toast-container" class="toast-container"></div>
-<script src="/js/api.js"></script><script src="/js/scroll.js"></script>
+<script src="/js/api.js"></script>
 <script>
+(function() {
+  // Theme
+  const html = document.documentElement;
+  const themeBtn = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+  function setTheme(dark) {
+    html.classList.toggle('dark', dark);
+    themeIcon.textContent = dark ? 'light_mode' : 'dark_mode';
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  }
+  setTheme(localStorage.getItem('theme') === 'dark');
+  themeBtn.addEventListener('click', () => setTheme(!html.classList.contains('dark')));
+
+  // Navbar
+  const mm = document.getElementById('mobile-menu');
+  document.getElementById('menu-open').addEventListener('click', () => mm.classList.add('open'));
+  document.getElementById('menu-close').addEventListener('click', () => mm.classList.remove('open'));
+
+  // Particles
+  const pc = document.getElementById('particles');
+  if (pc && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('div'); p.className = 'particle';
+      const s = Math.random() * 4 + 2;
+      p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*20+15}s;animation-delay:${Math.random()*10}s`;
+      pc.appendChild(p);
+    }
+  }
+
+  // Reveal
+  const obs = new IntersectionObserver(e => e.forEach(el => { if (el.isIntersecting) { el.target.classList.add('visible'); obs.unobserve(el.target); } }), { threshold: 0.01 });
+  requestAnimationFrame(() => document.querySelectorAll('.reveal').forEach(el => obs.observe(el)));
+})();
+
 let rejectId='';
 async function checkAuth(){try{const s=await API.status();if(s.loggedIn){showDash();return}}catch(e){}document.getElementById('loginView').classList.remove('hidden')}
 async function doLogin(){const p=document.getElementById('pwdInput').value;try{await API.login(p);showDash();toast('Welcome back, Dr. Hiral!','success')}catch(e){document.getElementById('loginErr').classList.remove('hidden')}}
 async function doLogout(){await API.logout();location.reload()}
 document.getElementById('pwdInput')?.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
-function showDash(){document.getElementById('loginView').classList.add('hidden');document.getElementById('dashView').classList.remove('hidden');document.getElementById('logoutBtn').classList.remove('hidden');loadStats();loadPatients();loadAppts()}
-async function loadStats(){try{const s=await API.stats();document.getElementById('sTotalP').textContent=s.totalPatients;document.getElementById('sTotalA').textContent=s.totalAppointments;document.getElementById('sPending').textContent=s.pendingAppointments;document.getElementById('sTotalK').textContent=s.totalKits}catch(e){}}
-async function loadPatients(q=''){try{const ps=await API.getPatients(q);const el=document.getElementById('patientList');if(!ps.length){el.innerHTML='<div class="empty-state"><div class="empty-state-icon">👥</div><h3>No patients found</h3></div>';return}
-el.innerHTML=ps.map(p=>`<div class="patient-row hover-lift"><div><strong>${p.name}</strong><br/><span class="text-muted text-xs">${p.id}</span></div><div class="text-sm">${p.age||'—'} / ${p.gender||'—'}</div><div class="text-sm">${p.phone||'—'}</div><div class="text-sm text-secondary">${p.chief_complaint||'—'}</div><div class="flex gap-sm"><button class="btn btn-sm btn-primary" onclick="viewPatient('${p.id}')">View</button><button class="btn btn-sm btn-outline" onclick="showQR('${p.id}')">QR</button><button class="btn btn-sm btn-accent" onclick="editPatient('${p.id}')">Edit</button><button class="btn btn-sm btn-danger" onclick="delPatient('${p.id}')">✕</button></div></div>`).join('')}catch(e){toast(e.message,'error')}}
-async function savePatient(e){e.preventDefault();const id=document.getElementById('pf_id').value;const data={name:document.getElementById('pf_name').value,age:parseInt(document.getElementById('pf_age').value)||null,gender:document.getElementById('pf_gender').value,blood_group:document.getElementById('pf_blood').value,phone:document.getElementById('pf_phone').value,email:document.getElementById('pf_email').value,address:document.getElementById('pf_address').value,chief_complaint:document.getElementById('pf_complaint').value,history:document.getElementById('pf_history').value,notes:document.getElementById('pf_notes').value};
-try{if(id){await API.updatePatient(id,data);toast('Patient updated','success')}else{await API.createPatient(data);toast('Patient added','success')}closeModal('addPatientModal');document.getElementById('patientForm').reset();document.getElementById('pf_id').value='';loadPatients();loadStats()}catch(e){toast(e.message,'error')}}
-async function editPatient(id){try{const p=await API.getPatient(id);document.getElementById('pf_id').value=p.id;document.getElementById('pf_name').value=p.name;document.getElementById('pf_age').value=p.age||'';document.getElementById('pf_gender').value=p.gender||'';document.getElementById('pf_blood').value=p.blood_group||'';document.getElementById('pf_phone').value=p.phone||'';document.getElementById('pf_email').value=p.email||'';document.getElementById('pf_address').value=p.address||'';document.getElementById('pf_complaint').value=p.chief_complaint||'';document.getElementById('pf_history').value=p.history||'';document.getElementById('pf_notes').value=p.notes||'';openModal('addPatientModal')}catch(e){toast(e.message,'error')}}
-async function delPatient(id){if(!confirm('Delete patient?'))return;try{await API.deletePatient(id);toast('Patient deleted','success');loadPatients();loadStats()}catch(e){toast(e.message,'error')}}
-async function showQR(id){try{const d=await API.getQR(id);document.getElementById('qrImg').src=d.qr;document.getElementById('qrUrl').textContent=d.url;openModal('qrModal')}catch(e){toast(e.message,'error')}}
-async function viewPatient(id){try{const p=await API.getPatient(id);document.getElementById('vpName').innerHTML=p.name+' <span class="badge badge-primary">'+p.id+'</span>';
-let h=`<div class="grid-2 mb-md"><div><span class="text-muted text-xs">Age/Gender</span><div>${p.age||'—'} / ${p.gender||'—'}</div></div><div><span class="text-muted text-xs">Blood</span><div>${p.blood_group||'—'}</div></div><div><span class="text-muted text-xs">Phone</span><div>${p.phone||'—'}</div></div><div><span class="text-muted text-xs">Email</span><div>${p.email||'—'}</div></div></div>`;
-h+=`<div class="mb-md"><span class="text-muted text-xs">Chief Complaint</span><div>${p.chief_complaint||'—'}</div></div>`;
-h+=`<div class="mb-md"><span class="text-muted text-xs">History</span><div class="text-sm">${p.history||'—'}</div></div>`;
-h+=`<div class="mb-md"><span class="text-muted text-xs">Notes by Dr. Hiral</span><div class="text-sm">${p.notes||'—'}</div></div>`;
-if(p.timeline&&p.timeline.length){h+=`<div class="divider"></div><h4 class="mb-sm">Treatment Timeline</h4>`;p.timeline.forEach(t=>{h+=`<div class="glass-card p-md mb-sm"><div class="flex justify-between items-center"><span class="badge badge-primary">${t.remedy||''} ${t.potency||''}</span><span class="text-muted text-xs">${fmtDate(t.visit_date)}</span></div><p class="text-sm mt-sm">${t.note||''}</p></div>`})}
-document.getElementById('vpContent').innerHTML=h;openModal('viewPatientModal')}catch(e){toast(e.message,'error')}}
-async function loadAppts(status=''){try{const params=status?{status}:{};const as=await API.getAppointments(params);const el=document.getElementById('apptList');if(!as.length){el.innerHTML='<div class="empty-state"><div class="empty-state-icon">📅</div><h3>No appointments</h3></div>';return}
-el.innerHTML=as.map(a=>{const statusBadge=a.status==='pending'?'badge-warning':a.status==='accepted'?'badge-success':'badge-danger';return`<div class="appt-card"><div><strong>${a.patient_name}</strong> <span class="badge ${statusBadge}">${a.status}</span><br/><span class="text-sm text-secondary">${fmtDate(a.appt_date)} at ${a.appt_time} — ${a.reason||'—'}</span>${a.reject_reason?`<br/><span class="text-sm text-danger">Reason: ${a.reject_reason}</span>`:''}</div><div class="appt-actions">${a.status==='pending'?`<button class="btn btn-sm btn-success" onclick="acceptAppt('${a.id}')">✓ Accept</button><button class="btn btn-sm btn-danger" onclick="startReject('${a.id}')">✕ Reject</button>`:'<span class="text-muted text-xs">Reviewed</span>'}</div></div>`}).join('')}catch(e){toast(e.message,'error')}}
+
+function showDash(){
+  document.getElementById('loginView').classList.add('hidden');
+  document.getElementById('dashView').classList.remove('hidden');
+  document.getElementById('logoutBtn').classList.remove('hidden');
+  document.getElementById('mobileLogout').classList.remove('hidden');
+  loadStats();loadPatients();loadAppts();
+  setTimeout(() => {
+    const obs = new IntersectionObserver(e => e.forEach(el => { if (el.isIntersecting) { el.target.classList.add('visible'); obs.unobserve(el.target); } }), { threshold: 0.01 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  }, 100);
+}
+
+async function loadStats(){
+  try{
+    const s=await API.stats();
+    document.getElementById('sTotalP').textContent=s.totalPatients;
+    document.getElementById('sTotalA').textContent=s.totalAppointments;
+    document.getElementById('sPending').textContent=s.pendingAppointments;
+    document.getElementById('sTotalK').textContent=s.totalKits;
+  }catch(e){}
+}
+
+async function loadPatients(q=''){
+  try{
+    const ps=await API.getPatients(q);
+    const el=document.getElementById('patientList');
+    if(!ps.length){el.innerHTML='<div class="empty-state"><span class="material-symbols-outlined">group_off</span><h3>No patients found</h3></div>';return}
+    el.innerHTML=ps.map(p=>`
+      <div class="list-item patient-row">
+        <div><strong>${p.name}</strong><br><span class="badge badge-primary" style="font-size:0.65rem;margin-top:0.25rem">${p.id}</span></div>
+        <div class="text-sm text-secondary-c">${p.age||'—'} / ${p.gender||'—'}</div>
+        <div class="text-sm text-secondary-c"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">call</span> ${p.phone||'—'}</div>
+        <div class="text-sm text-secondary-c truncate">${p.chief_complaint||'—'}</div>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
+          <button class="btn btn-sm btn-primary" onclick="viewPatient('${p.id}')">View</button>
+          <button class="btn btn-sm btn-outline" onclick="showQR('${p.id}')"><span class="material-symbols-outlined" style="font-size:16px">qr_code_2</span></button>
+          <button class="btn btn-sm btn-outline" style="color:var(--primary)" onclick="openCaseRecord('${p.id}')"><span class="material-symbols-outlined" style="font-size:16px">assignment</span> Proforma</button>
+          <button class="btn btn-sm btn-outline" onclick="editPatient('${p.id}')"><span class="material-symbols-outlined" style="font-size:16px">edit</span></button>
+        </div>
+      </div>
+    `).join('');
+  }catch(e){toast(e.message,'error')}
+}
+
+async function savePatient(e){
+  e.preventDefault();
+  const id=document.getElementById('pf_id').value;
+  const data={
+    name:document.getElementById('pf_name').value,
+    age:parseInt(document.getElementById('pf_age').value)||null,
+    gender:document.getElementById('pf_gender').value,
+    blood_group:document.getElementById('pf_blood').value,
+    phone:document.getElementById('pf_phone').value,
+    email:document.getElementById('pf_email').value,
+    address:document.getElementById('pf_address').value,
+    chief_complaint:document.getElementById('pf_complaint').value,
+    history:document.getElementById('pf_history').value,
+    notes:document.getElementById('pf_notes').value
+  };
+  try{
+    if(id){await API.updatePatient(id,data);toast('Patient updated','success')}
+    else{await API.createPatient(data);toast('Patient added','success')}
+    closeModal('addPatientModal');document.getElementById('patientForm').reset();document.getElementById('pf_id').value='';
+    loadPatients();loadStats();
+  }catch(e){toast(e.message,'error')}
+}
+
+async function editPatient(id){
+  try{
+    const p=await API.getPatient(id);
+    document.getElementById('pf_id').value=p.id;
+    document.getElementById('pf_name').value=p.name;
+    document.getElementById('pf_age').value=p.age||'';
+    document.getElementById('pf_gender').value=p.gender||'';
+    document.getElementById('pf_blood').value=p.blood_group||'';
+    document.getElementById('pf_phone').value=p.phone||'';
+    document.getElementById('pf_email').value=p.email||'';
+    document.getElementById('pf_address').value=p.address||'';
+    document.getElementById('pf_complaint').value=p.chief_complaint||'';
+    document.getElementById('pf_history').value=p.history||'';
+    document.getElementById('pf_notes').value=p.notes||'';
+    openModal('addPatientModal');
+  }catch(e){toast(e.message,'error')}
+}
+
+function openCaseRecord(id) {
+  document.getElementById('cr_pid').value = id;
+  document.getElementById('caseRecordForm').reset();
+  openModal('caseRecordModal');
+}
+
+async function saveCaseRecord(e) {
+  e.preventDefault();
+  const id = document.getElementById('cr_pid').value;
+  const s = document.getElementById('cr_symptoms').value;
+  const i = document.getElementById('cr_investigations').value;
+  const d = document.getElementById('cr_diet').value;
+  const ex = document.getElementById('cr_exercise').value;
+  const rx = document.getElementById('cr_rx').value;
+  const fu = document.getElementById('cr_followup').value;
+  
+  let noteParts = [`Symptoms: ${s}`];
+  if (i) noteParts.push(`Investigations: ${i}`);
+  if (d) noteParts.push(`Diet: ${d}`);
+  if (ex) noteParts.push(`Exercise: ${ex}`);
+  if (fu) noteParts.push(`Follow-up: ${fmtDate(fu)}`);
+  
+  const data = {
+    note: noteParts.join(' | '),
+    remedy: rx,
+    potency: "",
+    visit_date: new Date().toISOString()
+  };
+  
+  try {
+    await API.addTimeline(id, data);
+    toast('Case Record Saved successfully', 'success');
+    closeModal('caseRecordModal');
+    loadPatients();
+  } catch(err) {
+    toast(err.message, 'error');
+  }
+}
+
+async function showQR(id){
+  try{
+    const d=await API.getQR(id);
+    document.getElementById('qrImg').src=d.qr;
+    document.getElementById('qrUrl').textContent=d.url;
+    openModal('qrModal');
+  }catch(e){toast(e.message,'error')}
+}
+
+async function viewPatient(id){
+  try{
+    const p=await API.getPatient(id);
+    document.getElementById('vpName').innerHTML=`${p.name} <span class="badge badge-primary" style="margin-left:0.5rem;font-size:0.7rem;vertical-align:middle">${p.id}</span>`;
+    let h=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+      <div class="card" style="padding:1rem"><div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase">Age/Gender</div><div style="font-weight:600">${p.age||'—'} / ${p.gender||'—'}</div></div>
+      <div class="card" style="padding:1rem"><div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase">Contact</div><div style="font-weight:600">${p.phone||'—'}</div></div>
+      <div class="card" style="padding:1rem"><div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase">Blood</div><div style="font-weight:600">${p.blood_group||'—'}</div></div>
+    </div>`;
+    h+=`<div style="margin-bottom:1.5rem"><h4 style="font-size:1rem;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem"><span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">healing</span> Chief Complaint</h4><div class="card" style="padding:1rem;font-size:0.95rem">${p.chief_complaint||'—'}</div></div>`;
+    h+=`<div style="margin-bottom:1.5rem"><h4 style="font-size:1rem;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem"><span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">history_edu</span> Medical History</h4><div class="card" style="padding:1rem;font-size:0.95rem">${p.history||'—'}</div></div>`;
+    h+=`<div style="margin-bottom:1.5rem"><h4 style="font-size:1rem;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem"><span class="material-symbols-outlined" style="color:var(--secondary);font-size:18px">note_alt</span> Doctor Notes</h4><div class="card" style="padding:1rem;font-size:0.95rem">${p.notes||'—'}</div></div>`;
+    
+    if(p.timeline&&p.timeline.length){
+      h+=`<h4 style="font-size:1rem;margin-bottom:1rem;display:flex;align-items:center;gap:0.4rem"><span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">timeline</span> Treatment Timeline</h4>`;
+      p.timeline.forEach(t=>{
+        h+=`<div class="card" style="padding:1rem;margin-bottom:0.75rem;border-left:3px solid var(--primary)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+            <span class="badge badge-primary">${t.remedy||''} ${t.potency||''}</span>
+            <span class="text-xs text-secondary-c">${fmtDate(t.visit_date)}</span>
+          </div>
+          <p class="text-sm">${t.note||''}</p>
+        </div>`;
+      });
+    }
+    document.getElementById('vpContent').innerHTML=h;
+    openModal('viewPatientModal');
+  }catch(e){toast(e.message,'error')}
+}
+
+async function loadAppts(status=''){
+  try{
+    const params=status?{status}:{};
+    const as=await API.getAppointments(params);
+    const el=document.getElementById('apptList');
+    if(!as.length){el.innerHTML='<div class="empty-state"><span class="material-symbols-outlined">event_busy</span><h3>No appointments</h3></div>';return}
+    el.innerHTML=as.map(a=>{
+      const statusClass = a.status==='pending'?'warning':a.status==='accepted'?'secondary':'danger';
+      const statusIcon = a.status==='pending'?'pending':a.status==='accepted'?'check_circle':'cancel';
+      return `<div class="list-item appt-row">
+        <div>
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.25rem">
+            <strong>${a.patient_name}</strong>
+            <span class="badge" style="background:rgba(var(--${statusClass}-rgb),0.1);color:var(--${statusClass})"><span class="material-symbols-outlined" style="font-size:12px">${statusIcon}</span> ${a.status}</span>
+          </div>
+          <div class="text-sm text-secondary-c"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">event</span> ${fmtDate(a.appt_date)} at ${a.appt_time}</div>
+          <div class="text-sm text-secondary-c" style="margin-top:0.25rem"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">notes</span> ${a.reason||'—'}</div>
+          ${a.reject_reason?`<div class="text-sm mt-sm" style="color:#EF4444">Reason: ${a.reject_reason}</div>`:''}
+        </div>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:flex-end">
+          ${a.status==='pending'?`
+            <button class="btn btn-sm" style="background:var(--secondary);color:white" onclick="acceptAppt('${a.id}')"><span class="material-symbols-outlined" style="font-size:16px">check</span> Accept</button>
+            <button class="btn btn-sm btn-outline" onclick="startReject('${a.id}')"><span class="material-symbols-outlined" style="font-size:16px">close</span> Reject</button>
+          `:'<span class="text-muted text-xs">Reviewed</span>'}
+        </div>
+      </div>`
+    }).join('');
+  }catch(e){toast(e.message,'error')}
+}
+
 function filterAppts(s){loadAppts(s)}
 async function acceptAppt(id){try{await API.acceptAppt(id);toast('Appointment accepted','success');loadAppts();loadStats()}catch(e){toast(e.message,'error')}}
 function startReject(id){rejectId=id;openModal('rejectModal')}
 async function confirmReject(){const reason=document.getElementById('rejectReason').value;try{await API.rejectAppt(rejectId,reason);toast('Appointment rejected','warning');closeModal('rejectModal');loadAppts();loadStats()}catch(e){toast(e.message,'error')}}
-function switchTab(name,btn){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+name).classList.add('active');if(name==='appts')loadAppts();if(name==='patients')loadPatients()}
+
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(name==='appts')loadAppts();
+  if(name==='patients')loadPatients();
+}
+
 checkAuth();
-</script></body></html>
+</script>
+<style>.w-full{width:100%}.truncate{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.modal{width:100%;max-width:500px;background:var(--bg-surface);border-radius:var(--radius-lg);padding:2rem;position:relative;z-index:1001;transform:translateY(20px);opacity:0;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+.modal-overlay.active .modal{transform:translateY(0);opacity:1}</style>
+</body>
+</html>

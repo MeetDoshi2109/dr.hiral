@@ -6,7 +6,7 @@
   <title>Book Appointment — Dr. Hiral Homoeopathy</title>
   <meta name="description" content="Book your homeopathy consultation with Dr. Hiral. Choose your preferred date and time slot.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/global.css">
   <link rel="stylesheet" href="/css/effects.css">
@@ -132,6 +132,14 @@
             <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">note_alt</span> Reason for Visit
           </label>
           <textarea class="form-input" id="af_reason" rows="3" placeholder="Describe your symptoms or reason for consultation..." style="resize:vertical"></textarea>
+        </div>
+        <div class="form-group" style="margin-bottom:1.5rem; background: rgba(8,145,178,0.05); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+          <label style="display:flex; align-items:flex-start; gap:0.5rem; cursor:pointer;">
+            <input type="checkbox" id="af_consent" required style="margin-top:0.25rem;">
+            <span class="text-sm text-secondary-c">
+              <strong>Homoeopathic Treatment Consent:</strong> I understand that homeopathy is a holistic system of medicine. I consent to undergoing classical homeopathic evaluation and treatment with Dr. Hiral, understanding that healing may require time and careful follow-up.
+            </span>
+          </label>
         </div>
         <button class="btn btn-primary btn-lg w-full" id="submitBtn" onclick="bookAppt()">
           <span class="material-symbols-outlined" style="font-size:18px">send</span>
