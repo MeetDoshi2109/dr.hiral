@@ -10,7 +10,7 @@ async function initDB() {
     console.log('✅ Database schema ready — Dr. Hiral Mehta Portal DB initialised!');
     process.exit(0);
   } catch (err) {
-    console.error('❌ DB init error:', err.message);
+    console.error('❌ DB init error:', err);
     process.exit(1);
   }
 }
