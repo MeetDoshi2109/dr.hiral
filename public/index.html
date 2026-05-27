@@ -35,11 +35,8 @@
 <div class="hero-fullscreen" id="hero-section">
   <section class="hero-container">
 
-    <!-- Video Background -->
-    <div class="hero-video-fallback"></div>
-    <video class="hero-video" autoplay muted loop playsinline>
-      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260428_193507_4286c423-2fd9-4efd-92bd-91a939453fc1.mp4" type="video/mp4">
-    </video>
+    <!-- CSS Animated Gradient Background -->
+    <div class="hero-video-fallback" style="opacity: 0.95;"></div>
 
     <!-- Content Layer -->
     <div class="hero-content-layer">
@@ -88,23 +85,66 @@
         </div>
       </nav>
 
-      <!-- ── Hero Text Block ── -->
-      <div class="hero-text-block">
-        <!-- Badge -->
-        <div class="hero-badge hero-animate-badge">
-          <span class="material-symbols-outlined hero-badge-icon" style="font-variation-settings:'FILL' 1">spa</span>
-          <span class="hero-badge-text">Classical Homeopathy</span>
+      <!-- ── Grid Layout for Split Content ── -->
+      <div class="hero-grid-layout">
+        <!-- Left Column: Hero Text Block -->
+        <div class="hero-text-block">
+          <!-- Badge -->
+          <div class="hero-badge hero-animate-badge">
+            <span class="material-symbols-outlined hero-badge-icon" style="font-variation-settings:'FILL' 1">spa</span>
+            <span class="hero-badge-text">Classical Homeopathy</span>
+          </div>
+
+          <!-- Title -->
+          <h1 class="hero-title hero-animate-title">
+            Heal Naturally with<br><span class="hero-title-accent">Dr. Hiral</span>
+          </h1>
+
+          <!-- Subtitle -->
+          <p class="hero-subtitle hero-animate-subtitle">
+            BHMS (MUHS) · Experience gentle, effective, and personalised homeopathic healing rooted in classical tradition.
+          </p>
         </div>
 
-        <!-- Title -->
-        <h1 class="hero-title hero-animate-title">
-          Heal Naturally with<br><span class="hero-title-accent">Dr. Hiral</span>
-        </h1>
-
-        <!-- Subtitle -->
-        <p class="hero-subtitle hero-animate-subtitle">
-          BHMS (MUHS) · Experience gentle, effective, and personalised homeopathic healing rooted in classical tradition.
-        </p>
+        <!-- Right Column: Old Dr. Hiral Moving Card -->
+        <div class="hero-doctor-card-wrap hero-animate-corner">
+          <div class="hero-doctor-card tilt-card">
+            <div class="hero-doctor-avatar">
+              <span class="material-symbols-outlined">person</span>
+            </div>
+            <h2 class="hero-doctor-name">Dr. Hiral</h2>
+            <p class="hero-doctor-degree">BHMS (MUHS)</p>
+            <p class="hero-doctor-title">Classical Homeopathy Specialist</p>
+            
+            <div class="hero-doctor-badges">
+              <span class="hero-doctor-badge">Homeopathy</span>
+              <span class="hero-doctor-badge">Pune</span>
+              <span class="hero-doctor-badge">Verified</span>
+            </div>
+            
+            <div class="hero-doctor-divider"></div>
+            
+            <div class="hero-doctor-info">
+              <div class="hero-doctor-info-item">
+                <span class="material-symbols-outlined icon">call</span>
+                <span>+91 79722 32216</span>
+              </div>
+              <div class="hero-doctor-info-item">
+                <span class="material-symbols-outlined icon">mail</span>
+                <span>dr.hiral@homeocare.in</span>
+              </div>
+              <div class="hero-doctor-info-item">
+                <span class="material-symbols-outlined icon">location_on</span>
+                <span>Homoeopathy Wellness Centre</span>
+              </div>
+            </div>
+            
+            <a href="/appointments.html" class="hero-doctor-cta">
+              <span class="material-symbols-outlined" style="font-size: 18px;">calendar_month</span>
+              <span>Schedule Consultation</span>
+            </a>
+          </div>
+        </div>
       </div>
 
       <!-- ── Bottom-Left Stat Card ── -->
