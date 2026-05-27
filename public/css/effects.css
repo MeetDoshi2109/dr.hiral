@@ -76,16 +76,30 @@
 .particle {
   position: absolute;
   border-radius: 50%;
-  background: var(--primary);
+  background: var(--hero-accent-solid);
   opacity: 0;
+  filter: drop-shadow(0 0 8px var(--hero-accent-solid));
   animation: particleDrift linear infinite;
 }
 
 @keyframes particleDrift {
-  0% { opacity: 0; transform: translateY(100vh) scale(0); }
-  10% { opacity: 0.15; }
-  90% { opacity: 0.15; }
-  100% { opacity: 0; transform: translateY(-10vh) scale(1); }
+  0% { 
+    opacity: 0; 
+    transform: translateY(110%) translateX(0px) scale(0.3); 
+  }
+  15% { 
+    opacity: 0.35; 
+  }
+  50% {
+    transform: translateY(50%) translateX(25px) scale(1);
+  }
+  85% { 
+    opacity: 0.35; 
+  }
+  100% { 
+    opacity: 0; 
+    transform: translateY(-15%) translateX(-15px) scale(0.4); 
+  }
 }
 
 /* ── Card Hover Effects ── */

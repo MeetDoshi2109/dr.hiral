@@ -728,27 +728,27 @@ img { max-width: 100%; display: block; }
 
 /* ── Hero Design Tokens ── */
 :root {
-  --hero-bg: #f0f5f0;
-  --hero-text: rgba(15, 60, 50, 0.9);
-  --hero-text-soft: rgba(15, 60, 50, 0.6);
-  --hero-accent: rgba(13, 148, 136, 0.85);
+  --hero-bg: #e6f0ed;
+  --hero-text: #04241e;
+  --hero-text-soft: #0a4f42;
+  --hero-accent: rgba(13, 148, 136, 0.9);
   --hero-accent-solid: #0d9488;
   --hero-accent-hover: rgba(13, 148, 136, 1);
-  --hero-glass: rgba(255, 255, 255, 0.30);
-  --hero-glass-strong: rgba(255, 255, 255, 0.60);
-  --hero-glass-border: rgba(255, 255, 255, 0.20);
+  --hero-glass: rgba(255, 255, 255, 0.45);
+  --hero-glass-strong: rgba(255, 255, 255, 0.70);
+  --hero-glass-border: rgba(13, 148, 136, 0.15);
 }
 
 .dark {
-  --hero-bg: #0a1a14;
-  --hero-text: rgba(200, 235, 220, 0.95);
-  --hero-text-soft: rgba(200, 235, 220, 0.55);
-  --hero-accent: rgba(107, 216, 203, 0.9);
-  --hero-accent-solid: #6bd8cb;
-  --hero-accent-hover: rgba(107, 216, 203, 1);
-  --hero-glass: rgba(15, 40, 30, 0.30);
-  --hero-glass-strong: rgba(15, 40, 30, 0.60);
-  --hero-glass-border: rgba(255, 255, 255, 0.10);
+  --hero-bg: #040c0a;
+  --hero-text: #eafcf9;
+  --hero-text-soft: #9ad5cb;
+  --hero-accent: rgba(45, 212, 191, 0.9);
+  --hero-accent-solid: #2dd4bf;
+  --hero-accent-hover: rgba(45, 212, 191, 1);
+  --hero-glass: rgba(8, 24, 20, 0.55);
+  --hero-glass-strong: rgba(8, 24, 20, 0.75);
+  --hero-glass-border: rgba(45, 212, 191, 0.20);
 }
 
 /* ── Hero Fullscreen Wrapper ── */
@@ -987,8 +987,8 @@ img { max-width: 100%; display: block; }
 
 .hero-title {
   font-size: 2.5rem;
-  font-weight: 400;
-  color: var(--hero-text-soft);
+  font-weight: 700;
+  color: var(--hero-text);
   margin-bottom: 0.5rem;
   letter-spacing: -0.02em;
   line-height: 1.05;
@@ -1009,15 +1009,16 @@ img { max-width: 100%; display: block; }
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-weight: 800;
 }
 
 .hero-subtitle {
   font-size: 0.875rem;
-  color: var(--hero-text-soft);
-  opacity: 0.8;
+  color: var(--hero-text);
+  opacity: 0.95;
   line-height: 1.6;
   max-width: 36rem;
-  font-weight: 400;
+  font-weight: 500;
 }
 @media (min-width: 640px) {
   .hero-subtitle { font-size: 1rem; }
