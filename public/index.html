@@ -38,13 +38,6 @@
     <!-- CSS Animated Gradient Background -->
     <div class="hero-video-fallback" style="opacity: 0.95;"></div>
 
-    <!-- Glow effects -->
-    <div class="hero-glow-blob" style="top: 10%; left: 15%; background: radial-gradient(circle, rgba(13, 148, 136, 0.22) 0%, rgba(0,0,0,0) 70%);"></div>
-    <div class="hero-glow-blob" style="bottom: 15%; right: 20%; background: radial-gradient(circle, rgba(5, 150, 105, 0.22) 0%, rgba(0,0,0,0) 70%);"></div>
-
-    <!-- Hero Specific Particles -->
-    <div class="particles-container" id="hero-particles" style="position: absolute; inset: 0; z-index: 1;" aria-hidden="true"></div>
-
     <!-- Content Layer -->
     <div class="hero-content-layer">
 
@@ -77,11 +70,8 @@
           Dr. Hiral
         </div>
 
-        <!-- Right CTA & Theme Toggle -->
-        <div class="hero-nav-cta-wrap" style="align-items: center; gap: 0.75rem;">
-          <button class="btn-ghost" id="theme-toggle" aria-label="Toggle theme" style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: var(--hero-glass); border: 1px solid var(--hero-glass-border); color: var(--hero-text); cursor: pointer; transition: all 0.2s ease;">
-            <span class="material-symbols-outlined" id="theme-icon" style="font-size: 20px;">dark_mode</span>
-          </button>
+        <!-- Right CTA -->
+        <div class="hero-nav-cta-wrap">
           <a href="/appointments.html" class="hero-nav-cta">
             <div class="hero-nav-cta-icon">
               <span class="material-symbols-outlined" style="font-size:16px;color:#fff">arrow_outward</span>
@@ -89,7 +79,7 @@
             <span>Book Appointment</span>
           </a>
           <!-- Mobile hamburger -->
-          <button class="btn-ghost" id="menu-open" aria-label="Menu" style="display:none;color:var(--hero-text)">
+          <button class="btn-ghost" id="menu-open" aria-label="Menu" style="display:none;margin-left:0.5rem;color:var(--hero-text)">
             <span class="material-symbols-outlined">menu</span>
           </button>
         </div>
@@ -534,53 +524,8 @@
 (function() {
   // ── Theme (apply saved preference) ──
   const html = document.documentElement;
-  const themeToggleBtn = document.getElementById('theme-toggle');
-  const themeIcon = document.getElementById('theme-icon');
-  
-  function setTheme(dark) {
-    if (dark) {
-      html.classList.add('dark');
-      if (themeIcon) themeIcon.textContent = 'light_mode';
-    } else {
-      html.classList.remove('dark');
-      if (themeIcon) themeIcon.textContent = 'dark_mode';
-    }
-    localStorage.setItem('theme', dark ? 'dark' : 'light');
-  }
-
   const saved = localStorage.getItem('theme');
-  setTheme(saved === 'dark');
-
-  if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', () => {
-      setTheme(!html.classList.contains('dark'));
-    });
-  }
-
-  // ── Hero Floating Particles ──
-  const heroParticlesEl = document.getElementById('hero-particles');
-  if (heroParticlesEl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    for (let i = 0; i < 45; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      const size = Math.random() * 6 + 3; // Sizes 3px to 9px
-      const left = Math.random() * 100;
-      const bottom = Math.random() * 40; // staggered spawn heights
-      const delay = Math.random() * 15;
-      const duration = Math.random() * 12 + 10; // 10s to 22s drift
-      
-      p.style.cssText = `
-        width:${size}px;
-        height:${size}px;
-        left:${left}%;
-        bottom:-${bottom}px;
-        animation-delay:${delay}s;
-        animation-duration:${duration}s;
-        opacity: 0;
-      `;
-      heroParticlesEl.appendChild(p);
-    }
-  }
+  if (saved === 'dark') html.classList.add('dark');
 
   // ── Responsive Navbar ──
   const menuOpen = document.getElementById('menu-open');
