@@ -316,6 +316,68 @@
   to { transform: scale(2.5); opacity: 0; }
 }
 
+/* ── Hero Animations ── */
+@keyframes heroGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes heroSlideLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes heroSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroScale {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Hero element animation classes */
+.hero-animate-badge {
+  opacity: 0;
+  animation: heroFadeUp 0.6s ease-out forwards;
+}
+
+.hero-animate-title {
+  opacity: 0;
+  animation: heroScale 0.8s ease forwards;
+  animation-delay: 0.2s;
+}
+
+.hero-animate-subtitle {
+  opacity: 0;
+  animation: heroFadeIn 0.8s ease forwards;
+  animation-delay: 0.4s;
+}
+
+.hero-animate-stat-card {
+  opacity: 0;
+  animation: heroSlideLeft 0.8s ease forwards;
+  animation-delay: 0.2s;
+}
+
+.hero-animate-corner {
+  opacity: 0;
+  animation: heroSlideUp 0.8s ease forwards;
+  animation-delay: 0.4s;
+}
+
 /* ── Reduced Motion ── */
 @media (prefers-reduced-motion: reduce) {
   .stagger-children > * { opacity: 1; transform: none; animation: none; }
@@ -329,4 +391,13 @@
   .marquee-inner { animation: none; }
   .reveal, .reveal-left, .reveal-right, .reveal-scale { opacity: 1; transform: none; transition: none; }
   .wave-path-1, .wave-path-2 { animation: none; }
+  .hero-animate-badge,
+  .hero-animate-title,
+  .hero-animate-subtitle,
+  .hero-animate-stat-card,
+  .hero-animate-corner {
+    opacity: 1;
+    animation: none;
+  }
+  .hero-video-fallback { animation: none; }
 }
