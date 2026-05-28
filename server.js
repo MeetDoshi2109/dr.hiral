@@ -86,7 +86,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ── QR Code generation endpoint ───────────────────────
 app.get('/api/qr/:patientId', async (req, res) => {
   try {
-    const siteUrl = process.env.SITE_URL || `http://localhost:${PORT}`;
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+    const host = req.get('host');
+    const siteUrl = `${protocol}://${host}`;
     const url = `${siteUrl}/patient.html?pid=${req.params.patientId}`;
     const qrDataUrl = await QRCode.toDataURL(url, {
       width: 300,
