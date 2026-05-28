@@ -96,4 +96,13 @@ router.post('/:id/prescriptions', requireAuth, async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// DELETE /api/patients/:id/prescriptions/:rid
+router.delete('/:id/prescriptions/:rid', requireAuth, async (req, res) => {
+  try {
+    await db.query('DELETE FROM prescriptions WHERE id=$1 AND patient_id=$2', [req.params.rid, req.params.id]);
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 module.exports = router;
+

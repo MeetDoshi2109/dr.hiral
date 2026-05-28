@@ -146,11 +146,14 @@
     </div>
 
     <div id="tab-rx" class="tab-panel reveal">
-      <div class="empty-state">
-        <span class="material-symbols-outlined">prescriptions</span>
-        <h3>Prescription Management</h3>
-        <p>Manage medicine dispensation and transport status.</p>
-        <button class="btn btn-primary mt-sm" onclick="switchTab('patients', document.querySelector('[data-tab=\'patients\']'))">Select a patient to prescribe</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.25rem">
+        <div>
+          <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:0.15rem">Prescriptions</h3>
+          <p style="font-size:0.8rem;color:var(--text-muted)">All issued prescriptions across patients</p>
+        </div>
+        <button class="btn btn-primary" onclick="openRxModal(null)">
+          <span class="material-symbols-outlined" style="font-size:17px">add</span> New Prescription
+        </button>
       </div>
       <div id="rxList"></div>
     </div>
@@ -213,6 +216,66 @@
       <textarea class="form-input" id="rejectReason" rows="3" placeholder="E.g. Slot unavailable, please reschedule..."></textarea>
     </div>
     <button class="btn btn-primary w-full" style="background:#EF4444;border-color:#EF4444" onclick="confirmReject()">Confirm Reject</button>
+  </div>
+</div>
+<!-- PRESCRIPTION MODAL -->
+<div class="modal-overlay" id="rxModal">
+  <div class="modal" style="max-width:620px;max-height:90vh;overflow-y:auto">
+    <div class="modal-header">
+      <h3 class="modal-title" style="display:flex;align-items:center;gap:0.5rem">
+        <span class="material-symbols-outlined" style="color:var(--primary)">prescriptions</span>
+        Write Prescription
+      </h3>
+      <button class="btn-ghost" onclick="closeModal('rxModal')"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <form id="rxForm" onsubmit="saveRx(event)" style="display:flex;flex-direction:column;gap:1.25rem">
+      <input type="hidden" id="rx_pid">
+      <input type="hidden" id="rx_patient_name">
+
+      <!-- Patient selector (shown when opened from Rx tab) -->
+      <div id="rx_patient_search_wrap" style="position:relative">
+        <label class="form-label">Select Patient *</label>
+        <input class="form-input" id="rx_patient_search" placeholder="Search patient by name..." autocomplete="off"
+          oninput="searchRxPatient(this.value)" onfocus="searchRxPatient(this.value)">
+        <div id="rx_search_results" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-md);z-index:10;max-height:200px;overflow-y:auto;margin-top:0.25rem;box-shadow:var(--shadow-md)"></div>
+      </div>
+
+      <!-- Label shown when opened from patient row -->
+      <div id="rx_patient_label" style="display:none;font-size:0.9rem;font-weight:600;color:var(--primary);padding:0.5rem 0.75rem;background:rgba(13,148,136,0.08);border-radius:var(--radius-md)"></div>
+
+      <!-- Medicine rows -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem">
+          <label class="form-label" style="margin:0">Medicines</label>
+          <button type="button" class="btn btn-sm btn-outline" onclick="rxRows.push({name:'',potency:'',dose:'',qty:''});renderRxRows()">
+            <span class="material-symbols-outlined" style="font-size:15px">add</span> Add Row
+          </button>
+        </div>
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:0.4rem;margin-bottom:0.4rem">
+          <span style="font-size:0.7rem;color:var(--text-muted);font-weight:600;text-transform:uppercase">Medicine</span>
+          <span style="font-size:0.7rem;color:var(--text-muted);font-weight:600;text-transform:uppercase">Potency</span>
+          <span style="font-size:0.7rem;color:var(--text-muted);font-weight:600;text-transform:uppercase">Dose</span>
+          <span style="font-size:0.7rem;color:var(--text-muted);font-weight:600;text-transform:uppercase">Qty</span>
+          <span></span>
+        </div>
+        <div id="rx_rows"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Instructions / Directions</label>
+        <textarea class="form-input" id="rx_instructions" rows="2" placeholder="e.g. Take 4 pills in morning on empty stomach..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Follow-up Date</label>
+        <input type="date" class="form-input" id="rx_follow_up" style="color-scheme:dark">
+      </div>
+
+      <div style="display:flex;gap:0.75rem;justify-content:flex-end">
+        <button type="button" class="btn-ghost" onclick="closeModal('rxModal')" style="padding:0.65rem 1.25rem;border-radius:var(--radius-md)">Cancel</button>
+        <button type="submit" class="btn btn-primary"><span class="material-symbols-outlined" style="font-size:17px">save</span> Save Prescription</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -434,14 +497,16 @@ async function loadPatients(q=''){
     el.innerHTML=ps.map(p=>`
       <div class="list-item patient-row">
         <div><strong>${p.name}</strong><br><span class="badge badge-primary" style="font-size:0.65rem;margin-top:0.25rem">${p.id}</span></div>
-        <div class="text-sm text-secondary-c">${p.age||'—'} / ${p.gender||'—'}</div>
-        <div class="text-sm text-secondary-c"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">call</span> ${p.phone||'—'}</div>
-        <div class="text-sm text-secondary-c truncate">${p.chief_complaint||'—'}</div>
+        <div class="text-sm text-secondary-c">${p.age||'\u2014'} / ${p.gender||'\u2014'}</div>
+        <div class="text-sm text-secondary-c"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">call</span> ${p.phone||'\u2014'}</div>
+        <div class="text-sm text-secondary-c truncate">${p.chief_complaint||'\u2014'}</div>
         <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
           <button class="btn btn-sm btn-primary" onclick="viewPatient('${p.id}')">View</button>
+          <button class="btn btn-sm btn-outline" style="color:#10b981" onclick="openRxModal('${p.id}','${p.name.replace(/'/g,"\\'")}')">  <span class="material-symbols-outlined" style="font-size:16px">prescriptions</span> Rx</button>
           <button class="btn btn-sm btn-outline" onclick="showQR('${p.id}')"><span class="material-symbols-outlined" style="font-size:16px">qr_code_2</span></button>
           <button class="btn btn-sm btn-outline" style="color:var(--primary)" onclick="openCaseRecord('${p.id}')"><span class="material-symbols-outlined" style="font-size:16px">assignment</span> Proforma</button>
           <button class="btn btn-sm btn-outline" onclick="editPatient('${p.id}')"><span class="material-symbols-outlined" style="font-size:16px">edit</span></button>
+          <button class="btn btn-sm" style="background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2)" onclick="deletePatient('${p.id}','${p.name.replace(/'/g,"\\'")}')"><span class="material-symbols-outlined" style="font-size:16px">delete</span></button>
         </div>
       </div>
     `).join('');
@@ -595,7 +660,18 @@ async function viewPatient(id){
   }catch(e){toast(e.message,'error')}
 }
 
+async function deletePatient(id, name){
+  if(!confirm(`Delete patient "${name}"? This will permanently remove all their records.`))return;
+  try{
+    await API.deletePatient(id);
+    toast('Patient deleted','warning');
+    loadPatients();
+    loadStats();
+  }catch(e){toast(e.message,'error');}
+}
+
 async function loadAppts(status=''){
+
   try{
     const params=status?{status}:{};
     const as=await API.getAppointments(params);
@@ -637,6 +713,133 @@ function switchTab(name,btn){
   document.getElementById('tab-'+name).classList.add('active');
   if(name==='appts')loadAppts();
   if(name==='patients')loadPatients();
+  if(name==='rx')loadRx();
+}
+
+/* ── Prescription helpers ── */
+let rxPatientId='', rxPatientName='';
+let rxRows=[];
+
+function openRxModal(pid, pname){
+  rxRows=[];
+  document.getElementById('rx_pid').value=pid||'';
+  document.getElementById('rx_patient_name').value=pname||'';
+  document.getElementById('rx_patient_search').value=pname||'';
+  document.getElementById('rx_patient_search_wrap').style.display=pid?'none':'block';
+  document.getElementById('rx_patient_label').style.display=pid?'block':'none';
+  document.getElementById('rx_patient_label').textContent=pname?'Patient: '+pname:'';
+  document.getElementById('rx_instructions').value='';
+  document.getElementById('rx_follow_up').value='';
+  renderRxRows();
+  openModal('rxModal');
+}
+
+function renderRxRows(){
+  const wrap=document.getElementById('rx_rows');
+  if(!rxRows.length)rxRows=[{name:'',potency:'',dose:'',qty:''}];
+  wrap.innerHTML=rxRows.map((r,i)=>`
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:0.5rem;align-items:center;margin-bottom:0.5rem">
+      <input class="form-input" placeholder="Medicine name" value="${r.name}" oninput="rxRows[${i}].name=this.value" style="font-size:0.85rem">
+      <input class="form-input" placeholder="Potency" value="${r.potency}" oninput="rxRows[${i}].potency=this.value" style="font-size:0.85rem">
+      <input class="form-input" placeholder="Dose" value="${r.dose}" oninput="rxRows[${i}].dose=this.value" style="font-size:0.85rem">
+      <input class="form-input" placeholder="Qty" value="${r.qty}" oninput="rxRows[${i}].qty=this.value" style="font-size:0.85rem">
+      <button type="button" onclick="rxRows.splice(${i},1);renderRxRows()" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:0.45rem;cursor:pointer;color:#ef4444;display:flex;align-items:center;justify-content:center">
+        <span class="material-symbols-outlined" style="font-size:16px">delete</span>
+      </button>
+    </div>
+  `).join('');
+}
+
+async function searchRxPatient(q){
+  if(!q||q.length<2)return;
+  try{
+    const ps=await API.getPatients(q);
+    const ul=document.getElementById('rx_search_results');
+    ul.innerHTML=ps.slice(0,6).map(p=>`
+      <div style="padding:0.6rem 0.8rem;cursor:pointer;border-radius:8px;font-size:0.88rem;hover:background:var(--bg-muted)" onmousedown="selectRxPatient('${p.id}','${p.name.replace(/'/g,"&apos;")}')">
+        <strong>${p.name}</strong> <span style="color:var(--text-muted);font-size:0.75rem">${p.id}</span>
+      </div>
+    `).join('');
+    ul.style.display=ps.length?'block':'none';
+  }catch(e){}
+}
+
+function selectRxPatient(id,name){
+  document.getElementById('rx_pid').value=id;
+  document.getElementById('rx_patient_search').value=name;
+  document.getElementById('rx_search_results').style.display='none';
+}
+
+async function saveRx(e){
+  e.preventDefault();
+  const pid=document.getElementById('rx_pid').value;
+  if(!pid){toast('Please select a patient','warning');return;}
+  const meds=rxRows.filter(r=>r.name.trim());
+  if(!meds.length){toast('Add at least one medicine','warning');return;}
+  const instructions=document.getElementById('rx_instructions').value;
+  const follow_up=document.getElementById('rx_follow_up').value;
+  const pname=document.getElementById('rx_patient_search').value||document.getElementById('rx_patient_label').textContent.replace('Patient: ','');
+  try{
+    await API.addPrescription(pid,{medicines:meds,instructions,follow_up,patient_name:pname});
+    toast('Prescription saved','success');
+    closeModal('rxModal');
+    loadRx();
+  }catch(err){toast(err.message,'error');}
+}
+
+async function loadRx(){
+  try{
+    const ps=await API.getPatients();
+    const el=document.getElementById('rxList');
+    let allRx=[];
+    for(const p of ps){
+      try{
+        const full=await API.getPatient(p.id);
+        if(full.prescriptions&&full.prescriptions.length){
+          full.prescriptions.forEach(rx=>allRx.push({...rx,_pname:p.name,_pid:p.id}));
+        }
+      }catch(e){}
+    }
+    if(!allRx.length){
+      el.innerHTML='<div class="empty-state"><span class="material-symbols-outlined">prescriptions</span><h3>No prescriptions yet</h3><p>Click "New Prescription" or use the Rx button on a patient.</p></div>';
+      return;
+    }
+    allRx.sort((a,b)=>new Date(b.issued_at)-new Date(a.issued_at));
+    el.innerHTML=allRx.map(rx=>{
+      let meds=[];
+      try{meds=typeof rx.medicines==='string'?JSON.parse(rx.medicines):rx.medicines||[];}catch(e){}
+      return `<div class="list-item" style="margin-bottom:1rem">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.75rem">
+          <div>
+            <strong style="font-size:1rem">${rx._pname}</strong>
+            <span class="badge badge-primary" style="font-size:0.65rem;margin-left:0.5rem">${rx._pid}</span>
+            <div class="text-xs text-muted" style="margin-top:0.2rem">${fmtDate(rx.issued_at)}</div>
+          </div>
+          <div style="display:flex;gap:0.4rem">
+            <button class="btn btn-sm" style="background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2)" onclick="deleteRx('${rx._pid}','${rx.id}')">
+              <span class="material-symbols-outlined" style="font-size:15px">delete</span> Delete
+            </button>
+          </div>
+        </div>
+        ${meds.length?`<div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.75rem">
+          ${meds.map(m=>`<span class="badge" style="background:rgba(13,148,136,0.1);color:var(--primary);font-size:0.78rem;padding:0.25rem 0.6rem;border-radius:999px">
+            <strong>${m.name}</strong>${m.potency?' — '+m.potency:''} ${m.dose?'| '+m.dose:''} ${m.qty?'× '+m.qty:''}
+          </span>`).join('')}
+        </div>`:''}
+        ${rx.instructions?`<p class="text-sm text-secondary-c" style="margin-bottom:0.4rem"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">notes</span> ${rx.instructions}</p>`:''}
+        ${rx.follow_up?`<p class="text-xs text-muted"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:middle">event</span> Follow-up: ${fmtDate(rx.follow_up)}</p>`:''}
+      </div>`;
+    }).join('');
+  }catch(e){toast(e.message,'error');}
+}
+
+async function deleteRx(pid,rid){
+  if(!confirm('Delete this prescription?'))return;
+  try{
+    await API.deletePrescription(pid,rid);
+    toast('Prescription deleted','warning');
+    loadRx();
+  }catch(e){toast(e.message,'error');}
 }
 
 checkAuth();

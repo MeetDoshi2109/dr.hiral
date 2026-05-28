@@ -22,18 +22,19 @@
   <div class="particles-container" id="particles" aria-hidden="true"></div>
 
   <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobile-menu">
-    <button class="btn-ghost" id="menu-close" style="position:absolute;top:1.5rem;right:1.5rem" aria-label="Close menu">
-      <span class="material-symbols-outlined">close</span>
+  <div class="mobile-menu" id="mobile-menu" aria-modal="true" role="dialog" aria-label="Navigation menu" inert>
+    <button class="btn-ghost" id="menu-close" style="position:absolute;top:1.25rem;right:1.25rem;background:var(--bg-muted);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center" aria-label="Close menu">
+      <span class="material-symbols-outlined" aria-hidden="true">close</span>
     </button>
-    <nav style="display:flex;flex-direction:column;gap:1.5rem;margin-top:2rem">
-      <a href="/" style="font-size:1.25rem;font-weight:600;color:var(--primary)">Home</a>
-      <a href="#services" style="font-size:1.25rem;font-weight:600;color:var(--text)">Services</a>
-      <a href="/appointments.html" style="font-size:1.25rem;font-weight:600;color:var(--text)">Book Appointment</a>
-      <a href="/patient.html" style="font-size:1.25rem;font-weight:600;color:var(--text)">Patient Portal</a>
+    <nav aria-label="Mobile navigation">
+      <a href="/">Home</a>
+      <a href="#services">Services</a>
+      <a href="/appointments.html">Book Appointment</a>
+      <a href="/patient.html">Patient Portal</a>
     </nav>
     <a href="/dashboard.html" class="btn btn-primary w-full" style="margin-top:auto">Doctor Login</a>
   </div>
+
 
   <!-- NAVBAR -->
   <div class="navbar-wrap">
@@ -53,12 +54,15 @@
           <span class="material-symbols-outlined" id="theme-icon" style="font-size: 20px;">dark_mode</span>
         </button>
         <a href="/dashboard.html" class="btn btn-primary btn-sm" id="desk-login">Doctor Login</a>
-        <button class="btn-ghost" id="menu-open" aria-label="Menu">
-          <span class="material-symbols-outlined">menu</span>
+        <button class="btn-ghost" id="menu-open" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="material-symbols-outlined" aria-hidden="true">menu</span>
         </button>
       </div>
     </nav>
   </div>
+
+  <!-- MAIN CONTENT -->
+  <main id="main-content">
 
   <!-- REDESIGNED HERO SECTION -->
   <header class="hero" id="hero-section">
@@ -81,7 +85,7 @@
         <!-- Left Column: Branding and Text Content -->
         <div class="hero-text-block" style="text-align: left; padding: 0;">
           <div class="badge badge-primary reveal" style="margin-bottom: 1.25rem;">
-            <span class="material-symbols-outlined"
+            <span class="material-symbols-outlined" aria-hidden="true"
               style="font-size: 14px; font-variation-settings: 'FILL' 1">spa</span>
             <span>Classical Homeopathy Specialist</span>
           </div>
@@ -97,11 +101,11 @@
 
           <div class="hero-actions reveal" style="display: flex; gap: 1rem; margin-bottom: 2.75rem;">
             <a href="/appointments.html" class="btn btn-primary btn-lg">
-              <span class="material-symbols-outlined" style="font-size: 20px;">calendar_month</span>
+              <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 20px;">calendar_month</span>
               <span>Book Appointment</span>
             </a>
             <a href="/patient.html" class="btn btn-outline btn-lg">
-              <span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+              <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 20px;">search</span>
               <span>Patient Portal</span>
             </a>
           </div>
@@ -206,18 +210,18 @@
               style="display: flex; flex-direction: column; gap: 0.65rem; text-align: left; padding: 0 0.5rem; margin-bottom: 1.25rem;">
               <div
                 style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; color: var(--text-secondary);">
-                <span class="material-symbols-outlined" style="color: var(--primary); font-size: 20px;">call</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="color: var(--primary); font-size: 20px;">call</span>
                 <span style="font-weight: 500;">+91 79722 32216</span>
               </div>
               <div
                 style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; color: var(--text-secondary);">
-                <span class="material-symbols-outlined" style="color: var(--primary); font-size: 20px;">mail</span>
+                <span class="material-symbols-outlined" aria-hidden="true" style="color: var(--primary); font-size: 20px;">mail</span>
                 <span style="font-weight: 500;">dr.hiral@homeocare.in</span>
               </div>
             </div>
 
             <a href="/appointments.html" class="btn btn-primary w-full" style="padding: 0.75rem; margin-bottom: 0px;">
-              <span class="material-symbols-outlined" style="font-size: 18px;">calendar_month</span>
+              <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 18px;">calendar_month</span>
               <span>Schedule Consultation</span>
             </a>
 
@@ -741,9 +745,26 @@
 
       // ── Mobile Menu ──
       const mobileMenu = document.getElementById('mobile-menu');
-      if (menuOpen) menuOpen.addEventListener('click', () => mobileMenu.classList.add('open'));
-      document.getElementById('menu-close').addEventListener('click', () => mobileMenu.classList.remove('open'));
-      mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+      function openMobileMenu() {
+        mobileMenu.removeAttribute('inert');
+        mobileMenu.classList.add('open');
+        menuOpen.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+        // focus first link
+        setTimeout(() => mobileMenu.querySelector('a')?.focus(), 80);
+      }
+      function closeMobileMenu() {
+        mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('inert', '');
+        menuOpen.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        menuOpen.focus();
+      }
+      if (menuOpen) menuOpen.addEventListener('click', openMobileMenu);
+      document.getElementById('menu-close').addEventListener('click', closeMobileMenu);
+      mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileMenu));
+      // Close on backdrop click (Escape key)
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMobileMenu(); });
 
       // ── Scroll Reveal (all variants) ──
       const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children');

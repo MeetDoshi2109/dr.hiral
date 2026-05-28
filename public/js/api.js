@@ -40,6 +40,8 @@ const API = {
   deletePatient:(id)     => API.delete(`/api/patients/${id}`),
   addTimeline:  (id,data)=> API.post(`/api/patients/${id}/timeline`, data),
   addPrescription:(id,d) => API.post(`/api/patients/${id}/prescriptions`, d),
+  deletePrescription:(pid,rid)=> API.delete(`/api/patients/${pid}/prescriptions/${rid}`),
+  getPrescriptions:()    => API.get('/api/prescriptions'),
 
   // QR
   getQR: (patientId) => API.get(`/api/qr/${patientId}`),

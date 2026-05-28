@@ -812,6 +812,17 @@ img { max-width: 100%; display: block; }
   .cta-section { padding: 3rem 1.5rem; }
   .navbar-nav { display: none; }
   .section { padding: 3.5rem 0; }
+  /* Hide Doctor Login in navbar on mobile — it’s in the mobile menu */
+  #desk-login { display: none !important; }
+  /* Navbar compact on mobile */
+  .navbar-wrap { padding: 0.6rem 1rem; }
+  .navbar { padding: 0.5rem 1rem; border-radius: var(--radius-xl); }
+  /* Hero text left-aligned on mobile becomes centered */
+  .hero-text-block { text-align: center !important; }
+  .hero-actions { justify-content: center; flex-wrap: wrap; }
+  .hero-stats { justify-content: center; }
+  .hero-trust { justify-content: center !important; }
+  .hero h1 { font-size: 2rem; }
 }
 
 @media (max-width: 375px) {
