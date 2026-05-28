@@ -737,9 +737,11 @@
       }
 
       // ── Responsive Navbar ──
+      const deskLogin = document.getElementById('desk-login');
       const menuOpen = document.getElementById('menu-open');
       function handleResize() {
         const mobile = window.innerWidth < 768;
+        if (deskLogin) deskLogin.style.display = mobile ? 'none' : 'inline-flex';
         if (menuOpen) menuOpen.style.display = mobile ? 'inline-flex' : 'none';
       }
       handleResize();
