@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const sqlite3 = require('sqlite3').verbose();
 require('dotenv').config();
 
 // Unique ID Generator
@@ -135,6 +134,7 @@ function initSQLite() {
   if (sqliteDb || useFirebase || usePostgres) return;
   
   try {
+    const sqlite3 = require('sqlite3').verbose();
     console.log(`🔌 Initialising local SQLite database at: ${dbPath}`);
     sqliteDb = new sqlite3.Database(dbPath);
     
