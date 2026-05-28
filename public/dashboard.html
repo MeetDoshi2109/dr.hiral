@@ -400,7 +400,7 @@
 
 let rejectId='';
 async function checkAuth(){try{const s=await API.status();if(s.loggedIn){showDash();return}}catch(e){}document.getElementById('loginView').classList.remove('hidden')}
-async function doLogin(){const p=document.getElementById('pwdInput').value;try{await API.login(p);showDash();toast('Welcome back, Dr. Hiral!','success')}catch(e){document.getElementById('loginErr').classList.remove('hidden')}}
+async function doLogin(){const p=document.getElementById('pwdInput').value;try{await API.login(p);await new Promise(r=>setTimeout(r,250));showDash();toast('Welcome back, Dr. Hiral!','success')}catch(e){document.getElementById('loginErr').classList.remove('hidden')}}
 async function doLogout(){await API.logout();location.reload()}
 document.getElementById('pwdInput')?.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
 

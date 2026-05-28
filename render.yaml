@@ -7,7 +7,9 @@ services:
     startCommand: npm start
     envVars:
       - key: DATABASE_URL
-        value: postgresql://postgres:YashMeet@633821@db.mbexukwagbpamwcxngfg.supabase.co:5432/postgres
+        value: sqlite://db/homeopathy.db
+      - key: NODE_VERSION
+        value: 20.9.0
       - key: SESSION_SECRET
         value: HiralMehta_SuperSecretKey_2025_Homeopathy
       - key: DOCTOR_PASSWORD
