@@ -82,6 +82,32 @@
 <div class="page-wrap">
   <div class="appt-container">
 
+    <!-- APPOINTMENT STATUS VIEW -->
+    <div id="statusView" class="hidden reveal">
+      <div class="page-hero" style="margin-bottom:1.5rem">
+        <div class="page-icon" style="background: linear-gradient(135deg, var(--secondary), var(--primary));">
+          <span class="material-symbols-outlined" style="font-size:32px;color:white;font-variation-settings:'FILL' 1">qr_code_scanner</span>
+        </div>
+        <h1 style="font-size:2rem;margin-bottom:0.5rem">Appointment <span class="highlight">Status</span></h1>
+        <p class="text-secondary-c">Live review status of your consultation request</p>
+      </div>
+
+      <div class="card" style="padding:2.5rem 2rem; text-align:center;">
+        <div id="statusCardContent">
+          <!-- Dynamically populated with status details -->
+        </div>
+
+        <div style="margin-top:2rem; display:flex; gap:0.75rem; flex-wrap:wrap; justify-content:center">
+          <button class="btn btn-outline" onclick="clearStoredAppt()">
+            <span class="material-symbols-outlined" style="font-size:16px">restart_alt</span> Book Another Appointment
+          </button>
+          <a href="/" class="btn btn-primary">
+            <span class="material-symbols-outlined" style="font-size:16px">home</span> Back to Home
+          </a>
+        </div>
+      </div>
+    </div>
+
     <!-- BOOKING FORM -->
     <div id="bookingForm" class="reveal">
       <div class="page-hero">
@@ -284,7 +310,124 @@
     sc.appendChild(d);
   });
   document.getElementById('af_date').min = new Date().toISOString().split('T')[0];
+
+  // Check appointment status on load
+  checkApptStatus();
 })();
+
+async function checkApptStatus() {
+  const myApptId = localStorage.getItem('my_appointment_id');
+  if (!myApptId) return;
+
+  document.getElementById('bookingForm').classList.add('hidden');
+  const statusView = document.getElementById('statusView');
+  statusView.classList.remove('hidden');
+  
+  const content = document.getElementById('statusCardContent');
+  content.innerHTML = `
+    <div style="font-size:18px; margin:2rem 0; color:var(--text-secondary)">
+      <span class="material-symbols-outlined" style="font-size:36px; animation:spin 1s linear infinite; color:var(--primary)">refresh</span>
+      <br><br>Retrieving your appointment status...
+    </div>
+  `;
+
+  try {
+    const appt = await API.get(`/api/appointments/status/${myApptId}`);
+    
+    const formattedDate = new Date(appt.appt_date).toLocaleDateString('en-IN', { 
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' 
+    });
+
+    let statusHtml = '';
+    if (appt.status === 'pending') {
+      statusHtml = `
+        <div class="confirm-icon" style="background: rgba(245,158,11,0.1); border: 2px solid rgba(245,158,11,0.3); animation: pulse-glow 2s infinite;">
+          <span class="material-symbols-outlined" style="font-size:36px; color:rgb(245,158,11); font-variation-settings:'FILL' 1">pending</span>
+        </div>
+        <div class="badge badge-warning" style="margin-bottom:1rem">Pending Review</div>
+        <h3 style="font-size:1.6rem; margin-bottom:0.5rem; color:var(--text)">Under Review</h3>
+        <p class="text-secondary-c mb-xl" style="font-size:0.92rem; line-height:1.6;">Dr. Hiral Mehta is currently reviewing your request for <strong style="color:var(--text)">${appt.appt_time} on ${formattedDate}</strong>. We will notify you shortly.</p>
+      `;
+    } else if (appt.status === 'accepted') {
+      let qrImgHtml = `<div style="padding:1.5rem; display:flex; justify-content:center;"><div style="width:200px; height:200px; background:rgba(255,255,255,0.02); border:1px dashed var(--border); border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center;"><span class="material-symbols-outlined" style="font-size:40px; animation:spin 1s linear infinite; color:var(--primary)">refresh</span></div></div>`;
+      
+      statusHtml = `
+        <div class="confirm-icon" style="background: rgba(5,150,105,0.1); border: 2px solid rgba(5,150,105,0.3);">
+          <span class="material-symbols-outlined" style="font-size:36px; color:rgb(5,150,105); font-variation-settings:'FILL' 1">check_circle</span>
+        </div>
+        <div class="badge badge-secondary" style="margin-bottom:1rem">Appointment Accepted</div>
+        <h3 style="font-size:1.6rem; margin-bottom:0.5rem; color:var(--text)">Confirmed!</h3>
+        <p class="text-secondary-c mb-md" style="font-size:0.92rem; line-height:1.6;">Your appointment is confirmed for <strong style="color:var(--text)">${appt.appt_time} on ${formattedDate}</strong>.</p>
+        
+        <div class="card" style="background:rgba(8,145,178,0.04); border:1px solid rgba(8,145,178,0.2); padding:1.5rem; margin:1.5rem 0; text-align:center;">
+          <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted); margin-bottom:0.25rem;">Your Patient Code / ID</div>
+          <div style="font-size:1.8rem; font-weight:700; color:var(--primary); font-family:monospace; letter-spacing:0.05em;">${appt.patient_id || 'PAT-GENERATING'}</div>
+          <p class="text-xs text-secondary-c" style="margin-top:0.5rem;">Present this code or scan the QR below when visiting the clinic.</p>
+          <div id="qrCodeContainer" style="margin-top: 1rem;">${qrImgHtml}</div>
+        </div>
+      `;
+
+      if (appt.patient_id) {
+        API.get(`/api/qr/${appt.patient_id}`).then(qrData => {
+          const qrContainer = document.getElementById('qrCodeContainer');
+          if (qrContainer) {
+            qrContainer.innerHTML = `
+              <img src="${qrData.qr}" alt="Patient QR Code" style="max-width:200px; width:100%; border-radius:var(--radius-md); border:4px solid white; box-shadow:var(--shadow-md); margin: 0 auto; display:block;">
+            `;
+          }
+        }).catch(err => {
+          const qrContainer = document.getElementById('qrCodeContainer');
+          if (qrContainer) {
+            qrContainer.innerHTML = `<p style="color:var(--text-muted); font-size:0.8rem; margin-top:1rem;">Failed to load QR code.</p>`;
+          }
+        });
+      }
+
+    } else if (appt.status === 'rejected') {
+      statusHtml = `
+        <div class="confirm-icon" style="background: rgba(220,38,38,0.1); border: 2px solid rgba(220,38,38,0.3);">
+          <span class="material-symbols-outlined" style="font-size:36px; color:rgb(220,38,38)">cancel</span>
+        </div>
+        <div class="badge" style="background:rgba(220,38,38,0.1); color:rgb(220,38,38); margin-bottom:1rem">Declined</div>
+        <h3 style="font-size:1.5rem; margin-bottom:0.5rem; color:var(--text)">Slot Unavailable</h3>
+        <p class="text-secondary-c mb-xl" style="font-size:0.92rem; line-height:1.6;">Unfortunately, your request for <strong style="color:var(--text)">${appt.appt_time} on ${formattedDate}</strong> could not be accommodated.</p>
+        
+        <div class="card" style="background:rgba(220,38,38,0.03); border:1px solid rgba(220,38,38,0.15); padding:1rem; text-align:left; margin-bottom:1.5rem;">
+          <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-muted); font-weight:600; margin-bottom:0.25rem;">Reason for Rejection</div>
+          <div style="font-size:0.9rem; color:var(--text-secondary); font-style:italic;">"${appt.reject_reason || 'No specific reason provided.'}"</div>
+        </div>
+      `;
+    }
+
+    statusHtml += `
+      <div class="card" style="text-align:left; margin-top:1.5rem; padding:1.25rem; background:rgba(255,255,255,0.01);">
+        <div class="detail-row">
+          <span class="material-symbols-outlined" style="color:var(--primary); font-size:18px">person</span>
+          <div><div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Patient</div><div style="font-weight:600">${appt.patient_name}</div></div>
+        </div>
+        <div class="detail-row">
+          <span class="material-symbols-outlined" style="color:var(--primary); font-size:18px">calendar_today</span>
+          <div><div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Requested Time</div><div style="font-weight:600">${formattedDate} at ${appt.appt_time}</div></div>
+        </div>
+      </div>
+    `;
+
+    content.innerHTML = statusHtml;
+
+  } catch (e) {
+    console.error('Failed to parse active appointment, opening form:', e);
+    localStorage.removeItem('my_appointment_id');
+    document.getElementById('bookingForm').classList.remove('hidden');
+    statusView.classList.add('hidden');
+  }
+}
+
+function clearStoredAppt() {
+  localStorage.removeItem('my_appointment_id');
+  document.getElementById('statusView').classList.add('hidden');
+  document.getElementById('bookingForm').classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 async function bookAppt() {
   const name = document.getElementById('af_name').value.trim();
@@ -297,7 +440,10 @@ async function bookAppt() {
   const btn = document.getElementById('submitBtn');
   btn.disabled = true; btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;animation:spin 1s linear infinite">refresh</span> Sending...';
   try {
-    await API.bookAppointment({ patient_name: name, phone, email, appt_date: date, appt_time: time, reason });
+    const res = await API.bookAppointment({ patient_name: name, phone, email, appt_date: date, appt_time: time, reason });
+    if (res && res.id) {
+      localStorage.setItem('my_appointment_id', res.id);
+    }
     document.getElementById('bookingForm').classList.add('hidden');
     document.getElementById('confirmView').classList.remove('hidden');
     document.getElementById('cf_name').textContent = name;
@@ -312,6 +458,10 @@ async function bookAppt() {
 </script>
 <style>
 @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245,158,11,0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 15px 5px rgba(245,158,11,0.2); }
+}
 .w-full { width: 100%; }
 .form-input, .form-group textarea { font-family: var(--font-body); }
 .form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(8,145,178,0.12); }
