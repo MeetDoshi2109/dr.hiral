@@ -29,166 +29,65 @@
   <a href="/dashboard.html" class="btn btn-primary w-full" style="margin-top:auto">Doctor Login</a>
 </div>
 
-<!-- ════════════════════════════════════════════════ -->
-<!-- HERO — Glassmorphism Full-Screen Section        -->
-<!-- ════════════════════════════════════════════════ -->
-<div class="hero-fullscreen" id="hero-section">
-  <section class="hero-container">
+<!-- FLOATING CAPSULE NAVBAR -->
+<div class="navbar-wrap">
+  <nav class="navbar" id="main-nav">
+    <a href="/" class="navbar-brand">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.58 0 8a7 7 0 0 1-8 10Z"/><path d="M9.8 6.1C10.5 9 11.5 11.5 16 13"/></svg>
+      <span>Dr. Hiral</span>
+    </a>
+    
+    <ul class="navbar-nav" id="desktop-nav">
+      <li><a href="#services">Services</a></li>
+      <li><a href="/appointments.html">Appointments</a></li>
+      <li><a href="#conditions">Specialties</a></li>
+      <li><a href="/patient.html">Patient Portal</a></li>
+    </ul>
 
-    <!-- CSS Animated Gradient Background -->
-    <div class="hero-video-fallback" style="opacity: 0.95;"></div>
+    <div class="navbar-actions">
+      <!-- Theme Toggle -->
+      <button class="btn-ghost" id="theme-toggle" aria-label="Toggle theme" style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; cursor: pointer;">
+        <span class="material-symbols-outlined" id="theme-icon" style="font-size: 20px;">dark_mode</span>
+      </button>
+      <a href="/appointments.html" class="btn btn-primary" id="desk-login">Book Now</a>
+      <button class="btn-ghost" id="menu-open" aria-label="Menu" style="display: none;">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </nav>
+</div>
 
-    <!-- Content Layer -->
-    <div class="hero-content-layer">
+<!-- REDESIGNED HERO SECTION -->
+<header class="hero" id="hero-section">
+  <!-- Glowing Ambient Blobs -->
+  <div class="blob blob-primary" style="width: 400px; height: 400px; top: -100px; left: -100px; animation: blobFloat 12s infinite alternate;"></div>
+  <div class="blob blob-secondary" style="width: 450px; height: 450px; bottom: -150px; right: -100px; animation: blobFloat 15s infinite alternate-reverse;"></div>
 
-      <!-- ── Hero Navbar ── -->
-      <nav class="hero-nav">
-        <!-- Spacer for centering -->
-        <div class="hero-nav-spacer"></div>
+  <!-- Hero Specific Particles -->
+  <div class="particles-container" id="hero-particles" style="position: absolute; inset: 0; z-index: 1;" aria-hidden="true"></div>
 
-        <!-- Center Menu (Desktop) -->
-        <ul class="hero-nav-menu" id="desktop-nav">
-          <li><a href="#services" style="color:inherit;text-decoration:none">Services</a></li>
-          <li>
-            <a href="/appointments.html" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:0.25rem">
-              Appointments
-              <span class="material-symbols-outlined nav-chevron" style="font-size:16px">chevron_right</span>
-            </a>
-          </li>
-          <li><a href="#conditions" style="color:inherit;text-decoration:none">Specialties</a></li>
-          <li>
-            <a href="/patient.html" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:0.25rem">
-              Patient Portal
-              <span class="material-symbols-outlined nav-chevron" style="font-size:16px">chevron_right</span>
-            </a>
-          </li>
-        </ul>
-
-        <!-- Mobile Logo -->
-        <div class="hero-nav-logo">
-          <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;color:var(--hero-accent-solid);font-size:24px">spa</span>
-          Dr. Hiral
+  <div class="container" style="position: relative; z-index: 10;">
+    <div class="hero-grid">
+      <!-- Left Column: Branding and Text Content -->
+      <div class="hero-text-block" style="text-align: left; padding: 0;">
+        <div class="badge badge-primary reveal" style="margin-bottom: 1.25rem;">
+          <span class="material-symbols-outlined" style="font-size: 14px; font-variation-settings: 'FILL' 1">spa</span>
+          <span>Classical Homeopathy Specialist</span>
         </div>
-
-        <!-- Right CTA -->
-        <div class="hero-nav-cta-wrap">
-          <a href="/appointments.html" class="hero-nav-cta">
-            <div class="hero-nav-cta-icon">
-              <span class="material-symbols-outlined" style="font-size:16px;color:#fff">arrow_outward</span>
-            </div>
+        
+        <h1 class="reveal" style="font-size: 3.5rem; line-height: 1.15; margin-bottom: 1.25rem;">
+          Gentle Healing,<br>Rooted in <span class="highlight">Nature</span>
+        </h1>
+        
+        <p class="hero-sub reveal" style="margin-bottom: 2rem; max-width: 520px; font-size: 1.05rem;">
+          Experience gentle, effective, and deeply personalized homeopathic healing designed to restore your health naturally and permanently.
+        </p>
+        
+        <div class="hero-actions reveal" style="display: flex; gap: 1rem; margin-bottom: 2.5rem;">
+          <a href="/appointments.html" class="btn btn-primary btn-lg">
+            <span class="material-symbols-outlined" style="font-size: 20px;">calendar_month</span>
             <span>Book Appointment</span>
           </a>
-          <!-- Mobile hamburger -->
-          <button class="btn-ghost" id="menu-open" aria-label="Menu" style="display:none;margin-left:0.5rem;color:var(--hero-text)">
-            <span class="material-symbols-outlined">menu</span>
-          </button>
-        </div>
-      </nav>
-
-      <!-- ── Grid Layout for Split Content ── -->
-      <div class="hero-grid-layout">
-        <!-- Left Column: Hero Text Block -->
-        <div class="hero-text-block">
-          <!-- Badge -->
-          <div class="hero-badge hero-animate-badge">
-            <span class="material-symbols-outlined hero-badge-icon" style="font-variation-settings:'FILL' 1">spa</span>
-            <span class="hero-badge-text">Classical Homeopathy</span>
-          </div>
-
-          <!-- Title -->
-          <h1 class="hero-title hero-animate-title">
-            Heal Naturally with<br><span class="hero-title-accent">Dr. Hiral</span>
-          </h1>
-
-          <!-- Subtitle -->
-          <p class="hero-subtitle hero-animate-subtitle">
-            BHMS (MUHS) · Experience gentle, effective, and personalised homeopathic healing rooted in classical tradition.
-          </p>
-        </div>
-
-        <!-- Right Column: Old Dr. Hiral Moving Card -->
-        <div class="hero-doctor-card-wrap hero-animate-corner">
-          <div class="hero-doctor-card tilt-card">
-            <div class="hero-doctor-avatar">
-              <span class="material-symbols-outlined">person</span>
-            </div>
-            <h2 class="hero-doctor-name">Dr. Hiral</h2>
-            <p class="hero-doctor-degree">BHMS (MUHS)</p>
-            <p class="hero-doctor-title">Classical Homeopathy Specialist</p>
-            
-            <div class="hero-doctor-badges">
-              <span class="hero-doctor-badge">Homeopathy</span>
-              <span class="hero-doctor-badge">Pune</span>
-              <span class="hero-doctor-badge">Verified</span>
-            </div>
-            
-            <div class="hero-doctor-divider"></div>
-            
-            <div class="hero-doctor-info">
-              <div class="hero-doctor-info-item">
-                <span class="material-symbols-outlined icon">call</span>
-                <span>+91 79722 32216</span>
-              </div>
-              <div class="hero-doctor-info-item">
-                <span class="material-symbols-outlined icon">mail</span>
-                <span>dr.hiral@homeocare.in</span>
-              </div>
-              <div class="hero-doctor-info-item">
-                <span class="material-symbols-outlined icon">location_on</span>
-                <span>Homoeopathy Wellness Centre</span>
-              </div>
-            </div>
-            
-            <a href="/appointments.html" class="hero-doctor-cta">
-              <span class="material-symbols-outlined" style="font-size: 18px;">calendar_month</span>
-              <span>Schedule Consultation</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── Bottom-Left Stat Card ── -->
-      <div class="hero-stat-card hero-animate-stat-card">
-        <div style="display:flex;flex-direction:column">
-          <span class="hero-stat-value">500+</span>
-          <span class="hero-stat-label">Happy Patients</span>
-        </div>
-        <a href="/appointments.html" class="hero-stat-btn">
-          <div class="hero-stat-btn-icon">
-            <span class="material-symbols-outlined" style="font-size:16px">arrow_outward</span>
-          </div>
-          <span class="hero-stat-btn-text">Book Consultation</span>
-        </a>
-      </div>
-
-      <!-- ── Bottom-Right Cutout Corner ── -->
-      <div class="hero-corner hero-animate-corner">
-        <!-- Top intersection mask SVG -->
-        <div class="hero-corner-mask-top">
-          <svg width="100%" height="100%" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M56 56V0C56 30.9279 30.9279 56 0 56H56Z" fill="var(--hero-bg)"/>
-          </svg>
-        </div>
-        <!-- Left intersection mask SVG -->
-        <div class="hero-corner-mask-left">
-          <svg width="100%" height="100%" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M56 56H0C30.9279 56 56 30.9279 56 0V56Z" fill="var(--hero-bg)"/>
-          </svg>
-        </div>
-
-        <!-- Circle Icon -->
-        <div class="hero-corner-circle">
-          <span class="material-symbols-outlined" style="font-size:20px">arrow_outward</span>
-        </div>
-        <!-- Info Column -->
-        <div style="display:flex;flex-direction:column">
-          <span class="hero-corner-title">Patient Portal</span>
-          <a href="/patient.html" class="hero-corner-link">
-            <span>View Records</span>
-            <span class="material-symbols-outlined" style="font-size:14px">chevron_right</span>
-          </a>
-        </div>
-      </div>
 
     </div>
   </section>
@@ -661,10 +560,20 @@
 <script type="module">
   import { animate, inView } from 'https://cdn.jsdelivr.net/npm/motion@11.15.0/+esm';
 
-  // Animate hero stats with spring physics
-  inView('.hero-stats', () => {
-    document.querySelectorAll('.hero-stat').forEach((el, i) => {
-      animate(el, { opacity: [0, 1], y: [20, 0] }, { delay: i * 0.15, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
+  // Animate hero items with spring physics on page load
+  inView('.hero', () => {
+    animate('.hero .badge', { opacity: [0, 1], y: [-20, 0] }, { duration: 0.6, easing: [0.22, 1, 0.36, 1] });
+    animate('.hero h1', { opacity: [0, 1], y: [30, 0] }, { delay: 0.1, duration: 0.7, easing: [0.22, 1, 0.36, 1] });
+    animate('.hero-sub', { opacity: [0, 1], y: [20, 0] }, { delay: 0.2, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
+    animate('.hero-actions', { opacity: [0, 1], y: [20, 0] }, { delay: 0.3, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
+    animate('.hero-stats', { opacity: [0, 1], y: [20, 0] }, { delay: 0.4, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
+    animate('.doctor-card', { opacity: [0, 1], x: [50, 0], scale: [0.95, 1], rotate: [2, 0] }, { delay: 0.2, duration: 0.8, easing: [0.22, 1, 0.36, 1] });
+  });
+
+  // Animate testimonial cards
+  inView('.testimonial-grid', ({ target }) => {
+    target.querySelectorAll('.test-card').forEach((el, i) => {
+      animate(el, { opacity: [0, 1], y: [25, 0] }, { delay: i * 0.1, duration: 0.5, easing: [0.22, 1, 0.36, 1] });
     });
   });
 
@@ -685,18 +594,6 @@
   // Animate CTA section
   inView('.cta-section', ({ target }) => {
     animate(target, { scale: [0.96, 1], opacity: [0, 1] }, { duration: 0.7, easing: [0.22, 1, 0.36, 1] });
-  });
-
-  // Animate doctor card with float
-  inView('.doctor-card', ({ target }) => {
-    animate(target, { y: [30, 0], opacity: [0, 1], rotate: [2, 0] }, { duration: 0.8, easing: [0.22, 1, 0.36, 1] });
-  });
-
-  // Animate testimonial cards
-  inView('.testimonial-grid', ({ target }) => {
-    target.querySelectorAll('.test-card').forEach((el, i) => {
-      animate(el, { opacity: [0, 1], y: [25, 0] }, { delay: i * 0.1, duration: 0.5, easing: [0.22, 1, 0.36, 1] });
-    });
   });
 </script>
 <style>@keyframes ripple{to{transform:scale(2.5);opacity:0}}</style>
