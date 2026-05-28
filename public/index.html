@@ -66,7 +66,7 @@
   <!-- Hero Specific Particles -->
   <div class="particles-container" id="hero-particles" style="position: absolute; inset: 0; z-index: 1;" aria-hidden="true"></div>
 
-  <div class="container" style="position: relative; z-index: 10;">
+  <div class="container" style="position: relative; z-index: 10; width: 100%;">
     <div class="hero-grid">
       <!-- Left Column: Branding and Text Content -->
       <div class="hero-text-block" style="text-align: left; padding: 0;">
@@ -79,19 +79,120 @@
           Gentle Healing,<br>Rooted in <span class="highlight">Nature</span>
         </h1>
         
-        <p class="hero-sub reveal" style="margin-bottom: 2rem; max-width: 520px; font-size: 1.05rem;">
+        <p class="hero-sub reveal" style="margin-bottom: 2.25rem; max-width: 520px; font-size: 1.05rem;">
           Experience gentle, effective, and deeply personalized homeopathic healing designed to restore your health naturally and permanently.
         </p>
         
-        <div class="hero-actions reveal" style="display: flex; gap: 1rem; margin-bottom: 2.5rem;">
+        <div class="hero-actions reveal" style="display: flex; gap: 1rem; margin-bottom: 2.75rem;">
           <a href="/appointments.html" class="btn btn-primary btn-lg">
             <span class="material-symbols-outlined" style="font-size: 20px;">calendar_month</span>
             <span>Book Appointment</span>
           </a>
+          <a href="/patient.html" class="btn btn-outline btn-lg">
+            <span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+            <span>Patient Portal</span>
+          </a>
+        </div>
+        
+        <div class="hero-stats reveal" style="display: flex;">
+          <div class="hero-stat">
+            <div class="hero-stat-val count-up" data-target="500">0</div>
+            <div class="hero-stat-lbl">Happy Patients</div>
+          </div>
+          <div class="hero-stat" style="border-left: 1px solid var(--border); padding-left: 2rem; margin-left: 2rem;">
+            <div class="hero-stat-val">10+</div>
+            <div class="hero-stat-lbl">Years Experience</div>
+          </div>
+          <div class="hero-stat" style="border-left: 1px solid var(--border); padding-left: 2rem; margin-left: 2rem;">
+            <div class="hero-stat-val count-up" data-target="98">0</div>
+            <div class="hero-stat-lbl">% Success Rate</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Column: Interactive Doctor Profile Card & Clinic Hub Card -->
+      <div class="reveal-right" style="position: relative; width: 100%; display: flex; flex-direction: column; gap: 1.5rem;">
+        
+        <!-- Card 1: Doctor Profile Card -->
+        <div class="doctor-card tilt-card" style="padding: 2.25rem 2rem;">
+          <!-- Top glowing badges -->
+          <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.25rem; flex-wrap: wrap;">
+            <span class="badge badge-primary">Homeopathy</span>
+            <span class="badge badge-secondary">Verified Specialist</span>
+            <span class="badge badge-info">Pune</span>
+          </div>
 
+          <div class="doctor-avatar" style="width: 80px; height: 80px; margin-bottom: 1rem;">
+            <span class="material-symbols-outlined" style="font-size: 40px; font-variation-settings: 'FILL' 1;">person</span>
+          </div>
+          
+          <h2 style="font-size: 1.6rem; margin-bottom: 0.25rem;">Dr. Hiral Mehta</h2>
+          <p class="text-primary text-sm" style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">BHMS (MUHS)</p>
+          <p class="text-secondary-c text-sm" style="margin-bottom: 1.25rem; font-weight: 500;">Consulting Classical Homeopath</p>
+          
+          <div class="divider" style="margin: 1.25rem 0;"></div>
+          
+          <div style="display: flex; flex-direction: column; gap: 0.65rem; text-align: left; padding: 0 0.5rem; margin-bottom: 1.25rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; color: var(--text-secondary);">
+              <span class="material-symbols-outlined" style="color: var(--primary); font-size: 20px;">call</span>
+              <span style="font-weight: 500;">+91 79722 32216</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; color: var(--text-secondary);">
+              <span class="material-symbols-outlined" style="color: var(--primary); font-size: 20px;">mail</span>
+              <span style="font-weight: 500;">dr.hiral@homeocare.in</span>
+            </div>
+          </div>
+          
+          <a href="/appointments.html" class="btn btn-primary w-full" style="padding: 0.75rem;">
+            <span class="material-symbols-outlined" style="font-size: 18px;">calendar_month</span>
+            <span>Schedule Consultation</span>
+          </a>
+        </div>
+
+        <!-- Card 2: Interactive Clinic Hub Card with 3 buttons -->
+        <div class="doctor-card tilt-card hub-card" style="padding: 1.75rem; background: rgba(18, 33, 49, 0.03); border: 1px solid rgba(255,255,255,0.06); text-align: left;">
+          <h3 style="font-size: 1.15rem; margin-bottom: 1rem; color: var(--text); display: flex; align-items: center; gap: 0.5rem;">
+            <span class="material-symbols-outlined text-primary" style="font-size: 22px;">explore</span>
+            <span>Interactive Clinic Hub</span>
+          </h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; width: 100%;">
+            <!-- Button 1: Address Modal Trigger -->
+            <button onclick="openModal('address-modal')" class="btn btn-outline w-full" style="justify-content: flex-start; text-align: left; padding: 0.75rem 1rem; border-color: rgba(255,255,255,0.06); background: rgba(255,255,255,0.02);">
+              <span class="material-symbols-outlined text-primary" style="font-size: 20px; font-variation-settings:'FILL' 1">location_on</span>
+              <div style="display:flex; flex-direction:column; gap:0.15rem; margin-left: 0.25rem;">
+                <strong style="font-size:0.85rem; color:var(--text)">Clinic Location</strong>
+                <span style="font-size:0.75rem; color:var(--text-muted)">Baner Road, Pune</span>
+              </div>
+              <span class="material-symbols-outlined" style="margin-left: auto; font-size: 16px; color: var(--text-muted);">chevron_right</span>
+            </button>
+
+            <!-- Button 2: Credentials Lightbox Trigger -->
+            <button onclick="openModal('cert-modal')" class="btn btn-outline w-full" style="justify-content: flex-start; text-align: left; padding: 0.75rem 1rem; border-color: rgba(255,255,255,0.06); background: rgba(255,255,255,0.02);">
+              <span class="material-symbols-outlined text-primary" style="font-size: 20px; font-variation-settings:'FILL' 1">workspace_premium</span>
+              <div style="display:flex; flex-direction:column; gap:0.15rem; margin-left: 0.25rem;">
+                <strong style="font-size:0.85rem; color:var(--text)">Medical Credentials</strong>
+                <span style="font-size:0.75rem; color:var(--text-muted)">BHMS Registration Certificate</span>
+              </div>
+              <span class="material-symbols-outlined" style="margin-left: auto; font-size: 16px; color: var(--text-muted);">chevron_right</span>
+            </button>
+
+            <!-- Button 3: FAQ / QA Page Smooth Scroll -->
+            <a href="#faq" class="btn btn-outline w-full" style="justify-content: flex-start; text-align: left; padding: 0.75rem 1rem; border-color: rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); text-decoration: none; color: inherit;">
+              <span class="material-symbols-outlined text-primary" style="font-size: 20px; font-variation-settings:'FILL' 1">quiz</span>
+              <div style="display:flex; flex-direction:column; gap:0.15rem; margin-left: 0.25rem;">
+                <strong style="font-size:0.85rem; color:var(--text)">Clinical wisdom &amp; FAQs</strong>
+                <span style="font-size:0.75rem; color:var(--text-muted)">Questions and Answers</span>
+              </div>
+              <span class="material-symbols-outlined" style="margin-left: auto; font-size: 16px; color: var(--text-muted);">chevron_right</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </section>
-</div>
+  </div>
+</header>
 
 <!-- FEATURES -->
 <section class="section" id="services">
@@ -588,7 +689,8 @@
     animate('.hero-sub', { opacity: [0, 1], y: [20, 0] }, { delay: 0.2, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
     animate('.hero-actions', { opacity: [0, 1], y: [20, 0] }, { delay: 0.3, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
     animate('.hero-stats', { opacity: [0, 1], y: [20, 0] }, { delay: 0.4, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
-    animate('.doctor-card', { opacity: [0, 1], x: [50, 0], scale: [0.95, 1], rotate: [2, 0] }, { delay: 0.2, duration: 0.8, easing: [0.22, 1, 0.36, 1] });
+    animate('.doctor-card:not(.hub-card)', { opacity: [0, 1], x: [50, 0], scale: [0.95, 1], rotate: [2, 0] }, { delay: 0.25, duration: 0.8, easing: [0.22, 1, 0.36, 1] });
+    animate('.hub-card', { opacity: [0, 1], x: [50, 0], scale: [0.95, 1], rotate: [-2, 0] }, { delay: 0.38, duration: 0.8, easing: [0.22, 1, 0.36, 1] });
   });
 
   // Animate testimonial cards
@@ -617,6 +719,57 @@
     animate(target, { scale: [0.96, 1], opacity: [0, 1] }, { duration: 0.7, easing: [0.22, 1, 0.36, 1] });
   });
 </script>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="address-modal">
+  <div class="modal-content glass-card" style="position:relative; max-width: 500px; border: 1px solid rgba(255,255,255,0.12); padding: 2.5rem;">
+    <button class="btn-ghost" onclick="closeModal('address-modal')" style="position:absolute; top:1rem; right:1rem; color:var(--text); width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <div style="text-align: center; margin-bottom: 1.5rem;">
+      <span class="material-symbols-outlined text-primary" style="font-size: 40px; margin-bottom: 0.5rem; display:block;">location_on</span>
+      <h3 style="font-size:1.3rem;">Homoeopathy Wellness Centre</h3>
+      <p class="text-secondary-c text-sm">Pune, Maharashtra</p>
+    </div>
+    <div style="background:rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem; color:var(--text-secondary); font-size: 0.95rem;">
+      <p style="margin-bottom: 0.5rem;"><strong>📍 Clinic Address:</strong></p>
+      <p style="line-height:1.5;">Office No. 102, 1st Floor, Wellness Heights, Opp. Central Plaza, Baner, Pune - 411045</p>
+    </div>
+    <a href="https://maps.google.com" target="_blank" class="btn btn-primary w-full" style="padding:0.75rem;">
+      <span class="material-symbols-outlined">directions</span>
+      <span>Get Directions on Google Maps</span>
+    </a>
+  </div>
+</div>
+
+<div class="modal-overlay" id="cert-modal">
+  <div class="modal-content glass-card" style="position:relative; max-width: 600px; border: 1px solid rgba(255,255,255,0.12); padding: 2.5rem; text-align: center;">
+    <button class="btn-ghost" onclick="closeModal('cert-modal')" style="position:absolute; top:1rem; right:1rem; color:var(--text); width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <div style="margin-bottom: 1.5rem;">
+      <span class="material-symbols-outlined text-primary" style="font-size: 40px; margin-bottom: 0.5rem; display:block;">workspace_premium</span>
+      <h3 style="font-size:1.3rem;">Verified Medical Credentials</h3>
+      <p class="text-secondary-c text-sm">Dr. Hiral Mehta · BHMS (MUHS)</p>
+    </div>
+    <!-- Certificate frame mockup -->
+    <div style="border: 8px double rgba(13, 148, 136, 0.3); padding: 2rem; background: rgba(255,255,255,0.02); border-radius: var(--radius-md); margin-bottom: 1.5rem; position: relative;">
+      <div style="font-family: 'Times New Roman', serif; color: var(--text);">
+        <p style="font-size: 1.3rem; font-weight: bold; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 0.5rem;">CERTIFICATE OF REGISTRATION</p>
+        <p style="font-size: 0.8rem; font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem;">Maharashtra Council of Homoeopathy</p>
+        <p style="font-size: 1rem; margin-bottom: 0.75rem;">This is to certify that</p>
+        <p style="font-size: 1.3rem; font-weight: bold; color: var(--text); border-bottom: 1px solid var(--border); display: inline-block; padding-bottom: 0.25rem; margin-bottom: 1rem;">DR. HIRAL MEHTA</p>
+        <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary); max-width: 420px; margin: 0 auto 1.5rem;">has been duly registered under the Maharashtra Homoeopathic Practitioners' Act, 1959, and is authorized to practice Classical Homeopathic Medicine.</p>
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; border-top: 1px dashed var(--border); padding-top: 1rem; color: var(--text-muted);">
+          <div>Reg No: <strong>H-49201</strong></div>
+          <div>Council Seal Verified ✓</div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-outline w-full" onclick="closeModal('cert-modal')" style="padding:0.75rem;">Close Verification View</button>
+  </div>
+</div>
+
 <style>@keyframes ripple{to{transform:scale(2.5);opacity:0}}</style>
 </body>
 </html>
