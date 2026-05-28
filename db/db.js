@@ -140,29 +140,34 @@ function initSQLite() {
 
 // Initialise PostgreSQL Pool
 function initPostgres() {
-  if (!process.env.DATABASE_URL) {
+  if (!process.env.DATABASE_URL || process.env.DATABASE_URL === 'undefined' || process.env.DATABASE_URL === 'null') {
     initSQLite();
     return;
   }
 
-  pgPool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
-    max: 10,
-    idleTimeoutMillis: 10000,
-    connectionTimeoutMillis: 3000,
-  });
+  try {
+    pgPool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
+      max: 10,
+      idleTimeoutMillis: 10000,
+      connectionTimeoutMillis: 3000,
+    });
 
-  // Probe Postgres connection asynchronously
-  pgPool.query('SELECT 1', (err) => {
-    if (err) {
-      initSQLite();
-    }
-  });
+    // Probe Postgres connection asynchronously
+    pgPool.query('SELECT 1', (err) => {
+      if (err) {
+        initSQLite();
+      }
+    });
 
-  pgPool.on('error', (err) => {
-    if (!useSQLite) initSQLite();
-  });
+    pgPool.on('error', (err) => {
+      if (!useSQLite) initSQLite();
+    });
+  } catch (e) {
+    console.error('⚠️  Failed to create Postgres pool:', e.message);
+    initSQLite();
+  }
 }
 
 // Boot database connections
@@ -170,7 +175,8 @@ initPostgres();
 
 // Unified Database Query API
 async function query(text, params = []) {
-  if (useSQLite) {
+  if (useSQLite || !pgPool) {
+    if (!sqliteDb) initSQLite();
     return new Promise((resolve, reject) => {
       // 1. Translate parameter placeholders ($1, $2, $3 -> ?, ?, ?)
       let sql = text.replace(/\$(\d+)/g, '?');
@@ -270,7 +276,8 @@ async function query(text, params = []) {
 module.exports = {
   query,
   getClient: async () => {
-    if (useSQLite) {
+    if (useSQLite || !pgPool) {
+      if (!sqliteDb) initSQLite();
       return {
         query: (text, params) => query(text, params),
         release: () => {},
