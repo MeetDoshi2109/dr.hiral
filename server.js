@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const session = require('express-session');
+const crypto = require('crypto');
 const helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
@@ -23,16 +23,62 @@ app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 300, message: { error: 'Too m
 // ── Middleware ────────────────────────────────────────
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'hiral-mehta-secret',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    httpOnly: true,
-    maxAge: 8 * 60 * 60 * 1000, // 8 hours
-  },
-}));
+const SESSION_SECRET = process.env.SESSION_SECRET || 'hiral-mehta-secret';
+
+function signSession(data, secret) {
+  const payload = Buffer.from(JSON.stringify(data)).toString('base64');
+  const hmac = crypto.createHmac('sha256', secret).update(payload).digest('hex');
+  return `${payload}.${hmac}`;
+}
+
+function parseSession(cookieStr, secret) {
+  if (!cookieStr) return null;
+  const match = cookieStr.match(/hiral_session=([^;]+)/);
+  if (!match) return null;
+  const token = match[1];
+  const parts = token.split('.');
+  if (parts.length !== 2) return null;
+  const [payload, sig] = parts;
+  const expectedSig = crypto.createHmac('sha256', secret).update(payload).digest('hex');
+  if (sig !== expectedSig) return null;
+  try {
+    return JSON.parse(Buffer.from(payload, 'base64').toString('utf8'));
+  } catch (e) {
+    return null;
+  }
+}
+
+app.use((req, res, next) => {
+  const cookieHeader = req.headers.cookie || '';
+  const sessionData = parseSession(cookieHeader, SESSION_SECRET) || {};
+  
+  req.session = sessionData;
+  
+  req.session.destroy = (cb) => {
+    res.clearCookie('hiral_session', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      path: '/'
+    });
+    if (cb) cb();
+  };
+  
+  const originalJson = res.json;
+  res.json = function(data) {
+    if (req.session && (req.session.isDoctor || req.session.doctorName)) {
+      const token = signSession(req.session, SESSION_SECRET);
+      res.cookie('hiral_session', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        path: '/',
+        maxAge: 8 * 60 * 60 * 1000 // 8 hours
+      });
+    }
+    return originalJson.apply(this, arguments);
+  };
+  
+  next();
+});
 
 // ── Static files ──────────────────────────────────────
 app.use(express.static(path.join(__dirname, 'public')));
