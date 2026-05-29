@@ -848,5 +848,49 @@ checkAuth();
 <style>.w-full{width:100%}.truncate{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .modal{width:100%;max-width:500px;background:var(--bg-surface);border-radius:var(--radius-lg);padding:2rem;position:relative;z-index:1001;transform:translateY(20px);opacity:0;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1)}
 .modal-overlay.active .modal{transform:translateY(0);opacity:1}</style>
+
+<!-- FLOATING DATABASE BACKUP REMINDER -->
+<div id="backup-reminder" style="position: fixed; bottom: 2rem; right: 2rem; z-index: 1000; max-width: 320px; background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); padding: 1.25rem; transition: transform 0.3s ease, opacity 0.3s ease; animation: slideInUp 0.5s ease-out;">
+  <div style="display: flex; gap: 0.75rem; align-items: flex-start; margin-bottom: 0.75rem;">
+    <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(13, 148, 136, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+      <span class="material-symbols-outlined" style="font-size: 20px;">security</span>
+    </div>
+    <div>
+      <h4 style="font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.15rem;">Backup Reminder</h4>
+      <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.45;">Protect patient histories, records, and prescriptions with a secure offline backup.</p>
+    </div>
+  </div>
+  <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+    <button onclick="dismissBackupReminder()" class="btn btn-ghost btn-sm" style="font-size: 0.75rem; padding: 0.35rem 0.75rem; cursor: pointer;">Later</button>
+    <a href="/api/backup" download class="btn btn-primary btn-sm" style="font-size: 0.75rem; padding: 0.35rem 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none; cursor: pointer;">
+      <span class="material-symbols-outlined" style="font-size: 14px;">download</span>
+      <span>Backup Now</span>
+    </a>
+  </div>
+</div>
+
+<script>
+  function dismissBackupReminder() {
+    const el = document.getElementById('backup-reminder');
+    if (el) {
+      el.style.transform = 'translateY(20px)';
+      el.style.opacity = '0';
+      setTimeout(() => el.remove(), 300);
+    }
+  }
+</script>
+
+<style>
+  @keyframes slideInUp {
+    from {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+</style>
 </body>
 </html>

@@ -148,6 +148,33 @@ app.use('/api/patients', patientsRouter);
 app.use('/api/appointments', appointmentsRouter);
 app.use('/api/kits', kitsRouter);
 
+// ── Database Backup API ────────────────────────────────
+app.get('/api/backup', async (req, res) => {
+  const db = require('./db/db');
+  try {
+    const [patients, timeline, appointments, prescriptions, kits, reviews] = await Promise.all([
+      db.query('SELECT * FROM patients'),
+      db.query('SELECT * FROM timeline'),
+      db.query('SELECT * FROM appointments'),
+      db.query('SELECT * FROM prescriptions'),
+      db.query('SELECT * FROM medicine_kits'),
+      db.query('SELECT * FROM reviews'),
+    ]);
+    const backupData = {
+      exportedAt: new Date().toISOString(),
+      version: '1.0.0',
+      patients: patients.rows,
+      timeline: timeline.rows,
+      appointments: appointments.rows,
+      prescriptions: prescriptions.rows,
+      medicine_kits: kits.rows,
+      reviews: reviews.rows
+    };
+    res.setHeader('Content-Disposition', `attachment; filename=dr_hiral_backup_${new Date().toISOString().split('T')[0]}.json`);
+    res.json(backupData);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // ── Serve HTML pages ──────────────────────────────────
 const pages = ['index','dashboard','patient','kit','appointments'];
 pages.forEach(p => {

@@ -119,10 +119,10 @@
         <h1 style="font-size:2rem;margin-bottom:0.5rem">Book with <span class="highlight">Dr. Hiral</span></h1>
         <p class="text-secondary-c" style="margin-bottom:1rem">Schedule your personalised homeopathy consultation</p>
         <div style="margin-top: 1rem; display: flex; justify-content: center;">
-          <a href="/patient.html" class="btn btn-outline btn-sm" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+          <button onclick="openModal('check-status-modal')" class="btn btn-outline btn-sm" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; cursor: pointer;">
             <span class="material-symbols-outlined" style="font-size: 16px;">search</span>
             <span>Already have an appointment? Check Status</span>
-          </a>
+          </button>
         </div>
       </div>
 
@@ -462,7 +462,52 @@ async function bookAppt() {
     btn.disabled = false; btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px">send</span> Request Appointment';
   }
 }
+
+async function fetchStatusDirectly() {
+  const id = document.getElementById('status_appt_id').value.trim();
+  if (!id) { toast('Please enter an Appointment ID', 'warning'); return; }
+  try {
+    const appt = await API.get(`/api/appointments/status/${id}`);
+    if (!appt || !appt.id) { throw new Error(); }
+    localStorage.setItem('my_appointment_id', id);
+    closeModal('check-status-modal');
+    checkApptStatus();
+    toast('Appointment found!', 'success');
+  } catch (e) {
+    toast('Appointment ID not found or invalid.', 'error');
+  }
+}
 </script>
+
+<!-- CHECK APPOINTMENT STATUS MODAL -->
+<div class="modal-overlay" id="check-status-modal" style="backdrop-filter: blur(8px);">
+  <div class="modal" style="max-width: 440px; background:var(--glass); border: 1px solid var(--glass-border); padding: 2.5rem; text-align: center; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); color: var(--text);">
+    <button class="btn-ghost" onclick="closeModal('check-status-modal')"
+      style="position:absolute; top:1rem; right:1rem; color:var(--text); width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--bg-muted);">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <div style="margin-bottom: 1.5rem; text-align: center;">
+      <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(13, 148, 136, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+        <span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings:'FILL' 1">search</span>
+      </div>
+      <h3 style="font-size: 1.4rem; margin-bottom: 0.25rem;">Check Status</h3>
+      <p class="text-secondary-c text-sm">Enter your Appointment ID to track your request live</p>
+    </div>
+    
+    <div style="display: flex; flex-direction: column; gap: 1rem; text-align: left;">
+      <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
+        <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)">Appointment ID *</label>
+        <input type="text" id="status_appt_id" class="form-input" placeholder="e.g. APPT-A1B2C3D4" style="width:100%; border:1.5px solid var(--border); background:rgba(255,255,255,0.02); color:var(--text); font-family:var(--font-body); outline:none" required>
+      </div>
+      
+      <button onclick="fetchStatusDirectly()" class="btn btn-primary btn-lg w-full" style="margin-top: 0.5rem; justify-content:center">
+        <span class="material-symbols-outlined" style="font-size:18px">qr_code_scanner</span>
+        <span>Track Appointment</span>
+      </button>
+    </div>
+  </div>
+</div>
+
 <style>
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes pulse-glow {
@@ -472,6 +517,8 @@ async function bookAppt() {
 .w-full { width: 100%; }
 .form-input, .form-group textarea { font-family: var(--font-body); }
 .form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(8,145,178,0.12); }
+.modal { width: 100%; max-width: 500px; background: var(--bg-surface); border-radius: var(--radius-lg); padding: 2rem; position: relative; z-index: 1001; transform: translateY(20px); opacity: 0; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.modal-overlay.active .modal { transform: translateY(0); opacity: 1; }
 </style>
 </body>
 </html>
