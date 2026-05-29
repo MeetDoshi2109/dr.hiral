@@ -140,7 +140,7 @@
   const deskLogin = document.getElementById('desk-login');
   const menuOpen = document.getElementById('menu-open');
   function handleResize() {
-    const m = window.innerWidth < 768;
+    const m = window.innerWidth < 992;
     deskLogin.style.display = m ? 'none' : 'inline-flex';
     menuOpen.style.display = m ? 'inline-flex' : 'none';
   }

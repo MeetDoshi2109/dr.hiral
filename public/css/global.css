@@ -824,12 +824,6 @@ img { max-width: 100%; display: block; }
   .cta-section { padding: 3rem 1.5rem; }
   .section { padding: 3.5rem 0; }
 
-  /* Navbar */
-  .navbar-nav { display: none; }
-  #desk-login { display: none !important; }
-  .navbar-wrap { padding: 0.6rem 1rem; }
-  .navbar { padding: 0.5rem 1rem; border-radius: var(--radius-xl); }
-
   /* Hero centering */
   .hero-text-block { text-align: center !important; }
   .hero-actions { justify-content: center; flex-wrap: wrap; }
@@ -840,6 +834,30 @@ img { max-width: 100%; display: block; }
 
   /* Prevent right column overflow */
   .reveal-right { overflow: hidden; }
+}
+
+/* ── Navbar & Capsule Responsive Breakpoints ── */
+@media (max-width: 992px) {
+  .navbar-nav { display: none !important; }
+  #desk-login { display: none !important; }
+  .navbar-wrap { padding: 0.6rem 1.25rem; }
+  .navbar { padding: 0.5rem 1.25rem; border-radius: var(--radius-xl); }
+}
+
+@media (max-width: 768px) {
+  .navbar-wrap { padding: 0.5rem 1rem; }
+  .navbar { padding: 0.45rem 1rem; }
+}
+
+@media (max-width: 480px) {
+  .navbar-wrap { padding: 0.4rem 0.5rem; }
+  .navbar { padding: 0.4rem 0.75rem; }
+  .navbar-brand { font-size: 1.1rem; gap: 0.35rem; }
+  .navbar-actions { gap: 0.25rem; }
+  
+  /* Make standard large buttons fully responsive/full-width if needed */
+  .hero-actions { width: 100%; flex-direction: column; gap: 0.75rem; }
+  .hero-actions .btn { width: 100%; justify-content: center; }
 }
 
 @media (max-width: 375px) {

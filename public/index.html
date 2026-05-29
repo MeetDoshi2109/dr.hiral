@@ -736,7 +736,7 @@
       const deskLogin = document.getElementById('desk-login');
       const menuOpen = document.getElementById('menu-open');
       function handleResize() {
-        const mobile = window.innerWidth < 768;
+        const mobile = window.innerWidth < 992;
         if (deskLogin) deskLogin.style.display = mobile ? 'none' : 'inline-flex';
         if (menuOpen) menuOpen.style.display = mobile ? 'inline-flex' : 'none';
       }
