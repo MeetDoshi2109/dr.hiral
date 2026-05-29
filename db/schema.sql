@@ -97,3 +97,22 @@ VALUES
   ('PAT-DEMO003','2025-03-10','Initial visit. Panic attacks.','Aconite','200C'),
   ('PAT-DEMO003','2025-04-25','Much calmer. Sleeping better.','Ignatia','30C')
 ON CONFLICT DO NOTHING;
+
+-- ── Patient Reviews ──────────────────────────────────
+CREATE TABLE IF NOT EXISTS reviews (
+  id          SERIAL PRIMARY KEY,
+  name        TEXT NOT NULL,
+  rating      INTEGER CHECK (rating BETWEEN 1 AND 5),
+  text        TEXT NOT NULL,
+  location    TEXT,
+  created_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Seed reviews if table is empty
+INSERT INTO reviews (name, rating, text, location)
+VALUES
+  ('Priya Sharma', 5, 'Dr. Hiral cured my 7-year chronic migraine in just 3 months. No side effects. I recommend her to everyone!', 'Ahmedabad'),
+  ('Rajesh Patel', 5, 'The QR code system is brilliant. I can see all my records and prescriptions anytime I want.', 'Surat'),
+  ('Anita Desai', 5, 'My anxiety is completely gone after 4 months. She truly listens and finds the root cause.', 'Vadodara')
+ON CONFLICT DO NOTHING;
+

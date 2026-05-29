@@ -118,6 +118,30 @@ app.get('/api/stats', async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// ── Patient Reviews API ────────────────────────────────
+app.get('/api/reviews', async (req, res) => {
+  const db = require('./db/db');
+  try {
+    const result = await db.query('SELECT * FROM reviews ORDER BY created_at DESC');
+    res.json(result.rows);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/reviews', async (req, res) => {
+  const db = require('./db/db');
+  const { name, rating, text, location } = req.body;
+  if (!name || !rating || !text) {
+    return res.status(400).json({ error: 'Name, rating and review text are required.' });
+  }
+  try {
+    const result = await db.query(
+      'INSERT INTO reviews (name, rating, text, location) VALUES ($1, $2, $3, $4) RETURNING *',
+      [name, parseInt(rating), text, location || 'Anonymous']
+    );
+    res.status(212).json(result.rows[0]);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // ── Routes ────────────────────────────────────────────
 app.use('/api/auth', authRouter);
 app.use('/api/patients', patientsRouter);
