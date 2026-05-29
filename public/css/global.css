@@ -215,13 +215,27 @@ img { max-width: 100%; display: block; }
   border-radius: var(--radius-md);
   border: none;
   cursor: pointer;
-  transition: all var(--transition-base);
   text-decoration: none;
   line-height: 1.4;
+  position: relative;
+  overflow: hidden;
+  /* Snappy elastic transition based on design engineering principles (interruptible animations) */
+  transition: transform 120ms cubic-bezier(0.2, 0.8, 0.2, 1), 
+              background-color 150ms ease, 
+              box-shadow 150ms ease, 
+              border-color 150ms ease, 
+              color 150ms ease;
+  user-select: none;
+  -webkit-user-select: none;
 }
 .btn:focus-visible {
   outline: 3px solid var(--border-focus);
   outline-offset: 2px;
+}
+
+/* Instant responsive spring feedback on click (Scale down by 4% to feel active/springy) */
+.btn:active {
+  transform: scale(0.96) !important;
 }
 
 .btn-primary {
@@ -236,6 +250,28 @@ img { max-width: 100%; display: block; }
   transform: translateY(-1px);
 }
 
+/* Gliding reflection sheen on hover */
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  pointer-events: none;
+}
+.btn-primary:hover::before {
+  left: 150%;
+  transition: left 0.65s cubic-bezier(0.3, 1, 0.2, 1);
+}
+
 .btn-outline {
   background: transparent;
   color: var(--primary);
@@ -245,6 +281,28 @@ img { max-width: 100%; display: block; }
   border-color: var(--primary);
   background: rgba(8, 145, 178, 0.06);
   color: var(--primary);
+}
+
+/* Subtler outline sheen swipe */
+.btn-outline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(8, 145, 178, 0) 0%,
+    rgba(8, 145, 178, 0.1) 50%,
+    rgba(8, 145, 178, 0) 100%
+  );
+  transform: skewX(-25deg);
+  pointer-events: none;
+}
+.btn-outline:hover::before {
+  left: 150%;
+  transition: left 0.65s cubic-bezier(0.3, 1, 0.2, 1);
 }
 
 .btn-ghost {
