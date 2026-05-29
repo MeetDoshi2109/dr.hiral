@@ -971,8 +971,11 @@
           document.getElementById('rev_rating').value = val;
           stars.forEach(s => {
             const sVal = parseInt(s.getAttribute('data-value'));
-            s.style.fontVariationSettings = `'FILL' ${sVal <= val ? 1 : 0}`;
-            s.style.color = sVal <= val ? '#F59E0B' : 'var(--text-muted)';
+            if (sVal <= val) {
+              s.classList.add('active');
+            } else {
+              s.classList.remove('active');
+            }
           });
         });
       });
@@ -1146,11 +1149,11 @@
         <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
           <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)">Rating *</label>
           <div style="display: flex; gap: 0.5rem;" id="rating-stars-wrap">
-            <span class="material-symbols-outlined rating-star" data-value="1" style="cursor: pointer; color: #F59E0B; font-size:28px; font-variation-settings:'FILL' 1">star</span>
-            <span class="material-symbols-outlined rating-star" data-value="2" style="cursor: pointer; color: #F59E0B; font-size:28px; font-variation-settings:'FILL' 1">star</span>
-            <span class="material-symbols-outlined rating-star" data-value="3" style="cursor: pointer; color: #F59E0B; font-size:28px; font-variation-settings:'FILL' 1">star</span>
-            <span class="material-symbols-outlined rating-star" data-value="4" style="cursor: pointer; color: #F59E0B; font-size:28px; font-variation-settings:'FILL' 1">star</span>
-            <span class="material-symbols-outlined rating-star" data-value="5" style="cursor: pointer; color: #F59E0B; font-size:28px; font-variation-settings:'FILL' 1">star</span>
+            <span class="material-symbols-outlined rating-star active" data-value="1" style="cursor: pointer; font-size:28px;">star</span>
+            <span class="material-symbols-outlined rating-star active" data-value="2" style="cursor: pointer; font-size:28px;">star</span>
+            <span class="material-symbols-outlined rating-star active" data-value="3" style="cursor: pointer; font-size:28px;">star</span>
+            <span class="material-symbols-outlined rating-star active" data-value="4" style="cursor: pointer; font-size:28px;">star</span>
+            <span class="material-symbols-outlined rating-star active" data-value="5" style="cursor: pointer; font-size:28px;">star</span>
           </div>
           <input type="hidden" id="rev_rating" value="5">
         </div>
