@@ -282,13 +282,13 @@
 
 <!-- CASE RECORD MODAL -->
 <div class="modal-overlay" id="caseRecordModal" style="backdrop-filter: blur(8px);">
-  <div class="modal" style="max-width:1000px;max-height:90vh;overflow-y:auto;padding:0;background:rgba(5,20,36,0.65);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.08);border-radius:1.5rem;box-shadow:0 25px 50px -12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);">
-    <div class="modal-header" style="position:sticky;top:0;background:rgba(5,20,36,0.85);backdrop-filter:blur(16px);z-index:20;padding:1.5rem 2.5rem;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;">
+  <div class="modal" style="max-width:1000px;max-height:90vh;overflow-y:auto;padding:0;background:var(--glass);backdrop-filter:blur(24px);border:1px solid var(--glass-border);border-radius:1.5rem;box-shadow:var(--shadow-lg);color:var(--text);">
+    <div class="modal-header" style="position:sticky;top:0;background:var(--bg-surface);backdrop-filter:blur(16px);z-index:20;padding:1.5rem 2.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
       <div>
         <h3 class="modal-title" style="font-family:var(--font-heading);font-size:1.5rem;background:linear-gradient(135deg, var(--primary), var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:0.25rem;">Case Record Proforma</h3>
         <p style="font-size:0.85rem;color:var(--text-muted);font-family:var(--font-body);">Comprehensive Clinical Assessment & Treatment Logging</p>
       </div>
-      <button class="btn-ghost" onclick="closeModal('caseRecordModal')" style="background:rgba(255,255,255,0.05);border-radius:50%;padding:0.5rem;"><span class="material-symbols-outlined">close</span></button>
+      <button class="btn-ghost" onclick="closeModal('caseRecordModal')" style="background:var(--bg-muted);color:var(--text);border-radius:50%;padding:0.5rem;display:flex;align-items:center;justify-content:center;width:38px;height:38px;"><span class="material-symbols-outlined">close</span></button>
     </div>
     
     <div style="padding:2rem 2.5rem;">
@@ -296,116 +296,116 @@
         <input type="hidden" id="cr_pid">
         
         <!-- Preliminary Data (Some inputs for extra details) -->
-        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
+        <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-primary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">badge</span> Preliminary Data</h4>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">OPD Number</label><input class="form-input" id="cr_opd" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Physician In-charge</label><input class="form-input" id="cr_physician" value="Dr. Hiral" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">OPD Number</label><input class="form-input" id="cr_opd"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Physician In-charge</label><input class="form-input" id="cr_physician" value="Dr. Hiral"></div>
           </div>
         </div>
 
         <!-- Chief Complaint -->
-        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
+        <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-secondary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">personal_injury</span> Chief Complaint</h4>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1rem">
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Location</label><input class="form-input" id="cr_cc_location" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Sensation</label><input class="form-input" id="cr_cc_sensation" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Modalities (Agg/Amel)</label><input class="form-input" id="cr_cc_modalities" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Concomitant</label><input class="form-input" id="cr_cc_concomitant" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Location</label><input class="form-input" id="cr_cc_location"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Sensation</label><input class="form-input" id="cr_cc_sensation"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Modalities (Agg/Amel)</label><input class="form-input" id="cr_cc_modalities"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Concomitant</label><input class="form-input" id="cr_cc_concomitant"></div>
           </div>
-          <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Associated Complaints</label><textarea class="form-input" id="cr_assoc_complaints" rows="2" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></textarea></div>
+          <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Associated Complaints</label><textarea class="form-input" id="cr_assoc_complaints" rows="2"></textarea></div>
         </div>
 
         <!-- Physical Generals -->
-        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
+        <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-primary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">directions_run</span> Physical Generals</h4>
           <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:1.5rem;">
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Appetite</label><input class="form-input" id="cr_pg_appetite" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Thirst</label><input class="form-input" id="cr_pg_thirst" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Likes</label><input class="form-input" id="cr_pg_likes" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Dislikes</label><input class="form-input" id="cr_pg_dislikes" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Stool</label><input class="form-input" id="cr_pg_stool" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Urine</label><input class="form-input" id="cr_pg_urine" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Perspiration</label><input class="form-input" id="cr_pg_perspiration" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Thermals</label><input class="form-input" id="cr_pg_thermals" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Physical factors</label><input class="form-input" id="cr_pg_factors" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Sleep</label><input class="form-input" id="cr_pg_sleep" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group" style="grid-column: span 2;"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Dreams</label><input class="form-input" id="cr_pg_dreams" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Appetite</label><input class="form-input" id="cr_pg_appetite"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Thirst</label><input class="form-input" id="cr_pg_thirst"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Likes</label><input class="form-input" id="cr_pg_likes"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Dislikes</label><input class="form-input" id="cr_pg_dislikes"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Stool</label><input class="form-input" id="cr_pg_stool"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Urine</label><input class="form-input" id="cr_pg_urine"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Perspiration</label><input class="form-input" id="cr_pg_perspiration"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Thermals</label><input class="form-input" id="cr_pg_thermals"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Physical factors</label><input class="form-input" id="cr_pg_factors"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Sleep</label><input class="form-input" id="cr_pg_sleep"></div>
+            <div class="form-group" style="grid-column: span 2;"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Dreams</label><input class="form-input" id="cr_pg_dreams"></div>
           </div>
         </div>
 
         <!-- Medical History -->
-        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
+        <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-secondary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">history</span> Medical History</h4>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Family History</label><textarea class="form-input" id="cr_mh_family" rows="2" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></textarea></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Past History</label><textarea class="form-input" id="cr_mh_past" rows="2" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></textarea></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Family History</label><textarea class="form-input" id="cr_mh_family" rows="2"></textarea></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Past History</label><textarea class="form-input" id="cr_mh_past" rows="2"></textarea></div>
           </div>
         </div>
 
         <!-- Birth & Developmental Details -->
-        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
+        <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-primary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">child_care</span> Birth & Developmental Details</h4>
           <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:1.5rem;margin-bottom:1.5rem">
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Ante-natal</label><input class="form-input" id="cr_bd_ante" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Natal</label><input class="form-input" id="cr_bd_natal" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Post-natal</label><input class="form-input" id="cr_bd_post" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Ante-natal</label><input class="form-input" id="cr_bd_ante"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Natal</label><input class="form-input" id="cr_bd_natal"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Post-natal</label><input class="form-input" id="cr_bd_post"></div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Immunisation History</label><textarea class="form-input" id="cr_bd_immunisation" rows="2" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></textarea></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Developmental Milestones</label><textarea class="form-input" id="cr_bd_milestones" rows="2" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></textarea></div>
-            <div class="form-group" style="grid-column: span 2;"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Mother's history during pregnancy</label><textarea class="form-input" id="cr_bd_mother" rows="2" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></textarea></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Immunisation History</label><textarea class="form-input" id="cr_bd_immunisation" rows="2"></textarea></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Developmental Milestones</label><textarea class="form-input" id="cr_bd_milestones" rows="2"></textarea></div>
+            <div class="form-group" style="grid-column: span 2;"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Mother's history during pregnancy</label><textarea class="form-input" id="cr_bd_mother" rows="2"></textarea></div>
           </div>
         </div>
 
         <!-- Mental Generals -->
-        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
+        <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-secondary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">psychology</span> Mental Generals</h4>
-          <div class="form-group"><textarea class="form-input" id="cr_mental_generals" rows="3" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></textarea></div>
+          <div class="form-group"><textarea class="form-input" id="cr_mental_generals" rows="3"></textarea></div>
         </div>
 
         <!-- Examination -->
-        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
+        <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-primary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">stethoscope</span> Examination</h4>
           <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:1.5rem;margin-bottom:2rem;">
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Height</label><input class="form-input" id="cr_ex_height" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Weight</label><input class="form-input" id="cr_ex_weight" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Build</label><input class="form-input" id="cr_ex_build" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Temperature</label><input class="form-input" id="cr_ex_temp" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Pulse rate</label><input class="form-input" id="cr_ex_pulse" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Blood pressure</label><input class="form-input" id="cr_ex_bp" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Resp. rate</label><input class="form-input" id="cr_ex_rr" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Pallor</label><input class="form-input" id="cr_ex_pallor" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Skin complexion</label><input class="form-input" id="cr_ex_skin" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Lymphadenopathy</label><input class="form-input" id="cr_ex_lymph" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Oedema</label><input class="form-input" id="cr_ex_oedema" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Cyanosis</label><input class="form-input" id="cr_ex_cyanosis" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Height</label><input class="form-input" id="cr_ex_height"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Weight</label><input class="form-input" id="cr_ex_weight"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Build</label><input class="form-input" id="cr_ex_build"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Temperature</label><input class="form-input" id="cr_ex_temp"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Pulse rate</label><input class="form-input" id="cr_ex_pulse"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Blood pressure</label><input class="form-input" id="cr_ex_bp"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Resp. rate</label><input class="form-input" id="cr_ex_rr"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Pallor</label><input class="form-input" id="cr_ex_pallor"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Skin complexion</label><input class="form-input" id="cr_ex_skin"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Lymphadenopathy</label><input class="form-input" id="cr_ex_lymph"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Oedema</label><input class="form-input" id="cr_ex_oedema"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Cyanosis</label><input class="form-input" id="cr_ex_cyanosis"></div>
           </div>
           
           <h5 style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.05em;">Systemic Examination</h5>
           <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:1.5rem;">
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">CVS</label><input class="form-input" id="cr_sys_cvs" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">CNS</label><input class="form-input" id="cr_sys_cns" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">RS</label><input class="form-input" id="cr_sys_rs" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">P/A</label><input class="form-input" id="cr_sys_pa" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">CVS</label><input class="form-input" id="cr_sys_cvs"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">CNS</label><input class="form-input" id="cr_sys_cns"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">RS</label><input class="form-input" id="cr_sys_rs"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">P/A</label><input class="form-input" id="cr_sys_pa"></div>
           </div>
         </div>
 
         <!-- Diagnosis & Treatment -->
-        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
+        <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-primary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">healing</span> Diagnosis & Treatment</h4>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem">
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Diagnosis</label><input class="form-input" id="cr_diagnosis" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Miasmatic Diagnosis</label><input class="form-input" id="cr_miasmatic" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Investigation</label><textarea class="form-input" id="cr_investigation" rows="2" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></textarea></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Prescription (Remedy/Potency)</label><textarea class="form-input" id="cr_prescription" rows="2" required style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);"></textarea></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Diagnosis</label><input class="form-input" id="cr_diagnosis"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Miasmatic Diagnosis</label><input class="form-input" id="cr_miasmatic"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Investigation</label><textarea class="form-input" id="cr_investigation" rows="2"></textarea></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Prescription (Remedy/Potency)</label><textarea class="form-input" id="cr_prescription" rows="2" required></textarea></div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Follow-Up Date</label><input type="date" class="form-input" id="cr_followup" style="background:rgba(0,0,0,0.2);border-color:rgba(255,255,255,0.08);color-scheme:dark;"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Follow-Up Date</label><input type="date" class="form-input" id="cr_followup" style="color-scheme: light dark;"></div>
           </div>
         </div>
         
-        <div style="position:sticky;bottom:0;background:rgba(5,20,36,0.9);backdrop-filter:blur(16px);padding:1rem 0;margin:0 -2.5rem;padding-left:2.5rem;padding-right:2.5rem;border-top:1px solid rgba(255,255,255,0.05);display:flex;justify-content:flex-end;gap:1rem;">
+        <div style="position:sticky;bottom:0;background:var(--bg-surface);backdrop-filter:blur(16px);padding:1rem 0;margin:0 -2.5rem;padding-left:2.5rem;padding-right:2.5rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:1rem;z-index:20;">
           <button type="button" class="btn-ghost" onclick="closeModal('caseRecordModal')" style="padding:0.75rem 1.5rem;border-radius:0.75rem;">Cancel</button>
           <button type="submit" class="btn btn-primary" style="padding:0.75rem 2rem;border-radius:0.75rem;background:linear-gradient(135deg, var(--primary), var(--secondary));border:none;box-shadow:0 10px 25px -5px rgba(13, 148, 136, 0.4);font-weight:600;">Save Comprehensive Case Record</button>
         </div>

@@ -935,11 +935,26 @@
       const track = document.getElementById('reviews-carousel-track');
       async function loadReviews() {
         try {
-          const reviews = await API.getReviews();
+          let reviews = await API.getReviews();
           if (track && reviews.length) {
+            // Deduplicate reviews by name (trimmed and lowercase) to ensure unique testimonials
+            const uniqueMap = new Map();
+            reviews.forEach(r => {
+              const key = r.name.trim().toLowerCase();
+              if (!uniqueMap.has(key)) {
+                uniqueMap.set(key, r);
+              }
+            });
+            reviews = Array.from(uniqueMap.values());
+
             let html = '';
-            // Duplicate array for infinite marquee looping
-            const list = [...reviews, ...reviews, ...reviews];
+            // Duplicate array for infinite marquee looping (at least 3 repetitions for seamless scroll)
+            const repetitions = reviews.length < 3 ? 4 : 3;
+            const list = [];
+            for (let i = 0; i < repetitions; i++) {
+              list.push(...reviews);
+            }
+
             list.forEach((r, idx) => {
               let starsHtml = '';
               for (let i = 1; i <= 5; i++) {
