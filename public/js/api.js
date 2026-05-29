@@ -62,6 +62,10 @@ const API = {
   createKit: (data)   => API.post('/api/kits', data),
   updateKit: (id,d)   => API.put(`/api/kits/${id}`, d),
   deleteKit: (id)     => API.delete(`/api/kits/${id}`),
+
+  // Reviews
+  getReviews: () => API.get('/api/reviews'),
+  addReview:  (data) => API.post('/api/reviews', data),
 };
 
 // ── Toast ────────────────────────────────────────────

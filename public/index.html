@@ -479,47 +479,25 @@
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="section">
+  <!-- TESTIMONIALS (Premium Moving Carousel by UI/UX Pro Max) -->
+  <section class="section" id="stories">
     <div class="container">
       <div class="text-center reveal mb-xl">
-        <h2 style="font-size:2rem">Patient Stories</h2>
-        <p class="text-secondary-c mt-md">Real healing journeys with Dr. Hiral</p>
+        <div class="badge badge-primary" style="margin-bottom:1rem">
+          <span class="material-symbols-outlined" style="font-size:14px">chat_bubble</span> Healing Journeys
+        </div>
+        <h2 style="font-size:2rem">Patient Stories &amp; Reviews</h2>
+        <p class="text-secondary-c mt-md">Real feedback from patients restored by Dr. Hiral Mehta</p>
       </div>
-      <div class="testimonial-grid stagger-children">
-        <div class="test-card">
-          <div class="stars"><span class="material-symbols-outlined"
-              style="font-size:18px;font-variation-settings:'FILL' 1">star</span><span class="material-symbols-outlined"
-              style="font-size:18px;font-variation-settings:'FILL' 1">star</span><span class="material-symbols-outlined"
-              style="font-size:18px;font-variation-settings:'FILL' 1">star</span><span class="material-symbols-outlined"
-              style="font-size:18px;font-variation-settings:'FILL' 1">star</span><span class="material-symbols-outlined"
-              style="font-size:18px;font-variation-settings:'FILL' 1">star</span></div>
-          <p class="test-text">"Dr. Hiral cured my 7-year chronic migraine in just 3 months. No side effects. I
-            recommend her to everyone!"</p>
-          <div class="test-author">— Priya S., Ahmedabad</div>
+      <div class="carousel-track-wrap reveal">
+        <div class="carousel-track" id="reviews-carousel-track">
+          <!-- Dynamically populated via reviews API -->
         </div>
-        <div class="test-card">
-          <div class="stars"><span class="material-symbols-outlined"
-              style="font-size:18px;font-variation-settings:'FILL' 1">star</span><span class="material-symbols-outlined"
-              style="font-size:18px;font-variation-settings:'FILL' 1">star</span><span class="material-symbols-outlined"
-              style="font-size:18px;font-variation-settings:'FILL' 1">star</span><span class="material-symbols-outlined"
-              style="font-size:18px;font-variation-settings:'FILL' 1">star</span><span class="material-symbols-outlined"
-              style="font-size:18px;font-variation-settings:'FILL' 1">star</span></div>
-          <p class="test-text">"The QR code system is brilliant. I can see all my records and prescriptions anytime I
-            want."</p>
-          <div class="test-author">— Rajesh P., Surat</div>
-        </div>
-        <div class="test-card">
-          <div class="stars"><span class="material-symbols-outlined"
-              style="font-size:18px;font-variation-settings:'FILL' 1">star</span><span class="material-symbols-outlined"
-              style="font-size:18px;font-variation-settings:'FILL' 1">star</span><span class="material-symbols-outlined"
-              style="font-size:18px;font-variation-settings:'FILL' 1">star</span><span class="material-symbols-outlined"
-              style="font-size:18px;font-variation-settings:'FILL' 1">star</span><span class="material-symbols-outlined"
-              style="font-size:18px;font-variation-settings:'FILL' 1">star</span></div>
-          <p class="test-text">"My anxiety is completely gone after 4 months. She truly listens and finds the root
-            cause."</p>
-          <div class="test-author">— Anita D., Vadodara</div>
-        </div>
+      </div>
+      <div style="text-align: center; margin-top: 1.5rem;" class="reveal">
+        <button onclick="openModal('review-modal')" class="btn btn-outline">
+          <span class="material-symbols-outlined">rate_review</span> Share Your Story
+        </button>
       </div>
     </div>
   </section>
@@ -939,6 +917,7 @@
       }
 
       // ── Ripple on Buttons ──
+      // ── Ripple on Buttons ──
       document.addEventListener('click', e => {
         const btn = e.target.closest('.btn');
         if (!btn) return;
@@ -951,6 +930,82 @@
         btn.appendChild(ripple);
         setTimeout(() => ripple.remove(), 600);
       });
+
+      // ── Patient Reviews & Carousel System ──
+      const track = document.getElementById('reviews-carousel-track');
+      async function loadReviews() {
+        try {
+          const reviews = await API.getReviews();
+          if (track && reviews.length) {
+            let html = '';
+            // Duplicate array for infinite marquee looping
+            const list = [...reviews, ...reviews, ...reviews];
+            list.forEach((r, idx) => {
+              let starsHtml = '';
+              for (let i = 1; i <= 5; i++) {
+                starsHtml += `<span class="material-symbols-outlined" style="font-size:18px; font-variation-settings:'FILL' ${i <= r.rating ? 1 : 0}; color:#F59E0B;">star</span>`;
+              }
+              html += `
+                <div class="test-card">
+                  <div>
+                    <div class="stars" style="margin-bottom:0.75rem">${starsHtml}</div>
+                    <p class="test-text" style="font-size:0.92rem; color:var(--text-secondary); line-height:1.65; font-style:italic; margin-bottom:1.25rem;">"${r.text}"</p>
+                  </div>
+                  <div class="test-author" style="font-size:0.85rem; font-weight:600; color:var(--text); border-top:1px solid rgba(255,255,255,0.04); padding-top:0.75rem;">— ${r.name}, ${r.location || 'Anonymous'}</div>
+                </div>
+              `;
+            });
+            track.innerHTML = html;
+            // Scale velocity according to length
+            track.style.animationDuration = `${Math.max(reviews.length * 10, 24)}s`;
+          }
+        } catch (e) { console.error('Failed to load reviews:', e); }
+      }
+      loadReviews();
+
+      // Star rating interaction inside review modal
+      const stars = document.querySelectorAll('#rating-stars-wrap .rating-star');
+      stars.forEach(star => {
+        star.addEventListener('click', () => {
+          const val = parseInt(star.getAttribute('data-value'));
+          document.getElementById('rev_rating').value = val;
+          stars.forEach(s => {
+            const sVal = parseInt(s.getAttribute('data-value'));
+            s.style.fontVariationSettings = `'FILL' ${sVal <= val ? 1 : 0}`;
+            s.style.color = sVal <= val ? '#F59E0B' : 'var(--text-muted)';
+          });
+        });
+      });
+
+      // Submit Review function made globally available
+      window.submitReview = async function() {
+        const name = document.getElementById('rev_name').value.trim();
+        const location = document.getElementById('rev_location').value.trim();
+        const rating = document.getElementById('rev_rating').value;
+        const text = document.getElementById('rev_text').value.trim();
+        if (!name || !location || !text) { toast('Please fill in all fields.', 'warning'); return; }
+        try {
+          await API.addReview({ name, location, rating, text });
+          toast('Thank you for sharing your story!', 'success');
+          closeModal('review-modal');
+          // Reset fields
+          document.getElementById('rev_name').value = '';
+          document.getElementById('rev_location').value = '';
+          document.getElementById('rev_text').value = '';
+          // Reload reviews
+          loadReviews();
+        } catch (e) { toast('Failed to submit review.', 'error'); }
+      };
+
+      // ── Visit Counter & Review Prompt Trigger ──
+      // Increments visit count. If strictly 2, pop review prompt after 3.5s delay
+      const currentVisits = parseInt(localStorage.getItem('hiral_portal_visits') || '0') + 1;
+      localStorage.setItem('hiral_portal_visits', currentVisits);
+      if (currentVisits === 2) {
+        setTimeout(() => {
+          openModal('review-modal');
+        }, 3500);
+      }
     })();
   </script>
 
@@ -970,11 +1025,9 @@
       animate('.hub-card', { opacity: [0, 1], x: [50, 0], scale: [0.95, 1], rotate: [-2, 0] }, { delay: 0.52, duration: 0.8, easing: [0.22, 1, 0.36, 1] });
     });
 
-    // Animate testimonial cards
-    inView('.testimonial-grid', ({ target }) => {
-      target.querySelectorAll('.test-card').forEach((el, i) => {
-        animate(el, { opacity: [0, 1], y: [25, 0] }, { delay: i * 0.1, duration: 0.5, easing: [0.22, 1, 0.36, 1] });
-      });
+    // Animate testimonial carousel
+    inView('.carousel-track-wrap', ({ target }) => {
+      animate(target, { opacity: [0, 1], y: [20, 0] }, { duration: 0.8, easing: [0.22, 1, 0.36, 1] });
     });
 
     // Animate feature cards with stagger
@@ -1063,6 +1116,54 @@
       </div>
       <button class="btn btn-outline w-full" onclick="closeModal('cert-modal')" style="padding:0.75rem;">Close
         Verification View</button>
+    </div>
+  </div>
+
+  <!-- PATIENT STORY REVIEW MODAL -->
+  <div class="modal-overlay" id="review-modal">
+    <div class="modal-content glass-card" style="position:relative; max-width: 480px; border: 1px solid rgba(255,255,255,0.12); padding: 2.5rem;">
+      <button class="btn-ghost" onclick="closeModal('review-modal')"
+        style="position:absolute; top:1rem; right:1rem; color:var(--text); width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(13, 148, 136, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+          <span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings:'FILL' 1">rate_review</span>
+        </div>
+        <h3 style="font-size: 1.4rem; margin-bottom: 0.25rem;">Share Your Story</h3>
+        <p class="text-secondary-c text-sm">Welcome back! We value your feedback on your healing journey with Dr. Hiral.</p>
+      </div>
+      
+      <div style="display: flex; flex-direction: column; gap: 1rem; text-align: left;">
+        <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
+          <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)">Full Name *</label>
+          <input type="text" id="rev_name" class="form-input" placeholder="e.g. Priya Sharma" style="width:100%; padding:0.6rem 0.85rem; border-radius:var(--radius-md); border:1.5px solid var(--border); background:rgba(255,255,255,0.02); color:var(--text); font-family:var(--font-body); outline:none" required>
+        </div>
+        <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
+          <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)">Location (City) *</label>
+          <input type="text" id="rev_location" class="form-input" placeholder="e.g. Ahmedabad" style="width:100%; padding:0.6rem 0.85rem; border-radius:var(--radius-md); border:1.5px solid var(--border); background:rgba(255,255,255,0.02); color:var(--text); font-family:var(--font-body); outline:none" required>
+        </div>
+        <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
+          <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)">Rating *</label>
+          <div style="display: flex; gap: 0.5rem;" id="rating-stars-wrap">
+            <span class="material-symbols-outlined rating-star" data-value="1" style="cursor: pointer; color: #F59E0B; font-size:28px; font-variation-settings:'FILL' 1">star</span>
+            <span class="material-symbols-outlined rating-star" data-value="2" style="cursor: pointer; color: #F59E0B; font-size:28px; font-variation-settings:'FILL' 1">star</span>
+            <span class="material-symbols-outlined rating-star" data-value="3" style="cursor: pointer; color: #F59E0B; font-size:28px; font-variation-settings:'FILL' 1">star</span>
+            <span class="material-symbols-outlined rating-star" data-value="4" style="cursor: pointer; color: #F59E0B; font-size:28px; font-variation-settings:'FILL' 1">star</span>
+            <span class="material-symbols-outlined rating-star" data-value="5" style="cursor: pointer; color: #F59E0B; font-size:28px; font-variation-settings:'FILL' 1">star</span>
+          </div>
+          <input type="hidden" id="rev_rating" value="5">
+        </div>
+        <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
+          <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)">Your Healing Story *</label>
+          <textarea id="rev_text" class="form-input" rows="3" placeholder="How did homeopathy with Dr. Hiral help you?" style="width:100%; padding:0.6rem 0.85rem; border-radius:var(--radius-md); border:1.5px solid var(--border); background:rgba(255,255,255,0.02); color:var(--text); font-family:var(--font-body); outline:none; resize: none;" required></textarea>
+        </div>
+        
+        <button onclick="submitReview()" class="btn btn-primary btn-lg w-full" style="margin-top: 0.5rem; justify-content:center">
+          <span class="material-symbols-outlined" style="font-size:18px">send</span>
+          <span>Submit Story</span>
+        </button>
+      </div>
     </div>
   </div>
 
