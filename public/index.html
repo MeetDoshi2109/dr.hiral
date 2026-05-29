@@ -963,20 +963,22 @@
       }
       loadReviews();
 
-      // Star rating interaction inside review modal
-      const stars = document.querySelectorAll('#rating-stars-wrap .rating-star');
-      stars.forEach(star => {
-        star.addEventListener('click', () => {
-          const val = parseInt(star.getAttribute('data-value'));
-          document.getElementById('rev_rating').value = val;
-          stars.forEach(s => {
-            const sVal = parseInt(s.getAttribute('data-value'));
-            if (sVal <= val) {
-              s.classList.add('active');
-            } else {
-              s.classList.remove('active');
-            }
-          });
+      // Star rating interaction inside review modal using robust event delegation
+      document.addEventListener('click', e => {
+        const star = e.target.closest('#rating-stars-wrap .rating-star');
+        if (!star) return;
+        
+        const val = parseInt(star.getAttribute('data-value'));
+        document.getElementById('rev_rating').value = val;
+        
+        const stars = document.querySelectorAll('#rating-stars-wrap .rating-star');
+        stars.forEach(s => {
+          const sVal = parseInt(s.getAttribute('data-value'));
+          if (sVal <= val) {
+            s.classList.add('active');
+          } else {
+            s.classList.remove('active');
+          }
         });
       });
 
