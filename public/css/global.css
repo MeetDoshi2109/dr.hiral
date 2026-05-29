@@ -465,6 +465,11 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+.hero-stat-bordered {
+  border-left: 1px solid var(--border);
+  padding-left: 2rem;
+  margin-left: 2rem;
+}
 
 /* ── Doctor Card ── */
 .doctor-card {
@@ -801,31 +806,55 @@ img { max-width: 100%; display: block; }
 }
 
 @media (max-width: 768px) {
-  .hero { padding: 5rem 0 3rem; min-height: auto; }
+  .hero { padding: 5rem 0 3rem; min-height: auto; overflow-x: hidden; }
   .hero h1 { font-size: 2rem; }
-  .hero-stats { gap: 1.25rem; }
+
+  /* Stats: compact side-by-side with thin dividers */
+  .hero-stats { gap: 0; justify-content: center; }
+  .hero-stat { text-align: center; flex: 1; min-width: 0; }
   .hero-stat-val { font-size: 1.5rem; }
+  .hero-stat-lbl { font-size: 0.7rem; }
+  .hero-stat-bordered { padding-left: 1rem; margin-left: 0; }
+
+  /* Grids */
   .features-grid { grid-template-columns: 1fr; }
   .process-steps { grid-template-columns: 1fr 1fr; }
   .testimonial-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
   .cta-section { padding: 3rem 1.5rem; }
-  .navbar-nav { display: none; }
   .section { padding: 3.5rem 0; }
-  /* Hide Doctor Login in navbar on mobile — it’s in the mobile menu */
+
+  /* Navbar */
+  .navbar-nav { display: none; }
   #desk-login { display: none !important; }
-  /* Navbar compact on mobile */
   .navbar-wrap { padding: 0.6rem 1rem; }
   .navbar { padding: 0.5rem 1rem; border-radius: var(--radius-xl); }
-  /* Hero text left-aligned on mobile becomes centered */
+
+  /* Hero centering */
   .hero-text-block { text-align: center !important; }
   .hero-actions { justify-content: center; flex-wrap: wrap; }
-  .hero-stats { justify-content: center; }
   .hero-trust { justify-content: center !important; }
-  .hero h1 { font-size: 2rem; }
+
+  /* Hide floating micro-badges (they use negative positioning and overflow) */
+  .micro-badge { display: none; }
+
+  /* Prevent right column overflow */
+  .reveal-right { overflow: hidden; }
 }
 
 @media (max-width: 375px) {
   .hero h1 { font-size: 1.75rem; }
   .container { padding: 0 1rem; }
+
+  /* Stats: stack vertically on very small phones */
+  .hero-stats { flex-direction: column; gap: 0; }
+  .hero-stat { text-align: center; }
+  .hero-stat-bordered {
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
+    border-top: 1px solid var(--border);
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+  }
 }
