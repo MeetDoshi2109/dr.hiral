@@ -983,8 +983,14 @@ img { max-width: 100%; display: block; }
 
 .rating-star {
   transition: color 150ms ease, transform 150ms ease;
+  font-variation-settings: 'FILL' 0;
+  color: var(--text-muted);
 }
 .rating-star:hover {
   transform: scale(1.15);
+}
+.rating-star.active {
+  font-variation-settings: 'FILL' 1;
+  color: #F59E0B !important;
 }
 
