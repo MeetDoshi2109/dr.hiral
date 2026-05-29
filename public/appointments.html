@@ -228,6 +228,13 @@
         <p class="text-secondary-c mb-xl">Dr. Hiral will review your request and confirm shortly via phone or email.</p>
 
         <div class="card" style="text-align:left;margin-bottom:1.5rem;padding:1.25rem">
+          <div class="detail-row" style="background: rgba(8, 145, 178, 0.05); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px dashed var(--primary); margin-bottom: 0.75rem;">
+            <span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">qr_code_scanner</span>
+            <div>
+              <div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">Appointment ID (Save / Copy)</div>
+              <div id="cf_id" style="font-weight:700;color:var(--primary);font-family:monospace;font-size:1.1rem;letter-spacing:0.05em;"></div>
+            </div>
+          </div>
           <div class="detail-row">
             <span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">person</span>
             <div><div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">Patient</div><div id="cf_name" style="font-weight:600"></div></div>
@@ -450,6 +457,8 @@ async function bookAppt() {
     const res = await API.bookAppointment({ patient_name: name, phone, email, appt_date: date, appt_time: time, reason });
     if (res && res.id) {
       localStorage.setItem('my_appointment_id', res.id);
+      const cfIdEl = document.getElementById('cf_id');
+      if (cfIdEl) cfIdEl.textContent = res.id;
     }
     document.getElementById('bookingForm').classList.add('hidden');
     document.getElementById('confirmView').classList.remove('hidden');
