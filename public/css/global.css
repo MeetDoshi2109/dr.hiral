@@ -938,21 +938,12 @@ img { max-width: 100%; display: block; }
 
 /* ── Premium Testimonial Carousel & Rating System ── */
 .carousel-track-wrap {
-  overflow-x: auto;
-  scroll-behavior: smooth;
+  overflow: hidden;
   width: 100%;
   position: relative;
   padding: 1.5rem 0;
   mask-image: linear-gradient(to right, transparent, white 15%, white 85%, transparent);
   -webkit-mask-image: linear-gradient(to right, transparent, white 15%, white 85%, transparent);
-  scrollbar-width: none;
-  cursor: grab;
-}
-.carousel-track-wrap:active {
-  cursor: grabbing;
-}
-.carousel-track-wrap::-webkit-scrollbar {
-  display: none;
 }
 .carousel-track {
   display: flex;
@@ -966,12 +957,6 @@ img { max-width: 100%; display: block; }
 @keyframes marqueeMove {
   0% { transform: translateX(0); }
   100% { transform: translateX(calc(-50% - 0.75rem)); }
-}
-
-@media (max-width: 768px) {
-  .carousel-track {
-    animation: none !important;
-  }
 }
 
 .test-card {

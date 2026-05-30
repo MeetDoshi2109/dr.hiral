@@ -1072,60 +1072,6 @@
           openModal('review-modal');
         }, 3500);
       }
-      // ── Swipe/Drag to Scroll for Reviews ──
-      const trackWrap = document.querySelector('.carousel-track-wrap');
-      const track = document.getElementById('reviews-carousel-track');
-      let isDown = false;
-      let startX;
-      let scrollLeft;
-
-      if (trackWrap && track) {
-        const pauseAnimation = () => {
-          track.style.animationPlayState = 'paused';
-        };
-        const playAnimation = () => {
-          if (window.innerWidth > 768) {
-            track.style.animationPlayState = 'running';
-          }
-        };
-
-        // Desktop Click and Drag
-        trackWrap.addEventListener('mousedown', (e) => {
-          isDown = true;
-          trackWrap.style.scrollBehavior = 'auto'; // Disable smooth scroll while dragging
-          startX = e.pageX - trackWrap.offsetLeft;
-          scrollLeft = trackWrap.scrollLeft;
-          pauseAnimation();
-        });
-
-        trackWrap.addEventListener('mouseleave', () => {
-          isDown = false;
-          playAnimation();
-        });
-
-        trackWrap.addEventListener('mouseup', () => {
-          isDown = false;
-          playAnimation();
-        });
-
-        trackWrap.addEventListener('mousemove', (e) => {
-          if (!isDown) return;
-          e.preventDefault();
-          const x = e.pageX - trackWrap.offsetLeft;
-          const walk = (x - startX) * 1.5; // Drag sensitivity
-          trackWrap.scrollLeft = scrollLeft - walk;
-        });
-
-        // Phone Swipe touch support
-        trackWrap.addEventListener('touchstart', () => {
-          trackWrap.style.scrollBehavior = 'smooth';
-          pauseAnimation();
-        }, { passive: true });
-        
-        trackWrap.addEventListener('touchend', () => {
-          playAnimation();
-        }, { passive: true });
-      }
     })();
   </script>
 
