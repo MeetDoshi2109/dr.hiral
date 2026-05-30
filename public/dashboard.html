@@ -58,7 +58,10 @@
       .grid-4-col { grid-template-columns: repeat(2, 1fr); }
     }
     @media(max-width: 600px) { 
-      .dash-grid { grid-template-columns: 1fr; }
+      .page-wrap { padding: 5rem 1rem 2rem !important; }
+      .dash-container > div[style*="margin-bottom:2rem"] { margin-bottom: 0.75rem !important; }
+      .dash-grid { grid-template-columns: 1fr; margin-bottom: 0.75rem !important; }
+      .tab-bar { margin-bottom: 0.75rem !important; }
       .grid-2-col, .grid-3-col, .grid-4-col { grid-template-columns: 1fr !important; gap: 1rem !important; }
       .rx-header { display: none !important; }
       .rx-editor-row { grid-template-columns: 1fr 1fr; gap: 0.4rem; border: 1px solid var(--border); padding: 0.65rem; border-radius: var(--radius-md); background: rgba(255,255,255,0.01); }
@@ -191,7 +194,7 @@
 <!-- MODALS -->
 <!-- ADD PATIENT -->
 <div class="modal-overlay" id="addPatientModal">
-  <div class="modal">
+  <div class="modal" style="max-height:90vh; overflow-y:auto;">
     <div class="modal-header">
       <h3 class="modal-title">Patient Details</h3>
       <button class="btn-ghost" onclick="closeModal('addPatientModal')"><span class="material-symbols-outlined">close</span></button>
