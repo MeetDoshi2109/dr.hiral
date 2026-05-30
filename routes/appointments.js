@@ -4,9 +4,18 @@ const db = require('../db/db');
 const { requireAuth } = require('./auth');
 
 // GET /api/appointments  — all
-router.get('/', requireAuth, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const { status, date, patient_id } = req.query;
+    
+    // Authorization Check: Must be Doctor OR Patient requesting their own appointments
+    const isDoctor = req.session && req.session.isDoctor;
+    const isSelfPatient = req.session && req.session.patientId && req.session.patientId === patient_id;
+    
+    if (!isDoctor && !isSelfPatient) {
+      return res.status(403).json({ error: 'Access denied: Unauthorized access to appointments' });
+    }
+    
     let sql = 'SELECT * FROM appointments WHERE 1=1';
     const params = [];
     if (status) { params.push(status); sql += ` AND status=$${params.length}`; }

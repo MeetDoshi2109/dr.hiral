@@ -19,6 +19,17 @@ router.get('/', requireAuth, async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// IDOR Protection Middleware
+function requirePatientOrDoctorAuth(req, res, next) {
+  const isDoctor = req.session && req.session.isDoctor;
+  const isSelfPatient = req.session && req.session.patientId && req.session.patientId === req.params.id;
+  
+  if (isDoctor || isSelfPatient) {
+    return next();
+  }
+  return res.status(403).json({ error: 'Access denied: You do not have permission to access this patient record' });
+}
+
 // GET /api/patients/lookup — public search for returning patients
 router.get('/lookup', async (req, res) => {
   try {
@@ -33,6 +44,10 @@ router.get('/lookup', async (req, res) => {
       [queryStr]
     );
     if (!rows.length) return res.status(404).json({ error: 'No matching patient found' });
+    
+    // Save patientId in session to prevent IDOR in subsequent calls
+    req.session.patientId = rows[0].id;
+    
     res.json(rows[0]);
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -40,7 +55,7 @@ router.get('/lookup', async (req, res) => {
 });
 
 // GET /api/patients/:id  — single patient + timeline + prescriptions + documents
-router.get('/:id', async (req, res) => {
+router.get('/:id', requirePatientOrDoctorAuth, async (req, res) => {
   try {
     const { rows } = await db.query('SELECT * FROM patients WHERE id=$1', [req.params.id]);
     if (!rows.length) return res.status(404).json({ error: 'Patient not found' });
@@ -128,7 +143,7 @@ router.delete('/:id/prescriptions/:rid', requireAuth, async (req, res) => {
 
 // ── Document Upload & History Routes ────────────────────
 // GET /api/patients/:id/documents - list documents
-router.get('/:id/documents', async (req, res) => {
+router.get('/:id/documents', requirePatientOrDoctorAuth, async (req, res) => {
   try {
     const { rows } = await db.query(
       'SELECT * FROM patient_documents WHERE patient_id=$1 ORDER BY uploaded_at DESC',
@@ -139,7 +154,7 @@ router.get('/:id/documents', async (req, res) => {
 });
 
 // POST /api/patients/:id/documents - create/upload document (base64)
-router.post('/:id/documents', async (req, res) => {
+router.post('/:id/documents', requirePatientOrDoctorAuth, async (req, res) => {
   try {
     const { doc_name, file_path, uploaded_by, notes } = req.body;
     if (!doc_name || !file_path) {

@@ -23,6 +23,26 @@ app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 300, message: { error: 'Too m
 // ── Middleware ────────────────────────────────────────
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Global Input Sanitization Middleware to prevent XSS / Script Injection
+app.use((req, res, next) => {
+  if (req.body && typeof req.body === 'object') {
+    for (const key in req.body) {
+      if (typeof req.body[key] === 'string') {
+        req.body[key] = req.body[key].replace(/<[^>]*>?/gm, '').trim();
+      }
+    }
+  }
+  if (req.query && typeof req.query === 'object') {
+    for (const key in req.query) {
+      if (typeof req.query[key] === 'string') {
+        req.query[key] = req.query[key].replace(/<[^>]*>?/gm, '').trim();
+      }
+    }
+  }
+  next();
+});
+
 const SESSION_SECRET = process.env.SESSION_SECRET || 'hiral-mehta-secret';
 
 function signSession(data, secret) {
@@ -65,7 +85,7 @@ app.use((req, res, next) => {
   
   const originalJson = res.json;
   res.json = function(data) {
-    if (req.session && (req.session.isDoctor || req.session.doctorName)) {
+    if (req.session && (req.session.isDoctor || req.session.doctorName || req.session.patientId)) {
       const token = signSession(req.session, SESSION_SECRET);
       res.cookie('hiral_session', token, {
         httpOnly: true,

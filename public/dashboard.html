@@ -43,8 +43,29 @@
     .empty-state { text-align: center; padding: 3rem 1rem; color: var(--text-muted); }
     .empty-state .material-symbols-outlined { font-size: 48px; opacity: 0.5; margin-bottom: 1rem; }
     
-    @media(max-width: 900px) { .dash-grid { grid-template-columns: repeat(2, 1fr); } .patient-row { grid-template-columns: 1fr; } }
-    @media(max-width: 600px) { .dash-grid { grid-template-columns: 1fr; } }
+    /* Responsive case records proforma & rx-editor layouts */
+    .grid-2-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .grid-3-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .grid-4-col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .rx-editor-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem; }
+    
+    @media(max-width: 900px) { 
+      .dash-grid { grid-template-columns: repeat(2, 1fr); } 
+      .patient-row { grid-template-columns: 1fr; gap: 0.5rem; } 
+    }
+    @media(max-width: 768px) {
+      .grid-3-col { grid-template-columns: repeat(2, 1fr); }
+      .grid-4-col { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media(max-width: 600px) { 
+      .dash-grid { grid-template-columns: 1fr; }
+      .grid-2-col, .grid-3-col, .grid-4-col { grid-template-columns: 1fr !important; gap: 1rem !important; }
+      .rx-header { display: none !important; }
+      .rx-editor-row { grid-template-columns: 1fr 1fr; gap: 0.4rem; border: 1px solid var(--border); padding: 0.65rem; border-radius: var(--radius-md); background: rgba(255,255,255,0.01); }
+      .rx-editor-row input:first-child { grid-column: span 2; }
+      .rx-editor-row button { grid-column: span 2; justify-content: center; width: 100%; height: 36px; }
+      .modal { padding: 1.25rem; }
+    }
   </style>
 </head>
 <body>
@@ -177,15 +198,15 @@
     </div>
     <form id="patientForm" onsubmit="savePatient(event)">
       <input type="hidden" id="pf_id">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:1rem;margin-bottom:1rem">
         <div class="form-group"><label class="form-label">Full Name*</label><input class="form-input" id="pf_name" required></div>
         <div class="form-group"><label class="form-label">Age</label><input class="form-input" id="pf_age" type="number"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:1rem;margin-bottom:1rem">
         <div class="form-group"><label class="form-label">Gender</label><select class="form-input" id="pf_gender"><option value="">—</option><option>Male</option><option>Female</option><option>Other</option></select></div>
         <div class="form-group"><label class="form-label">Blood Group</label><input class="form-input" id="pf_blood"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:1rem;margin-bottom:1rem">
         <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="pf_phone"></div>
         <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="pf_email" type="email"></div>
       </div>
@@ -258,7 +279,7 @@
             <span class="material-symbols-outlined" style="font-size:15px">add</span> Add Row
           </button>
         </div>
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:0.4rem;margin-bottom:0.4rem">
+        <div class="rx-header" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:0.4rem;margin-bottom:0.4rem">
           <span style="font-size:0.7rem;color:var(--text-muted);font-weight:600;text-transform:uppercase">Medicine</span>
           <span style="font-size:0.7rem;color:var(--text-muted);font-weight:600;text-transform:uppercase">Potency</span>
           <span style="font-size:0.7rem;color:var(--text-muted);font-weight:600;text-transform:uppercase">Dose</span>
@@ -304,7 +325,7 @@
         <!-- Preliminary Data (Some inputs for extra details) -->
         <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-primary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">badge</span> Preliminary Data</h4>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+          <div class="grid-2-col">
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">OPD Number</label><input class="form-input" id="cr_opd"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Physician In-charge</label><input class="form-input" id="cr_physician" value="Dr. Hiral"></div>
           </div>
@@ -313,7 +334,7 @@
         <!-- Chief Complaint -->
         <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-secondary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">personal_injury</span> Chief Complaint</h4>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1rem">
+          <div class="grid-2-col" style="margin-bottom:1rem">
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Location</label><input class="form-input" id="cr_cc_location"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Sensation</label><input class="form-input" id="cr_cc_sensation"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Modalities (Agg/Amel)</label><input class="form-input" id="cr_cc_modalities"></div>
@@ -325,7 +346,7 @@
         <!-- Physical Generals -->
         <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-primary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">directions_run</span> Physical Generals</h4>
-          <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:1.5rem;">
+          <div class="grid-3-col">
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Appetite</label><input class="form-input" id="cr_pg_appetite"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Thirst</label><input class="form-input" id="cr_pg_thirst"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Likes</label><input class="form-input" id="cr_pg_likes"></div>
@@ -343,7 +364,7 @@
         <!-- Medical History -->
         <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-secondary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">history</span> Medical History</h4>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+          <div class="grid-2-col">
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Family History</label><textarea class="form-input" id="cr_mh_family" rows="2"></textarea></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Past History</label><textarea class="form-input" id="cr_mh_past" rows="2"></textarea></div>
           </div>
@@ -352,12 +373,12 @@
         <!-- Birth & Developmental Details -->
         <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-primary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">child_care</span> Birth & Developmental Details</h4>
-          <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:1.5rem;margin-bottom:1.5rem">
+          <div class="grid-3-col" style="margin-bottom:1.5rem">
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Ante-natal</label><input class="form-input" id="cr_bd_ante"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Natal</label><input class="form-input" id="cr_bd_natal"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Post-natal</label><input class="form-input" id="cr_bd_post"></div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+          <div class="grid-2-col">
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Immunisation History</label><textarea class="form-input" id="cr_bd_immunisation" rows="2"></textarea></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Developmental Milestones</label><textarea class="form-input" id="cr_bd_milestones" rows="2"></textarea></div>
             <div class="form-group" style="grid-column: span 2;"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Mother's history during pregnancy</label><textarea class="form-input" id="cr_bd_mother" rows="2"></textarea></div>
@@ -373,7 +394,7 @@
         <!-- Examination -->
         <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-primary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">stethoscope</span> Examination</h4>
-          <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:1.5rem;margin-bottom:2rem;">
+          <div class="grid-4-col" style="margin-bottom:2rem;">
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Height</label><input class="form-input" id="cr_ex_height"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Weight</label><input class="form-input" id="cr_ex_weight"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Build</label><input class="form-input" id="cr_ex_build"></div>
@@ -389,7 +410,7 @@
           </div>
           
           <h5 style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.05em;">Systemic Examination</h5>
-          <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:1.5rem;">
+          <div class="grid-4-col">
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">CVS</label><input class="form-input" id="cr_sys_cvs"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">CNS</label><input class="form-input" id="cr_sys_cns"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">RS</label><input class="form-input" id="cr_sys_rs"></div>
@@ -400,13 +421,13 @@
         <!-- Diagnosis & Treatment -->
         <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-primary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">healing</span> Diagnosis & Treatment</h4>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem">
+          <div class="grid-2-col" style="margin-bottom:1.5rem">
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Diagnosis</label><input class="form-input" id="cr_diagnosis"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Miasmatic Diagnosis</label><input class="form-input" id="cr_miasmatic"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Investigation</label><textarea class="form-input" id="cr_investigation" rows="2"></textarea></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Prescription (Remedy/Potency)</label><textarea class="form-input" id="cr_prescription" rows="2" required></textarea></div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+          <div class="grid-2-col">
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Follow-Up Date</label><input type="date" class="form-input" id="cr_followup" style="color-scheme: light dark;"></div>
           </div>
         </div>
@@ -827,7 +848,7 @@ async function viewPatient(id){
     // Doctor Upload Box
     h+=`<div class="card" style="padding:1rem; margin-bottom:0.75rem; background:rgba(255,255,255,0.01);">
       <div style="font-size:0.82rem; font-weight:600; margin-bottom:0.5rem; color:var(--text); display:flex; align-items:center; gap:0.25rem;"><span class="material-symbols-outlined" style="font-size:15px;">upload_file</span> Upload Patient Document</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-bottom:0.5rem;">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.5rem; margin-bottom:0.5rem;">
         <div>
           <label style="font-size:0.7rem; color:var(--text-muted); display:block; margin-bottom:0.15rem;">Record Name *</label>
           <input class="form-input" id="dr_doc_name" placeholder="e.g. Lab Report, Scan" style="font-size:0.8rem; padding:0.4rem;">
@@ -975,7 +996,7 @@ function renderRxRows(){
   const wrap=document.getElementById('rx_rows');
   if(!rxRows.length)rxRows=[{name:'',potency:'',dose:'',qty:''}];
   wrap.innerHTML=rxRows.map((r,i)=>`
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:0.5rem;align-items:center;margin-bottom:0.5rem">
+    <div class="rx-editor-row">
       <input class="form-input" placeholder="Medicine name" value="${r.name}" oninput="rxRows[${i}].name=this.value" style="font-size:0.85rem">
       <input class="form-input" placeholder="Potency" value="${r.potency}" oninput="rxRows[${i}].potency=this.value" style="font-size:0.85rem">
       <input class="form-input" placeholder="Dose" value="${r.dose}" oninput="rxRows[${i}].dose=this.value" style="font-size:0.85rem">

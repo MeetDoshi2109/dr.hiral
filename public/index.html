@@ -1294,6 +1294,25 @@
         opacity: 0
       }
     }
+    @keyframes slideInUp {
+      from {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    @media (max-width: 480px) {
+      #cookie-consent {
+        bottom: 1rem !important;
+        left: 1rem !important;
+        width: calc(100% - 2rem) !important;
+        max-width: none !important;
+        padding: 1rem !important;
+      }
+    }
   </style>
 
   <!-- COOKIE CONSENT BANNER -->
