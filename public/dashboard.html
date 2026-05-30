@@ -800,6 +800,27 @@ async function viewPatient(id){
     h+=`<div style="margin-bottom:1.5rem"><h4 style="font-size:1rem;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem"><span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">history_edu</span> Medical History</h4><div class="card" style="padding:1rem;font-size:0.95rem">${p.history||'—'}</div></div>`;
     h+=`<div style="margin-bottom:1.5rem"><h4 style="font-size:1rem;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem"><span class="material-symbols-outlined" style="color:var(--secondary);font-size:18px">note_alt</span> Doctor Notes</h4><div class="card" style="padding:1rem;font-size:0.95rem">${p.notes||'—'}</div></div>`;
     
+    if(p.prescriptions&&p.prescriptions.length){
+      h+=`<div style="margin-bottom:1.5rem"><h4 style="font-size:1rem;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem"><span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">prescriptions</span> Issued Prescriptions</h4>`;
+      p.prescriptions.forEach(rx=>{
+        let meds=[];
+        try{meds=typeof rx.medicines==='string'?JSON.parse(rx.medicines):rx.medicines||[];}catch(e){}
+        h+=`<div class="card" style="padding:1rem;margin-bottom:0.75rem;border-left:3px solid var(--secondary)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.5rem;">
+            <span class="text-xs text-muted" style="font-weight:600;">Issued: ${fmtDate(rx.issued_at)}</span>
+            ${rx.follow_up?`<span class="badge badge-warning" style="font-size:0.7rem;background:rgba(245,158,11,0.1);color:#f59e0b;">Follow-up: ${fmtDate(rx.follow_up)}</span>`:''}
+          </div>
+          ${meds.length?`<div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.5rem">
+            ${meds.map(m=>`<span class="badge" style="background:rgba(13,148,136,0.1);color:var(--primary);font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:999px">
+              <strong>${m.name}</strong>${m.potency?' — '+m.potency:''} ${m.dose?'| '+m.dose:''} ${m.qty?'× '+m.qty:''}
+            </span>`).join('')}
+          </div>`:''}
+          ${rx.instructions?`<p class="text-xs text-secondary-c" style="margin-top:0.25rem"><span class="material-symbols-outlined" style="font-size:12px;vertical-align:middle">notes</span> ${rx.instructions}</p>`:''}
+        </div>`;
+      });
+      h+=`</div>`;
+    }
+    
     if(p.timeline&&p.timeline.length){
       h+=`<h4 style="font-size:1rem;margin-bottom:1rem;display:flex;align-items:center;gap:0.4rem"><span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">timeline</span> Treatment Timeline</h4>`;
       p.timeline.forEach(t=>{
