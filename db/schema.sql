@@ -108,6 +108,14 @@ CREATE TABLE IF NOT EXISTS reviews (
   created_at  TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- ── Bug Reports ──────────────────────────────────────
+CREATE TABLE IF NOT EXISTS bug_reports (
+  id          SERIAL PRIMARY KEY,
+  description TEXT NOT NULL,
+  status      TEXT DEFAULT 'pending',
+  reported_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- Seed reviews if table is empty
 INSERT INTO reviews (name, rating, text, location)
 VALUES

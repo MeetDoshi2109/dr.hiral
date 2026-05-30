@@ -69,6 +69,11 @@ const API = {
   // Reviews
   getReviews: () => API.get('/api/reviews'),
   addReview:  (data) => API.post('/api/reviews', data),
+
+  // Bugs
+  getBugs:    () => API.get('/api/bugs'),
+  submitBug:  (desc) => API.post('/api/bugs', { description: desc }),
+  resolveBug: (id) => API.post(`/api/bugs/${id}/resolve`, {}),
 };
 
 // ── Toast ────────────────────────────────────────────

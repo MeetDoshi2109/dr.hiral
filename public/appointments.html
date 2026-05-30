@@ -265,7 +265,7 @@
           </label>
         </div>
 
-        <button class="btn btn-primary btn-lg w-full" id="submitBtn" onclick="bookAppt()">
+        <button class="btn btn-primary btn-lg w-full" id="submitBtn" onclick="checkConsentAndOpenModal()">
           <span class="material-symbols-outlined" style="font-size:18px">send</span>
           Request Appointment
         </button>
@@ -626,6 +626,38 @@ function clearStoredAppt() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+function checkConsentAndOpenModal() {
+  let name, phone;
+  if (currentPatientType === 'returning') {
+    if (!matchedPatient) { toast('Please search and link a returning patient first', 'warning'); return; }
+    name = matchedPatient.name;
+    phone = matchedPatient.phone;
+  } else {
+    name = document.getElementById('af_name').value.trim();
+    phone = document.getElementById('af_phone').value.trim();
+    const consent = document.getElementById('af_consent').checked;
+    if (!consent) { toast('Please accept the consent form', 'warning'); return; }
+  }
+
+  const date = document.getElementById('af_date').value;
+  const time = document.getElementById('af_time').value;
+  if (!name || !phone || !date || !time) { toast('Please fill all required fields', 'warning'); return; }
+
+  // Reset and open modal
+  document.getElementById('modal_accept_checkbox').checked = false;
+  openModal('terms-consent-modal');
+}
+
+function confirmConsentAndSubmit() {
+  const isChecked = document.getElementById('modal_accept_checkbox').checked;
+  if (!isChecked) {
+    toast('You must agree to the Terms & Conditions and Privacy Policy to request an appointment.', 'warning');
+    return;
+  }
+  closeModal('terms-consent-modal');
+  bookAppt();
+}
+
 async function bookAppt() {
   let name, phone, email;
   const patient_id = document.getElementById('af_patient_id').value;
@@ -717,6 +749,34 @@ async function fetchStatusDirectly() {
         <span class="material-symbols-outlined" style="font-size:18px">qr_code_scanner</span>
         <span>Track Appointment</span>
       </button>
+    </div>
+  </div>
+</div>
+
+<!-- TERMS & PRIVACY CONSENT MODAL -->
+<div class="modal-overlay" id="terms-consent-modal" style="backdrop-filter: blur(8px); z-index: 1050;">
+  <div class="modal" style="max-width: 440px; background: var(--bg-surface); border: 1px solid var(--border); padding: 2.5rem; text-align: center; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); color: var(--text);">
+    <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(13, 148, 136, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;">
+      <span class="material-symbols-outlined" style="font-size: 28px; font-variation-settings: 'FILL' 1;">gavel</span>
+    </div>
+    <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--text)">Terms &amp; Privacy Agreement</h3>
+    <p class="text-secondary-c text-sm" style="line-height: 1.6; margin-bottom: 1.5rem;">
+      Before requesting your consultation, please read and agree to our 
+      <a href="/privacy.html" target="_blank" style="color: var(--primary); text-decoration: underline; font-weight: 600;">Privacy Policy</a> 
+      and 
+      <a href="/terms.html" target="_blank" style="color: var(--primary); text-decoration: underline; font-weight: 600;">Terms &amp; Conditions</a>.
+    </p>
+    
+    <label style="display: flex; align-items: flex-start; gap: 0.6rem; cursor: pointer; background: rgba(8, 145, 178, 0.04); padding: 0.95rem; border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: 1.5rem; text-align: left;">
+      <input type="checkbox" id="modal_accept_checkbox" style="margin-top: 0.2rem; cursor: pointer;">
+      <span class="text-xs text-secondary-c" style="line-height: 1.5; cursor: pointer;">
+        I acknowledge and agree to the <strong>Terms &amp; Conditions</strong> and <strong>Privacy Policy</strong> for medical care.
+      </span>
+    </label>
+    
+    <div style="display: flex; gap: 0.75rem; justify-content: center;">
+      <button class="btn btn-outline" onclick="closeModal('terms-consent-modal')" style="flex: 1; padding: 0.65rem 1rem;">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmConsentAndSubmit()" style="flex: 1; padding: 0.65rem 1rem;">Agree &amp; Continue</button>
     </div>
   </div>
 </div>

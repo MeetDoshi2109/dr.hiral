@@ -142,6 +142,44 @@ app.post('/api/reviews', async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// ── Bug Reports API ────────────────────────────────────
+app.post('/api/bugs', async (req, res) => {
+  const db = require('./db/db');
+  const { description } = req.body;
+  if (!description) {
+    return res.status(400).json({ error: 'Description is required.' });
+  }
+  try {
+    const result = await db.query(
+      'INSERT INTO bug_reports (description, status) VALUES ($1, $2) RETURNING *',
+      [description, 'pending']
+    );
+    res.json(result.rows[0] || { success: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.get('/api/bugs', async (req, res) => {
+  if (!req.session || !req.session.isDoctor) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  const db = require('./db/db');
+  try {
+    const result = await db.query('SELECT * FROM bug_reports ORDER BY reported_at DESC');
+    res.json(result.rows);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.post('/api/bugs/:id/resolve', async (req, res) => {
+  if (!req.session || !req.session.isDoctor) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  const db = require('./db/db');
+  try {
+    await db.query('DELETE FROM bug_reports WHERE id = $1', [req.params.id]);
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
 // ── Routes ────────────────────────────────────────────
 app.use('/api/auth', authRouter);
 app.use('/api/patients', patientsRouter);

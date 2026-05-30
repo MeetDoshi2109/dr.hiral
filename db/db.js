@@ -211,6 +211,15 @@ function initSQLite() {
         )
       `);
 
+      sqliteDb.run(`
+        CREATE TABLE IF NOT EXISTS bug_reports (
+          id          INTEGER PRIMARY KEY AUTOINCREMENT,
+          description TEXT NOT NULL,
+          status      TEXT DEFAULT 'pending',
+          reported_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
+
       sqliteDb.get("SELECT COUNT(*) as count FROM patients", (err, row) => {
         if (err) return;
         if (row && row.count === 0) {

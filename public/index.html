@@ -960,11 +960,16 @@
         vaBody.innerHTML = html;
       };
 
-      window.submitVABug = function() {
+      window.submitVABug = async function() {
         const desc = document.getElementById('va_bug_desc').value.trim();
         if (!desc) { toast('Please describe the bug first', 'warning'); return; }
-        toast('Bug reported successfully! Thank you.', 'success');
-        vaBackToMenu();
+        try {
+          await API.submitBug(desc);
+          toast('Bug reported successfully! Thank you.', 'success');
+          vaBackToMenu();
+        } catch (e) {
+          toast(e.message, 'error');
+        }
       };
 
       // ── Floating Particles ──
