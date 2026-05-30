@@ -482,6 +482,13 @@ img { max-width: 100%; display: block; }
   font-weight: 400;
 }
 
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .hero-sub {
+    font-size: 0.95rem;
+  }
+}
+
 .hero-actions {
   display: flex;
   gap: 1rem;
