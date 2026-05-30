@@ -116,6 +116,17 @@ CREATE TABLE IF NOT EXISTS bug_reports (
   reported_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- ── Patient Documents ────────────────────────────────
+CREATE TABLE IF NOT EXISTS patient_documents (
+  id          SERIAL PRIMARY KEY,
+  patient_id  TEXT NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  doc_name    TEXT NOT NULL,
+  file_path   TEXT NOT NULL,
+  uploaded_by TEXT NOT NULL,
+  notes       TEXT,
+  uploaded_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- Seed reviews if table is empty
 INSERT INTO reviews (name, rating, text, location)
 VALUES

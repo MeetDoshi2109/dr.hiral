@@ -166,8 +166,8 @@
     }
   }
 
-  // Auto-lookup from URL ?pid=
-  const pid = new URLSearchParams(location.search).get('pid');
+  // Auto-lookup from URL ?pid= or LocalStorage
+  const pid = new URLSearchParams(location.search).get('pid') || localStorage.getItem('my_patient_id');
   if (pid) { document.getElementById('pidInput').value = pid; lookupPatient(); }
 
   // Enter key
@@ -182,7 +182,7 @@ async function lookupPatient() {
   btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;animation:spin 1s linear infinite">refresh</span>';
   try {
     const p = await API.getPatient(id);
-    renderPatient(p);
+    await renderPatient(p);
   } catch (e) {
     toast('Patient not found — please check your ID', 'error');
     btn.disabled = false;
@@ -205,10 +205,22 @@ function getTransportIcon(status) {
   return 'local_pharmacy';
 }
 
-function renderPatient(p) {
+async function renderPatient(p) {
   document.getElementById('lookupView').classList.add('hidden');
   const v = document.getElementById('patientView');
   v.classList.remove('hidden');
+
+  // Fetch live appointments
+  let appts = [];
+  try {
+    appts = await API.getAppointments({ patient_id: p.id });
+  } catch(e) {}
+
+  // Fetch documents
+  let docs = [];
+  try {
+    docs = await API.getDocuments(p.id);
+  } catch(e) {}
 
   let h = `<div class="patient-header reveal">
     <div class="patient-avatar">
@@ -242,6 +254,32 @@ function renderPatient(p) {
   });
   h += `</div>`;
 
+  // Appointments Live Status Section
+  h += `<div class="card reveal" style="margin-bottom:1.5rem;padding:1.25rem">
+    <div class="section-title" style="margin-bottom:1rem;color:var(--primary);display:flex;align-items:center;gap:0.35rem;"><span class="material-symbols-outlined" style="font-size:18px;">calendar_month</span> Appointment &amp; Request Status</div>`;
+  if (appts && appts.length) {
+    appts.sort((a,b) => new Date(b.appt_date) - new Date(a.appt_date));
+    h += `<div style="display:flex; flex-direction:column; gap:0.75rem;">`;
+    appts.forEach(a => {
+      const statusClass = a.status === 'pending' ? 'warning' : a.status === 'accepted' ? 'secondary' : 'danger';
+      const statusIcon = a.status === 'pending' ? 'pending' : a.status === 'accepted' ? 'check_circle' : 'cancel';
+      h += `<div style="padding:0.75rem; border:1px solid var(--border); border-radius:var(--radius-sm); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; background:rgba(255,255,255,0.01);">
+        <div>
+          <div style="font-weight:600; font-size:0.9rem;">${fmtDate(a.appt_date)} at ${a.appt_time}</div>
+          <div class="text-xs text-muted" style="margin-top:0.15rem;">Reason: ${a.reason || 'Routine Consultation'}</div>
+          ${a.reject_reason ? `<div class="text-xs" style="color:#ef4444; margin-top:0.15rem;">Note: ${a.reject_reason}</div>` : ''}
+        </div>
+        <span class="badge" style="background:rgba(var(--${statusClass}-rgb),0.1); color:var(--${statusClass}); display:inline-flex; align-items:center; gap:0.25rem;">
+          <span class="material-symbols-outlined" style="font-size:12px">${statusIcon}</span> ${a.status}
+        </span>
+      </div>`;
+    });
+    h += `</div>`;
+  } else {
+    h += `<p class="text-secondary-c text-sm">No recent appointment requests found. Click <a href="/appointments.html" style="color:var(--primary); font-weight:600; text-decoration:underline;">Book Appointment</a> to request a slot.</p>`;
+  }
+  h += `</div>`;
+
   // Medical history + notes
   if (p.history) {
     h += `<div class="card reveal" style="margin-bottom:1rem;padding:1.25rem">
@@ -255,6 +293,64 @@ function renderPatient(p) {
       <p class="text-secondary-c text-sm">${p.notes}</p>
     </div>`;
   }
+
+  // UPLOADED DOCUMENTS & HISTORY SYSTEM
+  h += `<div class="card reveal" style="margin-bottom:1.5rem;padding:1.25rem">
+    <div class="section-title" style="margin-bottom:1rem;color:var(--secondary);display:flex;align-items:center;gap:0.35rem;"><span class="material-symbols-outlined" style="font-size:18px;">description</span> Uploaded Health Records &amp; Medical History</div>
+    
+    <!-- Upload New Document Form -->
+    <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:var(--radius-sm); padding:1rem; margin-bottom:1.5rem;">
+      <h4 style="font-size:0.9rem; font-weight:600; margin-bottom:0.75rem; color:var(--text); display:flex; align-items:center; gap:0.35rem;"><span class="material-symbols-outlined" style="font-size:16px;">upload_file</span> Share Medical Record / Report</h4>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:0.75rem;">
+        <div class="form-group" style="margin:0;">
+          <label class="form-label" style="font-size:0.72rem;">Record Name *</label>
+          <input class="form-input" id="up_doc_name" placeholder="e.g. Blood Test, Chest X-Ray" style="font-size:0.8rem; padding:0.45rem;">
+        </div>
+        <div class="form-group" style="margin:0;">
+          <label class="form-label" style="font-size:0.72rem;">Select File (PDF, Image) *</label>
+          <input type="file" id="up_doc_file" style="font-size:0.8rem; background:transparent; color:var(--text); width:100%;">
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0.75rem;">
+        <label class="form-label" style="font-size:0.72rem;">Notes/Details</label>
+        <textarea class="form-input" id="up_doc_notes" rows="1" placeholder="Add diagnosis, doctor name or details..." style="font-size:0.8rem; padding:0.45rem; resize:vertical;"></textarea>
+      </div>
+      <button onclick="uploadPatientDoc('${p.id}')" id="up_doc_btn" class="btn btn-primary btn-sm" style="font-size:0.8rem; padding:0.45rem 1rem;">
+        <span class="material-symbols-outlined" style="font-size:14px; margin-right:4px;">cloud_upload</span> Upload &amp; Share Document
+      </button>
+    </div>
+    
+    <!-- Documents List -->
+    <div id="docs-history-list" style="display:flex; flex-direction:column; gap:0.75rem;">`;
+  if (docs && docs.length) {
+    docs.forEach(d => {
+      h += `<div style="padding:0.75rem; border:1px solid var(--border); border-radius:var(--radius-sm); background:rgba(255,255,255,0.01); display:flex; flex-direction:column; gap:0.5rem;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.5rem;">
+          <div>
+            <div style="font-weight:600; font-size:0.88rem; color:var(--text); display:flex; align-items:center; gap:0.35rem;">
+              <span class="material-symbols-outlined" style="font-size:16px; color:var(--primary);">description</span>
+              ${d.doc_name}
+            </div>
+            <div style="font-size:0.7rem; color:var(--text-muted); margin-top:0.15rem;">
+              Uploaded on ${fmtDate(d.uploaded_at)} · Shared by <strong>${d.uploaded_by === 'doctor' ? 'Clinic/Dr. Hiral' : 'You (Patient)'}</strong>
+            </div>
+          </div>
+          <div style="display:flex; gap:0.4rem;">
+            <a href="${d.file_path}" download="${d.doc_name.replace(/\s+/g, '_')}" class="btn btn-outline btn-sm" style="font-size:0.7rem; padding:0.25rem 0.5rem; display:inline-flex; align-items:center; gap:0.25rem; height: 32px;">
+              <span class="material-symbols-outlined" style="font-size:12px;">download</span> Download
+            </a>
+            <a href="${d.file_path}" target="_blank" class="btn btn-primary btn-sm" style="font-size:0.7rem; padding:0.25rem 0.5rem; display:inline-flex; align-items:center; gap:0.25rem; height: 32px;">
+              <span class="material-symbols-outlined" style="font-size:12px;">visibility</span> View
+            </a>
+          </div>
+        </div>
+        ${d.notes ? `<div style="font-size:0.78rem; color:var(--text-secondary); background:rgba(255,255,255,0.01); border-left:2px solid var(--secondary); padding-left:0.5rem; margin-top:0.25rem;">${d.notes}</div>` : ''}
+      </div>`;
+    });
+  } else {
+    h += `<p class="text-secondary-c text-xs" style="text-align:center; padding:1rem 0;">No shared medical documents uploaded yet.</p>`;
+  }
+  h += `</div></div>`;
 
   // Treatment Timeline
   if (p.timeline && p.timeline.length) {
@@ -323,6 +419,51 @@ function renderPatient(p) {
   const obs = new IntersectionObserver(e => e.forEach(el => { if (el.isIntersecting) { el.target.classList.add('visible'); obs.unobserve(el.target); } }), { threshold: 0.01, rootMargin: '50px 0px 0px 0px' });
   requestAnimationFrame(() => v.querySelectorAll('.reveal, .stagger-children').forEach(el => obs.observe(el)));
 }
+
+// Frontend document upload handler
+window.uploadPatientDoc = async function(pid) {
+  const nameInput = document.getElementById('up_doc_name');
+  const fileInput = document.getElementById('up_doc_file');
+  const notesInput = document.getElementById('up_doc_notes');
+  const uploadBtn = document.getElementById('up_doc_btn');
+
+  const name = nameInput.value.trim();
+  const file = fileInput.files[0];
+  const notes = notesInput.value.trim();
+
+  if (!name) { toast('Please enter a record name', 'warning'); return; }
+  if (!file) { toast('Please select a medical history file to upload', 'warning'); return; }
+
+  uploadBtn.disabled = true;
+  uploadBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px; margin-right:4px; animation:spin 1s linear infinite">refresh</span> Uploading...';
+
+  // Read file as base64
+  const reader = new FileReader();
+  reader.onload = async function() {
+    const base64Data = reader.result;
+    try {
+      await API.uploadDocument(pid, {
+        doc_name: name,
+        file_path: base64Data,
+        uploaded_by: 'patient',
+        notes
+      });
+      toast('Medical record uploaded and shared successfully!', 'success');
+      // Refresh page view
+      const freshPatient = await API.getPatient(pid);
+      await renderPatient(freshPatient);
+    } catch(err) {
+      toast(err.message, 'error');
+      uploadBtn.disabled = false;
+      uploadBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:14px; margin-right:4px;">cloud_upload</span> Upload &amp; Share Document';
+    }
+  };
+  reader.onerror = function() {
+    toast('Failed to read document file', 'error');
+    uploadBtn.disabled = false;
+  };
+  reader.readAsDataURL(file);
+};
 </script>
 <style>
 @keyframes spin { to { transform: rotate(360deg); } }

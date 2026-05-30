@@ -315,7 +315,7 @@
           <a href="/" class="btn btn-primary">
             <span class="material-symbols-outlined" style="font-size:16px">home</span> Back to Home
           </a>
-          <a href="/patient.html" class="btn btn-outline">
+          <a href="/patient.html" class="btn btn-outline" id="cf_records_btn">
             <span class="material-symbols-outlined" style="font-size:16px">person_search</span> My Records
           </a>
         </div>
@@ -695,6 +695,15 @@ async function bookAppt() {
       localStorage.setItem('my_appointment_id', res.id);
       const cfIdEl = document.getElementById('cf_id');
       if (cfIdEl) cfIdEl.textContent = res.id;
+    }
+    if (patient_id) {
+      localStorage.setItem('my_patient_id', patient_id);
+      const recBtn = document.getElementById('cf_records_btn');
+      if (recBtn) recBtn.href = `/patient.html?pid=${patient_id}`;
+    } else {
+      localStorage.removeItem('my_patient_id');
+      const recBtn = document.getElementById('cf_records_btn');
+      if (recBtn) recBtn.href = `/patient.html`;
     }
     document.getElementById('bookingForm').classList.add('hidden');
     document.getElementById('confirmView').classList.remove('hidden');

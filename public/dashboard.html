@@ -821,6 +821,65 @@ async function viewPatient(id){
       h+=`</div>`;
     }
     
+    // ── Shared Documents & Reports Section ─────────────────
+    h+=`<div style="margin-bottom:1.5rem"><h4 style="font-size:1rem;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem"><span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">description</span> Shared Documents &amp; Reports</h4>`;
+    
+    // Doctor Upload Box
+    h+=`<div class="card" style="padding:1rem; margin-bottom:0.75rem; background:rgba(255,255,255,0.01);">
+      <div style="font-size:0.82rem; font-weight:600; margin-bottom:0.5rem; color:var(--text); display:flex; align-items:center; gap:0.25rem;"><span class="material-symbols-outlined" style="font-size:15px;">upload_file</span> Upload Patient Document</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-bottom:0.5rem;">
+        <div>
+          <label style="font-size:0.7rem; color:var(--text-muted); display:block; margin-bottom:0.15rem;">Record Name *</label>
+          <input class="form-input" id="dr_doc_name" placeholder="e.g. Lab Report, Scan" style="font-size:0.8rem; padding:0.4rem;">
+        </div>
+        <div>
+          <label style="font-size:0.7rem; color:var(--text-muted); display:block; margin-bottom:0.15rem;">Select File *</label>
+          <input type="file" id="dr_doc_file" style="font-size:0.8rem; background:transparent; color:var(--text); width:100%;">
+        </div>
+      </div>
+      <div style="margin-bottom:0.5rem;">
+        <label style="font-size:0.7rem; color:var(--text-muted); display:block; margin-bottom:0.15rem;">Notes / Diagnosis Detail</label>
+        <input class="form-input" id="dr_doc_notes" placeholder="Add diagnosis, doctor notes..." style="font-size:0.8rem; padding:0.4rem;">
+      </div>
+      <button onclick="uploadDocByDoctor('${p.id}')" id="dr_doc_btn" class="btn btn-sm btn-primary" style="font-size:0.75rem; padding:0.35rem 0.8rem;">
+        <span class="material-symbols-outlined" style="font-size:13px;">cloud_upload</span> Upload Report
+      </button>
+    </div>`;
+
+    // Doctor Docs List
+    if(p.documents && p.documents.length) {
+      p.documents.forEach(d => {
+        h+=`<div class="card" style="padding:0.75rem; margin-bottom:0.5rem; background:rgba(255,255,255,0.01); display:flex; flex-direction:column; gap:0.4rem; border-left:3px solid var(--secondary);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.4rem;">
+            <div>
+              <div style="font-weight:600; font-size:0.85rem; display:flex; align-items:center; gap:0.25rem;">
+                <span class="material-symbols-outlined" style="font-size:14px; color:var(--primary);">description</span>
+                ${d.doc_name}
+              </div>
+              <div style="font-size:0.68rem; color:var(--text-muted); margin-top:0.1rem;">
+                Uploaded: ${fmtDate(d.uploaded_at)} · Shared by: <strong>${d.uploaded_by === 'doctor' ? 'You (Doctor)' : 'Patient'}</strong>
+              </div>
+            </div>
+            <div style="display:flex; gap:0.3rem;">
+              <a href="${d.file_path}" download="${d.doc_name.replace(/\s+/g, '_')}" class="btn btn-outline" style="font-size:0.68rem; padding:0.2rem 0.4rem; height: 26px; display:inline-flex; align-items:center; gap:0.15rem; color:var(--text-secondary);">
+                <span class="material-symbols-outlined" style="font-size:11px;">download</span> Download
+              </a>
+              <button onclick="editDocPrompt('${p.id}', ${d.id}, '${d.doc_name.replace(/'/g, "\\'")}', '${d.notes ? d.notes.replace(/'/g, "\\'") : ''}')" class="btn btn-outline" style="font-size:0.68rem; padding:0.2rem 0.4rem; height: 26px; display:inline-flex; align-items:center; gap:0.15rem; color:#f59e0b; border-color:rgba(245,158,11,0.3);">
+                <span class="material-symbols-outlined" style="font-size:11px;">edit</span> Edit
+              </button>
+              <button onclick="deleteDocByDoctor('${p.id}', ${d.id})" class="btn" style="font-size:0.68rem; padding:0.2rem 0.4rem; height: 26px; display:inline-flex; align-items:center; gap:0.15rem; background:rgba(239,68,68,0.1); color:#ef4444; border:1px solid rgba(239,68,68,0.2);">
+                <span class="material-symbols-outlined" style="font-size:11px;">delete</span> Delete
+              </button>
+            </div>
+          </div>
+          ${d.notes ? `<div style="font-size:0.75rem; color:var(--text-secondary); background:rgba(255,255,255,0.01); border-left:2px solid var(--secondary); padding-left:0.4rem;">${d.notes}</div>` : ''}
+        </div>`;
+      });
+    } else {
+      h+=`<p style="font-size:0.75rem; color:var(--text-muted); text-align:center; padding:0.5rem 0;">No medical records shared yet.</p>`;
+    }
+    h+=`</div>`;
+    
     if(p.timeline&&p.timeline.length){
       h+=`<h4 style="font-size:1rem;margin-bottom:1rem;display:flex;align-items:center;gap:0.4rem"><span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">timeline</span> Treatment Timeline</h4>`;
       p.timeline.forEach(t=>{
@@ -889,7 +948,7 @@ function switchTab(name,btn){
   btn.classList.add('active');
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
-  if(name==='appts')loadAppts();
+  if(name==='appts')loadAppts('pending');
   if(name==='patients')loadPatients();
   if(name==='rx')loadRx();
 }
@@ -1019,6 +1078,76 @@ async function deleteRx(pid,rid){
     loadRx();
   }catch(e){toast(e.message,'error');}
 }
+
+// ── Patient Documents Management by Doctor ────────────────
+window.uploadDocByDoctor = async function(pid) {
+  const nameInput = document.getElementById('dr_doc_name');
+  const fileInput = document.getElementById('dr_doc_file');
+  const notesInput = document.getElementById('dr_doc_notes');
+  const uploadBtn = document.getElementById('dr_doc_btn');
+
+  const name = nameInput.value.trim();
+  const file = fileInput.files[0];
+  const notes = notesInput.value.trim();
+
+  if (!name) { toast('Please enter a document name', 'warning'); return; }
+  if (!file) { toast('Please select a file to upload', 'warning'); return; }
+
+  uploadBtn.disabled = true;
+  uploadBtn.innerHTML = '<span class="material-symbols-outlined animate-spin" style="font-size:13px; margin-right:4px; animation:spin 1s linear infinite">refresh</span> Uploading...';
+
+  const reader = new FileReader();
+  reader.onload = async function() {
+    const base64Data = reader.result;
+    try {
+      await API.uploadDocument(pid, {
+        doc_name: name,
+        file_path: base64Data,
+        uploaded_by: 'doctor',
+        notes
+      });
+      toast('Document uploaded to patient record successfully!', 'success');
+      viewPatient(pid); // Refresh patient view modal
+    } catch(err) {
+      toast(err.message, 'error');
+      uploadBtn.disabled = false;
+      uploadBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:13px;">cloud_upload</span> Upload Report';
+    }
+  };
+  reader.onerror = function() {
+    toast('Failed to read report file', 'error');
+    uploadBtn.disabled = false;
+  };
+  reader.readAsDataURL(file);
+};
+
+window.editDocPrompt = async function(pid, did, currentName, currentNotes) {
+  const newName = prompt("Edit Document Name:", currentName);
+  if (newName === null) return;
+  if (!newName.trim()) { toast("Document name cannot be empty", "warning"); return; }
+  
+  const newNotes = prompt("Edit Notes / Diagnosis Details:", currentNotes);
+  if (newNotes === null) return;
+  
+  try {
+    await API.editDocument(pid, did, { doc_name: newName.trim(), notes: newNotes.trim() });
+    toast("Document record updated successfully!", "success");
+    viewPatient(pid); // Refresh view patient modal
+  } catch(e) {
+    toast(e.message, "error");
+  }
+};
+
+window.deleteDocByDoctor = async function(pid, did) {
+  if (!confirm("Are you sure you want to permanently delete this shared document?")) return;
+  try {
+    await API.deleteDocument(pid, did);
+    toast("Document deleted successfully!", "warning");
+    viewPatient(pid); // Refresh view patient modal
+  } catch(e) {
+    toast(e.message, "error");
+  }
+};
 
 // ── Bug Reports Dashboard Logic ─────────────────────────
 let bugsList = [];

@@ -39,7 +39,7 @@ router.get('/lookup', async (req, res) => {
   }
 });
 
-// GET /api/patients/:id  — single patient + timeline + prescriptions
+// GET /api/patients/:id  — single patient + timeline + prescriptions + documents
 router.get('/:id', async (req, res) => {
   try {
     const { rows } = await db.query('SELECT * FROM patients WHERE id=$1', [req.params.id]);
@@ -49,7 +49,9 @@ router.get('/:id', async (req, res) => {
       'SELECT * FROM timeline WHERE patient_id=$1 ORDER BY visit_date DESC', [req.params.id]);
     const { rows: prescriptions } = await db.query(
       'SELECT * FROM prescriptions WHERE patient_id=$1 ORDER BY issued_at DESC', [req.params.id]);
-    res.json({ ...patient, timeline, prescriptions });
+    const { rows: documents } = await db.query(
+      'SELECT * FROM patient_documents WHERE patient_id=$1 ORDER BY uploaded_at DESC', [req.params.id]);
+    res.json({ ...patient, timeline, prescriptions, documents });
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
@@ -120,6 +122,56 @@ router.post('/:id/prescriptions', requireAuth, async (req, res) => {
 router.delete('/:id/prescriptions/:rid', requireAuth, async (req, res) => {
   try {
     await db.query('DELETE FROM prescriptions WHERE id=$1 AND patient_id=$2', [req.params.rid, req.params.id]);
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// ── Document Upload & History Routes ────────────────────
+// GET /api/patients/:id/documents - list documents
+router.get('/:id/documents', async (req, res) => {
+  try {
+    const { rows } = await db.query(
+      'SELECT * FROM patient_documents WHERE patient_id=$1 ORDER BY uploaded_at DESC',
+      [req.params.id]
+    );
+    res.json(rows);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// POST /api/patients/:id/documents - create/upload document (base64)
+router.post('/:id/documents', async (req, res) => {
+  try {
+    const { doc_name, file_path, uploaded_by, notes } = req.body;
+    if (!doc_name || !file_path) {
+      return res.status(400).json({ error: 'Document name and file are required.' });
+    }
+    const { rows } = await db.query(
+      `INSERT INTO patient_documents (patient_id, doc_name, file_path, uploaded_by, notes)
+       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [req.params.id, doc_name, file_path, uploaded_by || 'patient', notes || '']
+    );
+    res.status(201).json(rows[0]);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// PUT /api/patients/:id/documents/:docId - update document notes/name (doctor only)
+router.put('/:id/documents/:docId', requireAuth, async (req, res) => {
+  try {
+    const { doc_name, notes } = req.body;
+    const { rows } = await db.query(
+      `UPDATE patient_documents SET doc_name=$1, notes=$2
+       WHERE id=$3 AND patient_id=$4 RETURNING *`,
+      [doc_name, notes || '', req.params.docId, req.params.id]
+    );
+    if (!rows.length) return res.status(404).json({ error: 'Document not found' });
+    res.json(rows[0]);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// DELETE /api/patients/:id/documents/:docId - delete document (doctor only)
+router.delete('/:id/documents/:docId', requireAuth, async (req, res) => {
+  try {
+    await db.query('DELETE FROM patient_documents WHERE id=$1 AND patient_id=$2', [req.params.docId, req.params.id]);
     res.json({ success: true });
   } catch (e) { res.status(500).json({ error: e.message }); }
 });

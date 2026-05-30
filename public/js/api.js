@@ -42,6 +42,10 @@ const API = {
   addPrescription:(id,d) => API.post(`/api/patients/${id}/prescriptions`, d),
   deletePrescription:(pid,rid)=> API.delete(`/api/patients/${pid}/prescriptions/${rid}`),
   getPrescriptions:()    => API.get('/api/prescriptions'),
+  getDocuments:    (pid)      => API.get(`/api/patients/${pid}/documents`),
+  uploadDocument:  (pid,data) => API.post(`/api/patients/${pid}/documents`, data),
+  editDocument:    (pid,did,d)=> API.put(`/api/patients/${pid}/documents/${did}`, d),
+  deleteDocument:  (pid,did)  => API.delete(`/api/patients/${pid}/documents/${did}`),
 
   // Patients lookup (returning patient flow)
   lookupPatient: (q) => API.get(`/api/patients/lookup?q=${encodeURIComponent(q)}`),

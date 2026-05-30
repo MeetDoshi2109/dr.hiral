@@ -220,6 +220,18 @@ function initSQLite() {
         )
       `);
 
+      sqliteDb.run(`
+        CREATE TABLE IF NOT EXISTS patient_documents (
+          id          INTEGER PRIMARY KEY AUTOINCREMENT,
+          patient_id  TEXT NOT NULL,
+          doc_name    TEXT NOT NULL,
+          file_path   TEXT NOT NULL,
+          uploaded_by TEXT NOT NULL,
+          notes       TEXT,
+          uploaded_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
+
       sqliteDb.get("SELECT COUNT(*) as count FROM patients", (err, row) => {
         if (err) return;
         if (row && row.count === 0) {
