@@ -217,7 +217,7 @@
               <div
                 style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; color: var(--text-secondary);">
                 <span class="material-symbols-outlined" aria-hidden="true" style="color: var(--primary); font-size: 20px;">mail</span>
-                <span style="font-weight: 500;">dr.hiral@homeocare.in</span>
+                <span style="font-weight: 500;">drhiral007@gmail.com</span>
               </div>
             </div>
 
@@ -617,7 +617,7 @@
             </li>
             <li style="display:flex;align-items:center;gap:0.4rem;font-size:0.9rem;color:var(--text-secondary)">
               <span class="material-symbols-outlined"
-                style="font-size:18px;color:var(--primary)">mail</span>dr.hiral@homeocare.in
+                style="font-size:18px;color:var(--primary)">mail</span>drhiral007@gmail.com
             </li>
             <li style="display:flex;align-items:center;gap:0.4rem;font-size:0.9rem;color:var(--text-secondary)">
               <span class="material-symbols-outlined"
@@ -647,23 +647,53 @@
   <div
     style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:90;display:flex;flex-direction:column;align-items:flex-end"
     id="va-wrap">
-    <div class="va-popover" id="va-popover">
+    <div class="va-popover" id="va-popover" style="width: 320px; max-height: 480px; overflow-y: auto;">
       <button class="btn-ghost" id="va-close" style="position:absolute;top:0.5rem;right:0.5rem" aria-label="Close">
         <span class="material-symbols-outlined" style="font-size:18px">close</span>
       </button>
-      <div class="text-center" style="margin-bottom:1rem">
-        <div class="badge badge-primary" style="margin-bottom:0.5rem"><span class="status-dot online"></span> Online
+
+      <!-- VIEW 1: MAIN MENU & QUESTIONS -->
+      <div id="va-menu-view">
+        <div class="text-center" style="margin-bottom:1rem">
+          <div class="badge badge-primary" style="margin-bottom:0.5rem"><span class="status-dot online"></span> Online</div>
+          <h3 style="font-size:1.1rem;margin-bottom:0.25rem">Hi! I'm your guide.</h3>
+          <p class="text-sm text-secondary-c">How can I help you today?</p>
         </div>
-        <h3 style="font-size:1.1rem;margin-bottom:0.25rem">Hi! I'm your guide.</h3>
-        <p class="text-sm text-secondary-c">How can I help you today?</p>
+        
+        <div style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.25rem">
+          <a href="/appointments.html" class="btn btn-primary btn-sm w-full">
+            <span class="material-symbols-outlined" style="font-size:16px">event_upcoming</span> Book Appointment
+          </a>
+          <a href="#services" class="btn btn-outline btn-sm w-full" onclick="toggleVA()">
+            <span class="material-symbols-outlined" style="font-size:16px">search</span> Explore Services
+          </a>
+        </div>
+
+        <div style="border-top: 1px solid var(--border); padding-top: 1rem;">
+          <h4 style="font-size: 0.82rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.5rem; letter-spacing:0.04em;">Quick Help &amp; FAQs</h4>
+          <div style="display:flex; flex-direction:column; gap:0.4rem;">
+            <button class="btn btn-ghost btn-sm w-full" onclick="askVAQuestion('what_is_homeo')" style="text-align:left; justify-content:flex-start; font-size:0.8rem; padding:0.4rem 0.6rem; border-radius:var(--radius-sm);">
+              <span class="material-symbols-outlined" style="font-size:16px; margin-right:6px; color:var(--primary)">help</span> What is Homeopathy?
+            </button>
+            <button class="btn btn-ghost btn-sm w-full" onclick="askVAQuestion('how_to_book')" style="text-align:left; justify-content:flex-start; font-size:0.8rem; padding:0.4rem 0.6rem; border-radius:var(--radius-sm);">
+              <span class="material-symbols-outlined" style="font-size:16px; margin-right:6px; color:var(--primary)">calendar_today</span> How do I book?
+            </button>
+            <button class="btn btn-ghost btn-sm w-full" onclick="askVAQuestion('clinic_hours')" style="text-align:left; justify-content:flex-start; font-size:0.8rem; padding:0.4rem 0.6rem; border-radius:var(--radius-sm);">
+              <span class="material-symbols-outlined" style="font-size:16px; margin-right:6px; color:var(--primary)">schedule</span> Clinic Hours &amp; Contact
+            </button>
+            <button class="btn btn-ghost btn-sm w-full" onclick="askVAQuestion('report_bug')" style="text-align:left; justify-content:flex-start; font-size:0.8rem; padding:0.4rem 0.6rem; border-radius:var(--radius-sm); color:#ef4444; background:rgba(239,68,68,0.04)">
+              <span class="material-symbols-outlined" style="font-size:16px; margin-right:6px; color:#ef4444">bug_report</span> Report a Bug
+            </button>
+          </div>
+        </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:0.5rem">
-        <a href="/appointments.html" class="btn btn-primary btn-sm w-full">
-          <span class="material-symbols-outlined" style="font-size:16px">event_upcoming</span> Book Appointment
-        </a>
-        <a href="#services" class="btn btn-outline btn-sm w-full" onclick="toggleVA()">
-          <span class="material-symbols-outlined" style="font-size:16px">search</span> Explore Services
-        </a>
+
+      <!-- VIEW 2: ANSWER CONTENT / BUG FORM -->
+      <div id="va-content-view" class="hidden">
+        <button class="btn btn-ghost btn-sm" onclick="vaBackToMenu()" style="display:inline-flex; align-items:center; gap:0.25rem; margin-bottom:1rem; font-size:0.8rem; padding:0.25rem 0.5rem; cursor:pointer;">
+          <span class="material-symbols-outlined" style="font-size:16px;">arrow_back</span> Back
+        </button>
+        <div id="va-content-body" style="font-size:0.88rem; line-height:1.5; color:var(--text-secondary);"></div>
       </div>
     </div>
     <button class="va-trigger" id="va-trigger" aria-label="Open assistant">
@@ -694,8 +724,8 @@
       }
 
       const saved = localStorage.getItem('theme');
-      // Default to dark mode if no saved preference
-      setTheme(saved === null || saved === 'dark');
+      // Default to light mode if no saved preference
+      setTheme(saved === 'dark');
 
       if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', () => {
@@ -860,9 +890,75 @@
       const vaTrigger = document.getElementById('va-trigger');
       const vaPopover = document.getElementById('va-popover');
       const vaClose = document.getElementById('va-close');
-      window.toggleVA = function () { vaPopover.classList.toggle('open'); };
+      window.toggleVA = function () { 
+        vaPopover.classList.toggle('open'); 
+        if (!vaPopover.classList.contains('open')) {
+          vaBackToMenu();
+        }
+      };
       vaTrigger.addEventListener('click', toggleVA);
       vaClose.addEventListener('click', toggleVA);
+
+      const vaMenu = document.getElementById('va-menu-view');
+      const vaContent = document.getElementById('va-content-view');
+      const vaBody = document.getElementById('va-content-body');
+
+      window.vaBackToMenu = function() {
+        vaContent.classList.add('hidden');
+        vaMenu.classList.remove('hidden');
+        vaBody.innerHTML = '';
+      };
+
+      window.askVAQuestion = function(id) {
+        vaMenu.classList.add('hidden');
+        vaContent.classList.remove('hidden');
+        
+        let html = '';
+        if (id === 'what_is_homeo') {
+          html = `
+            <h4 style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">What is Homeopathy?</h4>
+            <p style="margin-bottom:0.75rem;">Homeopathy is a gentle, holistic system of medicine based on the principle of <strong>'like cures like'</strong>. It stimulates the body's natural defense systems to self-heal.</p>
+            <p>Our remedies are highly diluted, 100% natural, and customized to your specific emotional and physical constitution.</p>
+          `;
+        } else if (id === 'how_to_book') {
+          html = `
+            <h4 style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">How do I book?</h4>
+            <p style="margin-bottom:0.75rem;">You can book an appointment by clicking the <strong>"Book Appointment"</strong> button above, or by visiting <a href="/appointments.html" style="color:var(--primary); font-weight:600; text-decoration:underline;">our booking page</a>.</p>
+            <p>We accept both new and returning patients. Returning patients can easily retrieve their histories using their Patient ID.</p>
+          `;
+        } else if (id === 'clinic_hours') {
+          html = `
+            <h4 style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Clinic Hours &amp; Contact</h4>
+            <p style="margin-bottom:0.5rem;"><strong>Hours:</strong></p>
+            <ul style="margin-bottom:0.75rem; list-style-type:square; padding-left:1.25rem;">
+              <li>Mon-Fri: 9:00 AM – 6:00 PM</li>
+              <li>Sat: 10:00 AM – 2:00 PM</li>
+              <li>Sun: Closed</li>
+            </ul>
+            <p><strong>Email:</strong> drhiral007@gmail.com</p>
+            <p><strong>Phone:</strong> +91 79722 32216</p>
+          `;
+        } else if (id === 'report_bug') {
+          html = `
+            <h4 style="font-weight:700; color:#ef4444; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.25rem;"><span class="material-symbols-outlined" style="font-size:18px;">bug_report</span> Report a Bug</h4>
+            <p style="margin-bottom:0.75rem; font-size:0.8rem;">Help us improve. Describe the bug or glitch you encountered below:</p>
+            <div class="form-group" style="margin-bottom:0.75rem;">
+              <textarea class="form-input" id="va_bug_desc" rows="3" placeholder="Explain what went wrong..." style="resize:none; font-size:0.8rem; padding:0.5rem;"></textarea>
+            </div>
+            <button onclick="submitVABug()" class="btn btn-primary btn-sm w-full" style="background:#ef4444; border-color:#ef4444;">
+              Submit Bug Report
+            </button>
+          `;
+        }
+        vaBody.innerHTML = html;
+      };
+
+      window.submitVABug = function() {
+        const desc = document.getElementById('va_bug_desc').value.trim();
+        if (!desc) { toast('Please describe the bug first', 'warning'); return; }
+        toast('Bug reported successfully! Thank you.', 'success');
+        vaBackToMenu();
+      };
 
       // ── Floating Particles ──
       const particlesEl = document.getElementById('particles');

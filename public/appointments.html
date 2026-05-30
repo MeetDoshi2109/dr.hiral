@@ -377,12 +377,52 @@
   // Time slots
   const slots = ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00'];
   const sc = document.getElementById('timeSlots');
-  slots.forEach(s => {
-    const d = document.createElement('div'); d.className = 'time-slot'; d.textContent = s;
-    d.onclick = () => { document.querySelectorAll('.time-slot').forEach(x => x.classList.remove('selected')); d.classList.add('selected'); document.getElementById('af_time').value = s; };
-    sc.appendChild(d);
+  
+  function updateTimeSlots() {
+    sc.innerHTML = '';
+    const selectedDateStr = document.getElementById('af_date').value;
+    const todayStr = new Date().toISOString().split('T')[0];
+    
+    const now = new Date();
+    const currentHr = now.getHours();
+    const currentMin = now.getMinutes();
+
+    slots.forEach(s => {
+      const d = document.createElement('div'); d.className = 'time-slot'; d.textContent = s;
+      
+      let isPast = false;
+      if (selectedDateStr === todayStr) {
+        const [slotHr, slotMin] = s.split(':').map(Number);
+        if (slotHr < currentHr || (slotHr === currentHr && slotMin <= currentMin)) {
+          isPast = true;
+        }
+      }
+      
+      if (isPast) {
+        d.style.opacity = '0.3';
+        d.style.cursor = 'not-allowed';
+        d.style.pointerEvents = 'none';
+        d.style.background = 'rgba(255,255,255,0.01)';
+        d.style.borderColor = 'var(--border)';
+      } else {
+        d.onclick = () => { 
+          document.querySelectorAll('.time-slot').forEach(x => x.classList.remove('selected')); 
+          d.classList.add('selected'); 
+          document.getElementById('af_time').value = s; 
+        };
+      }
+      sc.appendChild(d);
+    });
+  }
+
+  const todayStr = new Date().toISOString().split('T')[0];
+  document.getElementById('af_date').min = todayStr;
+  document.getElementById('af_date').value = todayStr;
+  document.getElementById('af_date').addEventListener('change', () => {
+    document.getElementById('af_time').value = '';
+    updateTimeSlots();
   });
-  document.getElementById('af_date').min = new Date().toISOString().split('T')[0];
+  updateTimeSlots();
 
   // Check appointment status on load
   checkApptStatus();

@@ -590,7 +590,18 @@ async function loadPatients(q=''){
       const upcoming = pAppts.filter(a => {
         const aDate = new Date(a.appt_date);
         aDate.setHours(0,0,0,0);
-        return aDate.getTime() >= todayDate.getTime();
+        if (aDate.getTime() < todayDate.getTime()) return false;
+        
+        if (aDate.getTime() === todayDate.getTime()) {
+          const now = new Date();
+          const currentHr = now.getHours();
+          const currentMin = now.getMinutes();
+          const [slotHr, slotMin] = a.appt_time.split(':').map(Number);
+          if (slotHr < currentHr || (slotHr === currentHr && slotMin <= currentMin)) {
+            return false;
+          }
+        }
+        return true;
       });
 
       upcoming.sort((a, b) => {
