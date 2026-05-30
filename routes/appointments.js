@@ -6,11 +6,12 @@ const { requireAuth } = require('./auth');
 // GET /api/appointments  — all
 router.get('/', requireAuth, async (req, res) => {
   try {
-    const { status, date } = req.query;
+    const { status, date, patient_id } = req.query;
     let sql = 'SELECT * FROM appointments WHERE 1=1';
     const params = [];
     if (status) { params.push(status); sql += ` AND status=$${params.length}`; }
     if (date) { params.push(date); sql += ` AND appt_date=$${params.length}`; }
+    if (patient_id) { params.push(patient_id); sql += ` AND patient_id=$${params.length}`; }
     sql += ' ORDER BY appt_date, appt_time';
     const { rows } = await db.query(sql, params);
     res.json(rows);
@@ -28,7 +29,7 @@ router.get('/pending-count', requireAuth, async (req, res) => {
 // POST /api/appointments  — patient books appointment (public)
 router.post('/', async (req, res) => {
   try {
-    const { patient_name, phone, email, appt_date, appt_time, reason } = req.body;
+    const { patient_name, phone, email, appt_date, appt_time, reason, patient_id } = req.body;
     if (!patient_name || !appt_date || !appt_time) return res.status(400).json({ error: 'Missing required fields' });
     // Check slot availability
     const { rows: existing } = await db.query(
@@ -37,9 +38,9 @@ router.post('/', async (req, res) => {
     );
     if (existing.length) return res.status(409).json({ error: 'This time slot is already booked' });
     const { rows } = await db.query(
-      `INSERT INTO appointments (patient_name,phone,email,appt_date,appt_time,reason)
-       VALUES ($1,$2,$3,$4,$5,$6) RETURNING *`,
-      [patient_name, phone, email, appt_date, appt_time, reason]
+      `INSERT INTO appointments (patient_name,phone,email,appt_date,appt_time,reason,patient_id)
+       VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`,
+      [patient_name, phone, email, appt_date, appt_time, reason, patient_id || null]
     );
     res.status(201).json(rows[0]);
   } catch (e) { res.status(500).json({ error: e.message }); }
@@ -53,9 +54,9 @@ router.patch('/:id/accept', requireAuth, async (req, res) => {
     if (!apptRows.length) return res.status(404).json({ error: 'Appointment not found' });
     const appt = apptRows[0];
 
-    // 2. Check if a patient with the same phone or email already exists in patients list
-    let patientId = null;
-    if (appt.phone || appt.email) {
+    // 2. Check if patient_id is already set, or match a patient with the same phone or email
+    let patientId = appt.patient_id;
+    if (!patientId && (appt.phone || appt.email)) {
       let checkSql = 'SELECT id FROM patients WHERE 1=0';
       const checkParams = [];
       if (appt.phone) {

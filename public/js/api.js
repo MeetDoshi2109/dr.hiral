@@ -43,6 +43,9 @@ const API = {
   deletePrescription:(pid,rid)=> API.delete(`/api/patients/${pid}/prescriptions/${rid}`),
   getPrescriptions:()    => API.get('/api/prescriptions'),
 
+  // Patients lookup (returning patient flow)
+  lookupPatient: (q) => API.get(`/api/patients/lookup?q=${encodeURIComponent(q)}`),
+
   // QR
   getQR: (patientId) => API.get(`/api/qr/${patientId}`),
 

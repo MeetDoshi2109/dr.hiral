@@ -129,9 +129,15 @@
     </div>
 
     <div id="tab-patients" class="tab-panel active reveal">
-      <div style="margin-bottom:1rem;max-width:400px;position:relative">
-        <span class="material-symbols-outlined" style="position:absolute;left:12px;top:10px;color:var(--text-muted)">search</span>
-        <input type="text" class="form-input" style="padding-left:2.5rem" placeholder="Search patients by name or ID..." id="patientSearch" oninput="loadPatients(this.value)">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+        <div style="max-width:400px; width:100%; position:relative">
+          <span class="material-symbols-outlined" style="position:absolute;left:12px;top:10px;color:var(--text-muted)">search</span>
+          <input type="text" class="form-input" style="padding-left:2.5rem" placeholder="Search patients by name or ID..." id="patientSearch" oninput="loadPatients(this.value)">
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="toggleSortByNextAppt()" id="sortApptBtn" style="display:inline-flex; align-items:center; gap:0.5rem; height:42px;">
+          <span class="material-symbols-outlined" id="sortIcon">sort</span>
+          <span>Sort by Next Appointment</span>
+        </button>
       </div>
       <div id="patientList"></div>
     </div>
@@ -414,6 +420,20 @@
   </div>
 </div>
 
+<!-- VIEW APPOINTMENTS HISTORY MODAL -->
+<div class="modal-overlay" id="viewApptsHistoryModal" style="backdrop-filter: blur(8px);">
+  <div class="modal" style="max-width:640px; max-height:90vh; overflow-y:auto; border-radius: var(--radius-lg); padding: 2rem;">
+    <div class="modal-header" style="padding-bottom:1rem; border-bottom:1px solid var(--border); margin-bottom:1.5rem">
+      <h3 class="modal-title" style="display:flex; align-items:center; gap:0.5rem">
+        <span class="material-symbols-outlined" style="color:var(--primary)">calendar_month</span>
+        <span id="vah_patient_title">Patient Appointments</span>
+      </h3>
+      <button class="btn-ghost" onclick="closeModal('viewApptsHistoryModal')"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div id="vah_appointments_list" style="display:flex; flex-direction:column; gap:0.75rem;"></div>
+  </div>
+</div>
+
 <!-- VIEW PATIENT MODAL -->
 <div class="modal-overlay" id="viewPatientModal">
   <div class="modal" style="max-width:700px;max-height:90vh;overflow-y:auto">
@@ -490,19 +510,144 @@ async function loadStats(){
   }catch(e){}
 }
 
+let sortByNextApptEnabled = false;
+
+function toggleSortByNextAppt() {
+  sortByNextApptEnabled = !sortByNextApptEnabled;
+  const btn = document.getElementById('sortApptBtn');
+  const icon = document.getElementById('sortIcon');
+  if (sortByNextApptEnabled) {
+    btn.style.background = 'rgba(8,145,178,0.12)';
+    btn.style.borderColor = 'var(--primary)';
+    btn.style.color = 'var(--primary)';
+    icon.textContent = 'sort_by_alpha';
+  } else {
+    btn.style.background = 'transparent';
+    btn.style.borderColor = 'var(--border)';
+    btn.style.color = 'var(--text-secondary)';
+    icon.textContent = 'sort';
+  }
+  loadPatients(document.getElementById('patientSearch').value);
+}
+
+async function viewAppointmentsHistory(patientId, patientName) {
+  document.getElementById('vah_patient_title').textContent = `${patientName} — Appointment History`;
+  const listEl = document.getElementById('vah_appointments_list');
+  listEl.innerHTML = `
+    <div style="font-size:18px; margin:2rem 0; text-align:center; color:var(--text-secondary)">
+      <span class="material-symbols-outlined" style="font-size:36px; animation:spin 1s linear infinite; color:var(--primary)">refresh</span>
+      <br><br>Retrieving appointment history...
+    </div>
+  `;
+  openModal('viewApptsHistoryModal');
+
+  try {
+    const appts = await API.getAppointments({ patient_id: patientId });
+    if (!appts.length) {
+      listEl.innerHTML = '<div class="empty-state"><span class="material-symbols-outlined">event_busy</span><h3>No appointments found</h3></div>';
+      return;
+    }
+
+    appts.sort((a, b) => new Date(b.appt_date) - new Date(a.appt_date));
+
+    listEl.innerHTML = appts.map(a => {
+      const statusClass = a.status === 'pending' ? 'warning' : a.status === 'accepted' ? 'secondary' : 'danger';
+      const statusIcon = a.status === 'pending' ? 'pending' : a.status === 'accepted' ? 'check_circle' : 'cancel';
+      const formattedDate = new Date(a.appt_date).toLocaleDateString('en-IN', {
+        weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'
+      });
+      return `
+        <div class="card" style="padding:1rem; border:1px solid var(--border); display:flex; flex-direction:column; gap:0.5rem; background:rgba(255,255,255,0.01);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+            <div style="font-weight:600; font-size:0.95rem;">${formattedDate} at ${a.appt_time}</div>
+            <span class="badge" style="background:rgba(var(--${statusClass}-rgb),0.1); color:var(--${statusClass}); display:inline-flex; align-items:center; gap:0.25rem;">
+              <span class="material-symbols-outlined" style="font-size:12px">${statusIcon}</span> ${a.status}
+            </span>
+          </div>
+          <div class="text-sm text-secondary-c"><strong style="color:var(--text)">Reason:</strong> ${a.reason || '—'}</div>
+          ${a.reject_reason ? `<div class="text-sm" style="color:#ef4444;"><strong style="color:var(--text-secondary)">Decline Reason:</strong> ${a.reject_reason}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+  } catch (e) {
+    listEl.innerHTML = `<div class="empty-state" style="color:#ef4444"><span class="material-symbols-outlined">error</span><h3>Failed to load appointments</h3><p>${e.message}</p></div>`;
+  }
+}
+
 async function loadPatients(q=''){
   try{
     const ps=await API.getPatients(q);
+    const appts = await API.getAppointments();
     const el=document.getElementById('patientList');
     if(!ps.length){el.innerHTML='<div class="empty-state"><span class="material-symbols-outlined">group_off</span><h3>No patients found</h3></div>';return}
+
+    const todayDate = new Date();
+    todayDate.setHours(0,0,0,0);
+
+    ps.forEach(p => {
+      const pAppts = appts.filter(a => a.patient_id === p.id && a.status === 'accepted');
+      
+      const upcoming = pAppts.filter(a => {
+        const aDate = new Date(a.appt_date);
+        aDate.setHours(0,0,0,0);
+        return aDate.getTime() >= todayDate.getTime();
+      });
+
+      upcoming.sort((a, b) => {
+        const diff = new Date(a.appt_date).getTime() - new Date(b.appt_date).getTime();
+        if (diff !== 0) return diff;
+        return a.appt_time.localeCompare(b.appt_time);
+      });
+
+      p.nextAppt = upcoming[0] || null;
+      
+      if (p.nextAppt) {
+        const aDate = new Date(p.nextAppt.appt_date);
+        aDate.setHours(0,0,0,0);
+        const diffDays = Math.ceil((aDate.getTime() - todayDate.getTime()) / (1000 * 60 * 60 * 24));
+        
+        if (diffDays === 0) {
+          p.statusBadge = { text: 'Today', class: 'badge-danger', style: 'background:rgba(239,68,68,0.12); color:#ef4444; border:1px solid rgba(239,68,68,0.2); font-weight:600;' };
+        } else if (diffDays > 0 && diffDays <= 2) {
+          p.statusBadge = { text: 'Soon', class: 'badge-warning', style: 'background:rgba(245,158,11,0.12); color:#f59e0b; border:1px solid rgba(245,158,11,0.2); font-weight:600;' };
+        } else {
+          p.statusBadge = { text: 'Upcoming', class: 'badge-secondary', style: 'background:rgba(16,185,129,0.12); color:#10b981; border:1px solid rgba(16,185,129,0.2); font-weight:600;' };
+        }
+      } else {
+        p.statusBadge = { text: 'No Upcoming', class: 'badge-muted', style: 'background:rgba(255,255,255,0.05); color:var(--text-muted); border:1px solid var(--border);' };
+      }
+    });
+
+    if (sortByNextApptEnabled) {
+      ps.sort((a, b) => {
+        if (a.nextAppt && b.nextAppt) {
+          const diff = new Date(a.nextAppt.appt_date).getTime() - new Date(b.nextAppt.appt_date).getTime();
+          if (diff !== 0) return diff;
+          return a.nextAppt.appt_time.localeCompare(b.nextAppt.appt_time);
+        }
+        if (a.nextAppt) return -1;
+        if (b.nextAppt) return 1;
+        return 0;
+      });
+    }
+
     el.innerHTML=ps.map(p=>`
       <div class="list-item patient-row">
-        <div><strong>${p.name}</strong><br><span class="badge badge-primary" style="font-size:0.65rem;margin-top:0.25rem">${p.id}</span></div>
+        <div>
+          <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.25rem;">
+            <strong>${p.name}</strong>
+            <span class="badge ${p.statusBadge.class}" style="${p.statusBadge.style}">${p.statusBadge.text}</span>
+          </div>
+          <span class="badge badge-primary" style="font-size:0.65rem;">${p.id}</span>
+        </div>
         <div class="text-sm text-secondary-c">${p.age||'\u2014'} / ${p.gender||'\u2014'}</div>
         <div class="text-sm text-secondary-c"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">call</span> ${p.phone||'\u2014'}</div>
         <div class="text-sm text-secondary-c truncate">${p.chief_complaint||'\u2014'}</div>
         <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
           <button class="btn btn-sm btn-primary" onclick="viewPatient('${p.id}')">View</button>
+          <button class="btn btn-sm btn-outline" style="color:#0ea5e9; border-color:rgba(14,165,233,0.3);" onclick="viewAppointmentsHistory('${p.id}','${p.name.replace(/'/g,"\\'")}')">
+            <span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle">calendar_month</span> Appointments
+          </button>
           <button class="btn btn-sm btn-outline" style="color:#10b981" onclick="openRxModal('${p.id}','${p.name.replace(/'/g,"\\'")}')">  <span class="material-symbols-outlined" style="font-size:16px">prescriptions</span> Rx</button>
           <button class="btn btn-sm btn-outline" onclick="showQR('${p.id}')"><span class="material-symbols-outlined" style="font-size:16px">qr_code_2</span></button>
           <button class="btn btn-sm btn-outline" style="color:var(--primary)" onclick="openCaseRecord('${p.id}')"><span class="material-symbols-outlined" style="font-size:16px">assignment</span> Proforma</button>
