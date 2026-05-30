@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Dr. Hiral Homoeopathy</title>
+  <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/effects.css">
+  <style>
+    .page-wrap { min-height: 100vh; padding: 7rem 1.5rem 4rem; }
+    .content-container { max-width: 800px; margin: 0 auto; }
+    .policy-card { padding: 2.5rem; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+    h2 { font-size: 1.4rem; margin-top: 2rem; margin-bottom: 0.75rem; color: var(--primary); display: flex; align-items: center; gap: 0.5rem; }
+    p { margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.7; }
+    ul { margin-left: 1.5rem; margin-bottom: 1rem; color: var(--text-secondary); list-style-type: square; }
+    li { margin-bottom: 0.35rem; }
+  </style>
+</head>
+<body>
+<div class="particles-container" id="particles" aria-hidden="true"></div>
+
+<!-- NAVBAR -->
+<div class="navbar-wrap">
+  <nav class="navbar" id="main-nav">
+    <a href="/" class="navbar-brand" style="display: flex; align-items: center; gap: 0.75rem;">
+      <img src="/images/logo.svg" alt="Dr. Hiral Logo" style="height: 32px; width: auto; display: block;">
+      <span>Dr. Hiral</span>
+    </a>
+    <ul class="navbar-nav">
+      <li><a href="/">Home</a></li>
+      <li><a href="/appointments.html">Book Appointment</a></li>
+      <li><a href="/patient.html">Patient Portal</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <button class="btn-ghost theme-toggle-icon" id="theme-toggle" aria-label="Toggle theme">
+        <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+      </button>
+      <a href="/" class="btn btn-outline btn-sm">Back to Home</a>
+    </div>
+  </nav>
+</div>
+
+<div class="page-wrap">
+  <div class="content-container">
+    <div class="card policy-card reveal">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <span class="material-symbols-outlined text-primary" style="font-size: 48px; display:block; margin-bottom:0.5rem;">security</span>
+        <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem;">Privacy <span class="highlight">Policy</span></h1>
+        <p class="text-secondary-c text-sm">Last Updated: May 2026</p>
+      </div>
+
+      <p>At Dr. Hiral Homoeopathy, we are committed to protecting the privacy and confidentiality of our patients' personal and clinical information. This Privacy Policy explains how we collect, use, and protect your information when you access our wellness portal.</p>
+
+      <h2><span class="material-symbols-outlined">badge</span> 1. Information We Collect</h2>
+      <p>We collect information to provide high-precision classical homeopathic treatment and secure patient services, including:</p>
+      <ul>
+        <li><strong>Personal Details:</strong> Full Name, Age, Gender, Blood Group, Address, and Email.</li>
+        <li><strong>Contact Information:</strong> Phone Number.</li>
+        <li><strong>Clinical Information:</strong> Chief complaints, detailed medical history, physical and mental generals, systemic examination records, treatment timelines, and prescriptions.</li>
+      </ul>
+
+      <h2><span class="material-symbols-outlined">security_key</span> 2. How We Protect Your Data</h2>
+      <p>We implement state-of-the-art security practices to ensure data integrity:</p>
+      <ul>
+        <li>Secure session-based authentication for doctor access.</li>
+        <li>Encrypted digital QR patient record tracking.</li>
+        <li>Secure Postgres database configurations to prevent unauthorized access.</li>
+      </ul>
+
+      <h2><span class="material-symbols-outlined">share</span> 3. Sharing of Information</h2>
+      <p>Your medical history, clinical records, and diagnostic details are treated as highly confidential. We **never** sell, trade, or share your medical or personal details with third-party advertisers or unauthorized partners. Data is strictly utilized for your clinical wellness mapping and treatment tracking.</p>
+
+      <h2><span class="material-symbols-outlined">mail</span> 4. Contact Us</h2>
+      <p>If you have any questions about this Privacy Policy, your patient records, or wish to request data erasure, please contact us at:</p>
+      <p><strong>Email:</strong> drhiral007@gmail.com<br><strong>Phone:</strong> +91 79722 32216</p>
+
+      <div style="text-align: center; margin-top: 3rem;">
+        <a href="/" class="btn btn-primary">
+          <span class="material-symbols-outlined" style="font-size: 16px;">home</span> Back to Home
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script>
+(function() {
+  const html = document.documentElement;
+  const themeBtn = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+  function setTheme(dark) {
+    if (dark) { html.classList.add('dark'); themeIcon.textContent = 'light_mode'; }
+    else { html.classList.remove('dark'); themeIcon.textContent = 'dark_mode'; }
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  }
+  const saved = localStorage.getItem('theme');
+  setTheme(saved === 'dark');
+  themeBtn.addEventListener('click', () => setTheme(!html.classList.contains('dark')));
+
+  // Reveal Animation
+  const obs = new IntersectionObserver(e => e.forEach(el => { if (el.isIntersecting) { el.target.classList.add('visible'); obs.unobserve(el.target); } }), { threshold: 0.01 });
+  requestAnimationFrame(() => document.querySelectorAll('.reveal').forEach(el => obs.observe(el)));
+})();
+</script>
+</body>
+</html>
