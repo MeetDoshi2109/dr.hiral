@@ -1297,7 +1297,7 @@
   </style>
 
   <!-- COOKIE CONSENT BANNER -->
-  <div id="cookie-consent" style="display: none; position: fixed; bottom: 2rem; left: 2rem; z-index: 10000; max-width: 400px; width: calc(100% - 4rem); background: rgba(18, 33, 49, 0.7); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 1.25rem; transition: transform 0.4s ease, opacity 0.4s ease; animation: slideInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;">
+  <div id="cookie-consent" style="display: none; position: fixed; bottom: 2rem; left: 2rem; z-index: 10000; max-width: 400px; width: calc(100% - 4rem); background: var(--glass); backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 1.25rem; transition: transform 0.4s ease, opacity 0.4s ease; animation: slideInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;">
     <div style="display: flex; gap: 0.75rem; align-items: flex-start; margin-bottom: 1rem;">
       <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(13, 148, 136, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
         <span class="material-symbols-outlined" style="font-size: 20px;">cookie</span>
@@ -1311,7 +1311,7 @@
       </div>
     </div>
     <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
-      <button onclick="dismissCookieConsent(false)" class="btn btn-ghost btn-sm" style="font-size: 0.75rem; padding: 0.35rem 0.85rem; cursor: pointer;">Reject</button>
+      <button onclick="dismissCookieConsent(false)" class="btn btn-ghost btn-sm" style="font-size: 0.75rem; padding: 0.35rem 0.85rem; cursor: pointer; color: var(--text-secondary);">Reject</button>
       <button onclick="dismissCookieConsent(true)" class="btn btn-primary btn-sm" style="font-size: 0.75rem; padding: 0.35rem 1rem; cursor: pointer; background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);">Accept All</button>
     </div>
   </div>
