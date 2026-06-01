@@ -199,14 +199,14 @@ function today() { return new Date().toISOString().split('T')[0]; }
 
     const currentLang = localStorage.getItem('lang') || 'en';
     
-    // Correct translation of "Hiral" to "हीरल" in Hindi mode
+    // Correct translation of "Hiral" to "हिरल" in Hindi mode
     const fixHiralHindiTranslation = () => {
       const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
       let node;
       while (node = walk.nextNode()) {
         const text = node.nodeValue;
-        if (text && (text.includes('हीराल') || text.includes('हिराल'))) {
-          node.nodeValue = text.replace(/हीराल/g, 'हीरल').replace(/हिराल/g, 'हीरल');
+        if (text && (text.includes('हीराल') || text.includes('हिराल') || text.includes('हीरल'))) {
+          node.nodeValue = text.replace(/हीराल/g, 'हिरल').replace(/हिराल/g, 'हिरल').replace(/हीरल/g, 'हिरल');
         }
       }
     };
