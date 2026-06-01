@@ -132,3 +132,67 @@ function fmtDateTime(iso) {
   return new Date(iso).toLocaleString('en-IN', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
 }
 function today() { return new Date().toISOString().split('T')[0]; }
+
+// ── Language Translation Engine (Google Translate) ──
+(function() {
+  // Inject Google Translate CSS to hide Google bar
+  const style = document.createElement('style');
+  style.textContent = `
+    .skiptranslate, iframe.skiptranslate, #goog-gt-tt, .goog-te-banner-frame, .goog-te-balloon-frame {
+      display: none !important;
+    }
+    body {
+      top: 0 !important;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Create Google Translate mount point
+  const div = document.createElement('div');
+  div.id = 'google_translate_element';
+  div.style.display = 'none';
+  document.body.appendChild(div);
+
+  // Global callback for Google Translate init
+  window.googleTranslateElementInit = function() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'hi,en',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+      autoDisplay: false
+    }, 'google_translate_element');
+  };
+
+  // Load Google Translate script
+  const script = document.createElement('script');
+  script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+  script.async = true;
+  document.head.appendChild(script);
+
+  // Setup language button label update on DOM ready
+  document.addEventListener('DOMContentLoaded', () => {
+    const currentLang = localStorage.getItem('lang') || 'en';
+    const langBtnText = document.getElementById('lang-text');
+    if (langBtnText) {
+      langBtnText.textContent = currentLang === 'hi' ? 'EN' : 'हिं';
+    }
+  });
+
+  // Global toggle language function
+  window.toggleLanguage = function() {
+    const currentLang = localStorage.getItem('lang') || 'en';
+    const nextLang = currentLang === 'hi' ? 'en' : 'hi';
+    localStorage.setItem('lang', nextLang);
+    
+    // Set cookie
+    const domain = window.location.hostname;
+    document.cookie = `googtrans=/en/${nextLang}; path=/; domain=${domain}`;
+    document.cookie = `googtrans=/en/${nextLang}; path=/`;
+    
+    if (domain === 'localhost') {
+      document.cookie = `googtrans=/en/${nextLang}; path=/; domain=localhost`;
+    }
+    
+    location.reload();
+  };
+})();
