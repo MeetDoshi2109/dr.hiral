@@ -198,6 +198,34 @@ function today() { return new Date().toISOString().split('T')[0]; }
     observer.observe(document.body, { childList: true, subtree: true });
 
     const currentLang = localStorage.getItem('lang') || 'en';
+    
+    // Correct translation of "Hiral" to "हीरल" in Hindi mode
+    const fixHiralHindiTranslation = () => {
+      const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+      let node;
+      while (node = walk.nextNode()) {
+        const text = node.nodeValue;
+        if (text && (text.includes('हीराल') || text.includes('हिराल'))) {
+          node.nodeValue = text.replace(/हीराल/g, 'हीरल').replace(/हिराल/g, 'हीरल');
+        }
+      }
+    };
+
+    if (currentLang === 'hi') {
+      fixHiralHindiTranslation();
+      setTimeout(fixHiralHindiTranslation, 500);
+      setTimeout(fixHiralHindiTranslation, 1000);
+      setTimeout(fixHiralHindiTranslation, 2000);
+      setTimeout(fixHiralHindiTranslation, 3000);
+      
+      const translationObserver = new MutationObserver((mutations) => {
+        translationObserver.disconnect();
+        fixHiralHindiTranslation();
+        translationObserver.observe(document.body, { characterData: true, subtree: true, childList: true });
+      });
+      translationObserver.observe(document.body, { characterData: true, subtree: true, childList: true });
+    }
+
     const langBtnText = document.getElementById('lang-text');
     if (langBtnText) {
       langBtnText.textContent = currentLang === 'hi' ? 'EN' : 'हिं';
