@@ -169,14 +169,41 @@ function today() { return new Date().toISOString().split('T')[0]; }
   script.async = true;
   document.head.appendChild(script);
 
-  // Setup language button label update on DOM ready
+  // Setup language button label update and icon protection on DOM ready
   document.addEventListener('DOMContentLoaded', () => {
+    // Automatically apply 'notranslate' class to all material icons to prevent Google Translate from breaking them
+    const protectIcons = (container) => {
+      if (!container || typeof container.querySelectorAll !== 'function') return;
+      const icons = container.querySelectorAll('.material-symbols-outlined');
+      icons.forEach(icon => {
+        icon.classList.add('notranslate');
+      });
+    };
+
+    protectIcons(document);
+
+    // Watch for dynamically added elements to ensure they get 'notranslate'
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === 1) { // ELEMENT_NODE
+            if (node.classList && node.classList.contains('material-symbols-outlined')) {
+              node.classList.add('notranslate');
+            }
+            protectIcons(node);
+          }
+        });
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
     const currentLang = localStorage.getItem('lang') || 'en';
     const langBtnText = document.getElementById('lang-text');
     if (langBtnText) {
       langBtnText.textContent = currentLang === 'hi' ? 'EN' : 'हिं';
     }
   });
+
 
   // Global toggle language function
   window.toggleLanguage = function() {
