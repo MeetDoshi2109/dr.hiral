@@ -150,6 +150,7 @@
       <button class="tab-btn active" data-tab="patients" onclick="switchTab('patients',this)"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom">group</span> Patients</button>
       <button class="tab-btn" data-tab="appts" onclick="switchTab('appts',this)"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom">calendar_month</span> Appointments</button>
       <button class="tab-btn" data-tab="rx" onclick="switchTab('rx',this)"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom">prescriptions</span> Prescriptions</button>
+      <button class="tab-btn" data-tab="stock" onclick="switchTab('stock',this)"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom">inventory_2</span> Medicine Stock</button>
     </div>
 
     <div id="tab-patients" class="tab-panel active reveal">
@@ -187,6 +188,25 @@
         </button>
       </div>
       <div id="rxList"></div>
+    </div>
+
+    <div id="tab-stock" class="tab-panel reveal">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.5rem">
+        <div>
+          <h3 style="font-size:1.15rem;font-weight:700;margin-bottom:0.15rem">Medicine Stock Inventory</h3>
+          <p style="font-size:0.8rem;color:var(--text-muted)">Independent medicine stock tracking not synced with prescriptions</p>
+        </div>
+        <button class="btn btn-primary" onclick="openStockModal(null)">
+          <span class="material-symbols-outlined" style="font-size:17px">add_circle</span> Add Medicine Stock
+        </button>
+      </div>
+
+      <div style="margin-bottom:1.25rem; position:relative; max-width:400px; width:100%;">
+        <span class="material-symbols-outlined" style="position:absolute;left:12px;top:10px;color:var(--text-muted)">search</span>
+        <input type="text" class="form-input" style="padding-left:2.5rem" placeholder="Search stock by name or potency..." id="stockSearch" oninput="loadStock(this.value)">
+      </div>
+
+      <div id="stockList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:1rem;"></div>
     </div>
   </div>
 </div>
@@ -466,6 +486,59 @@
       <button class="btn-ghost" onclick="closeModal('viewPatientModal')"><span class="material-symbols-outlined">close</span></button>
     </div>
     <div id="vpContent"></div>
+  </div>
+</div>
+
+<!-- MEDICINE STOCK MODAL -->
+<div class="modal-overlay" id="stockModal">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <h3 class="modal-title" id="stockModalTitle">Add Medicine Stock</h3>
+      <button class="btn-ghost" onclick="closeModal('stockModal')"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <form id="stockForm" onsubmit="saveStock(event)" style="display:flex;flex-direction:column;gap:1.25rem">
+      <input type="hidden" id="stock_id">
+      
+      <div class="form-group">
+        <label class="form-label">Medicine Name *</label>
+        <input class="form-input" id="stock_name" placeholder="e.g. Nux Vomica, Belladonna" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Potency</label>
+        <select class="form-input" id="stock_potency">
+          <option value="Ø">Ø (Mother Tincture)</option>
+          <option value="B.C">B.C (Biochemic)</option>
+          <option value="3X">3X</option>
+          <option value="6X">6X</option>
+          <option value="12X">12X</option>
+          <option value="30C" selected>30C</option>
+          <option value="200C">200C</option>
+          <option value="1M">1M</option>
+          <option value="10M">10M</option>
+          <option value="LM">LM</option>
+        </select>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+        <div class="form-group">
+          <label class="form-label">Quantity *</label>
+          <input class="form-input" id="stock_qty" type="number" step="any" min="0" placeholder="e.g. 50" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Unit *</label>
+          <select class="form-input" id="stock_unit">
+            <option value="grams" selected>Grams (g)</option>
+            <option value="ml">Milliliters (ml)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:0.75rem;justify-content:flex-end;margin-top:0.5rem">
+        <button type="button" class="btn-ghost" onclick="closeModal('stockModal')" style="padding:0.65rem 1.25rem;border-radius:var(--radius-md)">Cancel</button>
+        <button type="submit" class="btn btn-primary"><span class="material-symbols-outlined" style="font-size:17px">save</span> Save Item</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -946,6 +1019,10 @@ async function loadAppts(status=''){
           <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.25rem">
             <strong>${a.patient_name}</strong>
             <span class="badge" style="background:rgba(var(--${statusClass}-rgb),0.1);color:var(--${statusClass})"><span class="material-symbols-outlined" style="font-size:12px">${statusIcon}</span> ${a.status}</span>
+            <span class="badge ${a.mode === 'online' ? 'badge-primary' : 'badge-outline'}" style="font-size:0.75rem; text-transform:uppercase; display:inline-flex; align-items:center; gap:0.25rem; font-weight:600;">
+              <span class="material-symbols-outlined" style="font-size:13px">${a.mode === 'online' ? 'videocam' : 'location_on'}</span>
+              ${a.mode || 'offline'}
+            </span>
           </div>
           <div class="text-sm text-secondary-c"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">event</span> ${fmtDate(a.appt_date)} at ${a.appt_time}</div>
           <div class="text-sm text-secondary-c" style="margin-top:0.25rem"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">notes</span> ${a.reason||'—'}</div>
@@ -975,6 +1052,106 @@ function switchTab(name,btn){
   if(name==='appts')loadAppts('pending');
   if(name==='patients')loadPatients();
   if(name==='rx')loadRx();
+  if(name==='stock')loadStock();
+}
+
+/* ── Medicine Stock inventory functions ── */
+async function loadStock(q=''){
+  try {
+    const stock = await API.getStock(q);
+    const el = document.getElementById('stockList');
+    if (!stock.length) {
+      el.innerHTML = '<div class="empty-state" style="grid-column: span 12"><span class="material-symbols-outlined">inventory_2</span><h3>No medicines in stock</h3><p>Click "Add Medicine Stock" to add inventory.</p></div>';
+      return;
+    }
+    el.innerHTML = stock.map(s => `
+      <div class="card" style="padding:1.25rem; display:flex; flex-direction:column; justify-content:space-between; border:1px solid var(--border); transition:all 0.25s ease;">
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:0.5rem;">
+            <strong style="font-size:1.05rem; color:var(--text); line-height:1.3;">${s.name}</strong>
+            <span class="badge badge-primary" style="font-size:0.75rem; text-transform:uppercase;">${s.potency}</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.35rem; font-size:1.15rem; font-weight:700; color:var(--primary); margin-bottom:0.75rem;">
+            <span class="material-symbols-outlined" style="font-size:20px;">layers</span>
+            <span>${s.qty} <span style="font-size:0.8rem; font-weight:500; color:var(--text-secondary); text-transform:lowercase;">${s.unit || 'grams'}</span></span>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.4rem; border-top:1px solid rgba(255,255,255,0.04); padding-top:0.75rem; margin-top:0.5rem;">
+          <button class="btn btn-sm btn-outline" style="flex:1; justify-content:center; gap:0.25rem; height:32px; font-size:0.75rem; color:#f59e0b; border-color:rgba(245,158,11,0.2);" onclick="editStock('${s.id}')">
+            <span class="material-symbols-outlined" style="font-size:14px;">edit</span> Edit
+          </button>
+          <button class="btn btn-sm" style="flex:1; justify-content:center; gap:0.25rem; height:32px; font-size:0.75rem; background:rgba(239,68,68,0.08); color:#ef4444; border:1px solid rgba(239,68,68,0.15);" onclick="deleteStock('${s.id}','${s.name.replace(/'/g, "\\'")}')">
+            <span class="material-symbols-outlined" style="font-size:14px;">delete</span> Delete
+          </button>
+        </div>
+      </div>
+    `).join('');
+  } catch (e) {
+    toast(e.message, 'error');
+  }
+}
+
+function openStockModal(item) {
+  if (item) {
+    document.getElementById('stockModalTitle').textContent = 'Edit Stock Medicine';
+    document.getElementById('stock_id').value = item.id;
+    document.getElementById('stock_name').value = item.name;
+    document.getElementById('stock_potency').value = item.potency || '30C';
+    document.getElementById('stock_qty').value = item.qty;
+    document.getElementById('stock_unit').value = item.unit || 'grams';
+  } else {
+    document.getElementById('stockModalTitle').textContent = 'Add Medicine Stock';
+    document.getElementById('stockForm').reset();
+    document.getElementById('stock_id').value = '';
+    document.getElementById('stock_potency').value = '30C';
+    document.getElementById('stock_unit').value = 'grams';
+  }
+  openModal('stockModal');
+}
+
+async function editStock(id) {
+  try {
+    const list = await API.getStock();
+    const item = list.find(s => String(s.id) === String(id));
+    if (item) openStockModal(item);
+  } catch (e) {
+    toast(e.message, 'error');
+  }
+}
+
+async function saveStock(e) {
+  e.preventDefault();
+  const id = document.getElementById('stock_id').value;
+  const data = {
+    name: document.getElementById('stock_name').value.trim(),
+    potency: document.getElementById('stock_potency').value,
+    qty: parseFloat(document.getElementById('stock_qty').value) || 0,
+    unit: document.getElementById('stock_unit').value
+  };
+  try {
+    if (id) {
+      await API.updateStock(id, data);
+      toast('Stock item updated successfully', 'success');
+    } else {
+      await API.addStock(data);
+      toast('Stock item added successfully', 'success');
+    }
+    closeModal('stockModal');
+    loadStock(document.getElementById('stockSearch').value);
+  } catch (err) {
+    toast(err.message, 'error');
+  }
+}
+
+async function deleteStock(id, name) {
+  if (!confirm(`Delete "${name}" from stock inventory?`)) return;
+  try {
+    await API.deleteStock(id);
+    toast('Stock item deleted', 'warning');
+    loadStock(document.getElementById('stockSearch').value);
+  } catch (e) {
+    toast(e.message, 'error');
+  }
 }
 
 /* ── Prescription helpers ── */

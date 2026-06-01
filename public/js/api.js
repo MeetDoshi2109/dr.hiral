@@ -78,7 +78,20 @@ const API = {
   getBugs:    () => API.get('/api/bugs'),
   submitBug:  (desc) => API.post('/api/bugs', { description: desc }),
   resolveBug: (id) => API.post(`/api/bugs/${id}/resolve`, {}),
+
+  // Stock
+  getStock:   (search) => API.get(`/api/stock${search ? `?search=${encodeURIComponent(search)}` : ''}`),
+  addStock:   (data) => API.post('/api/stock', data),
+  updateStock: (id,data) => API.put(`/api/stock/${id}`, data),
+  deleteStock: (id) => API.delete(`/api/stock/${id}`),
 };
+
+// ── Global Helpers ────────────────────────────────────
+function clearPatientSession() {
+  localStorage.removeItem('my_patient_id');
+  localStorage.removeItem('my_appointment_id');
+  location.href = '/patient.html';
+}
 
 // ── Toast ────────────────────────────────────────────
 function toast(msg, type='info', duration=3500) {

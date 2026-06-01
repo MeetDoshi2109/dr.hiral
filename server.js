@@ -7,7 +7,7 @@ const rateLimit = require('express-rate-limit');
 const path = require('path');
 const QRCode = require('qrcode');
 
-const { router: authRouter } = require('./routes/auth');
+const { router: authRouter, requireAuth } = require('./routes/auth');
 const patientsRouter = require('./routes/patients');
 const appointmentsRouter = require('./routes/appointments');
 const kitsRouter = require('./routes/kits');
@@ -205,18 +205,20 @@ app.use('/api/auth', authRouter);
 app.use('/api/patients', patientsRouter);
 app.use('/api/appointments', appointmentsRouter);
 app.use('/api/kits', kitsRouter);
+app.use('/api/stock', requireAuth, require('./routes/stock'));
 
 // ── Database Backup API ────────────────────────────────
 app.get('/api/backup', async (req, res) => {
   const db = require('./db/db');
   try {
-    const [patients, timeline, appointments, prescriptions, kits, reviews] = await Promise.all([
+    const [patients, timeline, appointments, prescriptions, kits, reviews, stock] = await Promise.all([
       db.query('SELECT * FROM patients'),
       db.query('SELECT * FROM timeline'),
       db.query('SELECT * FROM appointments'),
       db.query('SELECT * FROM prescriptions'),
       db.query('SELECT * FROM medicine_kits'),
       db.query('SELECT * FROM reviews'),
+      db.query('SELECT * FROM medicine_stock'),
     ]);
     const backupData = {
       exportedAt: new Date().toISOString(),
@@ -226,7 +228,8 @@ app.get('/api/backup', async (req, res) => {
       appointments: appointments.rows,
       prescriptions: prescriptions.rows,
       medicine_kits: kits.rows,
-      reviews: reviews.rows
+      reviews: reviews.rows,
+      medicine_stock: stock.rows
     };
     res.setHeader('Content-Disposition', `attachment; filename=dr_hiral_backup_${new Date().toISOString().split('T')[0]}.json`);
     res.json(backupData);

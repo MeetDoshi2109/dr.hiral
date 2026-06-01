@@ -203,6 +203,21 @@
           </div>
         </div>
 
+        <div class="form-group" style="margin-bottom:1.5rem">
+          <label class="form-label">
+            <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">lan</span> Consultation Mode *
+          </label>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; background:rgba(255,255,255,0.02); padding:0.25rem; border-radius:var(--radius-md); border:1px solid var(--border);">
+            <button type="button" class="tab-btn active" id="btn-mode-offline" onclick="setConsultationMode('offline')" style="padding:0.6rem 1rem; border-radius:var(--radius-sm); border:none; background:rgba(8,145,178,0.12); color:var(--primary); font-weight:600; cursor:pointer; transition:all 0.2s; font-size:0.9rem; display:flex; align-items:center; justify-content:center; gap:0.25rem;">
+              <span class="material-symbols-outlined" style="font-size:16px;">location_on</span> In-Clinic (Offline)
+            </button>
+            <button type="button" class="tab-btn" id="btn-mode-online" onclick="setConsultationMode('online')" style="padding:0.6rem 1rem; border-radius:var(--radius-sm); border:none; background:transparent; color:var(--text-secondary); cursor:pointer; transition:all 0.2s; font-size:0.9rem; display:flex; align-items:center; justify-content:center; gap:0.25rem;">
+              <span class="material-symbols-outlined" style="font-size:16px;">videocam</span> Video / Voice (Online)
+            </button>
+          </div>
+          <input type="hidden" id="af_mode" value="offline">
+        </div>
+
         <div class="form-group" style="margin-bottom:1rem">
           <label class="form-label">
             <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">event</span> Preferred Date *
@@ -309,6 +324,10 @@
           <div class="detail-row">
             <span class="material-symbols-outlined" style="color:var(--secondary);font-size:18px">pending</span>
             <div><div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">Status</div><div><span class="badge badge-warning">Pending Review</span></div></div>
+          </div>
+          <div class="detail-row">
+            <span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">lan</span>
+            <div><div style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">Mode</div><div id="cf_mode" style="font-weight:600;text-transform:uppercase">Offline</div></div>
           </div>
         </div>
         <div style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center">
@@ -522,6 +541,10 @@ async function checkApptStatus() {
           <span class="material-symbols-outlined" style="color:var(--primary); font-size:18px">calendar_today</span>
           <div><div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Requested Time</div><div style="font-weight:600">${formattedDate} at ${appt.appt_time}</div></div>
         </div>
+        <div class="detail-row">
+          <span class="material-symbols-outlined" style="color:var(--primary); font-size:18px">lan</span>
+          <div><div style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Consultation Mode</div><div style="font-weight:600; text-transform:uppercase;">${appt.mode || 'offline'}</div></div>
+        </div>
       </div>
     `;
 
@@ -621,10 +644,34 @@ function clearPatientLookup() {
 
 function clearStoredAppt() {
   localStorage.removeItem('my_appointment_id');
+  localStorage.removeItem('my_patient_id');
   document.getElementById('statusView').classList.add('hidden');
   document.getElementById('bookingForm').classList.remove('hidden');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+window.setConsultationMode = function(mode) {
+  document.getElementById('af_mode').value = mode;
+  const offBtn = document.getElementById('btn-mode-offline');
+  const onBtn = document.getElementById('btn-mode-online');
+  if (mode === 'offline') {
+    offBtn.style.background = 'rgba(8,145,178,0.12)';
+    offBtn.style.color = 'var(--primary)';
+    offBtn.style.fontWeight = '600';
+    
+    onBtn.style.background = 'transparent';
+    onBtn.style.color = 'var(--text-secondary)';
+    onBtn.style.fontWeight = '400';
+  } else {
+    onBtn.style.background = 'rgba(8,145,178,0.12)';
+    onBtn.style.color = 'var(--primary)';
+    onBtn.style.fontWeight = '600';
+    
+    offBtn.style.background = 'transparent';
+    offBtn.style.color = 'var(--text-secondary)';
+    offBtn.style.fontWeight = '400';
+  }
+};
 
 function checkConsentAndOpenModal() {
   let name, phone;
@@ -682,6 +729,7 @@ async function bookAppt() {
   const btn = document.getElementById('submitBtn');
   btn.disabled = true; btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;animation:spin 1s linear infinite">refresh</span> Sending...';
   try {
+    const mode = document.getElementById('af_mode').value;
     const res = await API.bookAppointment({
       patient_name: name,
       phone,
@@ -689,6 +737,7 @@ async function bookAppt() {
       appt_date: date,
       appt_time: time,
       reason,
+      mode,
       patient_id: patient_id || null
     });
     if (res && res.id) {
@@ -710,6 +759,8 @@ async function bookAppt() {
     document.getElementById('cf_name').textContent = name;
     document.getElementById('cf_date').textContent = new Date(date).toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
     document.getElementById('cf_time').textContent = time;
+    const cfModeEl = document.getElementById('cf_mode');
+    if (cfModeEl) cfModeEl.textContent = mode === 'online' ? 'Online (Video / Voice)' : 'In-Clinic (Offline)';
     toast('Appointment request sent!', 'success');
   } catch (e) {
     toast(e.message || 'Failed to book. Please try again.', 'error');

@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS appointments (
   status        TEXT DEFAULT 'pending' CHECK (status IN ('pending','accepted','rejected')),
   reject_reason TEXT,
   patient_id    TEXT REFERENCES patients(id) ON DELETE SET NULL,
+  mode          TEXT DEFAULT 'offline',
   created_at    TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -134,4 +135,15 @@ VALUES
   ('Rajesh Patel', 5, 'The QR code system is brilliant. I can see all my records and prescriptions anytime I want.', 'Surat'),
   ('Anita Desai', 5, 'My anxiety is completely gone after 4 months. She truly listens and finds the root cause.', 'Vadodara')
 ON CONFLICT DO NOTHING;
+
+-- ── Medicine Stock ───────────────────────────────────
+CREATE TABLE IF NOT EXISTS medicine_stock (
+  id            SERIAL PRIMARY KEY,
+  name          TEXT NOT NULL,
+  potency       TEXT,
+  qty           REAL DEFAULT 0,
+  unit          TEXT DEFAULT 'grams',
+  created_at    TIMESTAMPTZ DEFAULT NOW(),
+  updated_at    TIMESTAMPTZ DEFAULT NOW()
+);
 

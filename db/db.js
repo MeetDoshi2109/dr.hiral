@@ -49,6 +49,20 @@ if (usePostgres) {
       pgPool.query(schemaSql)
         .then(() => {
           console.log('✅ PostgreSQL (Supabase) schema and seed verified successfully!');
+          return pgPool.query("ALTER TABLE appointments ADD COLUMN IF NOT EXISTS mode TEXT DEFAULT 'offline'");
+        })
+        .then(() => {
+          return pgPool.query(`
+            CREATE TABLE IF NOT EXISTS medicine_stock (
+              id            SERIAL PRIMARY KEY,
+              name          TEXT NOT NULL,
+              potency       TEXT,
+              qty           REAL DEFAULT 0,
+              unit          TEXT DEFAULT 'grams',
+              created_at    TIMESTAMPTZ DEFAULT NOW(),
+              updated_at    TIMESTAMPTZ DEFAULT NOW()
+            )
+          `);
         })
         .catch(err => {
           console.error('⚠️ Warning during PostgreSQL schema initialization:', err.message);
@@ -229,6 +243,24 @@ function initSQLite() {
           uploaded_by TEXT NOT NULL,
           notes       TEXT,
           uploaded_at TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
+
+      // Add mode column to appointments in case database already exists
+      sqliteDb.run("ALTER TABLE appointments ADD COLUMN mode TEXT DEFAULT 'offline'", (err) => {
+        // Ignore error if column already exists
+      });
+
+      // Create medicine_stock table in SQLite
+      sqliteDb.run(`
+        CREATE TABLE IF NOT EXISTS medicine_stock (
+          id            INTEGER PRIMARY KEY AUTOINCREMENT,
+          name          TEXT NOT NULL,
+          potency       TEXT,
+          qty           REAL DEFAULT 0,
+          unit          TEXT DEFAULT 'grams',
+          created_at    TEXT DEFAULT CURRENT_TIMESTAMP,
+          updated_at    TEXT DEFAULT CURRENT_TIMESTAMP
         )
       `);
 
