@@ -1076,12 +1076,15 @@ async function loadStock(q=''){
             <span>${s.qty} <span style="font-size:0.8rem; font-weight:500; color:var(--text-secondary); text-transform:lowercase;">${s.unit || 'grams'}</span></span>
           </div>
         </div>
-        <div style="display:flex; gap:0.4rem; border-top:1px solid rgba(255,255,255,0.04); padding-top:0.75rem; margin-top:0.5rem;">
-          <button class="btn btn-sm btn-outline" style="flex:1; justify-content:center; gap:0.25rem; height:32px; font-size:0.75rem; color:#f59e0b; border-color:rgba(245,158,11,0.2);" onclick="editStock('${s.id}')">
-            <span class="material-symbols-outlined" style="font-size:14px;">edit</span> Edit
+        <div style="display:flex; gap:0.35rem; border-top:1px solid rgba(255,255,255,0.04); padding-top:0.75rem; margin-top:0.5rem; flex-wrap:wrap;">
+          <button class="btn btn-sm btn-outline" style="flex:1; min-width:55px; justify-content:center; gap:0.2rem; height:32px; font-size:0.7rem; color:#f59e0b; border-color:rgba(245,158,11,0.2);" onclick="editStock('${s.id}')">
+            <span class="material-symbols-outlined" style="font-size:13px;">edit</span> Edit
           </button>
-          <button class="btn btn-sm" style="flex:1; justify-content:center; gap:0.25rem; height:32px; font-size:0.75rem; background:rgba(239,68,68,0.08); color:#ef4444; border:1px solid rgba(239,68,68,0.15);" onclick="deleteStock('${s.id}','${s.name.replace(/'/g, "\\'")}')">
-            <span class="material-symbols-outlined" style="font-size:14px;">delete</span> Delete
+          <a href="mailto:supplier@email.com?subject=Reorder%20Medicine%3A%20${s.name}%20${s.potency}&body=Dear%20Supplier%2C%0A%0AI%20would%20like%20to%20place%20an%20order%20for%20the%20following%20homeopathic%20medicine%3A%0A%0A-%20Medicine%3A%20${s.name}%0A-%20Potency%3A%20${s.potency}%0A%0APlease%20deliver%20urgently.%0A%0AThank%20you%2C%0ADr.%20Hiral%20Mehta" class="btn btn-sm btn-primary" style="flex:1.2; min-width:75px; justify-content:center; gap:0.2rem; height:32px; font-size:0.7rem; text-decoration:none; display:inline-flex; align-items:center;">
+            <span class="material-symbols-outlined" style="font-size:13px;">local_shipping</span> Reorder
+          </a>
+          <button class="btn btn-sm" style="flex:1; min-width:55px; justify-content:center; gap:0.2rem; height:32px; font-size:0.7rem; background:rgba(239,68,68,0.08); color:#ef4444; border:1px solid rgba(239,68,68,0.15);" onclick="deleteStock('${s.id}','${s.name.replace(/'/g, "\\'")}')">
+            <span class="material-symbols-outlined" style="font-size:13px;">delete</span> Del
           </button>
         </div>
       </div>
