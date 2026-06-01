@@ -184,13 +184,33 @@ function today() { return new Date().toISOString().split('T')[0]; }
     const nextLang = currentLang === 'hi' ? 'en' : 'hi';
     localStorage.setItem('lang', nextLang);
     
-    // Set cookie
     const domain = window.location.hostname;
-    document.cookie = `googtrans=/en/${nextLang}; path=/; domain=${domain}`;
-    document.cookie = `googtrans=/en/${nextLang}; path=/`;
+    const hostParts = domain.split('.');
+    let domainWildcard = '';
+    if (hostParts.length > 1) {
+      domainWildcard = '.' + hostParts.slice(-2).join('.');
+    }
     
-    if (domain === 'localhost') {
-      document.cookie = `googtrans=/en/${nextLang}; path=/; domain=localhost`;
+    if (nextLang === 'en') {
+      // Robustly delete the googtrans cookie for all possible scopes
+      document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain}`;
+      if (domainWildcard) {
+        document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domainWildcard}`;
+      }
+      if (domain === 'localhost') {
+        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=localhost";
+      }
+    } else {
+      // Set the googtrans cookie to Hindi
+      document.cookie = `googtrans=/en/hi; path=/;`;
+      document.cookie = `googtrans=/en/hi; path=/; domain=${domain}`;
+      if (domainWildcard) {
+        document.cookie = `googtrans=/en/hi; path=/; domain=${domainWildcard}`;
+      }
+      if (domain === 'localhost') {
+        document.cookie = "googtrans=/en/hi; path=/; domain=localhost";
+      }
     }
     
     location.reload();
