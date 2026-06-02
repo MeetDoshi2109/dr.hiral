@@ -210,7 +210,7 @@
         <input type="text" class="form-input" style="padding-left:2.5rem" placeholder="Search stock by name or potency..." id="stockSearch" oninput="loadStock(this.value)">
       </div>
 
-      <div id="stockList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:1rem;"></div>
+      <div id="stockList" style="overflow-x:auto;"></div>
     </div>
   </div>
 </div>
@@ -1068,31 +1068,44 @@ async function loadStock(q=''){
       el.innerHTML = '<div class="empty-state" style="grid-column: span 12"><span class="material-symbols-outlined">inventory_2</span><h3>No medicines in stock</h3><p>Click "Add Medicine Stock" to add inventory.</p></div>';
       return;
     }
-    el.innerHTML = stock.map(s => `
-      <div class="card" style="padding:1.25rem; display:flex; flex-direction:column; justify-content:space-between; border:1px solid var(--border); transition:all 0.25s ease;">
-        <div>
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:0.5rem;">
-            <strong style="font-size:1.05rem; color:var(--text); line-height:1.3;">${s.name}</strong>
-            <span class="badge badge-primary" style="font-size:0.75rem; text-transform:uppercase;">${s.potency}</span>
-          </div>
-          <div style="display:flex; align-items:center; gap:0.35rem; font-size:1.15rem; font-weight:700; color:var(--primary); margin-bottom:0.75rem;">
-            <span class="material-symbols-outlined" style="font-size:20px;">layers</span>
-            <span>${s.qty} <span style="font-size:0.8rem; font-weight:500; color:var(--text-secondary); text-transform:lowercase;">${s.unit || 'grams'}</span></span>
-          </div>
-        </div>
-        <div style="display:flex; gap:0.35rem; border-top:1px solid rgba(255,255,255,0.04); padding-top:0.75rem; margin-top:0.5rem; flex-wrap:wrap;">
-          <button class="btn btn-sm btn-outline" style="flex:1; min-width:55px; justify-content:center; gap:0.2rem; height:32px; font-size:0.7rem; color:#f59e0b; border-color:rgba(245,158,11,0.2);" onclick="editStock('${s.id}')">
-            <span class="material-symbols-outlined" style="font-size:13px;">edit</span> Edit
-          </button>
-          <a href="mailto:supplier@email.com?subject=Reorder%20Medicine%3A%20${s.name}%20${s.potency}&body=Dear%20Supplier%2C%0A%0AI%20would%20like%20to%20place%20an%20order%20for%20the%20following%20homeopathic%20medicine%3A%0A%0A-%20Medicine%3A%20${s.name}%0A-%20Potency%3A%20${s.potency}%0A%0APlease%20deliver%20urgently.%0A%0AThank%20you%2C%0ADr.%20Hiral%20Mehta" class="btn btn-sm btn-primary" style="flex:1.2; min-width:75px; justify-content:center; gap:0.2rem; height:32px; font-size:0.7rem; text-decoration:none; display:inline-flex; align-items:center;">
-            <span class="material-symbols-outlined" style="font-size:13px;">local_shipping</span> Reorder
-          </a>
-          <button class="btn btn-sm" style="flex:1; min-width:55px; justify-content:center; gap:0.2rem; height:32px; font-size:0.7rem; background:rgba(239,68,68,0.08); color:#ef4444; border:1px solid rgba(239,68,68,0.15);" onclick="deleteStock('${s.id}','${s.name.replace(/'/g, "\\'")}')">
-            <span class="material-symbols-outlined" style="font-size:13px;">delete</span> Del
-          </button>
-        </div>
+    el.innerHTML = `
+      <div class="card" style="padding: 0; overflow-x: auto; border: 1px solid var(--border); background: rgba(255,255,255,0.01);">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02);">
+              <th style="padding: 0.75rem 1rem; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); width: 60px; text-align: center;">S.No</th>
+              <th style="padding: 0.75rem 1rem; font-size: 0.75rem; font-weight: 600; color: var(--text-muted);">Medicine Name</th>
+              <th style="padding: 0.75rem 1rem; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); width: 120px;">Potency</th>
+              <th style="padding: 0.75rem 1rem; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); width: 150px;">Quantity</th>
+              <th style="padding: 0.75rem 1rem; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-align: right; width: 240px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${stock.map((s, idx) => `
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.03); transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.01)'" onmouseout="this.style.background='transparent'">
+                <td style="padding: 0.75rem 1rem; text-align: center; color: var(--text-muted); font-weight: 500;">${idx + 1}</td>
+                <td style="padding: 0.75rem 1rem; font-weight: 600; color: var(--text);">${s.name}</td>
+                <td style="padding: 0.75rem 1rem;"><span class="badge badge-primary" style="font-size:0.7rem; text-transform:uppercase;">${s.potency}</span></td>
+                <td style="padding: 0.75rem 1rem; font-weight: 600; color: var(--primary);">${s.qty} <span style="font-size:0.75rem; font-weight:500; color:var(--text-secondary); text-transform:lowercase;">${s.unit || 'grams'}</span></td>
+                <td style="padding: 0.75rem 1rem; text-align: right;">
+                  <div style="display:inline-flex; gap: 0.35rem; justify-content: flex-end; align-items: center;">
+                    <button class="btn btn-sm btn-outline" style="height:28px; font-size:0.68rem; color:#f59e0b; border-color:rgba(245,158,11,0.2); padding: 0 0.5rem; display:inline-flex; align-items:center;" onclick="editStock('${s.id}')">
+                      <span class="material-symbols-outlined" style="font-size:12px; margin-right: 2px;">edit</span> Edit
+                    </button>
+                    <a href="mailto:supplier@email.com?subject=Reorder%20Medicine%3A%20${s.name}%20${s.potency}&body=Dear%20Supplier%2C%0A%0AI%20would%20like%20to%20place%20an%20order%20for%20the%20following%20homeopathic%20medicine%3A%0A%0A-%20Medicine%3A%20${s.name}%0A-%20Potency%3A%20${s.potency}%0A%0APlease%20deliver%20urgently.%0A%0AThank%20you%2C%0ADr.%20Hiral%20Mehta" class="btn btn-sm btn-primary" style="height:28px; font-size:0.68rem; text-decoration:none; display:inline-flex; align-items:center; padding: 0 0.5rem;">
+                      <span class="material-symbols-outlined" style="font-size:12px; margin-right: 2px;">local_shipping</span> Reorder
+                    </a>
+                    <button class="btn btn-sm" style="height:28px; font-size:0.68rem; background:rgba(239,68,68,0.08); color:#ef4444; border:1px solid rgba(239,68,68,0.15); padding: 0 0.5rem; display:inline-flex; align-items:center;" onclick="deleteStock('${s.id}','${s.name.replace(/'/g, "\\'")}')">
+                      <span class="material-symbols-outlined" style="font-size:12px; margin-right: 2px;">delete</span> Del
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
       </div>
-    `).join('');
+    `;
   } catch (e) {
     toast(e.message, 'error');
   }
