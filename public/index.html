@@ -24,7 +24,9 @@
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobile-menu" aria-modal="true" role="dialog" aria-label="Navigation menu" inert>
-    <button class="btn-ghost" id="menu-close" style="position:absolute;top:1.25rem;right:1.25rem;background:var(--bg-muted);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center" aria-label="Close menu">
+    <button class="btn-ghost" id="menu-close"
+      style="position:absolute;top:1.25rem;right:1.25rem;background:var(--bg-muted);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center"
+      aria-label="Close menu">
       <span class="material-symbols-outlined" aria-hidden="true">close</span>
     </button>
     <nav aria-label="Mobile navigation">
@@ -50,16 +52,20 @@
         <li><a href="/patient.html">Patient Portal</a></li>
       </ul>
       <div class="navbar-actions">
-        <button class="btn-ghost lang-toggle-icon notranslate" onclick="toggleLanguage()" aria-label="Toggle Language" style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; padding: 0; margin-right: 0.25rem;">
-          <span class="material-symbols-outlined notranslate" style="font-size: 20px; vertical-align: middle;">g_translate</span>
-          <span id="lang-text" class="notranslate" style="font-size: 10px; font-weight: 700; margin-left: 2px;">हिं</span>
+        <button class="btn-ghost lang-toggle-icon notranslate" onclick="toggleLanguage()" aria-label="Toggle Language"
+          style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; padding: 0; margin-right: 0.25rem;">
+          <span class="material-symbols-outlined notranslate"
+            style="font-size: 20px; vertical-align: middle;">g_translate</span>
+          <span id="lang-text" class="notranslate"
+            style="font-size: 10px; font-weight: 700; margin-left: 2px;">हिं</span>
         </button>
         <button class="btn-ghost theme-toggle-icon" id="theme-toggle" aria-label="Toggle theme"
           style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; cursor: pointer;">
           <span class="material-symbols-outlined" id="theme-icon" style="font-size: 20px;">dark_mode</span>
         </button>
         <a href="/dashboard.html" class="btn btn-primary btn-sm" id="desk-login">Doctor Login</a>
-        <button class="btn-ghost" id="menu-open" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+        <button class="btn-ghost" id="menu-open" aria-label="Open navigation menu" aria-expanded="false"
+          aria-controls="mobile-menu">
           <span class="material-symbols-outlined" aria-hidden="true">menu</span>
         </button>
       </div>
@@ -69,743 +75,773 @@
   <!-- MAIN CONTENT -->
   <main id="main-content">
 
-  <!-- REDESIGNED HERO SECTION -->
-  <header class="hero" id="hero-section">
-    <!-- Animated Mesh Canvas -->
-    <canvas id="mesh-canvas"></canvas>
-    <div class="dot-grid-overlay"></div>
-    <div class="ambient-orb ambient-orb-1"></div>
-    <div class="ambient-orb ambient-orb-2"></div>
-    <div class="ambient-orb ambient-orb-3"></div>
+    <!-- REDESIGNED HERO SECTION -->
+    <header class="hero" id="hero-section">
+      <!-- Animated Mesh Canvas -->
+      <canvas id="mesh-canvas"></canvas>
+      <div class="dot-grid-overlay"></div>
+      <div class="ambient-orb ambient-orb-1"></div>
+      <div class="ambient-orb ambient-orb-2"></div>
+      <div class="ambient-orb ambient-orb-3"></div>
 
-    <!-- Drifting Leaves container -->
-    <div class="leaf-container" id="leaf-container"></div>
+      <!-- Drifting Leaves container -->
+      <div class="leaf-container" id="leaf-container"></div>
 
-    <!-- Hero Specific Particles -->
-    <div class="particles-container" id="hero-particles" style="position: absolute; inset: 0; z-index: 1;"
-      aria-hidden="true"></div>
+      <!-- Hero Specific Particles -->
+      <div class="particles-container" id="hero-particles" style="position: absolute; inset: 0; z-index: 1;"
+        aria-hidden="true"></div>
 
-    <div class="container" style="position: relative; z-index: 10; width: 100%;">
-      <div class="hero-grid">
-        <!-- Left Column: Branding and Text Content -->
-        <div class="hero-text-block" style="text-align: left; padding: 0;">
-          <div class="badge badge-primary reveal" style="margin-bottom: 1.25rem;">
-            <span class="material-symbols-outlined" aria-hidden="true"
-              style="font-size: 14px; font-variation-settings: 'FILL' 1">spa</span>
-            <span>Classical Homeopathy Specialist</span>
+      <div class="container" style="position: relative; z-index: 10; width: 100%;">
+        <div class="hero-grid">
+          <!-- Left Column: Branding and Text Content -->
+          <div class="hero-text-block" style="text-align: left; padding: 0;">
+            <div class="badge badge-primary reveal" style="margin-bottom: 1.25rem;">
+              <span class="material-symbols-outlined" aria-hidden="true"
+                style="font-size: 14px; font-variation-settings: 'FILL' 1">spa</span>
+              <span>Classical Homeopathy Specialist</span>
+            </div>
+
+            <h1 class="reveal" style="font-size: 3.8rem; line-height: 1.1; margin-bottom: 1.25rem;">
+              Gentle Healing,<br>Rooted in <span class="highlight shimmer-text hero-title-accent">Nature</span>
+            </h1>
+
+            <p class="hero-sub reveal" style="margin-bottom: 2.25rem; max-width: 520px; font-size: 1.05rem;">
+              Experience gentle, effective, and deeply personalized homeopathic healing designed to restore your health
+              naturally and permanently.
+            </p>
+
+            <div class="hero-actions reveal" style="display: flex; gap: 1rem; margin-bottom: 2.75rem;">
+              <a href="/appointments.html" class="btn btn-primary btn-lg">
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  style="font-size: 20px;">calendar_month</span>
+                <span>Book Appointment</span>
+              </a>
+              <a href="/patient.html" class="btn btn-outline btn-lg">
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 20px;">search</span>
+                <span>Patient Portal</span>
+              </a>
+            </div>
+
+            <div class="hero-stats reveal" style="display: flex;">
+              <div class="hero-stat">
+                <div class="hero-stat-val count-up" data-target="500">0</div>
+                <div class="hero-stat-lbl">Happy Patients</div>
+              </div>
+              <div class="hero-stat hero-stat-bordered">
+                <div class="hero-stat-val">2+</div>
+                <div class="hero-stat-lbl">Years Experience</div>
+              </div>
+              <div class="hero-stat hero-stat-bordered">
+                <div class="hero-stat-val" style="display:flex; align-items:center; gap:0.25rem;">4.9 <span
+                    class="material-symbols-outlined"
+                    style="font-size:24px; color:#F59E0B; font-variation-settings:'FILL' 1">star</span></div>
+                <div class="hero-stat-lbl">Avg Rating</div>
+              </div>
+            </div>
+
+            <!-- Premium Trust Strip -->
+            <div class="hero-trust reveal"
+              style="display: flex; align-items: center; gap: 1.25rem; margin-top: 2.25rem; border-top: 1px solid var(--border); padding-top: 1.5rem; flex-wrap: wrap;">
+              <span
+                style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); white-space: nowrap;">TRUSTED
+                CLINICAL PRACTICE:</span>
+              <div style="display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;">
+                <div
+                  style="display: flex; align-items: center; gap: 0.35rem; color: var(--text-secondary); font-size: 0.8rem; font-weight: 600;">
+                  <span class="material-symbols-outlined text-primary"
+                    style="font-size: 16px; font-variation-settings: 'FILL' 1">verified</span>
+                  <span>MCH Registered</span>
+                </div>
+                <div
+                  style="display: flex; align-items: center; gap: 0.35rem; color: var(--text-secondary); font-size: 0.8rem; font-weight: 600;">
+                  <span class="material-symbols-outlined text-primary"
+                    style="font-size: 16px; font-variation-settings: 'FILL' 1">shield</span>
+                  <span>100% Safe Remedies</span>
+                </div>
+                <div
+                  style="display: flex; align-items: center; gap: 0.35rem; color: var(--text-secondary); font-size: 0.8rem; font-weight: 600;">
+                  <span class="material-symbols-outlined text-primary"
+                    style="font-size: 16px; font-variation-settings: 'FILL' 1">eco</span>
+                  <span>Natural Wellness</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <h1 class="reveal" style="font-size: 3.8rem; line-height: 1.1; margin-bottom: 1.25rem;">
-            Gentle Healing,<br>Rooted in <span class="highlight shimmer-text hero-title-accent">Nature</span>
-          </h1>
+          <!-- Right Column: Interactive Doctor Profile Card & Clinic Hub Card -->
+          <div class="reveal-right"
+            style="position: relative; width: 100%; display: flex; flex-direction: column; gap: 1.5rem;">
 
-          <p class="hero-sub reveal" style="margin-bottom: 2.25rem; max-width: 520px; font-size: 1.05rem;">
-            Experience gentle, effective, and deeply personalized homeopathic healing designed to restore your health
-            naturally and permanently.
-          </p>
+            <!-- 4 Floating Micro-Badges -->
+            <div class="micro-badge micro-badge-1">
+              <span class="material-symbols-outlined text-primary"
+                style="font-size:16px; font-variation-settings:'FILL' 1">star</span>
+              <span>5.0 (120+ Reviews)</span>
+            </div>
+            <div class="micro-badge micro-badge-2">
+              <span class="material-symbols-outlined text-primary"
+                style="font-size:16px; font-variation-settings:'FILL' 1">event_upcoming</span>
+              <span>Next: Today 4 PM</span>
+            </div>
+            <div class="micro-badge micro-badge-3">
+              <span class="material-symbols-outlined text-primary"
+                style="font-size:16px; font-variation-settings:'FILL' 1">qr_code</span>
+              <span>Scan for Records</span>
+            </div>
+            <div class="micro-badge micro-badge-4">
+              <span class="material-symbols-outlined text-primary"
+                style="font-size:16px; font-variation-settings:'FILL' 1">group</span>
+              <span>500+ Recovered</span>
+            </div>
 
-          <div class="hero-actions reveal" style="display: flex; gap: 1rem; margin-bottom: 2.75rem;">
-            <a href="/appointments.html" class="btn btn-primary btn-lg">
-              <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 20px;">calendar_month</span>
-              <span>Book Appointment</span>
-            </a>
-            <a href="/patient.html" class="btn btn-outline btn-lg">
-              <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 20px;">search</span>
-              <span>Patient Portal</span>
-            </a>
+            <!-- Card 1: Doctor Profile Card -->
+            <div class="doctor-card tilt-card" style="padding: 2.25rem 2rem; position: relative;">
+              <!-- Top glowing badges (specialty pills) -->
+              <div
+                style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.25rem; flex-wrap: wrap;">
+                <span class="badge pill-teal">Homeopathy</span>
+                <span class="badge pill-emerald">Verified</span>
+                <span class="badge pill-indigo">Classical</span>
+              </div>
+
+              <!-- Conic Gradient Avatar Wrap -->
+              <div class="doctor-avatar-wrap">
+                <div class="doctor-avatar"
+                  style="width: 100%; height: 100%; margin: 0; overflow: hidden; border: 2px solid rgba(255,255,255,0.15);">
+                  <img src="/images/dr-hiral.jpg" alt="Dr. Hiral" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+
+              <h2 style="font-size: 1.6rem; margin-bottom: 0.25rem;">Dr. Hiral</h2>
+              <p class="text-primary text-sm"
+                style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">
+                BHMS
+                (MUHS)</p>
+              <p class="text-secondary-c text-sm" style="margin-bottom: 1rem; font-weight: 500;">Consulting Classical
+                Homeopath</p>
+
+
+
+              <div
+                style="display: flex; flex-direction: column; gap: 0.65rem; text-align: left; padding: 0 0.5rem; margin-bottom: 1.25rem;">
+                <div
+                  style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; color: var(--text-secondary);">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    style="color: var(--primary); font-size: 20px;">call</span>
+                  <span style="font-weight: 500;">+91 79722 32216</span>
+                </div>
+                <div
+                  style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; color: var(--text-secondary);">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    style="color: var(--primary); font-size: 20px;">mail</span>
+                  <span style="font-weight: 500;">drhiral007@gmail.com</span>
+                </div>
+              </div>
+
+              <a href="/appointments.html" class="btn btn-primary w-full" style="padding: 0.75rem; margin-bottom: 0px;">
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  style="font-size: 18px;">calendar_month</span>
+                <span>Schedule Consultation</span>
+              </a>
+
+              <!-- Mini stats row with dividers -->
+              <div
+                style="display:flex; justify-content:space-between; margin-top:1.25rem; font-size:0.8rem; border-top:1px solid rgba(255,255,255,0.06); padding-top:1rem; color:var(--text-muted);">
+                <div>Experience: <strong style="color:var(--text)">2+ Yrs</strong></div>
+                <div style="width:1px; background:rgba(255,255,255,0.08);"></div>
+                <div>Consulted: <strong style="color:var(--text)">500+</strong></div>
+                <div style="width:1px; background:rgba(255,255,255,0.08);"></div>
+                <div>Rating: <strong style="color:var(--text)">4.9 ★</strong></div>
+              </div>
+            </div>
+
+            <!-- Card 2: Interactive Clinic Hub Card with 3 buttons -->
+            <div class="doctor-card tilt-card hub-card"
+              style="padding: 1.75rem; background: rgba(18, 33, 49, 0.03); border: 1px solid rgba(255,255,255,0.06); text-align: left;">
+              <h3
+                style="font-size: 1.15rem; margin-bottom: 1rem; color: var(--text); display: flex; align-items: center; gap: 0.5rem;">
+                <span class="material-symbols-outlined text-primary" style="font-size: 22px;">explore</span>
+                <span>Interactive Clinic Hub</span>
+              </h3>
+
+              <div style="display: flex; flex-direction: column; gap: 0.75rem; width: 100%;">
+                <!-- Button 1: Address Modal Trigger -->
+                <button onclick="openModal('address-modal')" class="btn btn-outline w-full"
+                  style="justify-content: flex-start; text-align: left; padding: 0.75rem 1rem; border-color: rgba(255,255,255,0.06); background: rgba(255,255,255,0.02);">
+                  <span class="material-symbols-outlined text-primary"
+                    style="font-size: 20px; font-variation-settings:'FILL' 1">location_on</span>
+                  <div style="display:flex; flex-direction:column; gap:0.15rem; margin-left: 0.25rem;">
+                    <strong style="font-size:0.85rem; color:var(--text)">Clinic Location</strong>
+                    <span style="font-size:0.75rem; color:var(--text-muted)">Harsh Hospital, Pune</span>
+                  </div>
+                  <span class="material-symbols-outlined"
+                    style="margin-left: auto; font-size: 16px; color: var(--text-muted);">chevron_right</span>
+                </button>
+
+                <!-- Button 2: Credentials Lightbox Trigger -->
+                <button onclick="openModal('cert-modal')" class="btn btn-outline w-full"
+                  style="justify-content: flex-start; text-align: left; padding: 0.75rem 1rem; border-color: rgba(255,255,255,0.06); background: rgba(255,255,255,0.02);">
+                  <span class="material-symbols-outlined text-primary"
+                    style="font-size: 20px; font-variation-settings:'FILL' 1">workspace_premium</span>
+                  <div style="display:flex; flex-direction:column; gap:0.15rem; margin-left: 0.25rem;">
+                    <strong style="font-size:0.85rem; color:var(--text)">Medical Credentials</strong>
+                    <span style="font-size:0.75rem; color:var(--text-muted)">BHMS Registration Certificate</span>
+                  </div>
+                  <span class="material-symbols-outlined"
+                    style="margin-left: auto; font-size: 16px; color: var(--text-muted);">chevron_right</span>
+                </button>
+
+                <!-- Button 3: FAQ / QA Page Smooth Scroll -->
+                <a href="#faq" class="btn btn-outline w-full"
+                  style="justify-content: flex-start; text-align: left; padding: 0.75rem 1rem; border-color: rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); text-decoration: none; color: inherit;">
+                  <span class="material-symbols-outlined text-primary"
+                    style="font-size: 20px; font-variation-settings:'FILL' 1">quiz</span>
+                  <div style="display:flex; flex-direction:column; gap:0.15rem; margin-left: 0.25rem;">
+                    <strong style="font-size:0.85rem; color:var(--text)">Clinical wisdom &amp; FAQs</strong>
+                    <span style="font-size:0.75rem; color:var(--text-muted)">Questions and Answers</span>
+                  </div>
+                  <span class="material-symbols-outlined"
+                    style="margin-left: auto; font-size: 16px; color: var(--text-muted);">chevron_right</span>
+                </a>
+              </div>
+            </div>
+
           </div>
+        </div>
+      </div>
 
-          <div class="hero-stats reveal" style="display: flex;">
-            <div class="hero-stat">
-              <div class="hero-stat-val count-up" data-target="500">0</div>
-              <div class="hero-stat-lbl">Happy Patients</div>
+
+    </header>
+
+
+
+    <!-- ANIMATED WAVE DIVIDER -->
+    <div class="wave-divider-wrap" aria-hidden="true">
+      <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="wave-path-1" d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" />
+        <path class="wave-path-2" d="M0,50 C360,10 720,70 1080,30 C1260,10 1380,50 1440,50 L1440,80 L0,80 Z" />
+      </svg>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <section class="section" style="background:var(--bg-surface-alt)">
+      <div class="container">
+        <div class="text-center reveal mb-xl">
+          <h2 style="font-size:2rem">How It Works</h2>
+          <p class="text-secondary-c mt-md">Your journey with Dr. Hiral in 4 simple steps</p>
+        </div>
+        <div class="process-steps stagger-children">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <h3 style="font-size:1rem;margin-bottom:0.3rem">Book Online</h3>
+            <p class="text-secondary-c text-sm">Choose your slot on the appointment page</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <h3 style="font-size:1rem;margin-bottom:0.3rem">Get Confirmed</h3>
+            <p class="text-secondary-c text-sm">Dr. Hiral accepts your request</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <h3 style="font-size:1rem;margin-bottom:0.3rem">Consult &amp; Heal</h3>
+            <p class="text-secondary-c text-sm">Receive personalised homeopathic treatment</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">4</div>
+            <h3 style="font-size:1rem;margin-bottom:0.3rem">Track Progress</h3>
+            <p class="text-secondary-c text-sm">Scan your QR to view records anytime</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANIMATED WAVE DIVIDER (BOTTOM) -->
+    <div class="wave-divider-wrap" style="transform: rotate(180deg); margin-top: -2px; margin-bottom: -2px;"
+      aria-hidden="true">
+      <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="wave-path-1" d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" />
+        <path class="wave-path-2" d="M0,50 C360,10 720,70 1080,30 C1260,10 1380,50 1440,50 L1440,80 L0,80 Z" />
+      </svg>
+    </div>
+
+    <!-- CONDITIONS WE TREAT -->
+    <section class="section" id="conditions">
+      <div class="container">
+        <div class="text-center reveal mb-xl">
+          <div class="badge badge-secondary" style="margin-bottom:1rem">
+            <span class="material-symbols-outlined" style="font-size:14px">healing</span> Conditions We Treat
+          </div>
+          <h2 style="font-size:2rem">Specialised <span class="highlight">Homeopathic Care</span></h2>
+          <p class="text-secondary-c mt-md" style="max-width:520px;margin-left:auto;margin-right:auto">Comprehensive
+            treatment for chronic and acute conditions using classical homeopathic remedies.</p>
+        </div>
+        <div class="features-grid stagger-children">
+          <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+            <div class="feature-icon" style="background:rgba(239,68,68,0.1);color:#EF4444;margin:0 auto 0.75rem">
+              <span class="material-symbols-outlined">allergy</span>
             </div>
-            <div class="hero-stat hero-stat-bordered">
-              <div class="hero-stat-val">2+</div>
-              <div class="hero-stat-lbl">Years Experience</div>
+            <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Allergies</h3>
+            <p class="text-secondary-c text-xs">Seasonal, food, and environmental allergies</p>
+          </div>
+          <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+            <div class="feature-icon" style="background:rgba(245,158,11,0.1);color:#D97706;margin:0 auto 0.75rem">
+              <span class="material-symbols-outlined">dermatology</span>
             </div>
-            <div class="hero-stat hero-stat-bordered">
-              <div class="hero-stat-val" style="display:flex; align-items:center; gap:0.25rem;">4.9 <span class="material-symbols-outlined" style="font-size:24px; color:#F59E0B; font-variation-settings:'FILL' 1">star</span></div>
-              <div class="hero-stat-lbl">Avg Rating</div>
+            <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Skin Disorders</h3>
+            <p class="text-secondary-c text-xs">Eczema, psoriasis, and chronic skin issues</p>
+          </div>
+          <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+            <div class="feature-icon"
+              style="background:rgba(5,150,105,0.1);color:var(--secondary);margin:0 auto 0.75rem">
+              <span class="material-symbols-outlined">gastroenterology</span>
+            </div>
+            <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Digestive Issues</h3>
+            <p class="text-secondary-c text-xs">IBS, acidity, bloating, and gut health</p>
+          </div>
+          <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+            <div class="feature-icon" style="background:rgba(124,58,237,0.1);color:#7C3AED;margin:0 auto 0.75rem">
+              <span class="material-symbols-outlined">psychology</span>
+            </div>
+            <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Anxiety &amp; Stress</h3>
+            <p class="text-secondary-c text-xs">Mental wellness and emotional balance</p>
+          </div>
+          <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+            <div class="feature-icon" style="background:rgba(8,145,178,0.1);color:var(--primary);margin:0 auto 0.75rem">
+              <span class="material-symbols-outlined">neurology</span>
+            </div>
+            <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Migraines</h3>
+            <p class="text-secondary-c text-xs">Chronic headaches and neurological pain</p>
+          </div>
+          <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+            <div class="feature-icon" style="background:rgba(59,130,246,0.1);color:#3B82F6;margin:0 auto 0.75rem">
+              <span class="material-symbols-outlined">rheumatology</span>
+            </div>
+            <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Joint Pain</h3>
+            <p class="text-secondary-c text-xs">Arthritis, stiffness, and mobility issues</p>
+          </div>
+          <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+            <div class="feature-icon" style="background:rgba(236,72,153,0.1);color:#EC4899;margin:0 auto 0.75rem">
+              <span class="material-symbols-outlined">female</span>
+            </div>
+            <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Hormonal Imbalance</h3>
+            <p class="text-secondary-c text-xs">PCOS, thyroid, and reproductive health</p>
+          </div>
+          <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+            <div class="feature-icon" style="background:rgba(16,185,129,0.1);color:#10B981;margin:0 auto 0.75rem">
+              <span class="material-symbols-outlined">pulmonology</span>
+            </div>
+            <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Respiratory Issues</h3>
+            <p class="text-secondary-c text-xs">Asthma, sinusitis, and breathing problems</p>
+          </div>
+          <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
+            <div class="feature-icon" style="background:rgba(219,39,119,0.1);color:#DB2777;margin:0 auto 0.75rem">
+              <span class="material-symbols-outlined">child_care</span>
+            </div>
+            <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Mother and Child</h3>
+            <p class="text-secondary-c text-xs">garbhasanskar , pre-natal, post-natal</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS (Premium Moving Carousel by UI/UX Pro Max) -->
+    <section class="section" id="stories">
+      <div class="container">
+        <div class="text-center reveal mb-xl">
+          <div class="badge badge-primary" style="margin-bottom:1rem">
+            <span class="material-symbols-outlined" style="font-size:14px">chat_bubble</span> Healing Journeys
+          </div>
+          <h2 style="font-size:2rem">Patient Stories &amp; Reviews</h2>
+          <p class="text-secondary-c mt-md">Real feedback from patients restored by Dr. Hiral Mehta</p>
+        </div>
+        <div class="carousel-track-wrap reveal">
+          <div class="carousel-track" id="reviews-carousel-track">
+            <!-- Dynamically populated via reviews API -->
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 1.5rem;" class="reveal">
+          <button onclick="openModal('review-modal')" class="btn btn-outline">
+            <span class="material-symbols-outlined">rate_review</span> Share Your Story
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="container" style="max-width:800px">
+        <div class="text-center reveal mb-xl">
+          <div class="badge badge-secondary" style="margin-bottom:1rem">
+            <span class="material-symbols-outlined" style="font-size:14px">help</span> Knowledge Base
+          </div>
+          <h2 style="font-size:2rem">Clinical Wisdom &amp; FAQs</h2>
+          <p class="text-secondary-c mt-md">Understanding classical homeopathy</p>
+        </div>
+        <div class="reveal" style="display:flex;flex-direction:column;gap:0.75rem">
+          <div class="faq-item card" style="cursor:pointer">
+            <div class="faq-toggle flex justify-between items-center">
+              <h3 style="font-size:1rem;padding-right:1rem">What is classical homeopathy?</h3>
+              <span class="material-symbols-outlined faq-icon"
+                style="color:var(--text-muted);flex-shrink:0">expand_more</span>
+            </div>
+            <div class="faq-content"
+              style="color:var(--text-secondary);font-size:0.9rem;border-top:1px solid var(--border)">
+              A holistic system of medicine based on 'like cures like', treating the individual as a whole. It
+              stimulates
+              the body's innate healing mechanisms rather than suppressing symptoms.
             </div>
           </div>
-
-          <!-- Premium Trust Strip -->
-          <div class="hero-trust reveal"
-            style="display: flex; align-items: center; gap: 1.25rem; margin-top: 2.25rem; border-top: 1px solid var(--border); padding-top: 1.5rem; flex-wrap: wrap;">
-            <span
-              style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); white-space: nowrap;">TRUSTED
-              CLINICAL PRACTICE:</span>
-            <div style="display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;">
-              <div
-                style="display: flex; align-items: center; gap: 0.35rem; color: var(--text-secondary); font-size: 0.8rem; font-weight: 600;">
-                <span class="material-symbols-outlined text-primary"
-                  style="font-size: 16px; font-variation-settings: 'FILL' 1">verified</span>
-                <span>MCH Registered</span>
-              </div>
-              <div
-                style="display: flex; align-items: center; gap: 0.35rem; color: var(--text-secondary); font-size: 0.8rem; font-weight: 600;">
-                <span class="material-symbols-outlined text-primary"
-                  style="font-size: 16px; font-variation-settings: 'FILL' 1">shield</span>
-                <span>100% Safe Remedies</span>
-              </div>
-              <div
-                style="display: flex; align-items: center; gap: 0.35rem; color: var(--text-secondary); font-size: 0.8rem; font-weight: 600;">
-                <span class="material-symbols-outlined text-primary"
-                  style="font-size: 16px; font-variation-settings: 'FILL' 1">eco</span>
-                <span>Natural Wellness</span>
-              </div>
+          <div class="faq-item card" style="cursor:pointer">
+            <div class="faq-toggle flex justify-between items-center">
+              <h3 style="font-size:1rem;padding-right:1rem">How long does treatment take?</h3>
+              <span class="material-symbols-outlined faq-icon"
+                style="color:var(--text-muted);flex-shrink:0">expand_more</span>
+            </div>
+            <div class="faq-content"
+              style="color:var(--text-secondary);font-size:0.9rem;border-top:1px solid var(--border)">
+              Duration varies — acute conditions resolve quickly while chronic conditions take longer as homeopathy aims
+              to cure from the root.
+            </div>
+          </div>
+          <div class="faq-item card" style="cursor:pointer">
+            <div class="faq-toggle flex justify-between items-center">
+              <h3 style="font-size:1rem;padding-right:1rem">Are there any side effects?</h3>
+              <span class="material-symbols-outlined faq-icon"
+                style="color:var(--text-muted);flex-shrink:0">expand_more</span>
+            </div>
+            <div class="faq-content"
+              style="color:var(--text-secondary);font-size:0.9rem;border-top:1px solid var(--border)">
+              Homeopathic medicines are highly diluted and non-toxic. They are safe and do not produce harmful side
+              effects when prescribed by a qualified homeopath.
+            </div>
+          </div>
+          <div class="faq-item card" style="cursor:pointer">
+            <div class="faq-toggle flex justify-between items-center">
+              <h3 style="font-size:1rem;padding-right:1rem">Can I take homeopathy with allopathic medicine?</h3>
+              <span class="material-symbols-outlined faq-icon"
+                style="color:var(--text-muted);flex-shrink:0">expand_more</span>
+            </div>
+            <div class="faq-content"
+              style="color:var(--text-secondary);font-size:0.9rem;border-top:1px solid var(--border)">
+              Yes, homeopathic medicines can be taken alongside conventional treatments without adverse interactions.
+              Inform your homeopath about current medications.
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Right Column: Interactive Doctor Profile Card & Clinic Hub Card -->
-        <div class="reveal-right"
-          style="position: relative; width: 100%; display: flex; flex-direction: column; gap: 1.5rem;">
-
-          <!-- 4 Floating Micro-Badges -->
-          <div class="micro-badge micro-badge-1">
-            <span class="material-symbols-outlined text-primary"
-              style="font-size:16px; font-variation-settings:'FILL' 1">star</span>
-            <span>5.0 (120+ Reviews)</span>
+    <!-- CTA -->
+    <section class="section">
+      <div class="container">
+        <div class="cta-section reveal">
+          <div class="blob"
+            style="width:300px;height:300px;background:rgba(255,255,255,0.1);top:-100px;right:-100px;filter:blur(60px)">
           </div>
-          <div class="micro-badge micro-badge-2">
-            <span class="material-symbols-outlined text-primary"
-              style="font-size:16px; font-variation-settings:'FILL' 1">event_upcoming</span>
-            <span>Next: Today 4 PM</span>
-          </div>
-          <div class="micro-badge micro-badge-3">
-            <span class="material-symbols-outlined text-primary"
-              style="font-size:16px; font-variation-settings:'FILL' 1">qr_code</span>
-            <span>Scan for Records</span>
-          </div>
-          <div class="micro-badge micro-badge-4">
-            <span class="material-symbols-outlined text-primary"
-              style="font-size:16px; font-variation-settings:'FILL' 1">group</span>
-            <span>500+ Recovered</span>
-          </div>
-
-          <!-- Card 1: Doctor Profile Card -->
-          <div class="doctor-card tilt-card" style="padding: 2.25rem 2rem; position: relative;">
-            <!-- Top glowing badges (specialty pills) -->
-            <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.25rem; flex-wrap: wrap;">
-              <span class="badge pill-teal">Homeopathy</span>
-              <span class="badge pill-emerald">Verified</span>
-              <span class="badge pill-indigo">Classical</span>
-            </div>
-
-            <!-- Conic Gradient Avatar Wrap -->
-            <div class="doctor-avatar-wrap">
-              <div class="doctor-avatar"
-                style="width: 100%; height: 100%; margin: 0; overflow: hidden; border: 2px solid rgba(255,255,255,0.15);">
-                <img src="/images/dr-hiral.jpg" alt="Dr. Hiral" style="width: 100%; height: 100%; object-fit: cover;">
-              </div>
-            </div>
-
-            <h2 style="font-size: 1.6rem; margin-bottom: 0.25rem;">Dr. Hiral</h2>
-            <p class="text-primary text-sm"
-              style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">BHMS
-              (MUHS)</p>
-            <p class="text-secondary-c text-sm" style="margin-bottom: 1rem; font-weight: 500;">Consulting Classical
-              Homeopath</p>
-
-
-
-            <div
-              style="display: flex; flex-direction: column; gap: 0.65rem; text-align: left; padding: 0 0.5rem; margin-bottom: 1.25rem;">
-              <div
-                style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; color: var(--text-secondary);">
-                <span class="material-symbols-outlined" aria-hidden="true" style="color: var(--primary); font-size: 20px;">call</span>
-                <span style="font-weight: 500;">+91 79722 32216</span>
-              </div>
-              <div
-                style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; color: var(--text-secondary);">
-                <span class="material-symbols-outlined" aria-hidden="true" style="color: var(--primary); font-size: 20px;">mail</span>
-                <span style="font-weight: 500;">drhiral007@gmail.com</span>
-              </div>
-            </div>
-
-            <a href="/appointments.html" class="btn btn-primary w-full" style="padding: 0.75rem; margin-bottom: 0px;">
-              <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 18px;">calendar_month</span>
-              <span>Schedule Consultation</span>
-            </a>
-
-            <!-- Mini stats row with dividers -->
-            <div
-              style="display:flex; justify-content:space-between; margin-top:1.25rem; font-size:0.8rem; border-top:1px solid rgba(255,255,255,0.06); padding-top:1rem; color:var(--text-muted);">
-              <div>Experience: <strong style="color:var(--text)">2+ Yrs</strong></div>
-              <div style="width:1px; background:rgba(255,255,255,0.08);"></div>
-              <div>Consulted: <strong style="color:var(--text)">500+</strong></div>
-              <div style="width:1px; background:rgba(255,255,255,0.08);"></div>
-              <div>Rating: <strong style="color:var(--text)">4.9 ★</strong></div>
-            </div>
-          </div>
-
-          <!-- Card 2: Interactive Clinic Hub Card with 3 buttons -->
-          <div class="doctor-card tilt-card hub-card"
-            style="padding: 1.75rem; background: rgba(18, 33, 49, 0.03); border: 1px solid rgba(255,255,255,0.06); text-align: left;">
-            <h3
-              style="font-size: 1.15rem; margin-bottom: 1rem; color: var(--text); display: flex; align-items: center; gap: 0.5rem;">
-              <span class="material-symbols-outlined text-primary" style="font-size: 22px;">explore</span>
-              <span>Interactive Clinic Hub</span>
-            </h3>
-
-            <div style="display: flex; flex-direction: column; gap: 0.75rem; width: 100%;">
-              <!-- Button 1: Address Modal Trigger -->
-              <button onclick="openModal('address-modal')" class="btn btn-outline w-full"
-                style="justify-content: flex-start; text-align: left; padding: 0.75rem 1rem; border-color: rgba(255,255,255,0.06); background: rgba(255,255,255,0.02);">
-                <span class="material-symbols-outlined text-primary"
-                  style="font-size: 20px; font-variation-settings:'FILL' 1">location_on</span>
-                <div style="display:flex; flex-direction:column; gap:0.15rem; margin-left: 0.25rem;">
-                  <strong style="font-size:0.85rem; color:var(--text)">Clinic Location</strong>
-                  <span style="font-size:0.75rem; color:var(--text-muted)">Baner Road, Pune</span>
-                </div>
-                <span class="material-symbols-outlined"
-                  style="margin-left: auto; font-size: 16px; color: var(--text-muted);">chevron_right</span>
-              </button>
-
-              <!-- Button 2: Credentials Lightbox Trigger -->
-              <button onclick="openModal('cert-modal')" class="btn btn-outline w-full"
-                style="justify-content: flex-start; text-align: left; padding: 0.75rem 1rem; border-color: rgba(255,255,255,0.06); background: rgba(255,255,255,0.02);">
-                <span class="material-symbols-outlined text-primary"
-                  style="font-size: 20px; font-variation-settings:'FILL' 1">workspace_premium</span>
-                <div style="display:flex; flex-direction:column; gap:0.15rem; margin-left: 0.25rem;">
-                  <strong style="font-size:0.85rem; color:var(--text)">Medical Credentials</strong>
-                  <span style="font-size:0.75rem; color:var(--text-muted)">BHMS Registration Certificate</span>
-                </div>
-                <span class="material-symbols-outlined"
-                  style="margin-left: auto; font-size: 16px; color: var(--text-muted);">chevron_right</span>
-              </button>
-
-              <!-- Button 3: FAQ / QA Page Smooth Scroll -->
-              <a href="#faq" class="btn btn-outline w-full"
-                style="justify-content: flex-start; text-align: left; padding: 0.75rem 1rem; border-color: rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); text-decoration: none; color: inherit;">
-                <span class="material-symbols-outlined text-primary"
-                  style="font-size: 20px; font-variation-settings:'FILL' 1">quiz</span>
-                <div style="display:flex; flex-direction:column; gap:0.15rem; margin-left: 0.25rem;">
-                  <strong style="font-size:0.85rem; color:var(--text)">Clinical wisdom &amp; FAQs</strong>
-                  <span style="font-size:0.75rem; color:var(--text-muted)">Questions and Answers</span>
-                </div>
-                <span class="material-symbols-outlined"
-                  style="margin-left: auto; font-size: 16px; color: var(--text-muted);">chevron_right</span>
+          <div style="position:relative;z-index:1">
+            <h2 style="font-size:2.2rem;margin-bottom:1rem">Ready to Begin Your <span style="opacity:0.9">Healing
+                Journey?</span></h2>
+            <p style="margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto">Book your first
+              consultation
+              with Dr. Hiral today.<br>Classical homeopathy — gentle, effective, holistic.</p>
+            <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
+              <a href="/appointments.html" class="btn btn-lg"
+                style="background:white;color:var(--primary-dark);font-weight:700">
+                <span class="material-symbols-outlined" style="font-size:20px">calendar_month</span> Book Appointment
+              </a>
+              <a href="/patient.html" class="btn btn-lg"
+                style="border:1.5px solid rgba(255,255,255,0.5);color:white;background:transparent">
+                <span class="material-symbols-outlined" style="font-size:20px">search</span> Patient Portal
               </a>
             </div>
           </div>
-
         </div>
       </div>
-    </div>
+    </section>
 
-
-  </header>
-
-
-
-  <!-- ANIMATED WAVE DIVIDER -->
-  <div class="wave-divider-wrap" aria-hidden="true">
-    <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path class="wave-path-1" d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" />
-      <path class="wave-path-2" d="M0,50 C360,10 720,70 1080,30 C1260,10 1380,50 1440,50 L1440,80 L0,80 Z" />
-    </svg>
-  </div>
-
-  <!-- HOW IT WORKS -->
-  <section class="section" style="background:var(--bg-surface-alt)">
-    <div class="container">
-      <div class="text-center reveal mb-xl">
-        <h2 style="font-size:2rem">How It Works</h2>
-        <p class="text-secondary-c mt-md">Your journey with Dr. Hiral in 4 simple steps</p>
-      </div>
-      <div class="process-steps stagger-children">
-        <div class="step-card">
-          <div class="step-num">1</div>
-          <h3 style="font-size:1rem;margin-bottom:0.3rem">Book Online</h3>
-          <p class="text-secondary-c text-sm">Choose your slot on the appointment page</p>
-        </div>
-        <div class="step-card">
-          <div class="step-num">2</div>
-          <h3 style="font-size:1rem;margin-bottom:0.3rem">Get Confirmed</h3>
-          <p class="text-secondary-c text-sm">Dr. Hiral accepts your request</p>
-        </div>
-        <div class="step-card">
-          <div class="step-num">3</div>
-          <h3 style="font-size:1rem;margin-bottom:0.3rem">Consult &amp; Heal</h3>
-          <p class="text-secondary-c text-sm">Receive personalised homeopathic treatment</p>
-        </div>
-        <div class="step-card">
-          <div class="step-num">4</div>
-          <h3 style="font-size:1rem;margin-bottom:0.3rem">Track Progress</h3>
-          <p class="text-secondary-c text-sm">Scan your QR to view records anytime</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ANIMATED WAVE DIVIDER (BOTTOM) -->
-  <div class="wave-divider-wrap" style="transform: rotate(180deg); margin-top: -2px; margin-bottom: -2px;" aria-hidden="true">
-    <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path class="wave-path-1" d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" />
-      <path class="wave-path-2" d="M0,50 C360,10 720,70 1080,30 C1260,10 1380,50 1440,50 L1440,80 L0,80 Z" />
-    </svg>
-  </div>
-
-  <!-- CONDITIONS WE TREAT -->
-  <section class="section" id="conditions">
-    <div class="container">
-      <div class="text-center reveal mb-xl">
-        <div class="badge badge-secondary" style="margin-bottom:1rem">
-          <span class="material-symbols-outlined" style="font-size:14px">healing</span> Conditions We Treat
-        </div>
-        <h2 style="font-size:2rem">Specialised <span class="highlight">Homeopathic Care</span></h2>
-        <p class="text-secondary-c mt-md" style="max-width:520px;margin-left:auto;margin-right:auto">Comprehensive
-          treatment for chronic and acute conditions using classical homeopathic remedies.</p>
-      </div>
-      <div class="features-grid stagger-children">
-        <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
-          <div class="feature-icon" style="background:rgba(239,68,68,0.1);color:#EF4444;margin:0 auto 0.75rem">
-            <span class="material-symbols-outlined">allergy</span>
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem">
+              <span class="material-symbols-outlined"
+                style="color:var(--primary);font-variation-settings:'FILL' 1">spa</span>
+              <strong style="font-family:var(--font-heading);font-size:1.15rem">Dr. Hiral</strong>
+            </div>
+            <p class="text-xs"
+              style="color:var(--secondary);text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-bottom:0.5rem">
+              BHMS (MUHS)</p>
+            <p class="text-sm" style="color:var(--text-secondary)">Merging ancient homeopathic wisdom with modern
+              clinical
+              precision.</p>
           </div>
-          <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Allergies</h3>
-          <p class="text-secondary-c text-xs">Seasonal, food, and environmental allergies</p>
-        </div>
-        <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
-          <div class="feature-icon" style="background:rgba(245,158,11,0.1);color:#D97706;margin:0 auto 0.75rem">
-            <span class="material-symbols-outlined">dermatology</span>
+          <div>
+            <h3>Quick Links</h3>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:0.4rem">
+              <li><a href="/">Home</a></li>
+              <li><a href="/appointments.html">Book Appointment</a></li>
+              <li><a href="/patient.html">Patient Portal</a></li>
+            </ul>
           </div>
-          <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Skin Disorders</h3>
-          <p class="text-secondary-c text-xs">Eczema, psoriasis, and chronic skin issues</p>
-        </div>
-        <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
-          <div class="feature-icon" style="background:rgba(5,150,105,0.1);color:var(--secondary);margin:0 auto 0.75rem">
-            <span class="material-symbols-outlined">gastroenterology</span>
+          <div>
+            <h3>Contact</h3>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem">
+              <li style="display:flex;align-items:center;gap:0.4rem;font-size:0.9rem;color:var(--text-secondary)">
+                <span class="material-symbols-outlined" style="font-size:18px;color:var(--primary)">call</span>+91 79722
+                32216
+              </li>
+              <li style="display:flex;align-items:center;gap:0.4rem;font-size:0.9rem;color:var(--text-secondary)">
+                <span class="material-symbols-outlined"
+                  style="font-size:18px;color:var(--primary)">mail</span>drhiral007@gmail.com
+              </li>
+              <li style="display:flex;align-items:center;gap:0.4rem;font-size:0.9rem;color:var(--text-secondary)">
+                <span class="material-symbols-outlined"
+                  style="font-size:18px;color:var(--primary)">location_on</span>Pune, Maharashtra
+              </li>
+            </ul>
           </div>
-          <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Digestive Issues</h3>
-          <p class="text-secondary-c text-xs">IBS, acidity, bloating, and gut health</p>
-        </div>
-        <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
-          <div class="feature-icon" style="background:rgba(124,58,237,0.1);color:#7C3AED;margin:0 auto 0.75rem">
-            <span class="material-symbols-outlined">psychology</span>
+          <div>
+            <h3>Hours</h3>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:0.4rem;font-size:0.9rem">
+              <li
+                style="display:flex;justify-content:space-between;color:var(--text-secondary);border-bottom:1px solid var(--border);padding-bottom:0.3rem">
+                <span>Mon-Fri</span><span style="color:var(--text)">9 AM – 6 PM</span>
+              </li>
+              <li
+                style="display:flex;justify-content:space-between;color:var(--text-secondary);border-bottom:1px solid var(--border);padding-bottom:0.3rem">
+                <span>Sat</span><span style="color:var(--text)">10 AM – 2 PM</span>
+              </li>
+              <li style="display:flex;justify-content:space-between;color:var(--text-secondary)"><span>Sun</span><span
+                  style="color:var(--secondary)">Closed</span></li>
+            </ul>
           </div>
-          <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Anxiety &amp; Stress</h3>
-          <p class="text-secondary-c text-xs">Mental wellness and emotional balance</p>
         </div>
-        <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
-          <div class="feature-icon" style="background:rgba(8,145,178,0.1);color:var(--primary);margin:0 auto 0.75rem">
-            <span class="material-symbols-outlined">neurology</span>
+        <div class="footer-bottom">
+          <div>&copy; 2025 Dr. Hiral — Homoeopathy Wellness Centre. All rights reserved.</div>
+          <div style="margin-top:0.6rem; display:flex; gap:1rem; justify-content:center; font-size:0.8rem;">
+            <a href="/privacy.html" style="color:var(--text-muted); text-decoration:underline; font-weight:500;">Privacy
+              Policy</a>
+            <span style="color:var(--border);">|</span>
+            <a href="/terms.html" style="color:var(--text-muted); text-decoration:underline; font-weight:500;">Terms
+              &amp; Conditions</a>
           </div>
-          <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Migraines</h3>
-          <p class="text-secondary-c text-xs">Chronic headaches and neurological pain</p>
-        </div>
-        <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
-          <div class="feature-icon" style="background:rgba(59,130,246,0.1);color:#3B82F6;margin:0 auto 0.75rem">
-            <span class="material-symbols-outlined">rheumatology</span>
-          </div>
-          <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Joint Pain</h3>
-          <p class="text-secondary-c text-xs">Arthritis, stiffness, and mobility issues</p>
-        </div>
-        <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
-          <div class="feature-icon" style="background:rgba(236,72,153,0.1);color:#EC4899;margin:0 auto 0.75rem">
-            <span class="material-symbols-outlined">female</span>
-          </div>
-          <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Hormonal Imbalance</h3>
-          <p class="text-secondary-c text-xs">PCOS, thyroid, and reproductive health</p>
-        </div>
-        <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
-          <div class="feature-icon" style="background:rgba(16,185,129,0.1);color:#10B981;margin:0 auto 0.75rem">
-            <span class="material-symbols-outlined">pulmonology</span>
-          </div>
-          <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Respiratory Issues</h3>
-          <p class="text-secondary-c text-xs">Asthma, sinusitis, and breathing problems</p>
-        </div>
-        <div class="card card-hover tilt-card" style="text-align:center;padding:1.5rem">
-          <div class="feature-icon" style="background:rgba(219,39,119,0.1);color:#DB2777;margin:0 auto 0.75rem">
-            <span class="material-symbols-outlined">child_care</span>
-          </div>
-          <h3 style="font-size:0.95rem;margin-bottom:0.3rem">Mother and Child</h3>
-          <p class="text-secondary-c text-xs">garbhasanskar , pre-natal, post-natal</p>
         </div>
       </div>
-    </div>
-  </section>
+    </footer>
 
-  <!-- TESTIMONIALS (Premium Moving Carousel by UI/UX Pro Max) -->
-  <section class="section" id="stories">
-    <div class="container">
-      <div class="text-center reveal mb-xl">
-        <div class="badge badge-primary" style="margin-bottom:1rem">
-          <span class="material-symbols-outlined" style="font-size:14px">chat_bubble</span> Healing Journeys
-        </div>
-        <h2 style="font-size:2rem">Patient Stories &amp; Reviews</h2>
-        <p class="text-secondary-c mt-md">Real feedback from patients restored by Dr. Hiral Mehta</p>
-      </div>
-      <div class="carousel-track-wrap reveal">
-        <div class="carousel-track" id="reviews-carousel-track">
-          <!-- Dynamically populated via reviews API -->
-        </div>
-      </div>
-      <div style="text-align: center; margin-top: 1.5rem;" class="reveal">
-        <button onclick="openModal('review-modal')" class="btn btn-outline">
-          <span class="material-symbols-outlined">rate_review</span> Share Your Story
+    <!-- VIRTUAL ASSISTANT -->
+    <div
+      style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:90;display:flex;flex-direction:column;align-items:flex-end"
+      id="va-wrap">
+      <div class="va-popover" id="va-popover" style="width: 320px; max-height: 480px; overflow-y: auto;">
+        <button class="btn-ghost" id="va-close" style="position:absolute;top:0.5rem;right:0.5rem" aria-label="Close">
+          <span class="material-symbols-outlined" style="font-size:18px">close</span>
         </button>
-      </div>
-    </div>
-  </section>
 
-  <!-- FAQ -->
-  <section class="section" id="faq">
-    <div class="container" style="max-width:800px">
-      <div class="text-center reveal mb-xl">
-        <div class="badge badge-secondary" style="margin-bottom:1rem">
-          <span class="material-symbols-outlined" style="font-size:14px">help</span> Knowledge Base
-        </div>
-        <h2 style="font-size:2rem">Clinical Wisdom &amp; FAQs</h2>
-        <p class="text-secondary-c mt-md">Understanding classical homeopathy</p>
-      </div>
-      <div class="reveal" style="display:flex;flex-direction:column;gap:0.75rem">
-        <div class="faq-item card" style="cursor:pointer">
-          <div class="faq-toggle flex justify-between items-center">
-            <h3 style="font-size:1rem;padding-right:1rem">What is classical homeopathy?</h3>
-            <span class="material-symbols-outlined faq-icon"
-              style="color:var(--text-muted);flex-shrink:0">expand_more</span>
+        <!-- VIEW 1: MAIN MENU & QUESTIONS -->
+        <div id="va-menu-view">
+          <div class="text-center" style="margin-bottom:1rem">
+            <div class="badge badge-primary" style="margin-bottom:0.5rem"><span class="status-dot online"></span> Online
+            </div>
+            <h3 style="font-size:1.1rem;margin-bottom:0.25rem">Hi! I'm your guide.</h3>
+            <p class="text-sm text-secondary-c">How can I help you today?</p>
           </div>
-          <div class="faq-content"
-            style="color:var(--text-secondary);font-size:0.9rem;border-top:1px solid var(--border)">
-            A holistic system of medicine based on 'like cures like', treating the individual as a whole. It stimulates
-            the body's innate healing mechanisms rather than suppressing symptoms.
-          </div>
-        </div>
-        <div class="faq-item card" style="cursor:pointer">
-          <div class="faq-toggle flex justify-between items-center">
-            <h3 style="font-size:1rem;padding-right:1rem">How long does treatment take?</h3>
-            <span class="material-symbols-outlined faq-icon"
-              style="color:var(--text-muted);flex-shrink:0">expand_more</span>
-          </div>
-          <div class="faq-content"
-            style="color:var(--text-secondary);font-size:0.9rem;border-top:1px solid var(--border)">
-            Duration varies — acute conditions resolve quickly while chronic conditions take longer as homeopathy aims
-            to cure from the root.
-          </div>
-        </div>
-        <div class="faq-item card" style="cursor:pointer">
-          <div class="faq-toggle flex justify-between items-center">
-            <h3 style="font-size:1rem;padding-right:1rem">Are there any side effects?</h3>
-            <span class="material-symbols-outlined faq-icon"
-              style="color:var(--text-muted);flex-shrink:0">expand_more</span>
-          </div>
-          <div class="faq-content"
-            style="color:var(--text-secondary);font-size:0.9rem;border-top:1px solid var(--border)">
-            Homeopathic medicines are highly diluted and non-toxic. They are safe and do not produce harmful side
-            effects when prescribed by a qualified homeopath.
-          </div>
-        </div>
-        <div class="faq-item card" style="cursor:pointer">
-          <div class="faq-toggle flex justify-between items-center">
-            <h3 style="font-size:1rem;padding-right:1rem">Can I take homeopathy with allopathic medicine?</h3>
-            <span class="material-symbols-outlined faq-icon"
-              style="color:var(--text-muted);flex-shrink:0">expand_more</span>
-          </div>
-          <div class="faq-content"
-            style="color:var(--text-secondary);font-size:0.9rem;border-top:1px solid var(--border)">
-            Yes, homeopathic medicines can be taken alongside conventional treatments without adverse interactions.
-            Inform your homeopath about current medications.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- CTA -->
-  <section class="section">
-    <div class="container">
-      <div class="cta-section reveal">
-        <div class="blob"
-          style="width:300px;height:300px;background:rgba(255,255,255,0.1);top:-100px;right:-100px;filter:blur(60px)">
-        </div>
-        <div style="position:relative;z-index:1">
-          <h2 style="font-size:2.2rem;margin-bottom:1rem">Ready to Begin Your <span style="opacity:0.9">Healing
-              Journey?</span></h2>
-          <p style="margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto">Book your first consultation
-            with Dr. Hiral today.<br>Classical homeopathy — gentle, effective, holistic.</p>
-          <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
-            <a href="/appointments.html" class="btn btn-lg"
-              style="background:white;color:var(--primary-dark);font-weight:700">
-              <span class="material-symbols-outlined" style="font-size:20px">calendar_month</span> Book Appointment
+          <div style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.25rem">
+            <a href="/appointments.html" class="btn btn-primary btn-sm w-full">
+              <span class="material-symbols-outlined" style="font-size:16px">event_upcoming</span> Book Appointment
             </a>
-            <a href="/patient.html" class="btn btn-lg"
-              style="border:1.5px solid rgba(255,255,255,0.5);color:white;background:transparent">
-              <span class="material-symbols-outlined" style="font-size:20px">search</span> Patient Portal
+            <a href="#conditions" class="btn btn-outline btn-sm w-full" onclick="toggleVA()">
+              <span class="material-symbols-outlined" style="font-size:16px">healing</span> Conditions Treated
             </a>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem">
-            <span class="material-symbols-outlined"
-              style="color:var(--primary);font-variation-settings:'FILL' 1">spa</span>
-            <strong style="font-family:var(--font-heading);font-size:1.15rem">Dr. Hiral</strong>
+          <div style="border-top: 1px solid var(--border); padding-top: 1rem;">
+            <h4
+              style="font-size: 0.82rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.5rem; letter-spacing:0.04em;">
+              Quick Help &amp; FAQs</h4>
+            <div style="display:flex; flex-direction:column; gap:0.4rem;">
+              <button class="btn btn-ghost btn-sm w-full" onclick="askVAQuestion('what_is_homeo')"
+                style="text-align:left; justify-content:flex-start; font-size:0.8rem; padding:0.4rem 0.6rem; border-radius:var(--radius-sm);">
+                <span class="material-symbols-outlined"
+                  style="font-size:16px; margin-right:6px; color:var(--primary)">help</span> What is Homeopathy?
+              </button>
+              <button class="btn btn-ghost btn-sm w-full" onclick="askVAQuestion('how_to_book')"
+                style="text-align:left; justify-content:flex-start; font-size:0.8rem; padding:0.4rem 0.6rem; border-radius:var(--radius-sm);">
+                <span class="material-symbols-outlined"
+                  style="font-size:16px; margin-right:6px; color:var(--primary)">calendar_today</span> How do I book?
+              </button>
+              <button class="btn btn-ghost btn-sm w-full" onclick="askVAQuestion('clinic_hours')"
+                style="text-align:left; justify-content:flex-start; font-size:0.8rem; padding:0.4rem 0.6rem; border-radius:var(--radius-sm);">
+                <span class="material-symbols-outlined"
+                  style="font-size:16px; margin-right:6px; color:var(--primary)">schedule</span> Clinic Hours &amp;
+                Contact
+              </button>
+              <button class="btn btn-ghost btn-sm w-full" onclick="askVAQuestion('report_bug')"
+                style="text-align:left; justify-content:flex-start; font-size:0.8rem; padding:0.4rem 0.6rem; border-radius:var(--radius-sm); color:#ef4444; background:rgba(239,68,68,0.04)">
+                <span class="material-symbols-outlined"
+                  style="font-size:16px; margin-right:6px; color:#ef4444">bug_report</span> Report a Bug
+              </button>
+            </div>
           </div>
-          <p class="text-xs"
-            style="color:var(--secondary);text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-bottom:0.5rem">
-            BHMS (MUHS)</p>
-          <p class="text-sm" style="color:var(--text-secondary)">Merging ancient homeopathic wisdom with modern clinical
-            precision.</p>
         </div>
-        <div>
-          <h3>Quick Links</h3>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.4rem">
-            <li><a href="/">Home</a></li>
-            <li><a href="/appointments.html">Book Appointment</a></li>
-            <li><a href="/patient.html">Patient Portal</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Contact</h3>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem">
-            <li style="display:flex;align-items:center;gap:0.4rem;font-size:0.9rem;color:var(--text-secondary)">
-              <span class="material-symbols-outlined" style="font-size:18px;color:var(--primary)">call</span>+91 79722
-              32216
-            </li>
-            <li style="display:flex;align-items:center;gap:0.4rem;font-size:0.9rem;color:var(--text-secondary)">
-              <span class="material-symbols-outlined"
-                style="font-size:18px;color:var(--primary)">mail</span>drhiral007@gmail.com
-            </li>
-            <li style="display:flex;align-items:center;gap:0.4rem;font-size:0.9rem;color:var(--text-secondary)">
-              <span class="material-symbols-outlined"
-                style="font-size:18px;color:var(--primary)">location_on</span>Pune, Maharashtra
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h3>Hours</h3>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.4rem;font-size:0.9rem">
-            <li
-              style="display:flex;justify-content:space-between;color:var(--text-secondary);border-bottom:1px solid var(--border);padding-bottom:0.3rem">
-              <span>Mon-Fri</span><span style="color:var(--text)">9 AM – 6 PM</span></li>
-            <li
-              style="display:flex;justify-content:space-between;color:var(--text-secondary);border-bottom:1px solid var(--border);padding-bottom:0.3rem">
-              <span>Sat</span><span style="color:var(--text)">10 AM – 2 PM</span></li>
-            <li style="display:flex;justify-content:space-between;color:var(--text-secondary)"><span>Sun</span><span
-                style="color:var(--secondary)">Closed</span></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <div>&copy; 2025 Dr. Hiral — Homoeopathy Wellness Centre. All rights reserved.</div>
-        <div style="margin-top:0.6rem; display:flex; gap:1rem; justify-content:center; font-size:0.8rem;">
-          <a href="/privacy.html" style="color:var(--text-muted); text-decoration:underline; font-weight:500;">Privacy Policy</a>
-          <span style="color:var(--border);">|</span>
-          <a href="/terms.html" style="color:var(--text-muted); text-decoration:underline; font-weight:500;">Terms &amp; Conditions</a>
-        </div>
-      </div>
-    </div>
-  </footer>
 
-  <!-- VIRTUAL ASSISTANT -->
-  <div
-    style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:90;display:flex;flex-direction:column;align-items:flex-end"
-    id="va-wrap">
-    <div class="va-popover" id="va-popover" style="width: 320px; max-height: 480px; overflow-y: auto;">
-      <button class="btn-ghost" id="va-close" style="position:absolute;top:0.5rem;right:0.5rem" aria-label="Close">
-        <span class="material-symbols-outlined" style="font-size:18px">close</span>
+        <!-- VIEW 2: ANSWER CONTENT / BUG FORM -->
+        <div id="va-content-view" class="hidden">
+          <button class="btn btn-ghost btn-sm" onclick="vaBackToMenu()"
+            style="display:inline-flex; align-items:center; gap:0.25rem; margin-bottom:1rem; font-size:0.8rem; padding:0.25rem 0.5rem; cursor:pointer;">
+            <span class="material-symbols-outlined" style="font-size:16px;">arrow_back</span> Back
+          </button>
+          <div id="va-content-body" style="font-size:0.88rem; line-height:1.5; color:var(--text-secondary);"></div>
+        </div>
+      </div>
+      <button class="va-trigger" id="va-trigger" aria-label="Open assistant">
+        <span class="material-symbols-outlined"
+          style="font-size:28px;font-variation-settings:'FILL' 1">support_agent</span>
+        <span class="online-dot"></span>
       </button>
-
-      <!-- VIEW 1: MAIN MENU & QUESTIONS -->
-      <div id="va-menu-view">
-        <div class="text-center" style="margin-bottom:1rem">
-          <div class="badge badge-primary" style="margin-bottom:0.5rem"><span class="status-dot online"></span> Online</div>
-          <h3 style="font-size:1.1rem;margin-bottom:0.25rem">Hi! I'm your guide.</h3>
-          <p class="text-sm text-secondary-c">How can I help you today?</p>
-        </div>
-        
-        <div style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.25rem">
-          <a href="/appointments.html" class="btn btn-primary btn-sm w-full">
-            <span class="material-symbols-outlined" style="font-size:16px">event_upcoming</span> Book Appointment
-          </a>
-          <a href="#conditions" class="btn btn-outline btn-sm w-full" onclick="toggleVA()">
-            <span class="material-symbols-outlined" style="font-size:16px">healing</span> Conditions Treated
-          </a>
-        </div>
-
-        <div style="border-top: 1px solid var(--border); padding-top: 1rem;">
-          <h4 style="font-size: 0.82rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.5rem; letter-spacing:0.04em;">Quick Help &amp; FAQs</h4>
-          <div style="display:flex; flex-direction:column; gap:0.4rem;">
-            <button class="btn btn-ghost btn-sm w-full" onclick="askVAQuestion('what_is_homeo')" style="text-align:left; justify-content:flex-start; font-size:0.8rem; padding:0.4rem 0.6rem; border-radius:var(--radius-sm);">
-              <span class="material-symbols-outlined" style="font-size:16px; margin-right:6px; color:var(--primary)">help</span> What is Homeopathy?
-            </button>
-            <button class="btn btn-ghost btn-sm w-full" onclick="askVAQuestion('how_to_book')" style="text-align:left; justify-content:flex-start; font-size:0.8rem; padding:0.4rem 0.6rem; border-radius:var(--radius-sm);">
-              <span class="material-symbols-outlined" style="font-size:16px; margin-right:6px; color:var(--primary)">calendar_today</span> How do I book?
-            </button>
-            <button class="btn btn-ghost btn-sm w-full" onclick="askVAQuestion('clinic_hours')" style="text-align:left; justify-content:flex-start; font-size:0.8rem; padding:0.4rem 0.6rem; border-radius:var(--radius-sm);">
-              <span class="material-symbols-outlined" style="font-size:16px; margin-right:6px; color:var(--primary)">schedule</span> Clinic Hours &amp; Contact
-            </button>
-            <button class="btn btn-ghost btn-sm w-full" onclick="askVAQuestion('report_bug')" style="text-align:left; justify-content:flex-start; font-size:0.8rem; padding:0.4rem 0.6rem; border-radius:var(--radius-sm); color:#ef4444; background:rgba(239,68,68,0.04)">
-              <span class="material-symbols-outlined" style="font-size:16px; margin-right:6px; color:#ef4444">bug_report</span> Report a Bug
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- VIEW 2: ANSWER CONTENT / BUG FORM -->
-      <div id="va-content-view" class="hidden">
-        <button class="btn btn-ghost btn-sm" onclick="vaBackToMenu()" style="display:inline-flex; align-items:center; gap:0.25rem; margin-bottom:1rem; font-size:0.8rem; padding:0.25rem 0.5rem; cursor:pointer;">
-          <span class="material-symbols-outlined" style="font-size:16px;">arrow_back</span> Back
-        </button>
-        <div id="va-content-body" style="font-size:0.88rem; line-height:1.5; color:var(--text-secondary);"></div>
-      </div>
     </div>
-    <button class="va-trigger" id="va-trigger" aria-label="Open assistant">
-      <span class="material-symbols-outlined"
-        style="font-size:28px;font-variation-settings:'FILL' 1">support_agent</span>
-      <span class="online-dot"></span>
-    </button>
-  </div>
 
-  <!-- SCRIPTS -->
-  <script src="/js/api.js"></script>
-  <script>
-    (function () {
-      // ── Theme (apply saved preference) ──
-      const html = document.documentElement;
-      const themeToggleBtn = document.getElementById('theme-toggle');
-      const themeIcon = document.getElementById('theme-icon');
+    <!-- SCRIPTS -->
+    <script src="/js/api.js"></script>
+    <script>
+      (function () {
+        // ── Theme (apply saved preference) ──
+        const html = document.documentElement;
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
 
-      function setTheme(dark) {
-        if (dark) {
-          html.classList.add('dark');
-          if (themeIcon) themeIcon.textContent = 'light_mode';
-        } else {
-          html.classList.remove('dark');
-          if (themeIcon) themeIcon.textContent = 'dark_mode';
-        }
-        localStorage.setItem('theme', dark ? 'dark' : 'light');
-      }
-
-      const saved = localStorage.getItem('theme');
-      // Default to light mode if no saved preference
-      setTheme(saved === 'dark');
-
-      if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-          setTheme(!html.classList.contains('dark'));
-        });
-      }
-
-      // ── Responsive Navbar ──
-      const deskLogin = document.getElementById('desk-login');
-      const menuOpen = document.getElementById('menu-open');
-      function handleResize() {
-        const mobile = window.innerWidth < 992;
-        if (deskLogin) deskLogin.style.display = mobile ? 'none' : 'inline-flex';
-        if (menuOpen) menuOpen.style.display = mobile ? 'inline-flex' : 'none';
-      }
-      handleResize();
-      window.addEventListener('resize', handleResize);
-
-      // ── Mobile Menu ──
-      const mobileMenu = document.getElementById('mobile-menu');
-      function openMobileMenu() {
-        mobileMenu.removeAttribute('inert');
-        mobileMenu.classList.add('open');
-        menuOpen.setAttribute('aria-expanded', 'true');
-        document.body.style.overflow = 'hidden';
-        // focus first link
-        setTimeout(() => mobileMenu.querySelector('a')?.focus(), 80);
-      }
-      function closeMobileMenu() {
-        mobileMenu.classList.remove('open');
-        mobileMenu.setAttribute('inert', '');
-        menuOpen.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-        menuOpen.focus();
-      }
-      if (menuOpen) menuOpen.addEventListener('click', openMobileMenu);
-      document.getElementById('menu-close').addEventListener('click', closeMobileMenu);
-      mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileMenu));
-      // Close on backdrop click (Escape key)
-      document.addEventListener('keydown', e => { if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMobileMenu(); });
-
-      // ── Scroll Reveal (all variants) ──
-      const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            observer.unobserve(e.target);
+        function setTheme(dark) {
+          if (dark) {
+            html.classList.add('dark');
+            if (themeIcon) themeIcon.textContent = 'light_mode';
+          } else {
+            html.classList.remove('dark');
+            if (themeIcon) themeIcon.textContent = 'dark_mode';
           }
-        });
-      }, { threshold: 0.01, rootMargin: '50px 0px 0px 0px' });
-      requestAnimationFrame(() => {
-        revealEls.forEach(el => observer.observe(el));
-      });
-
-      // ── Mesh Canvas Background ──
-      const canvas = document.getElementById('mesh-canvas');
-      if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let w = canvas.width = window.innerWidth;
-        let h = canvas.height = window.innerHeight;
-
-        window.addEventListener('resize', () => {
-          w = canvas.width = window.innerWidth;
-          h = canvas.height = window.innerHeight;
-        });
-
-        let t = 0;
-        function drawMesh() {
-          t += 0.002;
-          ctx.clearRect(0, 0, w, h);
-
-          const isDark = document.documentElement.classList.contains('dark');
-          const baseColor1 = 180; // Teal (classic & high energy)
-          const baseColor2 = 270; // Purple/Violet (royal healing vibration)
-
-          const gradient = ctx.createRadialGradient(
-            w / 2 + Math.sin(t * 1.5) * w / 3,
-            h / 2 + Math.cos(t * 1.8) * h / 3,
-            w * 0.1,
-            w / 2 + Math.sin(t * 1.2) * w / 4,
-            h / 2 + Math.cos(t * 1.5) * h / 4,
-            w * 0.8
-          );
-
-          gradient.addColorStop(0, `hsla(${baseColor1 + Math.sin(t) * 20}, 75%, ${isDark ? '12%' : '88%'}, 0.45)`);
-          gradient.addColorStop(0.5, `hsla(${baseColor2 + Math.cos(t * 0.8) * 25}, 70%, ${isDark ? '8%' : '90%'}, 0.35)`);
-          gradient.addColorStop(1, isDark ? 'rgba(5, 20, 36, 0.95)' : 'rgba(240, 249, 255, 0.95)');
-
-          ctx.fillStyle = gradient;
-          ctx.fillRect(0, 0, w, h);
-          requestAnimationFrame(drawMesh);
+          localStorage.setItem('theme', dark ? 'dark' : 'light');
         }
-        drawMesh();
-      }
 
-      // ── Leaf Generator ──
-      const leafContainer = document.getElementById('leaf-container');
-      if (leafContainer && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        const leafSVGPath = "M17 2.059c-7.447.382-12.83 6.136-13.882 12.882-.44 2.824.235 5.588 2.059 7.647 1.823 2.059 4.588 2.941 7.353 2.647 6.47-.677 12-5.824 12.882-12.882.353-2.824-.323-5.588-2.059-7.647-1.853-2.06-4.617-2.941-7.353-2.647zM11.5 16a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z";
-        for (let i = 0; i < 18; i++) {
-          const el = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-          el.setAttribute("viewBox", "0 0 24 24");
-          el.classList.add("leaf-svg");
-          const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-          path.setAttribute("d", leafSVGPath);
-          el.appendChild(path);
+        const saved = localStorage.getItem('theme');
+        // Default to light mode if no saved preference
+        setTheme(saved === 'dark');
 
-          const size = Math.random() * 20 + 15;
-          const left = Math.random() * 100;
-          const delay = Math.random() * 18;
-          const duration = Math.random() * 15 + 12;
-          const colors = ["#0d9488", "#2dd4bf", "#7c3aed", "#a78bfa"];
-          const color = colors[Math.floor(Math.random() * colors.length)];
+        if (themeToggleBtn) {
+          themeToggleBtn.addEventListener('click', () => {
+            setTheme(!html.classList.contains('dark'));
+          });
+        }
 
-          el.style.cssText = `
+        // ── Responsive Navbar ──
+        const deskLogin = document.getElementById('desk-login');
+        const menuOpen = document.getElementById('menu-open');
+        function handleResize() {
+          const mobile = window.innerWidth < 992;
+          if (deskLogin) deskLogin.style.display = mobile ? 'none' : 'inline-flex';
+          if (menuOpen) menuOpen.style.display = mobile ? 'inline-flex' : 'none';
+        }
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        // ── Mobile Menu ──
+        const mobileMenu = document.getElementById('mobile-menu');
+        function openMobileMenu() {
+          mobileMenu.removeAttribute('inert');
+          mobileMenu.classList.add('open');
+          menuOpen.setAttribute('aria-expanded', 'true');
+          document.body.style.overflow = 'hidden';
+          // focus first link
+          setTimeout(() => mobileMenu.querySelector('a')?.focus(), 80);
+        }
+        function closeMobileMenu() {
+          mobileMenu.classList.remove('open');
+          mobileMenu.setAttribute('inert', '');
+          menuOpen.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+          menuOpen.focus();
+        }
+        if (menuOpen) menuOpen.addEventListener('click', openMobileMenu);
+        document.getElementById('menu-close').addEventListener('click', closeMobileMenu);
+        mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileMenu));
+        // Close on backdrop click (Escape key)
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMobileMenu(); });
+
+        // ── Scroll Reveal (all variants) ──
+        const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              observer.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.01, rootMargin: '50px 0px 0px 0px' });
+        requestAnimationFrame(() => {
+          revealEls.forEach(el => observer.observe(el));
+        });
+
+        // ── Mesh Canvas Background ──
+        const canvas = document.getElementById('mesh-canvas');
+        if (canvas) {
+          const ctx = canvas.getContext('2d');
+          let w = canvas.width = window.innerWidth;
+          let h = canvas.height = window.innerHeight;
+
+          window.addEventListener('resize', () => {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+          });
+
+          let t = 0;
+          function drawMesh() {
+            t += 0.002;
+            ctx.clearRect(0, 0, w, h);
+
+            const isDark = document.documentElement.classList.contains('dark');
+            const baseColor1 = 180; // Teal (classic & high energy)
+            const baseColor2 = 270; // Purple/Violet (royal healing vibration)
+
+            const gradient = ctx.createRadialGradient(
+              w / 2 + Math.sin(t * 1.5) * w / 3,
+              h / 2 + Math.cos(t * 1.8) * h / 3,
+              w * 0.1,
+              w / 2 + Math.sin(t * 1.2) * w / 4,
+              h / 2 + Math.cos(t * 1.5) * h / 4,
+              w * 0.8
+            );
+
+            gradient.addColorStop(0, `hsla(${baseColor1 + Math.sin(t) * 20}, 75%, ${isDark ? '12%' : '88%'}, 0.45)`);
+            gradient.addColorStop(0.5, `hsla(${baseColor2 + Math.cos(t * 0.8) * 25}, 70%, ${isDark ? '8%' : '90%'}, 0.35)`);
+            gradient.addColorStop(1, isDark ? 'rgba(5, 20, 36, 0.95)' : 'rgba(240, 249, 255, 0.95)');
+
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, w, h);
+            requestAnimationFrame(drawMesh);
+          }
+          drawMesh();
+        }
+
+        // ── Leaf Generator ──
+        const leafContainer = document.getElementById('leaf-container');
+        if (leafContainer && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          const leafSVGPath = "M17 2.059c-7.447.382-12.83 6.136-13.882 12.882-.44 2.824.235 5.588 2.059 7.647 1.823 2.059 4.588 2.941 7.353 2.647 6.47-.677 12-5.824 12.882-12.882.353-2.824-.323-5.588-2.059-7.647-1.853-2.06-4.617-2.941-7.353-2.647zM11.5 16a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z";
+          for (let i = 0; i < 18; i++) {
+            const el = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            el.setAttribute("viewBox", "0 0 24 24");
+            el.classList.add("leaf-svg");
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", leafSVGPath);
+            el.appendChild(path);
+
+            const size = Math.random() * 20 + 15;
+            const left = Math.random() * 100;
+            const delay = Math.random() * 18;
+            const duration = Math.random() * 15 + 12;
+            const colors = ["#0d9488", "#2dd4bf", "#7c3aed", "#a78bfa"];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+
+            el.style.cssText = `
         width: ${size}px;
         height: ${size}px;
         left: ${left}%;
@@ -813,85 +849,85 @@
         animation-delay: ${delay}s;
         animation-duration: ${duration}s;
       `;
-          leafContainer.appendChild(el);
-        }
-      }
-
-      // ── Count-Up (Quartic Easing) ──
-      const countObserver = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            const el = e.target;
-            const target = parseInt(el.dataset.target);
-            if (isNaN(target)) return;
-            let current = 0;
-            const duration = 2000;
-            const startTime = performance.now();
-            function step(now) {
-              const progress = Math.min((now - startTime) / duration, 1);
-              const eased = 1 - Math.pow(1 - progress, 4);
-              current = Math.floor(eased * target);
-              el.textContent = current;
-              if (progress < 1) requestAnimationFrame(step);
-            }
-            requestAnimationFrame(step);
-            countObserver.unobserve(el);
+            leafContainer.appendChild(el);
           }
-        });
-      }, { threshold: 0.5 });
-      document.querySelectorAll('.count-up').forEach(el => countObserver.observe(el));
-
-      // ── FAQ Accordion ──
-      document.querySelectorAll('.faq-item').forEach(item => {
-        item.addEventListener('click', () => {
-          const wasOpen = item.classList.contains('open');
-          document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-          if (!wasOpen) item.classList.add('open');
-        });
-      });
-
-      // ── Virtual Assistant ──
-      const vaTrigger = document.getElementById('va-trigger');
-      const vaPopover = document.getElementById('va-popover');
-      const vaClose = document.getElementById('va-close');
-      window.toggleVA = function () { 
-        vaPopover.classList.toggle('open'); 
-        if (!vaPopover.classList.contains('open')) {
-          vaBackToMenu();
         }
-      };
-      vaTrigger.addEventListener('click', toggleVA);
-      vaClose.addEventListener('click', toggleVA);
 
-      const vaMenu = document.getElementById('va-menu-view');
-      const vaContent = document.getElementById('va-content-view');
-      const vaBody = document.getElementById('va-content-body');
+        // ── Count-Up (Quartic Easing) ──
+        const countObserver = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              const el = e.target;
+              const target = parseInt(el.dataset.target);
+              if (isNaN(target)) return;
+              let current = 0;
+              const duration = 2000;
+              const startTime = performance.now();
+              function step(now) {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 4);
+                current = Math.floor(eased * target);
+                el.textContent = current;
+                if (progress < 1) requestAnimationFrame(step);
+              }
+              requestAnimationFrame(step);
+              countObserver.unobserve(el);
+            }
+          });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.count-up').forEach(el => countObserver.observe(el));
 
-      window.vaBackToMenu = function() {
-        vaContent.classList.add('hidden');
-        vaMenu.classList.remove('hidden');
-        vaBody.innerHTML = '';
-      };
+        // ── FAQ Accordion ──
+        document.querySelectorAll('.faq-item').forEach(item => {
+          item.addEventListener('click', () => {
+            const wasOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            if (!wasOpen) item.classList.add('open');
+          });
+        });
 
-      window.askVAQuestion = function(id) {
-        vaMenu.classList.add('hidden');
-        vaContent.classList.remove('hidden');
-        
-        let html = '';
-        if (id === 'what_is_homeo') {
-          html = `
+        // ── Virtual Assistant ──
+        const vaTrigger = document.getElementById('va-trigger');
+        const vaPopover = document.getElementById('va-popover');
+        const vaClose = document.getElementById('va-close');
+        window.toggleVA = function () {
+          vaPopover.classList.toggle('open');
+          if (!vaPopover.classList.contains('open')) {
+            vaBackToMenu();
+          }
+        };
+        vaTrigger.addEventListener('click', toggleVA);
+        vaClose.addEventListener('click', toggleVA);
+
+        const vaMenu = document.getElementById('va-menu-view');
+        const vaContent = document.getElementById('va-content-view');
+        const vaBody = document.getElementById('va-content-body');
+
+        window.vaBackToMenu = function () {
+          vaContent.classList.add('hidden');
+          vaMenu.classList.remove('hidden');
+          vaBody.innerHTML = '';
+        };
+
+        window.askVAQuestion = function (id) {
+          vaMenu.classList.add('hidden');
+          vaContent.classList.remove('hidden');
+
+          let html = '';
+          if (id === 'what_is_homeo') {
+            html = `
             <h4 style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">What is Homeopathy?</h4>
             <p style="margin-bottom:0.75rem;">Homeopathy is a gentle, holistic system of medicine based on the principle of <strong>'like cures like'</strong>. It stimulates the body's natural defense systems to self-heal.</p>
             <p>Our remedies are highly diluted, 100% natural, and customized to your specific emotional and physical constitution.</p>
           `;
-        } else if (id === 'how_to_book') {
-          html = `
+          } else if (id === 'how_to_book') {
+            html = `
             <h4 style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">How do I book?</h4>
             <p style="margin-bottom:0.75rem;">You can book an appointment by clicking the <strong>"Book Appointment"</strong> button above, or by visiting <a href="/appointments.html" style="color:var(--primary); font-weight:600; text-decoration:underline;">our booking page</a>.</p>
             <p>We accept both new and returning patients. Returning patients can easily retrieve their histories using their Patient ID.</p>
           `;
-        } else if (id === 'clinic_hours') {
-          html = `
+          } else if (id === 'clinic_hours') {
+            html = `
             <h4 style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Clinic Hours &amp; Contact</h4>
             <p style="margin-bottom:0.5rem;"><strong>Hours:</strong></p>
             <ul style="margin-bottom:0.75rem; list-style-type:square; padding-left:1.25rem;">
@@ -902,8 +938,8 @@
             <p><strong>Email:</strong> drhiral007@gmail.com</p>
             <p><strong>Phone:</strong> +91 79722 32216</p>
           `;
-        } else if (id === 'report_bug') {
-          html = `
+          } else if (id === 'report_bug') {
+            html = `
             <h4 style="font-weight:700; color:#ef4444; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.25rem;"><span class="material-symbols-outlined" style="font-size:18px;">bug_report</span> Report a Bug</h4>
             <p style="margin-bottom:0.75rem; font-size:0.8rem;">Help us improve. Describe the bug or glitch you encountered below:</p>
             <div class="form-group" style="margin-bottom:0.75rem;">
@@ -913,111 +949,111 @@
               Submit Bug Report
             </button>
           `;
-        }
-        vaBody.innerHTML = html;
-      };
+          }
+          vaBody.innerHTML = html;
+        };
 
-      window.submitVABug = async function() {
-        const desc = document.getElementById('va_bug_desc').value.trim();
-        if (!desc) { toast('Please describe the bug first', 'warning'); return; }
-        try {
-          await API.submitBug(desc);
-          toast('Bug reported successfully! Thank you.', 'success');
-          vaBackToMenu();
-        } catch (e) {
-          toast(e.message, 'error');
-        }
-      };
+        window.submitVABug = async function () {
+          const desc = document.getElementById('va_bug_desc').value.trim();
+          if (!desc) { toast('Please describe the bug first', 'warning'); return; }
+          try {
+            await API.submitBug(desc);
+            toast('Bug reported successfully! Thank you.', 'success');
+            vaBackToMenu();
+          } catch (e) {
+            toast(e.message, 'error');
+          }
+        };
 
-      // ── Floating Particles ──
-      const particlesEl = document.getElementById('particles');
-      if (particlesEl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        for (let i = 0; i < 20; i++) {
-          const p = document.createElement('div');
-          p.className = 'particle';
-          const size = Math.random() * 4 + 2;
-          p.style.cssText = `
+        // ── Floating Particles ──
+        const particlesEl = document.getElementById('particles');
+        if (particlesEl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          for (let i = 0; i < 20; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 4 + 2;
+            p.style.cssText = `
         width:${size}px;height:${size}px;
         left:${Math.random() * 100}%;
         animation-duration:${Math.random() * 20 + 15}s;
         animation-delay:${Math.random() * 10}s;
       `;
-          particlesEl.appendChild(p);
+            particlesEl.appendChild(p);
+          }
         }
-      }
 
-      // ── Tilt Card Effect (desktop only with Parallax depth) ──
-      if (window.innerWidth >= 768) {
-        document.querySelectorAll('.tilt-card').forEach(card => {
-          card.addEventListener('mousemove', e => {
-            const rect = card.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width - 0.5;
-            const y = (e.clientY - rect.top) / rect.height - 0.5;
-            card.style.transform = `perspective(1000px) rotateX(${-y * 12}deg) rotateY(${x * 12}deg) translateZ(10px)`;
-          });
-          card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
-            card.style.transition = 'transform 0.5s ease';
-          });
-          card.addEventListener('mouseenter', () => {
-            card.style.transition = 'transform 0.08s ease';
-          });
-        });
-      }
-
-      // ── Cursor Glow (desktop only) ──
-      if (window.innerWidth >= 768) {
-        const glow = document.createElement('div');
-        glow.style.cssText = 'position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(8,145,178,0.05) 0%,transparent 70%);pointer-events:none;transform:translate(-50%,-50%);z-index:0;transition:opacity 0.3s;';
-        document.body.appendChild(glow);
-        document.addEventListener('mousemove', e => { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px'; }, { passive: true });
-      }
-
-      // ── Ripple on Buttons ──
-      // ── Ripple on Buttons ──
-      document.addEventListener('click', e => {
-        const btn = e.target.closest('.btn');
-        if (!btn) return;
-        const ripple = document.createElement('span');
-        const rect = btn.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        ripple.style.cssText = `position:absolute;width:${size}px;height:${size}px;border-radius:50%;background:rgba(255,255,255,0.2);top:${e.clientY - rect.top - size / 2}px;left:${e.clientX - rect.left - size / 2}px;transform:scale(0);animation:ripple 0.5s ease forwards;pointer-events:none;`;
-        btn.style.position = 'relative';
-        btn.style.overflow = 'hidden';
-        btn.appendChild(ripple);
-        setTimeout(() => ripple.remove(), 600);
-      });
-
-      // ── Patient Reviews & Carousel System ──
-      const track = document.getElementById('reviews-carousel-track');
-      async function loadReviews() {
-        try {
-          let reviews = await API.getReviews();
-          if (track && reviews.length) {
-            // Deduplicate reviews by name (trimmed and lowercase) to ensure unique testimonials
-            const uniqueMap = new Map();
-            reviews.forEach(r => {
-              const key = r.name.trim().toLowerCase();
-              if (!uniqueMap.has(key)) {
-                uniqueMap.set(key, r);
-              }
+        // ── Tilt Card Effect (desktop only with Parallax depth) ──
+        if (window.innerWidth >= 768) {
+          document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+              const rect = card.getBoundingClientRect();
+              const x = (e.clientX - rect.left) / rect.width - 0.5;
+              const y = (e.clientY - rect.top) / rect.height - 0.5;
+              card.style.transform = `perspective(1000px) rotateX(${-y * 12}deg) rotateY(${x * 12}deg) translateZ(10px)`;
             });
-            reviews = Array.from(uniqueMap.values());
+            card.addEventListener('mouseleave', () => {
+              card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+              card.style.transition = 'transform 0.5s ease';
+            });
+            card.addEventListener('mouseenter', () => {
+              card.style.transition = 'transform 0.08s ease';
+            });
+          });
+        }
 
-            let html = '';
-            // Duplicate array for infinite marquee looping (at least 3 repetitions for seamless scroll)
-            const repetitions = reviews.length < 3 ? 4 : 3;
-            const list = [];
-            for (let i = 0; i < repetitions; i++) {
-              list.push(...reviews);
-            }
+        // ── Cursor Glow (desktop only) ──
+        if (window.innerWidth >= 768) {
+          const glow = document.createElement('div');
+          glow.style.cssText = 'position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(8,145,178,0.05) 0%,transparent 70%);pointer-events:none;transform:translate(-50%,-50%);z-index:0;transition:opacity 0.3s;';
+          document.body.appendChild(glow);
+          document.addEventListener('mousemove', e => { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px'; }, { passive: true });
+        }
 
-            list.forEach((r, idx) => {
-              let starsHtml = '';
-              for (let i = 1; i <= 5; i++) {
-                starsHtml += `<span class="material-symbols-outlined" style="font-size:18px; font-variation-settings:'FILL' ${i <= r.rating ? 1 : 0}; color:#F59E0B;">star</span>`;
+        // ── Ripple on Buttons ──
+        // ── Ripple on Buttons ──
+        document.addEventListener('click', e => {
+          const btn = e.target.closest('.btn');
+          if (!btn) return;
+          const ripple = document.createElement('span');
+          const rect = btn.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height);
+          ripple.style.cssText = `position:absolute;width:${size}px;height:${size}px;border-radius:50%;background:rgba(255,255,255,0.2);top:${e.clientY - rect.top - size / 2}px;left:${e.clientX - rect.left - size / 2}px;transform:scale(0);animation:ripple 0.5s ease forwards;pointer-events:none;`;
+          btn.style.position = 'relative';
+          btn.style.overflow = 'hidden';
+          btn.appendChild(ripple);
+          setTimeout(() => ripple.remove(), 600);
+        });
+
+        // ── Patient Reviews & Carousel System ──
+        const track = document.getElementById('reviews-carousel-track');
+        async function loadReviews() {
+          try {
+            let reviews = await API.getReviews();
+            if (track && reviews.length) {
+              // Deduplicate reviews by name (trimmed and lowercase) to ensure unique testimonials
+              const uniqueMap = new Map();
+              reviews.forEach(r => {
+                const key = r.name.trim().toLowerCase();
+                if (!uniqueMap.has(key)) {
+                  uniqueMap.set(key, r);
+                }
+              });
+              reviews = Array.from(uniqueMap.values());
+
+              let html = '';
+              // Duplicate array for infinite marquee looping (at least 3 repetitions for seamless scroll)
+              const repetitions = reviews.length < 3 ? 4 : 3;
+              const list = [];
+              for (let i = 0; i < repetitions; i++) {
+                list.push(...reviews);
               }
-              html += `
+
+              list.forEach((r, idx) => {
+                let starsHtml = '';
+                for (let i = 1; i <= 5; i++) {
+                  starsHtml += `<span class="material-symbols-outlined" style="font-size:18px; font-variation-settings:'FILL' ${i <= r.rating ? 1 : 0}; color:#F59E0B;">star</span>`;
+                }
+                html += `
                 <div class="test-card">
                   <div>
                     <div class="stars" style="margin-bottom:0.75rem">${starsHtml}</div>
@@ -1026,293 +1062,328 @@
                   <div class="test-author" style="font-size:0.85rem; font-weight:600; color:var(--text); border-top:1px solid rgba(255,255,255,0.04); padding-top:0.75rem;">— ${r.name}, ${r.location || 'Anonymous'}</div>
                 </div>
               `;
-            });
-            track.innerHTML = html;
-            // Scale velocity according to length
-            track.style.animationDuration = `${Math.max(reviews.length * 10, 24)}s`;
-          }
-        } catch (e) { console.error('Failed to load reviews:', e); }
-      }
-      loadReviews();
+              });
+              track.innerHTML = html;
+              // Scale velocity according to length
+              track.style.animationDuration = `${Math.max(reviews.length * 10, 24)}s`;
+            }
+          } catch (e) { console.error('Failed to load reviews:', e); }
+        }
+        loadReviews();
 
-      // Star rating interaction inside review modal using robust event delegation
-      document.addEventListener('click', e => {
-        const star = e.target.closest('#rating-stars-wrap .rating-star');
-        if (!star) return;
-        
-        const val = parseInt(star.getAttribute('data-value'));
-        document.getElementById('rev_rating').value = val;
-        
-        const stars = document.querySelectorAll('#rating-stars-wrap .rating-star');
-        stars.forEach(s => {
-          const sVal = parseInt(s.getAttribute('data-value'));
-          if (sVal <= val) {
-            s.classList.add('active');
-          } else {
-            s.classList.remove('active');
-          }
+        // Star rating interaction inside review modal using robust event delegation
+        document.addEventListener('click', e => {
+          const star = e.target.closest('#rating-stars-wrap .rating-star');
+          if (!star) return;
+
+          const val = parseInt(star.getAttribute('data-value'));
+          document.getElementById('rev_rating').value = val;
+
+          const stars = document.querySelectorAll('#rating-stars-wrap .rating-star');
+          stars.forEach(s => {
+            const sVal = parseInt(s.getAttribute('data-value'));
+            if (sVal <= val) {
+              s.classList.add('active');
+            } else {
+              s.classList.remove('active');
+            }
+          });
+        });
+
+        // Submit Review function made globally available
+        window.submitReview = async function () {
+          const name = document.getElementById('rev_name').value.trim();
+          const location = document.getElementById('rev_location').value.trim();
+          const rating = document.getElementById('rev_rating').value;
+          const text = document.getElementById('rev_text').value.trim();
+          if (!name || !location || !text) { toast('Please fill in all fields.', 'warning'); return; }
+          try {
+            await API.addReview({ name, location, rating, text });
+            toast('Thank you for sharing your story!', 'success');
+            closeModal('review-modal');
+            // Reset fields
+            document.getElementById('rev_name').value = '';
+            document.getElementById('rev_location').value = '';
+            document.getElementById('rev_text').value = '';
+            // Reload reviews
+            loadReviews();
+          } catch (e) { toast('Failed to submit review.', 'error'); }
+        };
+
+        // ── Visit Counter & Review Prompt Trigger ──
+        // Increments visit count. If strictly 2, pop review prompt after 3.5s delay
+        const currentVisits = parseInt(localStorage.getItem('hiral_portal_visits') || '0') + 1;
+        localStorage.setItem('hiral_portal_visits', currentVisits);
+        if (currentVisits === 2) {
+          setTimeout(() => {
+            openModal('review-modal');
+          }, 3500);
+        }
+      })();
+    </script>
+
+    <!-- Framer Motion (vanilla JS API) for enhanced scroll animations -->
+    <script type="module">
+      import { animate, inView } from 'https://cdn.jsdelivr.net/npm/motion@11.15.0/+esm';
+
+      // Animate hero items with spring physics on page load
+      inView('.hero', () => {
+        animate('.hero .badge', { opacity: [0, 1], y: [-20, 0] }, { duration: 0.6, easing: [0.22, 1, 0.36, 1] });
+        animate('.hero h1', { opacity: [0, 1], y: [30, 0] }, { delay: 0.12, duration: 0.7, easing: [0.22, 1, 0.36, 1] });
+        animate('.hero-sub', { opacity: [0, 1], y: [20, 0] }, { delay: 0.24, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
+        animate('.hero-actions', { opacity: [0, 1], y: [20, 0] }, { delay: 0.36, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
+        animate('.hero-stats', { opacity: [0, 1], y: [20, 0] }, { delay: 0.48, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
+        animate('.hero-trust', { opacity: [0, 1], y: [20, 0] }, { delay: 0.60, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
+        animate('.doctor-card:not(.hub-card)', { opacity: [0, 1], x: [50, 0], scale: [0.95, 1], rotate: [2, 0] }, { delay: 0.40, duration: 0.8, easing: [0.22, 1, 0.36, 1] });
+        animate('.hub-card', { opacity: [0, 1], x: [50, 0], scale: [0.95, 1], rotate: [-2, 0] }, { delay: 0.52, duration: 0.8, easing: [0.22, 1, 0.36, 1] });
+      });
+
+      // Animate testimonial carousel
+      inView('.carousel-track-wrap', ({ target }) => {
+        animate(target, { opacity: [0, 1], y: [20, 0] }, { duration: 0.8, easing: [0.22, 1, 0.36, 1] });
+      });
+
+      // Animate feature cards with stagger
+      inView('.features-grid', ({ target }) => {
+        target.querySelectorAll('.card').forEach((el, i) => {
+          animate(el, { opacity: [0, 1], y: [30, 0], scale: [0.95, 1] }, { delay: i * 0.08, duration: 0.5, easing: [0.22, 1, 0.36, 1] });
         });
       });
 
-      // Submit Review function made globally available
-      window.submitReview = async function() {
-        const name = document.getElementById('rev_name').value.trim();
-        const location = document.getElementById('rev_location').value.trim();
-        const rating = document.getElementById('rev_rating').value;
-        const text = document.getElementById('rev_text').value.trim();
-        if (!name || !location || !text) { toast('Please fill in all fields.', 'warning'); return; }
-        try {
-          await API.addReview({ name, location, rating, text });
-          toast('Thank you for sharing your story!', 'success');
-          closeModal('review-modal');
-          // Reset fields
-          document.getElementById('rev_name').value = '';
-          document.getElementById('rev_location').value = '';
-          document.getElementById('rev_text').value = '';
-          // Reload reviews
-          loadReviews();
-        } catch (e) { toast('Failed to submit review.', 'error'); }
-      };
-
-      // ── Visit Counter & Review Prompt Trigger ──
-      // Increments visit count. If strictly 2, pop review prompt after 3.5s delay
-      const currentVisits = parseInt(localStorage.getItem('hiral_portal_visits') || '0') + 1;
-      localStorage.setItem('hiral_portal_visits', currentVisits);
-      if (currentVisits === 2) {
-        setTimeout(() => {
-          openModal('review-modal');
-        }, 3500);
-      }
-    })();
-  </script>
-
-  <!-- Framer Motion (vanilla JS API) for enhanced scroll animations -->
-  <script type="module">
-    import { animate, inView } from 'https://cdn.jsdelivr.net/npm/motion@11.15.0/+esm';
-
-    // Animate hero items with spring physics on page load
-    inView('.hero', () => {
-      animate('.hero .badge', { opacity: [0, 1], y: [-20, 0] }, { duration: 0.6, easing: [0.22, 1, 0.36, 1] });
-      animate('.hero h1', { opacity: [0, 1], y: [30, 0] }, { delay: 0.12, duration: 0.7, easing: [0.22, 1, 0.36, 1] });
-      animate('.hero-sub', { opacity: [0, 1], y: [20, 0] }, { delay: 0.24, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
-      animate('.hero-actions', { opacity: [0, 1], y: [20, 0] }, { delay: 0.36, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
-      animate('.hero-stats', { opacity: [0, 1], y: [20, 0] }, { delay: 0.48, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
-      animate('.hero-trust', { opacity: [0, 1], y: [20, 0] }, { delay: 0.60, duration: 0.6, easing: [0.22, 1, 0.36, 1] });
-      animate('.doctor-card:not(.hub-card)', { opacity: [0, 1], x: [50, 0], scale: [0.95, 1], rotate: [2, 0] }, { delay: 0.40, duration: 0.8, easing: [0.22, 1, 0.36, 1] });
-      animate('.hub-card', { opacity: [0, 1], x: [50, 0], scale: [0.95, 1], rotate: [-2, 0] }, { delay: 0.52, duration: 0.8, easing: [0.22, 1, 0.36, 1] });
-    });
-
-    // Animate testimonial carousel
-    inView('.carousel-track-wrap', ({ target }) => {
-      animate(target, { opacity: [0, 1], y: [20, 0] }, { duration: 0.8, easing: [0.22, 1, 0.36, 1] });
-    });
-
-    // Animate feature cards with stagger
-    inView('.features-grid', ({ target }) => {
-      target.querySelectorAll('.card').forEach((el, i) => {
-        animate(el, { opacity: [0, 1], y: [30, 0], scale: [0.95, 1] }, { delay: i * 0.08, duration: 0.5, easing: [0.22, 1, 0.36, 1] });
+      // Animate process steps
+      inView('.process-steps', ({ target }) => {
+        target.querySelectorAll('.step-card').forEach((el, i) => {
+          animate(el, { opacity: [0, 1], x: [-20, 0] }, { delay: i * 0.12, duration: 0.5, easing: [0.22, 1, 0.36, 1] });
+        });
       });
-    });
 
-    // Animate process steps
-    inView('.process-steps', ({ target }) => {
-      target.querySelectorAll('.step-card').forEach((el, i) => {
-        animate(el, { opacity: [0, 1], x: [-20, 0] }, { delay: i * 0.12, duration: 0.5, easing: [0.22, 1, 0.36, 1] });
+      // Animate CTA section
+      inView('.cta-section', ({ target }) => {
+        animate(target, { scale: [0.96, 1], opacity: [0, 1] }, { duration: 0.7, easing: [0.22, 1, 0.36, 1] });
       });
-    });
+    </script>
 
-    // Animate CTA section
-    inView('.cta-section', ({ target }) => {
-      animate(target, { scale: [0.96, 1], opacity: [0, 1] }, { duration: 0.7, easing: [0.22, 1, 0.36, 1] });
-    });
-  </script>
-
-  <!-- MODALS -->
-  <div class="modal-overlay" id="address-modal">
-    <div class="modal-content glass-card"
-      style="position:relative; max-width: 500px; border: 1px solid rgba(255,255,255,0.12); padding: 2.5rem;">
-      <button class="btn-ghost" onclick="closeModal('address-modal')"
-        style="position:absolute; top:1rem; right:1rem; color:var(--text); width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-      <div style="text-align: center; margin-bottom: 1.5rem;">
-        <span class="material-symbols-outlined text-primary"
-          style="font-size: 40px; margin-bottom: 0.5rem; display:block;">location_on</span>
-        <h3 style="font-size:1.3rem;">Homoeopathy Wellness Centre</h3>
-        <p class="text-secondary-c text-sm">Pune, Maharashtra</p>
-      </div>
-      <div
-        style="background:rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem; color:var(--text-secondary); font-size: 0.95rem;">
-        <p style="margin-bottom: 0.5rem;"><strong>📍 Clinic Address:</strong></p>
-        <p style="line-height:1.5;">Todkar Garden, Bibwewadi Kondhwa Rd, above South Indian Bank, Market Yard, Gultekadi, Pune, Maharashtra 411037</p>
-      </div>
-      <a href="https://maps.app.goo.gl/Yokvi6yJY2TKq4aS6?g_st=aw" target="_blank" class="btn btn-primary w-full" style="padding:0.75rem;">
-        <span class="material-symbols-outlined">directions</span>
-        <span>Get Directions on Google Maps</span>
-      </a>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="cert-modal">
-    <div class="modal-content glass-card"
-      style="position:relative; max-width: 600px; border: 1px solid rgba(255,255,255,0.12); padding: 2.5rem; text-align: center;">
-      <button class="btn-ghost" onclick="closeModal('cert-modal')"
-        style="position:absolute; top:1rem; right:1rem; color:var(--text); width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-      <div style="margin-bottom: 1.5rem;">
-        <span class="material-symbols-outlined text-primary"
-          style="font-size: 40px; margin-bottom: 0.5rem; display:block;">workspace_premium</span>
-        <h3 style="font-size:1.3rem;">Verified Medical Credentials</h3>
-        <p class="text-secondary-c text-sm">Dr. Hiral · BHMS (MUHS)</p>
-      </div>
-      <!-- Certificate frame mockup -->
-      <div
-        style="border: 8px double rgba(13, 148, 136, 0.3); padding: 2rem; background: rgba(255,255,255,0.02); border-radius: var(--radius-md); margin-bottom: 1.5rem; position: relative;">
-        <div style="font-family: 'Times New Roman', serif; color: var(--text);">
-          <p
-            style="font-size: 1.3rem; font-weight: bold; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 0.5rem;">
-            CERTIFICATE OF REGISTRATION</p>
-          <p style="font-size: 0.8rem; font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem;">Maharashtra
-            Council of Homoeopathy</p>
-          <p style="font-size: 1rem; margin-bottom: 0.75rem;">This is to certify that</p>
-          <p
-            style="font-size: 1.3rem; font-weight: bold; color: var(--text); border-bottom: 1px solid var(--border); display: inline-block; padding-bottom: 0.25rem; margin-bottom: 1rem;">
-            DR. HIRAL</p>
-          <p
-            style="font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary); max-width: 420px; margin: 0 auto 1.5rem;">
-            has been duly registered under the Maharashtra Homoeopathic Practitioners' Act, 1959, and is authorized to
-            practice Classical Homeopathic Medicine.</p>
-          <div
-            style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; border-top: 1px dashed var(--border); padding-top: 1rem; color: var(--text-muted);">
-            <div>Reg No: <strong>H-49201</strong></div>
-            <div>Council Seal Verified ✓</div>
-          </div>
-        </div>
-      </div>
-      <button class="btn btn-outline w-full" onclick="closeModal('cert-modal')" style="padding:0.75rem;">Close
-        Verification View</button>
-    </div>
-  </div>
-
-  <!-- PATIENT STORY REVIEW MODAL -->
-  <div class="modal-overlay" id="review-modal">
-    <div class="modal-content glass-card" style="position:relative; max-width: 480px; border: 1px solid rgba(255,255,255,0.12); padding: 2.5rem;">
-      <button class="btn-ghost" onclick="closeModal('review-modal')"
-        style="position:absolute; top:1rem; right:1rem; color:var(--text); width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-      <div style="text-align: center; margin-bottom: 1.5rem;">
-        <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(13, 148, 136, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
-          <span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings:'FILL' 1">rate_review</span>
-        </div>
-        <h3 style="font-size: 1.4rem; margin-bottom: 0.25rem;">Share Your Story</h3>
-        <p class="text-secondary-c text-sm">Welcome back! We value your feedback on your healing journey with Dr. Hiral.</p>
-      </div>
-      
-      <div style="display: flex; flex-direction: column; gap: 1rem; text-align: left;">
-        <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
-          <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)">Full Name *</label>
-          <input type="text" id="rev_name" class="form-input" placeholder="e.g. Priya Sharma" style="width:100%; padding:0.6rem 0.85rem; border-radius:var(--radius-md); border:1.5px solid var(--border); background:rgba(255,255,255,0.02); color:var(--text); font-family:var(--font-body); outline:none" required>
-        </div>
-        <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
-          <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)">Location (City) *</label>
-          <input type="text" id="rev_location" class="form-input" placeholder="e.g. Ahmedabad" style="width:100%; padding:0.6rem 0.85rem; border-radius:var(--radius-md); border:1.5px solid var(--border); background:rgba(255,255,255,0.02); color:var(--text); font-family:var(--font-body); outline:none" required>
-        </div>
-        <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
-          <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)">Rating *</label>
-          <div style="display: flex; gap: 0.5rem;" id="rating-stars-wrap">
-            <span class="material-symbols-outlined rating-star active" data-value="1" style="cursor: pointer; font-size:28px;">star</span>
-            <span class="material-symbols-outlined rating-star active" data-value="2" style="cursor: pointer; font-size:28px;">star</span>
-            <span class="material-symbols-outlined rating-star active" data-value="3" style="cursor: pointer; font-size:28px;">star</span>
-            <span class="material-symbols-outlined rating-star active" data-value="4" style="cursor: pointer; font-size:28px;">star</span>
-            <span class="material-symbols-outlined rating-star active" data-value="5" style="cursor: pointer; font-size:28px;">star</span>
-          </div>
-          <input type="hidden" id="rev_rating" value="5">
-        </div>
-        <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
-          <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)">Your Healing Story *</label>
-          <textarea id="rev_text" class="form-input" rows="3" placeholder="How did homeopathy with Dr. Hiral help you?" style="width:100%; padding:0.6rem 0.85rem; border-radius:var(--radius-md); border:1.5px solid var(--border); background:rgba(255,255,255,0.02); color:var(--text); font-family:var(--font-body); outline:none; resize: none;" required></textarea>
-        </div>
-        
-        <button onclick="submitReview()" class="btn btn-primary btn-lg w-full" style="margin-top: 0.5rem; justify-content:center">
-          <span class="material-symbols-outlined" style="font-size:18px">send</span>
-          <span>Submit Story</span>
+    <!-- MODALS -->
+    <div class="modal-overlay" id="address-modal">
+      <div class="modal-content glass-card"
+        style="position:relative; max-width: 500px; border: 1px solid rgba(255,255,255,0.12); padding: 2.5rem;">
+        <button class="btn-ghost" onclick="closeModal('address-modal')"
+          style="position:absolute; top:1rem; right:1rem; color:var(--text); width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+          <span class="material-symbols-outlined">close</span>
         </button>
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <span class="material-symbols-outlined text-primary"
+            style="font-size: 40px; margin-bottom: 0.5rem; display:block;">location_on</span>
+          <h3 style="font-size:1.3rem;">Homoeopathy Wellness Centre</h3>
+          <p class="text-secondary-c text-sm">Pune, Maharashtra</p>
+        </div>
+        <div
+          style="background:rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem; color:var(--text-secondary); font-size: 0.95rem;">
+          <p style="margin-bottom: 0.5rem;"><strong>📍 Clinic Address:</strong></p>
+          <p style="line-height:1.5;">Todkar Garden, Bibwewadi Kondhwa Rd, above South Indian Bank, Market Yard,
+            Gultekadi, Pune, Maharashtra 411037</p>
+        </div>
+        <a href="https://maps.app.goo.gl/Yokvi6yJY2TKq4aS6?g_st=aw" target="_blank" class="btn btn-primary w-full"
+          style="padding:0.75rem;">
+          <span class="material-symbols-outlined">directions</span>
+          <span>Get Directions on Google Maps</span>
+        </a>
       </div>
     </div>
-  </div>
 
-  <style>
-    @keyframes ripple {
-      to {
-        transform: scale(2.5);
-        opacity: 0
-      }
-    }
-    @keyframes slideInUp {
-      from {
-        transform: translateY(40px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-    @media (max-width: 480px) {
-      #cookie-consent {
-        bottom: 1rem !important;
-        left: 1rem !important;
-        width: calc(100% - 2rem) !important;
-        max-width: none !important;
-        padding: 1rem !important;
-      }
-    }
-  </style>
-
-  <!-- COOKIE CONSENT BANNER -->
-  <div id="cookie-consent" style="display: none; position: fixed; bottom: 2rem; left: 2rem; z-index: 10000; max-width: 400px; width: calc(100% - 4rem); background: var(--glass); backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 1.25rem; transition: transform 0.4s ease, opacity 0.4s ease; animation: slideInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;">
-    <div style="display: flex; gap: 0.75rem; align-items: flex-start; margin-bottom: 1rem;">
-      <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(13, 148, 136, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-        <span class="material-symbols-outlined" style="font-size: 20px;">cookie</span>
-      </div>
-      <div>
-        <h4 style="font-size: 0.92rem; font-weight: 600; color: var(--text); margin-bottom: 0.15rem;">We Value Your Privacy</h4>
-        <p style="font-size: 0.76rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
-          We use essential cookies to maintain secure sessions and keep the scheduling system working. Review our 
-          <a href="/privacy.html" target="_blank" style="color: var(--primary); text-decoration: underline; font-weight: 600;">Privacy Policy</a>.
-        </p>
+    <div class="modal-overlay" id="cert-modal">
+      <div class="modal-content glass-card"
+        style="position:relative; max-width: 600px; border: 1px solid rgba(255,255,255,0.12); padding: 2.5rem; text-align: center;">
+        <button class="btn-ghost" onclick="closeModal('cert-modal')"
+          style="position:absolute; top:1rem; right:1rem; color:var(--text); width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+        <div style="margin-bottom: 1.5rem;">
+          <span class="material-symbols-outlined text-primary"
+            style="font-size: 40px; margin-bottom: 0.5rem; display:block;">workspace_premium</span>
+          <h3 style="font-size:1.3rem;">Verified Medical Credentials</h3>
+          <p class="text-secondary-c text-sm">Dr. Hiral · BHMS (MUHS)</p>
+        </div>
+        <!-- Certificate frame mockup -->
+        <div
+          style="border: 8px double rgba(13, 148, 136, 0.3); padding: 2rem; background: rgba(255,255,255,0.02); border-radius: var(--radius-md); margin-bottom: 1.5rem; position: relative;">
+          <div style="font-family: 'Times New Roman', serif; color: var(--text);">
+            <p
+              style="font-size: 1.3rem; font-weight: bold; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 0.5rem;">
+              CERTIFICATE OF REGISTRATION</p>
+            <p style="font-size: 0.8rem; font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem;">
+              Maharashtra
+              Council of Homoeopathy</p>
+            <p style="font-size: 1rem; margin-bottom: 0.75rem;">This is to certify that</p>
+            <p
+              style="font-size: 1.3rem; font-weight: bold; color: var(--text); border-bottom: 1px solid var(--border); display: inline-block; padding-bottom: 0.25rem; margin-bottom: 1rem;">
+              DR. HIRAL</p>
+            <p
+              style="font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary); max-width: 420px; margin: 0 auto 1.5rem;">
+              has been duly registered under the Maharashtra Homoeopathic Practitioners' Act, 1959, and is authorized to
+              practice Classical Homeopathic Medicine.</p>
+            <div
+              style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; border-top: 1px dashed var(--border); padding-top: 1rem; color: var(--text-muted);">
+              <div>Reg No: <strong>H-49201</strong></div>
+              <div>Council Seal Verified ✓</div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-outline w-full" onclick="closeModal('cert-modal')" style="padding:0.75rem;">Close
+          Verification View</button>
       </div>
     </div>
-    <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
-      <button onclick="dismissCookieConsent(false)" class="btn btn-ghost btn-sm" style="font-size: 0.75rem; padding: 0.35rem 0.85rem; cursor: pointer; color: var(--text-secondary);">Reject</button>
-      <button onclick="dismissCookieConsent(true)" class="btn btn-primary btn-sm" style="font-size: 0.75rem; padding: 0.35rem 1rem; cursor: pointer; background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);">Accept All</button>
+
+    <!-- PATIENT STORY REVIEW MODAL -->
+    <div class="modal-overlay" id="review-modal">
+      <div class="modal-content glass-card"
+        style="position:relative; max-width: 480px; border: 1px solid rgba(255,255,255,0.12); padding: 2.5rem;">
+        <button class="btn-ghost" onclick="closeModal('review-modal')"
+          style="position:absolute; top:1rem; right:1rem; color:var(--text); width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <div
+            style="width: 60px; height: 60px; border-radius: 50%; background: rgba(13, 148, 136, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+            <span class="material-symbols-outlined"
+              style="font-size: 32px; font-variation-settings:'FILL' 1">rate_review</span>
+          </div>
+          <h3 style="font-size: 1.4rem; margin-bottom: 0.25rem;">Share Your Story</h3>
+          <p class="text-secondary-c text-sm">Welcome back! We value your feedback on your healing journey with Dr.
+            Hiral.</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 1rem; text-align: left;">
+          <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
+            <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)">Full Name
+              *</label>
+            <input type="text" id="rev_name" class="form-input" placeholder="e.g. Priya Sharma"
+              style="width:100%; padding:0.6rem 0.85rem; border-radius:var(--radius-md); border:1.5px solid var(--border); background:rgba(255,255,255,0.02); color:var(--text); font-family:var(--font-body); outline:none"
+              required>
+          </div>
+          <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
+            <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)">Location
+              (City) *</label>
+            <input type="text" id="rev_location" class="form-input" placeholder="e.g. Ahmedabad"
+              style="width:100%; padding:0.6rem 0.85rem; border-radius:var(--radius-md); border:1.5px solid var(--border); background:rgba(255,255,255,0.02); color:var(--text); font-family:var(--font-body); outline:none"
+              required>
+          </div>
+          <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
+            <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)">Rating
+              *</label>
+            <div style="display: flex; gap: 0.5rem;" id="rating-stars-wrap">
+              <span class="material-symbols-outlined rating-star active" data-value="1"
+                style="cursor: pointer; font-size:28px;">star</span>
+              <span class="material-symbols-outlined rating-star active" data-value="2"
+                style="cursor: pointer; font-size:28px;">star</span>
+              <span class="material-symbols-outlined rating-star active" data-value="3"
+                style="cursor: pointer; font-size:28px;">star</span>
+              <span class="material-symbols-outlined rating-star active" data-value="4"
+                style="cursor: pointer; font-size:28px;">star</span>
+              <span class="material-symbols-outlined rating-star active" data-value="5"
+                style="cursor: pointer; font-size:28px;">star</span>
+            </div>
+            <input type="hidden" id="rev_rating" value="5">
+          </div>
+          <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
+            <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)">Your
+              Healing Story *</label>
+            <textarea id="rev_text" class="form-input" rows="3"
+              placeholder="How did homeopathy with Dr. Hiral help you?"
+              style="width:100%; padding:0.6rem 0.85rem; border-radius:var(--radius-md); border:1.5px solid var(--border); background:rgba(255,255,255,0.02); color:var(--text); font-family:var(--font-body); outline:none; resize: none;"
+              required></textarea>
+          </div>
+
+          <button onclick="submitReview()" class="btn btn-primary btn-lg w-full"
+            style="margin-top: 0.5rem; justify-content:center">
+            <span class="material-symbols-outlined" style="font-size:18px">send</span>
+            <span>Submit Story</span>
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      if (!localStorage.getItem('cookie_consent')) {
-        setTimeout(() => {
-          const banner = document.getElementById('cookie-consent');
-          if (banner) banner.style.display = 'block';
-        }, 1500);
+    <style>
+      @keyframes ripple {
+        to {
+          transform: scale(2.5);
+          opacity: 0
+        }
       }
-    });
 
-    window.dismissCookieConsent = function(accepted) {
-      const banner = document.getElementById('cookie-consent');
-      if (banner) {
-        banner.style.transform = 'translateY(30px)';
-        banner.style.opacity = '0';
-        setTimeout(() => banner.remove(), 400);
+      @keyframes slideInUp {
+        from {
+          transform: translateY(40px);
+          opacity: 0;
+        }
+
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
       }
-      localStorage.setItem('cookie_consent', accepted ? 'accepted' : 'rejected');
-      if (accepted) {
-        toast('Cookie preferences saved successfully!', 'success');
+
+      @media (max-width: 480px) {
+        #cookie-consent {
+          bottom: 1rem !important;
+          left: 1rem !important;
+          width: calc(100% - 2rem) !important;
+          max-width: none !important;
+          padding: 1rem !important;
+        }
       }
-    };
-  </script>
+    </style>
+
+    <!-- COOKIE CONSENT BANNER -->
+    <div id="cookie-consent"
+      style="display: none; position: fixed; bottom: 2rem; left: 2rem; z-index: 10000; max-width: 400px; width: calc(100% - 4rem); background: var(--glass); backdrop-filter: blur(24px); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 1.25rem; transition: transform 0.4s ease, opacity 0.4s ease; animation: slideInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;">
+      <div style="display: flex; gap: 0.75rem; align-items: flex-start; margin-bottom: 1rem;">
+        <div
+          style="width: 40px; height: 40px; border-radius: 50%; background: rgba(13, 148, 136, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <span class="material-symbols-outlined" style="font-size: 20px;">cookie</span>
+        </div>
+        <div>
+          <h4 style="font-size: 0.92rem; font-weight: 600; color: var(--text); margin-bottom: 0.15rem;">We Value Your
+            Privacy</h4>
+          <p style="font-size: 0.76rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+            We use essential cookies to maintain secure sessions and keep the scheduling system working. Review our
+            <a href="/privacy.html" target="_blank"
+              style="color: var(--primary); text-decoration: underline; font-weight: 600;">Privacy Policy</a>.
+          </p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+        <button onclick="dismissCookieConsent(false)" class="btn btn-ghost btn-sm"
+          style="font-size: 0.75rem; padding: 0.35rem 0.85rem; cursor: pointer; color: var(--text-secondary);">Reject</button>
+        <button onclick="dismissCookieConsent(true)" class="btn btn-primary btn-sm"
+          style="font-size: 0.75rem; padding: 0.35rem 1rem; cursor: pointer; background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);">Accept
+          All</button>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        if (!localStorage.getItem('cookie_consent')) {
+          setTimeout(() => {
+            const banner = document.getElementById('cookie-consent');
+            if (banner) banner.style.display = 'block';
+          }, 1500);
+        }
+      });
+
+      window.dismissCookieConsent = function (accepted) {
+        const banner = document.getElementById('cookie-consent');
+        if (banner) {
+          banner.style.transform = 'translateY(30px)';
+          banner.style.opacity = '0';
+          setTimeout(() => banner.remove(), 400);
+        }
+        localStorage.setItem('cookie_consent', accepted ? 'accepted' : 'rejected');
+        if (accepted) {
+          toast('Cookie preferences saved successfully!', 'success');
+        }
+      };
+    </script>
 </body>
+
 </html>
