@@ -151,6 +151,7 @@ function initSQLite() {
     const sqlite3 = require('sqlite3').verbose();
     console.log(`🔌 Initialising local SQLite database at: ${dbPath}`);
     sqliteDb = new sqlite3.Database(dbPath);
+    sqliteDb.run('PRAGMA foreign_keys = ON;');
     
     sqliteDb.serialize(() => {
       sqliteDb.run(`
@@ -237,7 +238,7 @@ function initSQLite() {
       sqliteDb.run(`
         CREATE TABLE IF NOT EXISTS patient_documents (
           id          INTEGER PRIMARY KEY AUTOINCREMENT,
-          patient_id  TEXT NOT NULL,
+          patient_id  TEXT NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
           doc_name    TEXT NOT NULL,
           file_path   TEXT NOT NULL,
           uploaded_by TEXT NOT NULL,
@@ -462,6 +463,29 @@ async function queryFirestore(text, params = []) {
     if (params.length) {
       const docId = params[0];
       await firestore.collection(tableName).doc(docId).delete();
+      
+      // Cascade delete related records if deleting a patient in Firestore
+      if (tableName === 'patients') {
+        const batch = firestore.batch();
+        
+        // Delete all timeline entries for this patient
+        const timelineSnap = await firestore.collection('timeline').where('patient_id', '==', docId).get();
+        timelineSnap.docs.forEach(doc => batch.delete(doc.ref));
+        
+        // Delete all prescriptions for this patient
+        const prescriptionsSnap = await firestore.collection('prescriptions').where('patient_id', '==', docId).get();
+        prescriptionsSnap.docs.forEach(doc => batch.delete(doc.ref));
+        
+        // Delete all documents for this patient
+        const documentsSnap = await firestore.collection('patient_documents').where('patient_id', '==', docId).get();
+        documentsSnap.docs.forEach(doc => batch.delete(doc.ref));
+        
+        // Update all appointments: set patient_id to null (equivalent to ON DELETE SET NULL)
+        const apptsSnap = await firestore.collection('appointments').where('patient_id', '==', docId).get();
+        apptsSnap.docs.forEach(doc => batch.update(doc.ref, { patient_id: null }));
+        
+        await batch.commit();
+      }
     }
     return { rows: [] };
   }
