@@ -1193,7 +1193,7 @@
 
     <div class="modal-overlay" id="cert-modal">
       <div class="modal-content glass-card"
-        style="position:relative; max-width: 600px; border: 1px solid rgba(255,255,255,0.12); padding: 2.5rem; text-align: center;">
+        style="position:relative; max-width: 450px; border: 1px solid rgba(255,255,255,0.12); padding: 2.5rem; text-align: center;">
         <button class="btn-ghost" onclick="closeModal('cert-modal')"
           style="position:absolute; top:1rem; right:1rem; color:var(--text); width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
           <span class="material-symbols-outlined">close</span>
@@ -1204,33 +1204,16 @@
           <h3 style="font-size:1.3rem;">Verified Medical Credentials</h3>
           <p class="text-secondary-c text-sm">Dr. Hiral · BHMS (MUHS)</p>
         </div>
-        <!-- Certificate frame mockup -->
-        <div
-          style="border: 8px double rgba(13, 148, 136, 0.3); padding: 2rem; background: rgba(255,255,255,0.02); border-radius: var(--radius-md); margin-bottom: 1.5rem; position: relative;">
-          <div style="font-family: 'Times New Roman', serif; color: var(--text);">
-            <p
-              style="font-size: 1.3rem; font-weight: bold; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 0.5rem;">
-              CERTIFICATE OF REGISTRATION</p>
-            <p style="font-size: 0.8rem; font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem;">
-              Maharashtra
-              Council of Homoeopathy</p>
-            <p style="font-size: 1rem; margin-bottom: 0.75rem;">This is to certify that</p>
-            <p
-              style="font-size: 1.3rem; font-weight: bold; color: var(--text); border-bottom: 1px solid var(--border); display: inline-block; padding-bottom: 0.25rem; margin-bottom: 1rem;">
-              DR. HIRAL</p>
-            <p
-              style="font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary); max-width: 420px; margin: 0 auto 1.5rem;">
-              has been duly registered under the Maharashtra Homoeopathic Practitioners' Act, 1959, and is authorized to
-              practice Classical Homeopathic Medicine.</p>
-            <div
-              style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; border-top: 1px dashed var(--border); padding-top: 1rem; color: var(--text-muted);">
-              <div>Reg No: <strong>H-49201</strong></div>
-              <div>Council Seal Verified ✓</div>
-            </div>
-          </div>
+        <!-- Verification QR Code -->
+        <div style="background:rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.5rem; display: flex; flex-direction: column; align-items: center;">
+          <img src="/images/verify-qr.png" alt="Verification QR Code" style="width: 200px; height: 200px; object-fit: contain; margin-bottom: 1rem; border-radius: 8px; border: 1px solid var(--border);">
+          <p class="text-sm text-secondary-c" style="line-height: 1.5; max-width: 280px; margin: 0 auto 0.5rem;">Scan this QR code or click the button below to verify doctor registration credentials directly.</p>
         </div>
-        <button class="btn btn-outline w-full" onclick="closeModal('cert-modal')" style="padding:0.75rem;">Close
-          Verification View</button>
+        <a href="https://digikyd.com/bY9d" target="_blank" class="btn btn-primary w-full" style="padding:0.75rem; margin-bottom: 0.75rem; justify-content: center; text-decoration: none;">
+          <span class="material-symbols-outlined" style="font-size:18px; margin-right: 4px;">verified</span>
+          <span>Verify Doctor on digiKYD</span>
+        </a>
+        <button class="btn btn-outline w-full" onclick="closeModal('cert-modal')" style="padding:0.75rem;">Close Verification View</button>
       </div>
     </div>
 
