@@ -509,6 +509,11 @@
       </div>
 
       <div class="form-group">
+        <label class="form-label">Abbreviation</label>
+        <input class="form-input" id="stock_abbreviation" placeholder="e.g. Nux V., Bell.">
+      </div>
+
+      <div class="form-group">
         <label class="form-label">Potency</label>
         <select class="form-input" id="stock_potency">
           <option value="Ø">Ø (Mother Tincture)</option>
@@ -1075,6 +1080,7 @@ async function loadStock(q=''){
             <tr style="border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02);">
               <th style="padding: 0.75rem 1rem; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); width: 60px; text-align: center;">S.No</th>
               <th style="padding: 0.75rem 1rem; font-size: 0.75rem; font-weight: 600; color: var(--text-muted);">Medicine Name</th>
+              <th style="padding: 0.75rem 1rem; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); width: 140px;">Abbreviation</th>
               <th style="padding: 0.75rem 1rem; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); width: 120px;">Potency</th>
               <th style="padding: 0.75rem 1rem; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); width: 150px;">Quantity</th>
               <th style="padding: 0.75rem 1rem; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-align: right; width: 240px;">Actions</th>
@@ -1085,6 +1091,7 @@ async function loadStock(q=''){
               <tr style="border-bottom: 1px solid rgba(255,255,255,0.03); transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.01)'" onmouseout="this.style.background='transparent'">
                 <td style="padding: 0.75rem 1rem; text-align: center; color: var(--text-muted); font-weight: 500;">${idx + 1}</td>
                 <td style="padding: 0.75rem 1rem; font-weight: 600; color: var(--text);">${s.name}</td>
+                <td style="padding: 0.75rem 1rem; color: var(--text-secondary); font-style: italic;">${s.abbreviation || '—'}</td>
                 <td style="padding: 0.75rem 1rem;"><span class="badge badge-primary" style="font-size:0.7rem; text-transform:uppercase;">${s.potency}</span></td>
                 <td style="padding: 0.75rem 1rem; font-weight: 600; color: var(--primary);">${s.qty} <span style="font-size:0.75rem; font-weight:500; color:var(--text-secondary); text-transform:lowercase;">${s.unit || 'grams'}</span></td>
                 <td style="padding: 0.75rem 1rem; text-align: right;">
@@ -1116,6 +1123,7 @@ function openStockModal(item) {
     document.getElementById('stockModalTitle').textContent = 'Edit Stock Medicine';
     document.getElementById('stock_id').value = item.id;
     document.getElementById('stock_name').value = item.name;
+    document.getElementById('stock_abbreviation').value = item.abbreviation || '';
     document.getElementById('stock_potency').value = item.potency || '30C';
     document.getElementById('stock_qty').value = item.qty;
     document.getElementById('stock_unit').value = item.unit || 'grams';
@@ -1123,6 +1131,7 @@ function openStockModal(item) {
     document.getElementById('stockModalTitle').textContent = 'Add Medicine Stock';
     document.getElementById('stockForm').reset();
     document.getElementById('stock_id').value = '';
+    document.getElementById('stock_abbreviation').value = '';
     document.getElementById('stock_potency').value = '30C';
     document.getElementById('stock_unit').value = 'grams';
   }
@@ -1144,6 +1153,7 @@ async function saveStock(e) {
   const id = document.getElementById('stock_id').value;
   const data = {
     name: document.getElementById('stock_name').value.trim(),
+    abbreviation: document.getElementById('stock_abbreviation').value.trim(),
     potency: document.getElementById('stock_potency').value,
     qty: parseFloat(document.getElementById('stock_qty').value) || 0,
     unit: document.getElementById('stock_unit').value

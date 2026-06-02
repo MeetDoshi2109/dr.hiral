@@ -56,6 +56,7 @@ if (usePostgres) {
             CREATE TABLE IF NOT EXISTS medicine_stock (
               id            SERIAL PRIMARY KEY,
               name          TEXT NOT NULL,
+              abbreviation  TEXT,
               potency       TEXT,
               qty           REAL DEFAULT 0,
               unit          TEXT DEFAULT 'grams',
@@ -63,6 +64,9 @@ if (usePostgres) {
               updated_at    TIMESTAMPTZ DEFAULT NOW()
             )
           `);
+        })
+        .then(() => {
+          return pgPool.query("ALTER TABLE medicine_stock ADD COLUMN IF NOT EXISTS abbreviation TEXT");
         })
         .then(() => {
           return pgPool.query('SELECT COUNT(*) FROM patients');
@@ -292,6 +296,7 @@ function initSQLite() {
         CREATE TABLE IF NOT EXISTS medicine_stock (
           id            INTEGER PRIMARY KEY AUTOINCREMENT,
           name          TEXT NOT NULL,
+          abbreviation  TEXT,
           potency       TEXT,
           qty           REAL DEFAULT 0,
           unit          TEXT DEFAULT 'grams',
@@ -299,6 +304,10 @@ function initSQLite() {
           updated_at    TEXT DEFAULT CURRENT_TIMESTAMP
         )
       `);
+
+      sqliteDb.run("ALTER TABLE medicine_stock ADD COLUMN abbreviation TEXT", (err) => {
+        // Ignore error if column already exists
+      });
 
       sqliteDb.get("SELECT COUNT(*) as count FROM patients", (err, row) => {
         if (err) return;

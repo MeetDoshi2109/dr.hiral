@@ -115,6 +115,7 @@ CREATE TABLE IF NOT EXISTS patient_documents (
 CREATE TABLE IF NOT EXISTS medicine_stock (
   id            SERIAL PRIMARY KEY,
   name          TEXT NOT NULL,
+  abbreviation  TEXT,
   potency       TEXT,
   qty           REAL DEFAULT 0,
   unit          TEXT DEFAULT 'grams',
