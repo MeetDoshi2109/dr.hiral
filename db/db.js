@@ -48,7 +48,7 @@ if (usePostgres) {
       const schemaSql = fs.readFileSync(schemaPath, 'utf8');
       pgPool.query(schemaSql)
         .then(() => {
-          console.log('✅ PostgreSQL (Supabase) schema and seed verified successfully!');
+          console.log('✅ PostgreSQL (Supabase) schema verified successfully!');
           return pgPool.query("ALTER TABLE appointments ADD COLUMN IF NOT EXISTS mode TEXT DEFAULT 'offline'");
         })
         .then(() => {
@@ -63,6 +63,41 @@ if (usePostgres) {
               updated_at    TIMESTAMPTZ DEFAULT NOW()
             )
           `);
+        })
+        .then(() => {
+          return pgPool.query('SELECT COUNT(*) FROM patients');
+        })
+        .then((res) => {
+          const count = parseInt(res.rows[0].count);
+          if (count === 0) {
+            console.log('🔄 PostgreSQL database is blank. Seeding demo patients, timeline entries, and reviews...');
+            return pgPool.query(`
+              INSERT INTO patients (id, name, age, gender, phone, email, blood_group, address, chief_complaint, history, notes)
+              VALUES
+                ('PAT-DEMO001','Priya Sharma',32,'Female','9876543210','priya@email.com','O+','12, Rose Lane, Ahmedabad','Chronic Migraine','Recurring migraines for 5 years, worse in summers','Responds well to Belladonna 30'),
+                ('PAT-DEMO002','Rajesh Patel',45,'Male','9765432109','rajesh@email.com','A+','34, Shanti Nagar, Surat','Rheumatoid Arthritis','Joint pain and stiffness, aggravated in cold weather','Rhus Tox works well'),
+                ('PAT-DEMO003','Anita Desai',28,'Female','9654321098','anita@email.com','B+','7, Gandhi Road, Vadodara','Anxiety & Insomnia','Severe anxiety attacks, work stress','Aconite and Ignatia alternating')
+              ON CONFLICT (id) DO NOTHING;
+
+              INSERT INTO timeline (patient_id, visit_date, note, remedy, potency)
+              VALUES
+                ('PAT-DEMO001','2025-01-15','Initial consultation. Started Belladonna 30.','Belladonna','30C'),
+                ('PAT-DEMO001','2025-02-10','Significant improvement. Reduced frequency.','Nat Mur','200C'),
+                ('PAT-DEMO001','2025-04-20','Follow-up. Continuing treatment.','Belladonna','30C'),
+                ('PAT-DEMO002','2025-02-01','First visit. Severe stiffness.','Rhus Tox','30C'),
+                ('PAT-DEMO002','2025-03-15','Marked improvement.','Rhus Tox','200C'),
+                ('PAT-DEMO003','2025-03-10','Initial visit. Panic attacks.','Aconite','200C'),
+                ('PAT-DEMO003','2025-04-25','Much calmer. Sleeping better.','Ignatia','30C')
+              ON CONFLICT DO NOTHING;
+
+              INSERT INTO reviews (name, rating, text, location)
+              VALUES
+                ('Priya Sharma', 5, 'Dr. Hiral cured my 7-year chronic migraine in just 3 months. No side effects. I recommend her to everyone!', 'Ahmedabad'),
+                ('Rajesh Patel', 5, 'The QR code system is brilliant. I can see all my records and prescriptions anytime I want.', 'Surat'),
+                ('Anita Desai', 5, 'My anxiety is completely gone after 4 months. She truly listens and finds the root cause.', 'Vadodara')
+              ON CONFLICT DO NOTHING;
+            `);
+          }
         })
         .catch(err => {
           console.error('⚠️ Warning during PostgreSQL schema initialization:', err.message);
