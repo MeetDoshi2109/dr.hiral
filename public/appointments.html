@@ -397,20 +397,35 @@
   }
 
   // Time slots
-  const slots = ['09:00','09:30','10:00','10:30','11:00','11:30','12:00','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00'];
+  const slots = ['10:00','10:30','11:00','11:30','12:00','19:30','20:00','20:30','21:00','21:30'];
   const sc = document.getElementById('timeSlots');
   
   function updateTimeSlots() {
     sc.innerHTML = '';
     const selectedDateStr = document.getElementById('af_date').value;
-    const todayStr = new Date().toISOString().split('T')[0];
+    if (!selectedDateStr) return;
     
+    // Check if Sunday
+    const selectedDate = new Date(selectedDateStr);
+    if (selectedDate.getDay() === 0) {
+      sc.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--danger); font-weight: 600; padding: 1rem 0;">Closed on Sundays. Please select a different date.</div>';
+      return;
+    }
+    
+    const todayStr = new Date().toISOString().split('T')[0];
     const now = new Date();
     const currentHr = now.getHours();
     const currentMin = now.getMinutes();
 
     slots.forEach(s => {
-      const d = document.createElement('div'); d.className = 'time-slot'; d.textContent = s;
+      const d = document.createElement('div'); d.className = 'time-slot';
+      
+      // format HH:MM to 12-hour format for display
+      const [hr, min] = s.split(':').map(Number);
+      const ampm = hr >= 12 ? 'PM' : 'AM';
+      const hr12 = hr % 12 === 0 ? 12 : hr % 12;
+      const formattedTime = `${hr12}:${min.toString().padStart(2, '0')} ${ampm}`;
+      d.textContent = formattedTime;
       
       let isPast = false;
       if (selectedDateStr === todayStr) {
@@ -437,10 +452,25 @@
     });
   }
 
-  const todayStr = new Date().toISOString().split('T')[0];
-  document.getElementById('af_date').min = todayStr;
+  let today = new Date();
+  if (today.getDay() === 0) {
+    today.setDate(today.getDate() + 1);
+  }
+  const todayStr = today.toISOString().split('T')[0];
+  document.getElementById('af_date').min = new Date().toISOString().split('T')[0];
   document.getElementById('af_date').value = todayStr;
   document.getElementById('af_date').addEventListener('change', () => {
+    const selectedDateStr = document.getElementById('af_date').value;
+    if (selectedDateStr) {
+      const selectedDate = new Date(selectedDateStr);
+      if (selectedDate.getDay() === 0) {
+        toast('Closed on Sundays. Please select a different date.', 'warning');
+        document.getElementById('af_date').value = '';
+        document.getElementById('af_time').value = '';
+        updateTimeSlots();
+        return;
+      }
+    }
     document.getElementById('af_time').value = '';
     updateTimeSlots();
   });
