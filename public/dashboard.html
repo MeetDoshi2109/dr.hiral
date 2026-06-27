@@ -1648,6 +1648,40 @@ async function pollPendingAppointments() {
     
     lastPendingCount = currentPendingCount;
     isFirstPoll = false;
+
+    // Check upcoming accepted appointments today (Alert both Doctor/Receptionist)
+    const allAppts = await API.getAppointments({ status: 'accepted' });
+    const todayStr = new Date().toISOString().split('T')[0];
+    const todayAppts = allAppts.filter(a => a.appt_date === todayStr);
+    
+    if (!window.notifiedUpcomingAppts) {
+      window.notifiedUpcomingAppts = new Set();
+    }
+    
+    todayAppts.forEach(a => {
+      if (!window.notifiedUpcomingAppts.has(a.id)) {
+        const now = new Date();
+        const [h, m] = a.appt_time.split(':').map(Number);
+        const apptTime = new Date();
+        apptTime.setHours(h, m, 0, 0);
+        
+        const diffMin = (apptTime - now) / (1000 * 60);
+        // Alert if the appointment is starting in the next 30 minutes
+        if (diffMin > 0 && diffMin <= 30) {
+          if ('Notification' in window && Notification.permission === 'granted') {
+            try {
+              new Notification('Upcoming Appointment Alert', {
+                body: `${a.patient_name} has an appointment scheduled at ${a.appt_time} (in ${Math.round(diffMin)} minutes).`,
+                icon: '/images/logo.svg'
+              });
+            } catch (e) {}
+          }
+          toast(`Upcoming appointment with ${a.patient_name} at ${a.appt_time}!`, 'warning');
+          window.notifiedUpcomingAppts.add(a.id);
+        }
+      }
+    });
+
   } catch (e) {
     console.error('Error polling appointments:', e);
   }

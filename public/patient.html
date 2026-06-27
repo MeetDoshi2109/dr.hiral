@@ -170,6 +170,11 @@
     }
   }
 
+  // Request notification permission silently
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+
   // Auto-lookup from URL ?pid= or LocalStorage
   const pid = new URLSearchParams(location.search).get('pid') || localStorage.getItem('my_patient_id');
   if (pid) { document.getElementById('pidInput').value = pid; lookupPatient(); }
@@ -219,6 +224,35 @@ async function renderPatient(p) {
   try {
     appts = await API.getAppointments({ patient_id: p.id });
   } catch(e) {}
+
+  // Patient Upcoming Appointment Alerts today
+  const todayStr = new Date().toISOString().split('T')[0];
+  const todayAppts = appts.filter(a => a.status === 'accepted' && a.appt_date === todayStr);
+  if (todayAppts.length) {
+    todayAppts.forEach(a => {
+      const lastNotified = localStorage.getItem('last_notified_today_appt_' + a.id);
+      if (!lastNotified) {
+        const now = new Date();
+        const [h, m] = a.appt_time.split(':').map(Number);
+        const apptTime = new Date();
+        apptTime.setHours(h, m, 0, 0);
+        
+        const diffMin = (apptTime - now) / (1000 * 60);
+        if (diffMin > 0 && diffMin <= 60) {
+          if ('Notification' in window && Notification.permission === 'granted') {
+            try {
+              new Notification('Upcoming Appointment Reminder', {
+                body: `Reminder: You have an appointment with Dr. Hiral today at ${a.appt_time} (in ${Math.round(diffMin)} minutes).`,
+                icon: '/images/logo.svg'
+              });
+            } catch (e) {}
+          }
+          toast(`Upcoming appointment today at ${a.appt_time}!`, 'info');
+          localStorage.setItem('last_notified_today_appt_' + a.id, 'true');
+        }
+      }
+    });
+  }
 
   // Fetch documents
   let docs = [];
