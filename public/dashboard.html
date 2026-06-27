@@ -125,8 +125,8 @@
       <label class="form-label">Password</label>
       <input type="password" id="pwdInput" class="form-input" placeholder="Enter password" autocomplete="off">
     </div>
-    <button class="btn btn-primary btn-lg w-full" onclick="doLogin()">Unlock as Doctor</button>
-    <button class="btn btn-outline btn-lg w-full" style="margin-top: 0.75rem; justify-content: center; border: 1.5px solid rgba(8, 145, 178, 0.4); color: var(--primary); background: rgba(8, 145, 178, 0.02);" onclick="doLogin()">Unlock as Receptionist</button>
+    <button class="btn btn-primary btn-lg w-full" onclick="doLogin('doctor')">Unlock as Doctor</button>
+    <button class="btn btn-outline btn-lg w-full" style="margin-top: 0.75rem; justify-content: center; border: 1.5px solid rgba(8, 145, 178, 0.4); color: var(--primary); background: rgba(8, 145, 178, 0.02);" onclick="doLogin('receptionist')">Unlock as Receptionist</button>
     <p id="loginErr" class="text-xs mt-sm hidden" style="color:#EF4444">Invalid password</p>
   </div>
 </div>
@@ -674,7 +674,7 @@ let rejectId='';
 let userRole = null;
 
 async function checkAuth(){try{const s=await API.status();if(s.loggedIn){userRole=s.role;showDash();return}}catch(e){}document.getElementById('loginView').classList.remove('hidden')}
-async function doLogin(){const p=document.getElementById('pwdInput').value;try{const res=await API.login(p);userRole=res.role;await new Promise(r=>setTimeout(r,250));showDash();toast(userRole === 'receptionist' ? 'Welcome back, Receptionist!' : 'Welcome back, Dr. Hiral!','success')}catch(e){document.getElementById('loginErr').classList.remove('hidden')}}
+async function doLogin(role){const p=document.getElementById('pwdInput').value;try{const res=await API.login(p,role);userRole=res.role;await new Promise(r=>setTimeout(r,250));showDash();toast(userRole === 'receptionist' ? 'Welcome back, Receptionist!' : 'Welcome back, Dr. Hiral!','success')}catch(e){document.getElementById('loginErr').classList.remove('hidden')}}
 async function doLogout(){await API.logout();location.reload()}
 document.getElementById('pwdInput')?.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
 

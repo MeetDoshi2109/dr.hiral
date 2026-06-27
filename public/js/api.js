@@ -25,7 +25,7 @@ const API = {
   delete: (url)       => API.req('DELETE', url),
 
   // Auth
-  login:  (pwd)  => API.post('/api/auth/login',  { password: pwd }),
+  login:  (pwd, role)  => API.post('/api/auth/login',  { password: pwd, role }),
   logout: ()     => API.post('/api/auth/logout', {}),
   status: ()     => API.get('/api/auth/status'),
 

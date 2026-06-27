@@ -29,21 +29,23 @@ const DOCTOR_PWD = process.env.DOCTOR_PASSWORD || 'Dr.Hiral@_Mehta0000';
 const RECEPTIONIST_PWD = process.env.RECEPTIONIST_PASSWORD || 'Hiral@_Rec2026';
 
 router.post('/login', loginLimiter, async (req, res) => {
-  const { password } = req.body;
+  const { password, role } = req.body;
   if (!password) {
     return res.status(400).json({ error: 'Password is required' });
   }
 
-  // Check Doctor Password
+  // Check Doctor Password (if no role specified or is 'doctor')
   let isDoctorMatch = false;
-  try {
-    if (DOCTOR_PWD.startsWith('$2a$') || DOCTOR_PWD.startsWith('$2b$')) {
-      isDoctorMatch = await bcrypt.compare(password, DOCTOR_PWD);
-    } else {
-      isDoctorMatch = password === DOCTOR_PWD;
+  if (!role || role === 'doctor') {
+    try {
+      if (DOCTOR_PWD.startsWith('$2a$') || DOCTOR_PWD.startsWith('$2b$')) {
+        isDoctorMatch = await bcrypt.compare(password, DOCTOR_PWD);
+      } else {
+        isDoctorMatch = password === DOCTOR_PWD;
+      }
+    } catch (e) {
+      isDoctorMatch = false;
     }
-  } catch (e) {
-    isDoctorMatch = false;
   }
 
   if (isDoctorMatch) {
@@ -53,16 +55,18 @@ router.post('/login', loginLimiter, async (req, res) => {
     return res.json({ success: true, doctor: 'Dr. Hiral', role: 'doctor' });
   }
 
-  // Check Receptionist Password
+  // Check Receptionist Password (if no role specified or is 'receptionist')
   let isRecMatch = false;
-  try {
-    if (RECEPTIONIST_PWD.startsWith('$2a$') || RECEPTIONIST_PWD.startsWith('$2b$')) {
-      isRecMatch = await bcrypt.compare(password, RECEPTIONIST_PWD);
-    } else {
-      isRecMatch = password === RECEPTIONIST_PWD;
+  if (!role || role === 'receptionist') {
+    try {
+      if (RECEPTIONIST_PWD.startsWith('$2a$') || RECEPTIONIST_PWD.startsWith('$2b$')) {
+        isRecMatch = await bcrypt.compare(password, RECEPTIONIST_PWD);
+      } else {
+        isRecMatch = password === RECEPTIONIST_PWD;
+      }
+    } catch (e) {
+      isRecMatch = false;
     }
-  } catch (e) {
-    isRecMatch = false;
   }
 
   if (isRecMatch) {
