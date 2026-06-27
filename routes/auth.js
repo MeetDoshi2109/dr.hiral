@@ -77,7 +77,8 @@ router.post('/login', loginLimiter, async (req, res) => {
 
 // POST /api/auth/logout
 router.post('/logout', (req, res) => {
-  req.session.destroy();
+  req.session = {};
+  res.clearCookie('hiral_session', { path: '/' });
   res.json({ success: true });
 });
 
