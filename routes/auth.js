@@ -30,6 +30,7 @@ const RECEPTIONIST_PWD = process.env.RECEPTIONIST_PASSWORD || 'Hiral@_Rec2026';
 
 router.post('/login', loginLimiter, async (req, res) => {
   const { password, role } = req.body;
+  console.log('Login request received — role:', role, 'pwd-len:', password ? password.length : 0);
   if (!password) {
     return res.status(400).json({ error: 'Password is required' });
   }
@@ -49,6 +50,7 @@ router.post('/login', loginLimiter, async (req, res) => {
   }
 
   if (isDoctorMatch) {
+    console.log('Doctor login successful');
     req.session.isDoctor = true;
     req.session.isReceptionist = false;
     req.session.doctorName = 'Dr. Hiral';
@@ -70,12 +72,14 @@ router.post('/login', loginLimiter, async (req, res) => {
   }
 
   if (isRecMatch) {
+    console.log('Receptionist login successful');
     req.session.isDoctor = false;
     req.session.isReceptionist = true;
     req.session.receptionistName = 'Receptionist';
     return res.json({ success: true, receptionist: 'Receptionist', role: 'receptionist' });
   }
 
+  console.log('Login failed — matches: doctor=' + isDoctorMatch + ', rec=' + isRecMatch);
   return res.status(401).json({ error: 'Invalid credentials' });
 });
 
