@@ -55,7 +55,7 @@ function parseSession(cookieStr, secret) {
   if (!cookieStr) return null;
   const match = cookieStr.match(/hiral_session=([^;]+)/);
   if (!match) return null;
-  const token = match[1];
+  const token = decodeURIComponent(match[1]);
   const parts = token.split('.');
   if (parts.length !== 2) return null;
   const [payload, sig] = parts;
