@@ -18,7 +18,7 @@ function requireReceptionistOrDoctorAuth(req, res, next) {
 // ── Login rate limiter (Abuse protection) ───────────────────
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // limit each IP to 5 attempts per windowMs
+  max: process.env.NODE_ENV === 'production' ? 5 : 100, // limit each IP to 5 attempts (100 in dev)
   message: { error: 'Too many login attempts from this IP, please try again after 15 minutes' },
   standardHeaders: true,
   legacyHeaders: false,

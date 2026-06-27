@@ -674,7 +674,7 @@ let rejectId='';
 let userRole = null;
 
 async function checkAuth(){try{const s=await API.status();if(s.loggedIn){userRole=s.role;showDash();return}}catch(e){}document.getElementById('loginView').classList.remove('hidden')}
-async function doLogin(role){const p=document.getElementById('pwdInput').value;try{const res=await API.login(p,role);userRole=res.role;await new Promise(r=>setTimeout(r,250));showDash();toast(userRole === 'receptionist' ? 'Welcome back, Receptionist!' : 'Welcome back, Dr. Hiral!','success')}catch(e){document.getElementById('loginErr').classList.remove('hidden')}}
+async function doLogin(role){const p=document.getElementById('pwdInput').value;try{const res=await API.login(p,role);userRole=res.role;await new Promise(r=>setTimeout(r,250));showDash();toast(userRole === 'receptionist' ? 'Welcome back, Receptionist!' : 'Welcome back, Dr. Hiral!','success')}catch(e){const errEl=document.getElementById('loginErr');errEl.textContent=e.message||'Invalid password';errEl.classList.remove('hidden')}}
 async function doLogout(){await API.logout();location.reload()}
 document.getElementById('pwdInput')?.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
 
