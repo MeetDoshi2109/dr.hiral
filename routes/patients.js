@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db/db');
-const { requireAuth } = require('./auth');
+const { requireAuth, requireReceptionistOrDoctorAuth } = require('./auth');
 
 // GET /api/patients  — all patients
-router.get('/', requireAuth, async (req, res) => {
+router.get('/', requireReceptionistOrDoctorAuth, async (req, res) => {
   try {
     const { search } = req.query;
     let sql = 'SELECT * FROM patients';
@@ -22,9 +22,10 @@ router.get('/', requireAuth, async (req, res) => {
 // IDOR Protection Middleware
 function requirePatientOrDoctorAuth(req, res, next) {
   const isDoctor = req.session && req.session.isDoctor;
+  const isReceptionist = req.session && req.session.isReceptionist;
   const isSelfPatient = req.session && req.session.patientId && req.session.patientId === req.params.id;
   
-  if (isDoctor || isSelfPatient) {
+  if (isDoctor || isReceptionist || isSelfPatient) {
     return next();
   }
   return res.status(403).json({ error: 'Access denied: You do not have permission to access this patient record' });
@@ -60,6 +61,15 @@ router.get('/:id', requirePatientOrDoctorAuth, async (req, res) => {
     const { rows } = await db.query('SELECT * FROM patients WHERE id=$1', [req.params.id]);
     if (!rows.length) return res.status(404).json({ error: 'Patient not found' });
     const patient = rows[0];
+
+    // Restrict clinical details for receptionists
+    if (req.session && req.session.isReceptionist) {
+      patient.history = '*** Restricted ***';
+      patient.notes = '*** Restricted ***';
+      patient.vitals = {};
+      return res.json({ ...patient, timeline: [], prescriptions: [], documents: [] });
+    }
+
     const { rows: timeline } = await db.query(
       'SELECT * FROM timeline WHERE patient_id=$1 ORDER BY visit_date DESC', [req.params.id]);
     const { rows: prescriptions } = await db.query(
@@ -71,7 +81,7 @@ router.get('/:id', requirePatientOrDoctorAuth, async (req, res) => {
 });
 
 // POST /api/patients  — create
-router.post('/', requireAuth, async (req, res) => {
+router.post('/', requireReceptionistOrDoctorAuth, async (req, res) => {
   try {
     const { name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,vitals } = req.body;
     const { rows } = await db.query(
@@ -84,9 +94,19 @@ router.post('/', requireAuth, async (req, res) => {
 });
 
 // PUT /api/patients/:id  — update
-router.put('/:id', requireAuth, async (req, res) => {
+router.put('/:id', requireReceptionistOrDoctorAuth, async (req, res) => {
   try {
-    const { name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,vitals } = req.body;
+    let { name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,vitals } = req.body;
+    
+    // Prevent receptionists from overwriting medical fields
+    if (req.session && req.session.isReceptionist) {
+      const { rows: existing } = await db.query('SELECT history, notes, vitals FROM patients WHERE id=$1', [req.params.id]);
+      if (existing.length) {
+        history = existing[0].history;
+        notes = existing[0].notes;
+        vitals = typeof existing[0].vitals === 'string' ? JSON.parse(existing[0].vitals) : existing[0].vitals;
+      }
+    }
     const { rows } = await db.query(
       `UPDATE patients SET name=$1,age=$2,gender=$3,phone=$4,email=$5,blood_group=$6,
        address=$7,chief_complaint=$8,history=$9,notes=$10,vitals=$11,last_visit=NOW()

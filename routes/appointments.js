@@ -1,18 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db/db');
-const { requireAuth } = require('./auth');
+const { requireAuth, requireReceptionistOrDoctorAuth } = require('./auth');
 
 // GET /api/appointments  — all
 router.get('/', async (req, res) => {
   try {
     const { status, date, patient_id } = req.query;
     
-    // Authorization Check: Must be Doctor OR Patient requesting their own appointments
+    // Authorization Check: Must be Doctor OR Receptionist OR Patient requesting their own appointments
     const isDoctor = req.session && req.session.isDoctor;
+    const isReceptionist = req.session && req.session.isReceptionist;
     const isSelfPatient = req.session && req.session.patientId && req.session.patientId === patient_id;
     
-    if (!isDoctor && !isSelfPatient) {
+    if (!isDoctor && !isReceptionist && !isSelfPatient) {
       return res.status(403).json({ error: 'Access denied: Unauthorized access to appointments' });
     }
     
@@ -28,7 +29,7 @@ router.get('/', async (req, res) => {
 });
 
 // GET /api/appointments/pending-count
-router.get('/pending-count', requireAuth, async (req, res) => {
+router.get('/pending-count', requireReceptionistOrDoctorAuth, async (req, res) => {
   try {
     const { rows } = await db.query("SELECT COUNT(*) as count FROM appointments WHERE status='pending'");
     res.json({ count: parseInt(rows[0].count) });
@@ -56,7 +57,7 @@ router.post('/', async (req, res) => {
 });
 
 // PATCH /api/appointments/:id/accept
-router.patch('/:id/accept', requireAuth, async (req, res) => {
+router.patch('/:id/accept', requireReceptionistOrDoctorAuth, async (req, res) => {
   try {
     // 1. Get the current appointment details
     const { rows: apptRows } = await db.query('SELECT * FROM appointments WHERE id=$1', [req.params.id]);
@@ -113,7 +114,7 @@ router.get('/status/:id', async (req, res) => {
 
 
 
-router.patch('/:id/reject', requireAuth, async (req, res) => {
+router.patch('/:id/reject', requireReceptionistOrDoctorAuth, async (req, res) => {
   try {
     const { reason } = req.body;
     const { rows } = await db.query(
@@ -126,7 +127,7 @@ router.patch('/:id/reject', requireAuth, async (req, res) => {
 });
 
 // DELETE /api/appointments/:id
-router.delete('/:id', requireAuth, async (req, res) => {
+router.delete('/:id', requireReceptionistOrDoctorAuth, async (req, res) => {
   try {
     await db.query('DELETE FROM appointments WHERE id=$1', [req.params.id]);
     res.json({ success: true });

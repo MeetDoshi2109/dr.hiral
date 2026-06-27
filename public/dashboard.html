@@ -143,6 +143,21 @@
       </button>
     </div>
 
+    <!-- BROWSER NOTIFICATION PERMISSION BANNER -->
+    <div id="notification-banner" class="hidden" style="margin-bottom:1.5rem; background:rgba(8,145,178,0.06); border:1px solid rgba(8,145,178,0.2); border-radius:var(--radius-md); padding:1rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <span class="material-symbols-outlined" style="color:var(--primary); font-size:24px">notifications_active</span>
+        <div>
+          <h4 style="font-size:0.9rem; font-weight:600; margin-bottom:0.1rem">Enable Appointment Alerts</h4>
+          <p style="font-size:0.78rem; color:var(--text-secondary)">Receive live desktop notifications when patients request new appointments.</p>
+        </div>
+      </div>
+      <div style="display:flex; gap:0.5rem;">
+        <button onclick="dismissNotificationBanner()" class="btn btn-ghost btn-sm" style="font-size:0.75rem; padding:0.35rem 0.75rem;">Dismiss</button>
+        <button onclick="requestNotificationPermission()" class="btn btn-primary btn-sm" style="font-size:0.75rem; padding:0.35rem 0.75rem;">Enable Alerts</button>
+      </div>
+    </div>
+
     <div class="dash-grid stagger-children" id="statsRow">
       <div class="stat-card tilt-card"><div class="val" id="sTotalP">0</div><div class="lbl">Total Patients</div></div>
       <div class="stat-card tilt-card"><div class="val" id="sTotalA" style="color:var(--secondary)">0</div><div class="lbl">Appointments</div></div>
@@ -211,6 +226,20 @@
       </div>
 
       <div id="stockList" style="overflow-x:auto;"></div>
+    </div>
+
+    <!-- BILLING TAB -->
+    <div id="tab-billing" class="tab-panel reveal">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.5rem">
+        <div>
+          <h3 style="font-size:1.15rem;font-weight:700;margin-bottom:0.15rem">Billing & Invoices</h3>
+          <p style="font-size:0.8rem;color:var(--text-muted)">Manage consultation fees, medicine charges, and print invoices</p>
+        </div>
+        <button class="btn btn-primary" onclick="openBillingModal()">
+          <span class="material-symbols-outlined" style="font-size:17px">receipt_long</span> Create New Bill
+        </button>
+      </div>
+      <div id="billingList" style="overflow-x:auto;"></div>
     </div>
   </div>
 </div>
@@ -551,6 +580,58 @@
   </div>
 </div>
 
+<!-- BILLING MODAL -->
+<div class="modal-overlay" id="billingModal">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header">
+      <h3 class="modal-title">Generate Invoice</h3>
+      <button class="btn-ghost" onclick="closeModal('billingModal')"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <form id="billingForm" onsubmit="saveBill(event)" style="display:flex;flex-direction:column;gap:1.25rem">
+      <div class="form-group" style="position:relative">
+        <label class="form-label">Select Patient *</label>
+        <input class="form-input" id="bill_patient_search" placeholder="Search patient by name..." autocomplete="off"
+          oninput="searchBillPatient(this.value)" onfocus="searchBillPatient(this.value)" required>
+        <input type="hidden" id="bill_patient_id">
+        <input type="hidden" id="bill_patient_name">
+        <div id="bill_search_results" style="display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-md);z-index:10;max-height:200px;overflow-y:auto;margin-top:0.25rem;box-shadow:var(--shadow-md)"></div>
+      </div>
+
+      <div style="display:flex; gap:1rem; align-items:center;">
+        <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; font-size:0.85rem">
+          <input type="checkbox" id="bill_is_first" onchange="updateBillDefaults()" checked> First Appointment?
+        </label>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+        <div class="form-group">
+          <label class="form-label">Appt Charges (₹) *</label>
+          <input class="form-input" id="bill_appt_charges" type="number" min="0" oninput="calcBillTotal()" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Medicine Charges (₹) *</label>
+          <input class="form-input" id="bill_med_charges" type="number" min="0" oninput="calcBillTotal()" required>
+        </div>
+      </div>
+
+      <div style="background:rgba(8,145,178,0.06); padding:0.85rem; border-radius:8px; border:1px solid rgba(8,145,178,0.15); display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-weight:600; font-size:0.9rem">Total Amount:</span>
+        <span id="bill_total_val" style="font-size:1.15rem; font-weight:700; color:var(--primary)">₹ 0.00</span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Billing Notes</label>
+        <input class="form-input" id="bill_notes" placeholder="e.g. Standard consultation + 1 month meds">
+      </div>
+
+      <div style="display:flex;gap:0.75rem;justify-content:flex-end;margin-top:0.5rem">
+        <button type="button" class="btn-ghost" onclick="closeModal('billingModal')" style="padding:0.65rem 1.25rem;border-radius:var(--radius-md)">Cancel</button>
+        <button type="submit" class="btn btn-primary"><span class="material-symbols-outlined" style="font-size:17px">save</span> Save &amp; Print</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div id="toast-container" class="toast-container"></div>
 <script src="/js/api.js"></script>
 <script>
@@ -589,17 +670,84 @@
 })();
 
 let rejectId='';
-async function checkAuth(){try{const s=await API.status();if(s.loggedIn){showDash();return}}catch(e){}document.getElementById('loginView').classList.remove('hidden')}
-async function doLogin(){const p=document.getElementById('pwdInput').value;try{await API.login(p);await new Promise(r=>setTimeout(r,250));showDash();toast('Welcome back, Dr. Hiral!','success')}catch(e){document.getElementById('loginErr').classList.remove('hidden')}}
+let userRole = null;
+
+async function checkAuth(){try{const s=await API.status();if(s.loggedIn){userRole=s.role;showDash();return}}catch(e){}document.getElementById('loginView').classList.remove('hidden')}
+async function doLogin(){const p=document.getElementById('pwdInput').value;try{const res=await API.login(p);userRole=res.role;await new Promise(r=>setTimeout(r,250));showDash();toast(userRole === 'receptionist' ? 'Welcome back, Receptionist!' : 'Welcome back, Dr. Hiral!','success')}catch(e){document.getElementById('loginErr').classList.remove('hidden')}}
 async function doLogout(){await API.logout();location.reload()}
 document.getElementById('pwdInput')?.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
 
-function showDash(){
+function applyRoleRestrictions() {
+  const tabsContainer = document.querySelector('.tab-bar');
+  
+  // Ensure the billing button exists in the tab-bar for Doctor
+  let billTabBtn = document.querySelector('.tab-btn[data-tab="billing"]');
+  if (userRole === 'doctor' && !billTabBtn && tabsContainer) {
+    billTabBtn = document.createElement('button');
+    billTabBtn.className = 'tab-btn';
+    billTabBtn.setAttribute('data-tab', 'billing');
+    billTabBtn.setAttribute('onclick', "switchTab('billing',this)");
+    billTabBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom">payments</span> Billing';
+    tabsContainer.appendChild(billTabBtn);
+  }
+  
+  // Hide tabs for receptionist
+  const rxTabBtn = document.querySelector('.tab-btn[data-tab="rx"]');
+  const stockTabBtn = document.querySelector('.tab-btn[data-tab="stock"]');
+  if (billTabBtn) {
+    billTabBtn.style.display = userRole === 'receptionist' ? 'none' : 'inline-flex';
+  }
+  if (rxTabBtn) {
+    rxTabBtn.style.display = userRole === 'receptionist' ? 'none' : 'inline-flex';
+  }
+  if (stockTabBtn) {
+    stockTabBtn.style.display = userRole === 'receptionist' ? 'none' : 'inline-flex';
+  }
+
+  // If currently active tab is restricted, switch back to 'patients'
+  const activeTab = document.querySelector('.tab-btn.active')?.getAttribute('data-tab');
+  if (userRole === 'receptionist' && (activeTab === 'rx' || activeTab === 'stock' || activeTab === 'billing')) {
+    switchTab('patients', document.querySelector('.tab-btn[data-tab="patients"]'));
+  }
+  
+  // Hide bug reports widget for receptionist
+  const bugWidget = document.getElementById('bug-reports-widget');
+  if (bugWidget) {
+    bugWidget.style.display = userRole === 'receptionist' ? 'none' : 'flex';
+  }
+}
+
+async function showDash(){
   document.getElementById('loginView').classList.add('hidden');
   document.getElementById('dashView').classList.remove('hidden');
   document.getElementById('logoutBtn').classList.remove('hidden');
   document.getElementById('mobileLogout').classList.remove('hidden');
-  loadStats();loadPatients();loadAppts();loadDashboardBugs();
+  
+  // Update welcome message based on role
+  const titleEl = document.querySelector('#dashView h1');
+  if (titleEl) {
+    if (userRole === 'receptionist') {
+      titleEl.innerHTML = 'Welcome, <span class="highlight">Receptionist</span>';
+    } else {
+      titleEl.innerHTML = 'Welcome, <span class="highlight">Dr. Hiral</span>';
+    }
+  }
+
+  applyRoleRestrictions();
+  
+  loadStats();loadPatients();loadAppts();
+  
+  if (userRole === 'doctor') {
+    loadDashboardBugs();
+    loadBills();
+  }
+  
+  // Notification Permission & Polling Initialisation
+  checkNotificationPermission();
+  if (!window.apptPollInterval) {
+    window.apptPollInterval = setInterval(pollPendingAppointments, 10000);
+  }
+  
   setTimeout(() => {
     const obs = new IntersectionObserver(e => e.forEach(el => { if (el.isIntersecting) { el.target.classList.add('visible'); obs.unobserve(el.target); } }), { threshold: 0.01 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
@@ -1062,6 +1210,7 @@ function switchTab(name,btn){
   if(name==='patients')loadPatients();
   if(name==='rx')loadRx();
   if(name==='stock')loadStock();
+  if(name==='billing')loadBills();
 }
 
 /* ── Medicine Stock inventory functions ── */
@@ -1438,15 +1587,346 @@ window.toggleBugPopover = function() {
   }
 };
 
-window.resolveBugReport = async function(id) {
+// ── Browser Notification & Live Alerts ───────────────────
+function checkNotificationPermission() {
+  if ('Notification' in window) {
+    if (Notification.permission === 'default') {
+      document.getElementById('notification-banner')?.classList.remove('hidden');
+    }
+  }
+}
+
+function dismissNotificationBanner() {
+  document.getElementById('notification-banner')?.classList.add('hidden');
+}
+
+async function requestNotificationPermission() {
+  if ('Notification' in window) {
+    const perm = await Notification.requestPermission();
+    if (perm === 'granted') {
+      toast('Notifications enabled successfully!', 'success');
+      try {
+        new Notification('Dr. Hiral Portal', { body: 'Live appointment notifications active.', icon: '/images/logo.svg' });
+      } catch (e) {}
+    }
+    dismissNotificationBanner();
+  }
+}
+
+let lastPendingCount = 0;
+let isFirstPoll = true;
+
+async function pollPendingAppointments() {
   try {
-    await API.resolveBug(id);
-    toast('Bug report resolved successfully!', 'success');
-    loadDashboardBugs();
-  } catch(e) {
+    // Only check if logged in
+    const s = await API.status();
+    if (!s.loggedIn) return;
+
+    const res = await API.getAppointments({ status: 'pending' });
+    const currentPendingCount = res.length;
+    
+    if (!isFirstPoll && currentPendingCount > lastPendingCount) {
+      const newest = res[res.length - 1];
+      
+      if ('Notification' in window && Notification.permission === 'granted') {
+        try {
+          new Notification('New Appointment Request', {
+            body: `${newest ? newest.patient_name : 'A patient'} has requested a new appointment.`,
+            icon: '/images/logo.svg'
+          });
+        } catch (e) {}
+      }
+      
+      toast(`New pending appointment request from ${newest ? newest.patient_name : 'patient'}!`, 'info');
+      
+      // Update UI counts live
+      loadStats();
+      if (document.querySelector('.tab-btn[data-tab="appts"]').classList.contains('active')) {
+        loadAppts('pending');
+      }
+    }
+    
+    lastPendingCount = currentPendingCount;
+    isFirstPoll = false;
+  } catch (e) {
+    console.error('Error polling appointments:', e);
+  }
+}
+
+// ── Billing & Invoices Management ─────────────────────────
+function openBillingModal() {
+  document.getElementById('billingForm').reset();
+  document.getElementById('bill_patient_id').value = '';
+  document.getElementById('bill_patient_name').value = '';
+  document.getElementById('bill_total_val').textContent = '₹ 0.00';
+  document.getElementById('bill_is_first').checked = true;
+  updateBillDefaults();
+  openModal('billingModal');
+}
+
+async function searchBillPatient(q) {
+  if (!q || q.length < 2) return;
+  try {
+    const ps = await API.getPatients(q);
+    const ul = document.getElementById('bill_search_results');
+    ul.innerHTML = ps.slice(0, 6).map(p => `
+      <div style="padding:0.6rem 0.8rem;cursor:pointer;border-radius:8px;font-size:0.88rem;hover:background:var(--bg-muted)" onmousedown="selectBillPatient('${p.id}','${p.name.replace(/'/g, "\\'")}')">
+        <strong>${p.name}</strong> <span style="color:var(--text-muted);font-size:0.75rem">${p.id}</span>
+      </div>
+    `).join('');
+    ul.style.display = ps.length ? 'block' : 'none';
+  } catch (e) {}
+}
+
+async function selectBillPatient(id, name) {
+  document.getElementById('bill_patient_id').value = id;
+  document.getElementById('bill_patient_name').value = name;
+  document.getElementById('bill_patient_search').value = name;
+  document.getElementById('bill_search_results').style.display = 'none';
+
+  // Check if patient has any prior visits to determine if it is a first or follow-up visit
+  try {
+    const details = await API.getPatient(id);
+    // If the patient has timeline entries, it is a follow-up visit
+    const hasPriorVisits = details.timeline && details.timeline.length > 0;
+    document.getElementById('bill_is_first').checked = !hasPriorVisits;
+    updateBillDefaults();
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function updateBillDefaults() {
+  const isFirst = document.getElementById('bill_is_first').checked;
+  // First consult defaults to ₹500, follow-up defaults to ₹300
+  document.getElementById('bill_appt_charges').value = isFirst ? 500 : 300;
+  if (!document.getElementById('bill_med_charges').value) {
+    document.getElementById('bill_med_charges').value = 0;
+  }
+  calcBillTotal();
+}
+
+function calcBillTotal() {
+  const appt = parseFloat(document.getElementById('bill_appt_charges').value) || 0;
+  const med = parseFloat(document.getElementById('bill_med_charges').value) || 0;
+  const total = appt + med;
+  document.getElementById('bill_total_val').textContent = `₹ ${total.toFixed(2)}`;
+}
+
+async function saveBill(e) {
+  e.preventDefault();
+  const data = {
+    patient_id: document.getElementById('bill_patient_id').value || null,
+    patient_name: document.getElementById('bill_patient_name').value || document.getElementById('bill_patient_search').value.trim(),
+    appt_charges: parseFloat(document.getElementById('bill_appt_charges').value) || 0,
+    med_charges: parseFloat(document.getElementById('bill_med_charges').value) || 0,
+    is_first_visit: document.getElementById('bill_is_first').checked,
+    notes: document.getElementById('bill_notes').value.trim()
+  };
+
+  try {
+    const saved = await API.createBill(data);
+    toast('Bill saved successfully!', 'success');
+    closeModal('billingModal');
+    loadBills();
+    
+    // Auto print bill on save
+    printInvoice(saved);
+  } catch (err) {
+    toast(err.message, 'error');
+  }
+}
+
+async function loadBills() {
+  try {
+    const list = await API.getBills();
+    const el = document.getElementById('billingList');
+    if (!list.length) {
+      el.innerHTML = '<div class="empty-state"><span class="material-symbols-outlined">payments</span><h3>No bills recorded yet</h3><p>Click "Create New Bill" to generate one.</p></div>';
+      return;
+    }
+    
+    el.innerHTML = `
+      <div class="table-wrap">
+        <table class="table" style="width:100%; border-collapse:collapse; font-size:0.88rem;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border); text-align:left;">
+              <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Bill ID</th>
+              <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Patient</th>
+              <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Date</th>
+              <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Consultation (₹)</th>
+              <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Medicines (₹)</th>
+              <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Total (₹)</th>
+              <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Type</th>
+              <th style="padding:0.75rem 0.5rem; text-align:right; color:var(--text-muted)">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${list.map(b => `
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.02);">
+                <td style="padding:0.75rem 0.5rem; font-family:monospace; color:var(--text-muted)">${b.id}</td>
+                <td style="padding:0.75rem 0.5rem; font-weight:600">${b.patient_name}</td>
+                <td style="padding:0.75rem 0.5rem">${fmtDate(b.bill_date)}</td>
+                <td style="padding:0.75rem 0.5rem">₹${parseFloat(b.appt_charges).toFixed(2)}</td>
+                <td style="padding:0.75rem 0.5rem">₹${parseFloat(b.med_charges).toFixed(2)}</td>
+                <td style="padding:0.75rem 0.5rem; font-weight:700; color:var(--primary)">₹${parseFloat(b.total_amount).toFixed(2)}</td>
+                <td style="padding:0.75rem 0.5rem">
+                  <span class="badge" style="font-size:0.7rem; background:${b.is_first_visit ? 'rgba(8,145,178,0.1)' : 'rgba(255,255,255,0.05)'}; color:${b.is_first_visit ? 'var(--primary)' : 'var(--text-secondary)'}">
+                    ${b.is_first_visit ? 'First Visit' : 'Follow-up'}
+                  </span>
+                </td>
+                <td style="padding:0.75rem 0.5rem; text-align:right;">
+                  <div style="display:inline-flex; gap:0.4rem;">
+                    <button class="btn btn-sm" style="height:28px; font-size:0.68rem; padding:0 0.5rem; display:inline-flex; align-items:center;" onclick="printInvoice(${JSON.stringify(b).replace(/"/g, '&quot;')})">
+                      <span class="material-symbols-outlined" style="font-size:13px; margin-right:2px;">print</span> Print
+                    </button>
+                    <button class="btn btn-sm" style="height:28px; font-size:0.68rem; background:rgba(239,68,68,0.08); color:#ef4444; border:1px solid rgba(239,68,68,0.15); padding:0 0.5rem; display:inline-flex; align-items:center;" onclick="deleteBill('${b.id}')">
+                      <span class="material-symbols-outlined" style="font-size:13px; margin-right:2px;">delete</span> Del
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } catch (e) {
     toast(e.message, 'error');
   }
-};
+}
+
+async function deleteBill(id) {
+  if (!confirm('Are you sure you want to delete this bill record?')) return;
+  try {
+    await API.deleteBill(id);
+    toast('Bill deleted successfully!', 'warning');
+    loadBills();
+  } catch (e) {
+    toast(e.message, 'error');
+  }
+}
+
+function printInvoice(bill) {
+  const printWindow = window.open('', '_blank');
+  
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Invoice - ${bill.id}</title>
+      <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333; margin: 40px; line-height: 1.5; }
+        .invoice-box { max-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); }
+        .header { display: flex; justify-content: space-between; border-bottom: 2px solid #0f766e; padding-bottom: 20px; margin-bottom: 30px; }
+        .clinic-details h2 { margin: 0 0 5px 0; color: #0f766e; font-size: 1.6rem; }
+        .clinic-details p { margin: 0; font-size: 0.85rem; color: #666; }
+        .invoice-title { text-align: right; }
+        .invoice-title h1 { margin: 0 0 5px 0; font-size: 1.8rem; color: #333; }
+        .invoice-title p { margin: 0; font-size: 0.85rem; color: #666; }
+        .details-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        .details-table td { padding: 8px 0; font-size: 0.9rem; }
+        .details-table td.label { font-weight: bold; color: #555; width: 120px; }
+        .items-table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
+        .items-table th { background-color: #f7f7f7; border-bottom: 2px solid #ddd; padding: 12px 10px; text-align: left; font-size: 0.85rem; text-transform: uppercase; color: #666; }
+        .items-table td { padding: 12px 10px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+        .totals-section { display: flex; justify-content: flex-end; margin-bottom: 40px; }
+        .totals-table { width: 250px; border-collapse: collapse; }
+        .totals-table td { padding: 8px 10px; font-size: 0.9rem; }
+        .totals-table tr.grand-total { border-top: 2px solid #0f766e; font-weight: bold; font-size: 1.1rem; }
+        .totals-table tr.grand-total td { color: #0f766e; }
+        .notes-section { font-size: 0.8rem; color: #777; border-top: 1px solid #eee; padding-top: 20px; }
+        .signature { margin-top: 60px; display: flex; justify-content: flex-end; }
+        .signature-line { border-top: 1px solid #333; width: 200px; text-align: center; padding-top: 5px; font-size: 0.85rem; font-weight: bold; }
+        @media print {
+          body { margin: 0; }
+          .invoice-box { border: none; box-shadow: none; padding: 0; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="invoice-box">
+        <div class="header">
+          <div class="clinic-details">
+            <h2>Dr. Hiral Mehta</h2>
+            <p>BHMS Homeopathic Clinic &amp; Wellness Portal</p>
+            <p>Phone: +91 98765 43210 | Email: contact@drhiral.com</p>
+          </div>
+          <div class="invoice-title">
+            <h1>INVOICE</h1>
+            <p>ID: ${bill.id}</p>
+            <p>Date: ${new Date(bill.bill_date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+          </div>
+        </div>
+        
+        <table class="details-table">
+          <tr>
+            <td class="label">Patient Name:</td>
+            <td>${bill.patient_name}</td>
+            <td class="label" style="text-align: right;">Patient ID:</td>
+            <td style="text-align: right;">${bill.patient_id || '—'}</td>
+          </tr>
+          <tr>
+            <td class="label">Visit Type:</td>
+            <td colspan="3">${bill.is_first_visit ? 'First Consultation' : 'Follow-up Consultation'}</td>
+          </tr>
+        </table>
+        
+        <table class="items-table">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th style="text-align: right;">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Consultation &amp; Appointment Charges</td>
+              <td style="text-align: right;">₹${parseFloat(bill.appt_charges).toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td>Medicine &amp; Remedy Charges</td>
+              <td style="text-align: right;">₹${parseFloat(bill.med_charges).toFixed(2)}</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="totals-section">
+          <table class="totals-table">
+            <tr>
+              <td>Subtotal:</td>
+              <td style="text-align: right;">₹${(parseFloat(bill.appt_charges) + parseFloat(bill.med_charges)).toFixed(2)}</td>
+            </tr>
+            <tr class="grand-total">
+              <td>Total Paid:</td>
+              <td style="text-align: right;">₹${parseFloat(bill.total_amount).toFixed(2)}</td>
+            </tr>
+          </table>
+        </div>
+        
+        ${bill.notes ? `
+          <div class="notes-section">
+            <strong>Notes:</strong> ${bill.notes}
+          </div>
+        ` : ''}
+        
+        <div class="signature">
+          <div>
+            <div style="height: 50px;"></div>
+            <div class="signature-line">Authorized Signatory</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        window.onload = function() { window.print(); }
+      </script>
+    </body>
+    </html>
+  `;
+  
+  printWindow.document.write(htmlContent);
+  printWindow.document.close();
+}
 
 checkAuth();
 </script>

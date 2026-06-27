@@ -10,6 +10,11 @@ function requireAuth(req, res, next) {
   return res.status(401).json({ error: 'Unauthorised' });
 }
 
+function requireReceptionistOrDoctorAuth(req, res, next) {
+  if (req.session && (req.session.isDoctor || req.session.isReceptionist)) return next();
+  return res.status(401).json({ error: 'Unauthorised' });
+}
+
 // ── Login rate limiter (Abuse protection) ───────────────────
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -21,28 +26,52 @@ const loginLimiter = rateLimit({
 
 // POST /api/auth/login
 const DOCTOR_PWD = process.env.DOCTOR_PASSWORD || 'Dr.Hiral@_Mehta0000';
+const RECEPTIONIST_PWD = process.env.RECEPTIONIST_PASSWORD || 'Hiral@_Rec2026';
+
 router.post('/login', loginLimiter, async (req, res) => {
   const { password } = req.body;
   if (!password) {
     return res.status(400).json({ error: 'Password is required' });
   }
 
-  let isMatch = false;
+  // Check Doctor Password
+  let isDoctorMatch = false;
   try {
     if (DOCTOR_PWD.startsWith('$2a$') || DOCTOR_PWD.startsWith('$2b$')) {
-      isMatch = await bcrypt.compare(password, DOCTOR_PWD);
+      isDoctorMatch = await bcrypt.compare(password, DOCTOR_PWD);
     } else {
-      isMatch = password === DOCTOR_PWD;
+      isDoctorMatch = password === DOCTOR_PWD;
     }
   } catch (e) {
-    isMatch = false;
+    isDoctorMatch = false;
   }
 
-  if (isMatch) {
+  if (isDoctorMatch) {
     req.session.isDoctor = true;
+    req.session.isReceptionist = false;
     req.session.doctorName = 'Dr. Hiral';
-    return res.json({ success: true, doctor: 'Dr. Hiral' });
+    return res.json({ success: true, doctor: 'Dr. Hiral', role: 'doctor' });
   }
+
+  // Check Receptionist Password
+  let isRecMatch = false;
+  try {
+    if (RECEPTIONIST_PWD.startsWith('$2a$') || RECEPTIONIST_PWD.startsWith('$2b$')) {
+      isRecMatch = await bcrypt.compare(password, RECEPTIONIST_PWD);
+    } else {
+      isRecMatch = password === RECEPTIONIST_PWD;
+    }
+  } catch (e) {
+    isRecMatch = false;
+  }
+
+  if (isRecMatch) {
+    req.session.isDoctor = false;
+    req.session.isReceptionist = true;
+    req.session.receptionistName = 'Receptionist';
+    return res.json({ success: true, receptionist: 'Receptionist', role: 'receptionist' });
+  }
+
   return res.status(401).json({ error: 'Invalid credentials' });
 });
 
@@ -54,8 +83,11 @@ router.post('/logout', (req, res) => {
 
 // GET /api/auth/status
 router.get('/status', (req, res) => {
-  res.json({ loggedIn: !!(req.session && req.session.isDoctor), doctor: req.session?.doctorName || null });
+  const loggedIn = !!(req.session && (req.session.isDoctor || req.session.isReceptionist));
+  const role = req.session?.isDoctor ? 'doctor' : (req.session?.isReceptionist ? 'receptionist' : null);
+  const name = req.session?.doctorName || req.session?.receptionistName || null;
+  res.json({ loggedIn, doctor: req.session?.doctorName || null, role, name });
 });
 
-module.exports = { router, requireAuth };
+module.exports = { router, requireAuth, requireReceptionistOrDoctorAuth };
 

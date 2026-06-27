@@ -477,6 +477,11 @@
   });
   updateTimeSlots();
 
+  // Request notification permission silently
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+  
   // Check appointment status on load
   checkApptStatus();
 })();
@@ -500,6 +505,62 @@ async function checkApptStatus() {
   try {
     const appt = await API.get(`/api/appointments/status/${myApptId}`);
     
+    // Live Status Changes Alert
+    const oldStatus = localStorage.getItem('my_appointment_status');
+    if (oldStatus === 'pending' && (appt.status === 'accepted' || appt.status === 'rejected')) {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        const title = appt.status === 'accepted' ? 'Appointment Confirmed!' : 'Appointment Slot Unavailable';
+        const body = appt.status === 'accepted' 
+          ? `Your appointment is confirmed for ${appt.appt_time} on ${new Date(appt.appt_date).toLocaleDateString('en-IN')}.`
+          : `Your request for ${appt.appt_time} on ${new Date(appt.appt_date).toLocaleDateString('en-IN')} could not be accommodated.`;
+        try {
+          new Notification(title, { body, icon: '/images/logo.svg' });
+        } catch (e) {}
+      }
+      toast(appt.status === 'accepted' ? 'Your appointment has been confirmed!' : 'Your appointment has been declined.', appt.status === 'accepted' ? 'success' : 'error');
+    }
+    localStorage.setItem('my_appointment_status', appt.status);
+
+    // Start polling if pending
+    if (appt.status === 'pending') {
+      if (!window.statusPollInterval) {
+        window.statusPollInterval = setInterval(checkApptStatus, 10000);
+      }
+    } else {
+      if (window.statusPollInterval) {
+        clearInterval(window.statusPollInterval);
+        window.statusPollInterval = null;
+      }
+    }
+
+    // Upcoming Appointment Reminder for Patient
+    if (appt.status === 'accepted') {
+      const todayStr = new Date().toISOString().split('T')[0];
+      if (appt.appt_date === todayStr) {
+        const lastNotified = localStorage.getItem('last_notified_today_appt');
+        if (lastNotified !== appt.id) {
+          const now = new Date();
+          const [h, m] = appt.appt_time.split(':').map(Number);
+          const apptTime = new Date();
+          apptTime.setHours(h, m, 0, 0);
+          
+          const diffMin = (apptTime - now) / (1000 * 60);
+          if (diffMin > 0 && diffMin <= 60) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+              try {
+                new Notification('Upcoming Appointment Reminder', {
+                  body: `You have an appointment today in ${Math.round(diffMin)} minutes at ${appt.appt_time}.`,
+                  icon: '/images/logo.svg'
+                });
+              } catch (e) {}
+            }
+            toast(`Upcoming appointment today at ${appt.appt_time}!`, 'info');
+            localStorage.setItem('last_notified_today_appt', appt.id);
+          }
+        }
+      }
+    }
+
     const formattedDate = new Date(appt.appt_date).toLocaleDateString('en-IN', { 
       weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' 
     });

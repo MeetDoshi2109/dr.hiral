@@ -123,3 +123,17 @@ CREATE TABLE IF NOT EXISTS medicine_stock (
   updated_at    TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- ── Billing System ───────────────────────────────────
+CREATE TABLE IF NOT EXISTS bills (
+  id            TEXT PRIMARY KEY DEFAULT 'BILL-' || upper(substr(md5(random()::text), 1, 8)),
+  patient_id    TEXT REFERENCES patients(id) ON DELETE CASCADE,
+  patient_name  TEXT NOT NULL,
+  bill_date     DATE DEFAULT CURRENT_DATE,
+  appt_charges  REAL DEFAULT 0,
+  med_charges   REAL DEFAULT 0,
+  total_amount  REAL DEFAULT 0,
+  is_first_visit BOOLEAN DEFAULT FALSE,
+  notes         TEXT,
+  created_at    TIMESTAMPTZ DEFAULT NOW()
+);
+

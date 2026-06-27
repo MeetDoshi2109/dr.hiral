@@ -85,7 +85,7 @@ app.use((req, res, next) => {
   
   const originalJson = res.json;
   res.json = function(data) {
-    if (req.session && (req.session.isDoctor || req.session.doctorName || req.session.patientId)) {
+    if (req.session && (req.session.isDoctor || req.session.isReceptionist || req.session.doctorName || req.session.receptionistName || req.session.patientId)) {
       const token = signSession(req.session, SESSION_SECRET);
       res.cookie('hiral_session', token, {
         httpOnly: true,
@@ -206,6 +206,7 @@ app.use('/api/patients', patientsRouter);
 app.use('/api/appointments', appointmentsRouter);
 app.use('/api/kits', kitsRouter);
 app.use('/api/stock', requireAuth, require('./routes/stock'));
+app.use('/api/bills', requireAuth, require('./routes/bills'));
 
 // ── Database Backup API ────────────────────────────────
 app.get('/api/backup', async (req, res) => {

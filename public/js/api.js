@@ -84,6 +84,11 @@ const API = {
   addStock:   (data) => API.post('/api/stock', data),
   updateStock: (id,data) => API.put(`/api/stock/${id}`, data),
   deleteStock: (id) => API.delete(`/api/stock/${id}`),
+
+  // Bills
+  getBills:   (pid) => API.get(`/api/bills${pid ? `?patient_id=${pid}` : ''}`),
+  createBill: (data) => API.post('/api/bills', data),
+  deleteBill: (id) => API.delete(`/api/bills/${id}`),
 };
 
 // ── Global Helpers ────────────────────────────────────

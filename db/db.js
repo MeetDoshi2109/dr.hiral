@@ -69,6 +69,22 @@ if (usePostgres) {
           return pgPool.query("ALTER TABLE medicine_stock ADD COLUMN IF NOT EXISTS abbreviation TEXT");
         })
         .then(() => {
+          return pgPool.query(`
+            CREATE TABLE IF NOT EXISTS bills (
+              id            TEXT PRIMARY KEY DEFAULT 'BILL-' || upper(substr(md5(random()::text), 1, 8)),
+              patient_id    TEXT REFERENCES patients(id) ON DELETE CASCADE,
+              patient_name  TEXT NOT NULL,
+              bill_date     DATE DEFAULT CURRENT_DATE,
+              appt_charges  REAL DEFAULT 0,
+              med_charges   REAL DEFAULT 0,
+              total_amount  REAL DEFAULT 0,
+              is_first_visit BOOLEAN DEFAULT FALSE,
+              notes         TEXT,
+              created_at    TIMESTAMPTZ DEFAULT NOW()
+            )
+          `);
+        })
+        .then(() => {
           return pgPool.query('SELECT COUNT(*) FROM patients');
         })
         .then((res) => {
@@ -309,6 +325,21 @@ function initSQLite() {
         // Ignore error if column already exists
       });
 
+      sqliteDb.run(`
+        CREATE TABLE IF NOT EXISTS bills (
+          id            TEXT PRIMARY KEY,
+          patient_id    TEXT REFERENCES patients(id) ON DELETE CASCADE,
+          patient_name  TEXT NOT NULL,
+          bill_date     TEXT DEFAULT CURRENT_DATE,
+          appt_charges  REAL DEFAULT 0,
+          med_charges   REAL DEFAULT 0,
+          total_amount  REAL DEFAULT 0,
+          is_first_visit INTEGER DEFAULT 0,
+          notes         TEXT,
+          created_at    TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
+
       sqliteDb.get("SELECT COUNT(*) as count FROM patients", (err, row) => {
         if (err) return;
         if (row && row.count === 0) {
@@ -458,7 +489,8 @@ async function queryFirestore(text, params = []) {
     const docId = data.id || generateId(
       tableName === 'patients' ? 'PAT' : 
       tableName === 'appointments' ? 'APPT' : 
-      tableName === 'prescriptions' ? 'RX' : 'KIT'
+      tableName === 'prescriptions' ? 'RX' : 
+      tableName === 'bills' ? 'BILL' : 'KIT'
     );
     data.id = docId;
     
@@ -569,6 +601,7 @@ async function query(text, params = []) {
             if (tableName === 'patients') prefix = 'PAT';
             else if (tableName === 'appointments') prefix = 'APPT';
             else if (tableName === 'prescriptions') prefix = 'RX';
+            else if (tableName === 'bills') prefix = 'BILL';
             else if (tableName === 'medicine_kits') prefix = 'KIT';
             
             if (prefix) {
