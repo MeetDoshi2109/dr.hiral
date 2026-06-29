@@ -58,6 +58,19 @@
       .grid-3-col { grid-template-columns: repeat(2, 1fr); }
       .grid-4-col { grid-template-columns: repeat(2, 1fr); }
     }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0;
+    }
     @media(max-width: 600px) { 
       .page-wrap { padding: 5rem 1rem 2rem !important; }
       .dash-container > div[style*="margin-bottom:2rem"] { margin-bottom: 0.75rem !important; }
