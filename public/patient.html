@@ -190,6 +190,9 @@ async function lookupPatient() {
   btn.disabled = true;
   btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;animation:spin 1s linear infinite">refresh</span>';
   try {
+    // Establish session on new device first
+    await API.lookupPatient(id);
+    // Now session is set, fetch full record
     const p = await API.getPatient(id);
     await renderPatient(p);
   } catch (e) {
