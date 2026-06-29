@@ -88,6 +88,7 @@ const API = {
   // Bills
   getBills:   (pid) => API.get(`/api/bills${pid ? `?patient_id=${pid}` : ''}`),
   createBill: (data) => API.post('/api/bills', data),
+  updateBillStatus: (id, status) => API.patch(`/api/bills/${id}/status`, { status }),
   deleteBill: (id) => API.delete(`/api/bills/${id}`),
 };
 

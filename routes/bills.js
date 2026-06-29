@@ -47,6 +47,20 @@ router.post('/', requireAuth, async (req, res) => {
   }
 });
 
+// PATCH /api/bills/:id/status — Update a bill's payment status
+router.patch('/:id/status', requireAuth, async (req, res) => {
+  try {
+    const { status } = req.body;
+    if (!status || !['pending', 'received'].includes(status)) {
+      return res.status(400).json({ error: 'Valid status is required' });
+    }
+    await db.query('UPDATE bills SET status = $1 WHERE id = $2', [status, req.params.id]);
+    res.json({ success: true, status });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // DELETE /api/bills/:id — Delete a bill
 router.delete('/:id', requireAuth, async (req, res) => {
   try {
