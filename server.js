@@ -200,6 +200,28 @@ app.post('/api/bugs/:id/resolve', async (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+// ── All Prescriptions API ──────────────────────────────
+app.get('/api/prescriptions', requireAuth, async (req, res) => {
+  const db = require('./db/db');
+  try {
+    const { rows } = await db.query(
+      `SELECT r.*, p.name as _pname, p.id as _pid
+       FROM prescriptions r
+       JOIN patients p ON r.patient_id = p.id
+       ORDER BY r.issued_at DESC`
+    );
+    res.json(rows);
+  } catch (e) {
+    try {
+      const { rows } = await db.query('SELECT * FROM prescriptions ORDER BY issued_at DESC');
+      // map patient_name if needed
+      res.json(rows.map(r => ({ ...r, _pname: r.patient_name || 'Patient', _pid: r.patient_id })));
+    } catch(err) {
+      res.status(500).json({ error: err.message });
+    }
+  }
+});
+
 // ── Routes ────────────────────────────────────────────
 app.use('/api/auth', authRouter);
 app.use('/api/patients', patientsRouter);
