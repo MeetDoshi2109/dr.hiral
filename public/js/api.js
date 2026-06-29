@@ -84,6 +84,7 @@ const API = {
   addStock:   (data) => API.post('/api/stock', data),
   updateStock: (id,data) => API.put(`/api/stock/${id}`, data),
   deleteStock: (id) => API.delete(`/api/stock/${id}`),
+  reorderStock: (id, status) => API.post(`/api/stock/${id}/reorder`, { reorder: status }),
 
   // Bills
   getBills:   (pid) => API.get(`/api/bills${pid ? `?patient_id=${pid}` : ''}`),

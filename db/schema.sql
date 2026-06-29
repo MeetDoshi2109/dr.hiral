@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS patients (
   history       TEXT,
   notes         TEXT,
   vitals        JSONB DEFAULT '{}',
+  hahnemannian_classification TEXT,
   created_at    TIMESTAMPTZ DEFAULT NOW(),
   last_visit    TIMESTAMPTZ DEFAULT NOW()
 );
@@ -119,6 +120,7 @@ CREATE TABLE IF NOT EXISTS medicine_stock (
   potency       TEXT,
   qty           REAL DEFAULT 0,
   unit          TEXT DEFAULT 'grams',
+  reorder_needed BOOLEAN DEFAULT FALSE,
   created_at    TIMESTAMPTZ DEFAULT NOW(),
   updated_at    TIMESTAMPTZ DEFAULT NOW()
 );

@@ -57,6 +57,25 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+// POST /api/stock/:id/reorder — flag/unflag medicine for reorder
+router.post('/:id/reorder', async (req, res) => {
+  try {
+    const itemId = isNaN(req.params.id) ? req.params.id : parseInt(req.params.id);
+    const { reorder } = req.body;
+    const reorderVal = (db.useSQLite && db.useSQLite()) ? (reorder ? 1 : 0) : (reorder ? true : false);
+    
+    const { rows } = await db.query(
+      `UPDATE medicine_stock SET reorder_needed=$1, updated_at=NOW()
+       WHERE id=$2 RETURNING *`,
+      [reorderVal, itemId]
+    );
+    if (!rows.length) return res.status(404).json({ error: 'Medicine stock item not found' });
+    res.json(rows[0]);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // DELETE /api/stock/:id — delete a stock item
 router.delete('/:id', async (req, res) => {
   try {

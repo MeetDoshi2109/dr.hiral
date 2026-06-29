@@ -200,14 +200,68 @@
     <div id="tab-rx" class="tab-panel reveal">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.25rem">
         <div>
-          <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:0.15rem">Prescriptions</h3>
-          <p style="font-size:0.8rem;color:var(--text-muted)">All issued prescriptions across patients</p>
+          <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:0.15rem">Prescriptions &amp; Kits</h3>
+          <p style="font-size:0.8rem;color:var(--text-muted)">All issued prescriptions and editable medicine kits</p>
         </div>
-        <button class="btn btn-primary" onclick="openRxModal(null)">
-          <span class="material-symbols-outlined" style="font-size:17px">add</span> New Prescription
-        </button>
+        <div style="display:flex;gap:0.5rem;align-items:center">
+          <button class="btn btn-sm btn-outline" onclick="switchRxSubTab('list')" style="height:36px">Issued List</button>
+          <button class="btn btn-sm btn-outline" onclick="switchRxSubTab('kits')" style="height:36px">Medicine Kits</button>
+          <button class="btn btn-primary" onclick="openRxModal(null)">
+            <span class="material-symbols-outlined" style="font-size:17px">add</span> New Prescription
+          </button>
+        </div>
       </div>
-      <div id="rxList"></div>
+      
+      <div id="rx-subtab-list">
+        <div id="rxList"></div>
+      </div>
+      
+      <div id="rx-subtab-kits" style="display:none">
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem">
+          <!-- Preset Kits -->
+          <div class="card" style="padding:1.5rem; border:1px solid var(--border); background: rgba(255,255,255,0.01);">
+            <h4 style="font-size:1.05rem; font-weight:700; margin-bottom:1rem; color:var(--primary); display:flex; align-items:center; gap:0.4rem"><span class="material-symbols-outlined">auto_awesome</span> Preset Default Kits</h4>
+            <div style="display:flex; flex-direction:column; gap:0.75rem">
+              <div style="padding:0.75rem 1rem; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center">
+                <div>
+                  <strong style="font-size:0.9rem">🌱 Beginner Essential Kit</strong>
+                  <div style="font-size:0.75rem; color:var(--text-muted); margin-top: 0.1rem">12 essential homeopathic remedies</div>
+                </div>
+                <button class="btn btn-sm btn-outline" onclick="assignKitToPatient('beginner')">Assign</button>
+              </div>
+              <div style="padding:0.75rem 1rem; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center">
+                <div>
+                  <strong style="font-size:0.9rem">✈️ Travel Kit</strong>
+                  <div style="font-size:0.75rem; color:var(--text-muted); margin-top: 0.1rem">10 travel first-aid must-haves</div>
+                </div>
+                <button class="btn btn-sm btn-outline" onclick="assignKitToPatient('travel')">Assign</button>
+              </div>
+              <div style="padding:0.75rem 1rem; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center">
+                <div>
+                  <strong style="font-size:0.9rem">💜 Women's Health Kit</strong>
+                  <div style="font-size:0.75rem; color:var(--text-muted); margin-top: 0.1rem">15 key remedies for women's care</div>
+                </div>
+                <button class="btn btn-sm btn-outline" onclick="assignKitToPatient('womens')">Assign</button>
+              </div>
+              <div style="padding:0.75rem 1rem; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center">
+                <div>
+                  <strong style="font-size:0.9rem">👶 Children's Kit</strong>
+                  <div style="font-size:0.75rem; color:var(--text-muted); margin-top: 0.1rem">10 child-safe home remedies</div>
+                </div>
+                <button class="btn btn-sm btn-outline" onclick="assignKitToPatient('children')">Assign</button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Custom Kits -->
+          <div class="card" style="padding:1.5rem; border:1px solid var(--border); background: rgba(255,255,255,0.01);">
+            <h4 style="font-size:1.05rem; font-weight:700; margin-bottom:1rem; color:var(--secondary); display:flex; align-items:center; gap:0.4rem"><span class="material-symbols-outlined">dashboard_customize</span> Custom Saved Kits</h4>
+            <div id="rxCustomKitsList" style="display:flex; flex-direction:column; gap:0.75rem">
+              <div style="font-size:0.85rem; color:var(--text-muted); text-align:center; padding:1.5rem 0">No custom kits found. Save a kit from the prescription modal.</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="tab-stock" class="tab-panel reveal">
@@ -219,6 +273,14 @@
         <button class="btn btn-primary" onclick="openStockModal(null)">
           <span class="material-symbols-outlined" style="font-size:17px">add_circle</span> Add Medicine Stock
         </button>
+      </div>
+
+      <!-- Reorder List Section -->
+      <div id="reorderSection" class="card" style="padding: 1.25rem; margin-bottom: 1.5rem; border: 1px dashed var(--secondary); background: rgba(209,187,255,0.02); display:none">
+        <h4 style="font-size: 1rem; font-weight:700; margin-bottom: 0.75rem; color: var(--secondary); display:flex; align-items:center; gap:0.4rem">
+          <span class="material-symbols-outlined" style="color: var(--secondary);">shopping_cart</span> Medicines to be Reordered
+        </h4>
+        <div id="reorderList" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem;"></div>
       </div>
 
       <div style="margin-bottom:1.25rem; position:relative; max-width:400px; width:100%;">
@@ -262,6 +324,22 @@
       <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:1rem;margin-bottom:1rem">
         <div class="form-group"><label class="form-label">Gender</label><select class="form-input" id="pf_gender"><option value="">—</option><option>Male</option><option>Female</option><option>Other</option></select></div>
         <div class="form-group"><label class="form-label">Blood Group</label><input class="form-input" id="pf_blood"></div>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem">
+        <label class="form-label">Hahnemannian Classification of Disease</label>
+        <select class="form-input" id="pf_hahnemannian">
+          <option value="">— Select Classification —</option>
+          <option value="Acute (Individual)">Acute (Individual)</option>
+          <option value="Acute (Sporadic)">Acute (Sporadic)</option>
+          <option value="Acute (Endemic)">Acute (Endemic)</option>
+          <option value="Acute (Epidemic)">Acute (Epidemic)</option>
+          <option value="Pseudo-Chronic (Lifestyle/Hygiene)">Pseudo-Chronic (Lifestyle/Hygiene)</option>
+          <option value="Artificial Chronic (Drug-induced)">Artificial Chronic (Drug-induced)</option>
+          <option value="True Chronic (Psora)">True Chronic (Psora)</option>
+          <option value="True Chronic (Syphilis)">True Chronic (Syphilis)</option>
+          <option value="True Chronic (Sycosis)">True Chronic (Sycosis)</option>
+          <option value="True Chronic (Mixed Miasmatic)">True Chronic (Mixed Miasmatic)</option>
+        </select>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:1rem;margin-bottom:1rem">
         <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="pf_phone"></div>
@@ -328,6 +406,23 @@
       <!-- Label shown when opened from patient row -->
       <div id="rx_patient_label" style="display:none;font-size:0.9rem;font-weight:600;color:var(--primary);padding:0.5rem 0.75rem;background:rgba(13,148,136,0.08);border-radius:var(--radius-md)"></div>
 
+      <!-- Select medical kit preset to load -->
+      <div class="form-group">
+        <label class="form-label">Load from Medicine Kit</label>
+        <select class="form-input" id="rx_kit_select" onchange="loadKitIntoRxForm(this.value)" style="background-color: var(--bg-surface);">
+          <option value="">— Select Medicine Kit —</option>
+          <optgroup label="Default Presets">
+            <option value="beginner">🌱 Beginner Essential Kit (12 remedies)</option>
+            <option value="travel">✈️ Travel Kit (10 remedies)</option>
+            <option value="womens">💜 Women's Health Kit (15 remedies)</option>
+            <option value="children">👶 Children's Kit (10 remedies)</option>
+          </optgroup>
+          <optgroup label="Custom Kits" id="rx_custom_kits_optgroup">
+            <!-- Dynamically populated -->
+          </optgroup>
+        </select>
+      </div>
+
       <!-- Medicine rows -->
       <div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem">
@@ -358,6 +453,7 @@
 
       <div style="display:flex;gap:0.75rem;justify-content:flex-end">
         <button type="button" class="btn-ghost" onclick="closeModal('rxModal')" style="padding:0.65rem 1.25rem;border-radius:var(--radius-md)">Cancel</button>
+        <button type="button" class="btn btn-outline" onclick="saveRxAsKit()" style="padding:0.65rem 1rem;border-radius:var(--radius-md);color:var(--secondary);border-color:rgba(209,187,255,0.4)"><span class="material-symbols-outlined" style="font-size:17px">save_as</span> Save as Kit</button>
         <button type="submit" class="btn btn-primary"><span class="material-symbols-outlined" style="font-size:17px">save</span> Save Prescription</button>
       </div>
     </form>
@@ -487,6 +583,21 @@
           <div class="grid-2-col" style="margin-bottom:1.5rem">
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Diagnosis</label><input class="form-input" id="cr_diagnosis"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Miasmatic Diagnosis</label><input class="form-input" id="cr_miasmatic"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Hahnemannian Classification</label>
+              <select class="form-input" id="cr_hahnemannian" style="background-color: var(--bg-surface);">
+                <option value="">— Select Classification —</option>
+                <option value="Acute (Individual)">Acute (Individual)</option>
+                <option value="Acute (Sporadic)">Acute (Sporadic)</option>
+                <option value="Acute (Endemic)">Acute (Endemic)</option>
+                <option value="Acute (Epidemic)">Acute (Epidemic)</option>
+                <option value="Pseudo-Chronic (Lifestyle/Hygiene)">Pseudo-Chronic (Lifestyle/Hygiene)</option>
+                <option value="Artificial Chronic (Drug-induced)">Artificial Chronic (Drug-induced)</option>
+                <option value="True Chronic (Psora)">True Chronic (Psora)</option>
+                <option value="True Chronic (Syphilis)">True Chronic (Syphilis)</option>
+                <option value="True Chronic (Sycosis)">True Chronic (Sycosis)</option>
+                <option value="True Chronic (Mixed Miasmatic)">True Chronic (Mixed Miasmatic)</option>
+              </select>
+            </div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Investigation</label><textarea class="form-input" id="cr_investigation" rows="2"></textarea></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Prescription (Remedy/Potency)</label><textarea class="form-input" id="cr_prescription" rows="2" required></textarea></div>
           </div>
@@ -953,7 +1064,8 @@ async function savePatient(e){
     address:document.getElementById('pf_address').value,
     chief_complaint:document.getElementById('pf_complaint').value,
     history:document.getElementById('pf_history').value,
-    notes:document.getElementById('pf_notes').value
+    notes:document.getElementById('pf_notes').value,
+    hahnemannian_classification:document.getElementById('pf_hahnemannian').value
   };
   try{
     if(id){await API.updatePatient(id,data);toast('Patient updated','success')}
@@ -977,6 +1089,7 @@ async function editPatient(id){
     document.getElementById('pf_complaint').value=p.chief_complaint||'';
     document.getElementById('pf_history').value=p.history||'';
     document.getElementById('pf_notes').value=p.notes||'';
+    document.getElementById('pf_hahnemannian').value=p.hahnemannian_classification||'';
     openModal('addPatientModal');
   }catch(e){toast(e.message,'error')}
 }
@@ -1050,8 +1163,8 @@ async function saveCaseRecord(e) {
   if(local) details.push(`<strong>Local Examination:</strong> ${local}`);
   
   // Diag/Treat
-  const diag = val('cr_diagnosis'), miasm = val('cr_miasmatic'), inv = val('cr_investigation'), fu = val('cr_followup');
-  if(diag||miasm||inv||fu) details.push(`<strong>Diagnosis:</strong> ${diag} (Miasm: ${miasm}). Investigations: ${inv}. Follow-up: ${fu ? fmtDate(fu) : '—'}`);
+  const diag = val('cr_diagnosis'), miasm = val('cr_miasmatic'), inv = val('cr_investigation'), fu = val('cr_followup'), hahn = val('cr_hahnemannian');
+  if(diag||miasm||inv||fu||hahn) details.push(`<strong>Diagnosis:</strong> ${diag} (Miasm: ${miasm}, Hahnemannian: ${hahn || '—'}). Investigations: ${inv}. Follow-up: ${fu ? fmtDate(fu) : '—'}`);
 
   const rx = val('cr_prescription');
   
@@ -1064,6 +1177,13 @@ async function saveCaseRecord(e) {
   
   try {
     await API.addTimeline(id, data);
+    if(hahn) {
+      try {
+        const p = await API.getPatient(id);
+        p.hahnemannian_classification = hahn;
+        await API.updatePatient(id, p);
+      } catch(e) { console.error('Failed to sync Hahnemannian classification', e); }
+    }
     toast('Comprehensive Case Record Saved', 'success');
     closeModal('caseRecordModal');
     loadPatients();
@@ -1085,10 +1205,11 @@ async function viewPatient(id){
   try{
     const p=await API.getPatient(id);
     document.getElementById('vpName').innerHTML=`${p.name} <span class="badge badge-primary" style="margin-left:0.5rem;font-size:0.7rem;vertical-align:middle">${p.id}</span>`;
-    let h=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+    let h=`<div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:1rem;margin-bottom:1.5rem">
       <div class="card" style="padding:1rem"><div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase">Age/Gender</div><div style="font-weight:600">${p.age||'—'} / ${p.gender||'—'}</div></div>
       <div class="card" style="padding:1rem"><div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase">Contact</div><div style="font-weight:600">${p.phone||'—'}</div></div>
       <div class="card" style="padding:1rem"><div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase">Blood</div><div style="font-weight:600">${p.blood_group||'—'}</div></div>
+      <div class="card" style="padding:1rem"><div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase">Hahnemannian</div><div style="font-weight:600">${p.hahnemannian_classification||'—'}</div></div>
     </div>`;
     h+=`<div style="margin-bottom:1.5rem"><h4 style="font-size:1rem;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem"><span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">healing</span> Chief Complaint</h4><div class="card" style="padding:1rem;font-size:0.95rem">${p.chief_complaint||'—'}</div></div>`;
     h+=`<div style="margin-bottom:1.5rem"><h4 style="font-size:1rem;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem"><span class="material-symbols-outlined" style="color:var(--primary);font-size:18px">history_edu</span> Medical History</h4><div class="card" style="padding:1rem;font-size:0.95rem">${p.history||'—'}</div></div>`;
@@ -1257,6 +1378,31 @@ function switchTab(name,btn){
 async function loadStock(q=''){
   try {
     const stock = await API.getStock(q);
+    
+    // Handle Reorder List Section
+    const reorderItems = stock.filter(s => s.reorder_needed == true || s.reorder_needed == 1);
+    const reorderSection = document.getElementById('reorderSection');
+    const reorderList = document.getElementById('reorderList');
+    if (reorderSection && reorderList) {
+      if (reorderItems.length) {
+        reorderSection.style.display = 'block';
+        reorderList.innerHTML = reorderItems.map(s => `
+          <div style="padding:0.75rem 1rem; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center">
+            <div>
+              <strong style="font-size:0.9rem">${s.name}</strong> <span class="badge badge-primary" style="font-size:0.65rem; padding: 0.15rem 0.35rem">${s.potency}</span>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem">Current Stock: <strong>${s.qty} ${s.unit || 'grams'}</strong></div>
+            </div>
+            <div style="display:flex; gap:0.35rem">
+              <a href="mailto:supplier@email.com?subject=Reorder%20Medicine%3A%20${s.name}%20${s.potency}&body=Dear%20Supplier%2C%0A%0AI%20would%20like%20to%20place%20an%20order%20for%20the%20following%20homeopathic%20medicine%3A%0A%0A-%20Medicine%3A%20${s.name}%0A-%20Potency%3A%20${s.potency}%0A%0APlease%20deliver%20urgently.%0A%0AThank%20you%2C%0ADr.%20Hiral%20Mehta" class="btn btn-sm btn-primary" style="text-decoration:none; font-size:0.75rem; padding:0.25rem 0.5rem; display:inline-flex; align-items:center; height:28px">Email</a>
+              <button class="btn btn-sm btn-outline" onclick="unflagForReorder('${s.id}')" style="font-size:0.75rem; padding:0.25rem 0.5rem; height:28px">Remove</button>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        reorderSection.style.display = 'none';
+      }
+    }
+
     const el = document.getElementById('stockList');
     if (!stock.length) {
       el.innerHTML = '<div class="empty-state" style="grid-column: span 12"><span class="material-symbols-outlined">inventory_2</span><h3>No medicines in stock</h3><p>Click "Add Medicine Stock" to add inventory.</p></div>';
@@ -1288,9 +1434,9 @@ async function loadStock(q=''){
                     <button class="btn btn-sm btn-outline" style="height:28px; font-size:0.68rem; color:#f59e0b; border-color:rgba(245,158,11,0.2); padding: 0 0.5rem; display:inline-flex; align-items:center;" onclick="editStock('${s.id}')">
                       <span class="material-symbols-outlined" style="font-size:12px; margin-right: 2px;">edit</span> Edit
                     </button>
-                    <a href="mailto:supplier@email.com?subject=Reorder%20Medicine%3A%20${s.name}%20${s.potency}&body=Dear%20Supplier%2C%0A%0AI%20would%20like%20to%20place%20an%20order%20for%20the%20following%20homeopathic%20medicine%3A%0A%0A-%20Medicine%3A%20${s.name}%0A-%20Potency%3A%20${s.potency}%0A%0APlease%20deliver%20urgently.%0A%0AThank%20you%2C%0ADr.%20Hiral%20Mehta" class="btn btn-sm btn-primary" style="height:28px; font-size:0.68rem; text-decoration:none; display:inline-flex; align-items:center; padding: 0 0.5rem;">
+                    <button class="btn btn-sm btn-primary" style="height:28px; font-size:0.68rem; display:inline-flex; align-items:center; padding: 0 0.5rem;" onclick="flagForReorder('${s.id}')">
                       <span class="material-symbols-outlined" style="font-size:12px; margin-right: 2px;">local_shipping</span> Reorder
-                    </a>
+                    </button>
                     <button class="btn btn-sm" style="height:28px; font-size:0.68rem; background:rgba(239,68,68,0.08); color:#ef4444; border:1px solid rgba(239,68,68,0.15); padding: 0 0.5rem; display:inline-flex; align-items:center;" onclick="deleteStock('${s.id}','${s.name.replace(/'/g, "\\'")}')">
                       <span class="material-symbols-outlined" style="font-size:12px; margin-right: 2px;">delete</span> Del
                     </button>
@@ -1373,6 +1519,26 @@ async function deleteStock(id, name) {
   }
 }
 
+async function flagForReorder(id) {
+  try {
+    await API.reorderStock(id, true);
+    toast('Added to reorder list', 'success');
+    loadStock(document.getElementById('stockSearch').value);
+  } catch(e) {
+    toast('Failed to reorder: ' + e.message, 'error');
+  }
+}
+
+async function unflagForReorder(id) {
+  try {
+    await API.reorderStock(id, false);
+    toast('Removed from reorder list', 'success');
+    loadStock(document.getElementById('stockSearch').value);
+  } catch(e) {
+    toast('Failed to remove: ' + e.message, 'error');
+  }
+}
+
 /* ── Prescription helpers ── */
 let rxPatientId='', rxPatientName='';
 let rxRows=[];
@@ -1387,6 +1553,8 @@ function openRxModal(pid, pname){
   document.getElementById('rx_patient_label').textContent=pname?'Patient: '+pname:'';
   document.getElementById('rx_instructions').value='';
   document.getElementById('rx_follow_up').value='';
+  if (document.getElementById('rx_kit_select')) document.getElementById('rx_kit_select').value='';
+  loadCustomKitsIntoRxDropdown();
   renderRxRows();
   openModal('rxModal');
 }
@@ -1405,6 +1573,121 @@ function renderRxRows(){
       </button>
     </div>
   `).join('');
+}
+
+const PRESETS = {
+  beginner: [
+    {name:'Arnica',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Belladonna',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Bryonia',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Chamomilla',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Nux Vomica',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Pulsatilla',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Rhus Tox',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Aconite',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Arsenicum',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Gelsemium',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Ignatia',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Sulphur',potency:'30C',dose:'4 pills',qty:'1 bottle'}
+  ],
+  travel: [
+    {name:'Arnica',potency:'200C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Arsenicum',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Cocculus',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Nux Vomica',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Veratrum Alb',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Ipecac',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Gelsemium',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Belladonna',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Colocynth',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Ledum',potency:'30C',dose:'4 pills',qty:'1 bottle'}
+  ],
+  womens: [
+    {name:'Sepia',potency:'200C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Pulsatilla',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Lachesis',potency:'200C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Ignatia',potency:'200C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Nat Mur',potency:'200C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Lilium Tig',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Calc Carb',potency:'200C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Phosphorus',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Belladonna',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Chamomilla',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Nux Vomica',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Arnica',potency:'200C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Staphysagria',potency:'200C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Mag Phos',potency:'6X',dose:'4 pills',qty:'1 bottle'},
+    {name:'Ferrum Phos',potency:'6X',dose:'4 pills',qty:'1 bottle'}
+  ],
+  children: [
+    {name:'Chamomilla',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Belladonna',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Pulsatilla',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Calc Carb',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Aconite',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Arnica',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Ipecac',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Spongia',potency:'30C',dose:'4 pills',qty:'1 bottle'},
+    {name:'Mag Phos',potency:'6X',dose:'4 pills',qty:'1 bottle'},
+    {name:'Ferrum Phos',potency:'6X',dose:'4 pills',qty:'1 bottle'}
+  ]
+};
+
+async function loadKitIntoRxForm(val) {
+  if (!val) return;
+  if (PRESETS[val]) {
+    rxRows = PRESETS[val].map(r => ({...r}));
+    renderRxRows();
+    toast('Loaded preset kit into form', 'success');
+  } else {
+    try {
+      const k = await API.getKit(val);
+      const slots = typeof k.slots === 'string' ? JSON.parse(k.slots) : k.slots || [];
+      rxRows = slots.map(s => ({
+        name: s.name,
+        potency: s.potency || '30C',
+        dose: s.keynotes ? s.keynotes.split(' ').slice(0, 2).join(' ') : '4 pills',
+        qty: s.keynotes ? s.keynotes.split(' ').slice(2).join(' ') : '1 bottle'
+      }));
+      renderRxRows();
+      toast(`Loaded custom kit "${k.name}" into form`, 'success');
+    } catch(e) {
+      toast('Failed to load custom kit', 'error');
+    }
+  }
+}
+
+async function saveRxAsKit() {
+  const meds = rxRows.filter(r => r.name.trim());
+  if (!meds.length) {
+    toast('Add some medicines first', 'warning');
+    return;
+  }
+  const name = prompt('Enter a name for this custom kit:', 'My Custom Kit');
+  if (!name) return;
+  try {
+    const slots = meds.map(m => ({
+      name: m.name,
+      potency: m.potency || '30C',
+      keynotes: `${m.dose || '4 pills'} ${m.qty || '1 bottle'}`,
+      category: 'Custom'
+    }));
+    await API.createKit({ name, description: 'Custom kit saved from prescription form', slots, template: 'custom' });
+    toast('Prescription saved as a custom kit!', 'success');
+    loadCustomKitsIntoRxDropdown();
+  } catch(e) {
+    toast('Failed to save kit: ' + e.message, 'error');
+  }
+}
+
+async function loadCustomKitsIntoRxDropdown() {
+  try {
+    const kits = await API.getKits();
+    const optgroup = document.getElementById('rx_custom_kits_optgroup');
+    if (optgroup) {
+      optgroup.innerHTML = kits.map(k => `<option value="${k.id}">📦 ${k.name}</option>`).join('');
+    }
+  } catch(e) {}
 }
 
 async function searchRxPatient(q){
@@ -1490,6 +1773,8 @@ async function loadRx(){
   }catch(e){toast(e.message,'error');}
 }
 
+}
+
 async function deleteRx(pid,rid){
   if(!confirm('Delete this prescription?'))return;
   try{
@@ -1497,6 +1782,64 @@ async function deleteRx(pid,rid){
     toast('Prescription deleted','warning');
     loadRx();
   }catch(e){toast(e.message,'error');}
+}
+
+function switchRxSubTab(tab) {
+  if (tab === 'list') {
+    document.getElementById('rx-subtab-list').style.display = 'block';
+    document.getElementById('rx-subtab-kits').style.display = 'none';
+  } else {
+    document.getElementById('rx-subtab-list').style.display = 'none';
+    document.getElementById('rx-subtab-kits').style.display = 'block';
+    loadCustomKitsInTab();
+  }
+}
+
+function assignKitToPatient(kitKey) {
+  openRxModal(null, '');
+  const select = document.getElementById('rx_kit_select');
+  if (select) {
+    select.value = kitKey;
+    loadKitIntoRxForm(kitKey);
+  }
+}
+
+async function loadCustomKitsInTab() {
+  try {
+    const kits = await API.getKits();
+    const list = document.getElementById('rxCustomKitsList');
+    if (!list) return;
+    if (!kits.length) {
+      list.innerHTML = `<div style="font-size:0.85rem; color:var(--text-muted); text-align:center; padding:1.5rem 0">No custom kits found. Save a kit from the prescription modal.</div>`;
+      return;
+    }
+    list.innerHTML = kits.map(k => {
+      const slots = typeof k.slots === 'string' ? JSON.parse(k.slots) : k.slots || [];
+      return `
+        <div style="padding:0.75rem 1rem; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center">
+          <div>
+            <strong style="font-size:0.9rem">📦 ${k.name}</strong>
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-top: 0.1rem">${slots.length} remedies included</div>
+          </div>
+          <div style="display:flex; gap:0.35rem">
+            <button class="btn btn-sm btn-outline" onclick="assignKitToPatient('${k.id}')" style="font-size:0.75rem; padding:0.25rem 0.5rem;">Assign</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteCustomKitFromTab('${k.id}')" style="font-size:0.75rem; padding:0.25rem 0.5rem; background:rgba(239,68,68,0.08); color:#ef4444; border:1px solid rgba(239,68,68,0.15)">✕</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch(e) {}
+}
+
+async function deleteCustomKitFromTab(id) {
+  if (!confirm('Delete this kit?')) return;
+  try {
+    await API.deleteKit(id);
+    toast('Custom kit deleted', 'success');
+    loadCustomKitsInTab();
+  } catch(e) {
+    toast('Failed to delete kit', 'error');
+  }
 }
 
 // ── Patient Documents Management by Doctor ────────────────

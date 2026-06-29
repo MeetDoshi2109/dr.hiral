@@ -83,11 +83,11 @@ router.get('/:id', requirePatientOrDoctorAuth, async (req, res) => {
 // POST /api/patients  — create
 router.post('/', requireReceptionistOrDoctorAuth, async (req, res) => {
   try {
-    const { name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,vitals } = req.body;
+    const { name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,vitals,hahnemannian_classification } = req.body;
     const { rows } = await db.query(
-      `INSERT INTO patients (name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,vitals)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *`,
-      [name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,JSON.stringify(vitals||{})]
+      `INSERT INTO patients (name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,vitals,hahnemannian_classification)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *`,
+      [name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,JSON.stringify(vitals||{}),hahnemannian_classification || '']
     );
     res.status(201).json(rows[0]);
   } catch (e) { res.status(500).json({ error: e.message }); }
@@ -96,7 +96,7 @@ router.post('/', requireReceptionistOrDoctorAuth, async (req, res) => {
 // PUT /api/patients/:id  — update
 router.put('/:id', requireReceptionistOrDoctorAuth, async (req, res) => {
   try {
-    let { name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,vitals } = req.body;
+    let { name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,vitals,hahnemannian_classification } = req.body;
     
     // Prevent receptionists from overwriting medical fields
     if (req.session && req.session.isReceptionist) {
@@ -109,9 +109,9 @@ router.put('/:id', requireReceptionistOrDoctorAuth, async (req, res) => {
     }
     const { rows } = await db.query(
       `UPDATE patients SET name=$1,age=$2,gender=$3,phone=$4,email=$5,blood_group=$6,
-       address=$7,chief_complaint=$8,history=$9,notes=$10,vitals=$11,last_visit=NOW()
-       WHERE id=$12 RETURNING *`,
-      [name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,JSON.stringify(vitals||{}),req.params.id]
+       address=$7,chief_complaint=$8,history=$9,notes=$10,vitals=$11,hahnemannian_classification=$12,last_visit=NOW()
+       WHERE id=$13 RETURNING *`,
+      [name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,JSON.stringify(vitals||{}),hahnemannian_classification || '',req.params.id]
     );
     if (!rows.length) return res.status(404).json({ error: 'Patient not found' });
     res.json(rows[0]);

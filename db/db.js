@@ -89,6 +89,12 @@ if (usePostgres) {
           return pgPool.query("ALTER TABLE bills ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'received'");
         })
         .then(() => {
+          return pgPool.query("ALTER TABLE patients ADD COLUMN IF NOT EXISTS hahnemannian_classification TEXT");
+        })
+        .then(() => {
+          return pgPool.query("ALTER TABLE medicine_stock ADD COLUMN IF NOT EXISTS reorder_needed BOOLEAN DEFAULT FALSE");
+        })
+        .then(() => {
           return pgPool.query('SELECT COUNT(*) FROM patients');
         })
         .then((res) => {
@@ -346,6 +352,14 @@ function initSQLite() {
       `);
 
       sqliteDb.run("ALTER TABLE bills ADD COLUMN status TEXT DEFAULT 'received'", (err) => {
+        // Ignore error if column already exists
+      });
+
+      sqliteDb.run("ALTER TABLE patients ADD COLUMN hahnemannian_classification TEXT", (err) => {
+        // Ignore error if column already exists
+      });
+
+      sqliteDb.run("ALTER TABLE medicine_stock ADD COLUMN reorder_needed INTEGER DEFAULT 0", (err) => {
         // Ignore error if column already exists
       });
 
