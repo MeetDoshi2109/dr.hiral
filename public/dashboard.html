@@ -461,17 +461,23 @@
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Resp. rate</label><input class="form-input" id="cr_ex_rr"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Pallor</label><input class="form-input" id="cr_ex_pallor"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Skin complexion</label><input class="form-input" id="cr_ex_skin"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Tongue</label><input class="form-input" id="cr_ex_tongue"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Lymphadenopathy</label><input class="form-input" id="cr_ex_lymph"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Oedema</label><input class="form-input" id="cr_ex_oedema"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Cyanosis</label><input class="form-input" id="cr_ex_cyanosis"></div>
           </div>
           
           <h5 style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.05em;">Systemic Examination</h5>
-          <div class="grid-4-col">
+          <div class="grid-4-col" style="margin-bottom:2rem;">
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">CVS</label><input class="form-input" id="cr_sys_cvs"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">CNS</label><input class="form-input" id="cr_sys_cns"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">RS</label><input class="form-input" id="cr_sys_rs"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">P/A</label><input class="form-input" id="cr_sys_pa"></div>
+          </div>
+
+          <h5 style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.05em;">Local Examination</h5>
+          <div class="form-group" style="margin-bottom:1rem;">
+            <textarea class="form-input" id="cr_ex_local" rows="2" placeholder="Local examination findings..."></textarea>
           </div>
         </div>
 
@@ -621,13 +627,22 @@
       </div>
 
       <div class="form-group">
+        <label class="form-label">Payment Status</label>
+        <select class="form-input" id="bill_status" style="background-color: var(--bg-surface);">
+          <option value="received" selected>Received</option>
+          <option value="pending">Pending</option>
+        </select>
+      </div>
+
+      <div class="form-group">
         <label class="form-label">Billing Notes</label>
         <input class="form-input" id="bill_notes" placeholder="e.g. Standard consultation + 1 month meds">
       </div>
 
       <div style="display:flex;gap:0.75rem;justify-content:flex-end;margin-top:0.5rem">
         <button type="button" class="btn-ghost" onclick="closeModal('billingModal')" style="padding:0.65rem 1.25rem;border-radius:var(--radius-md)">Cancel</button>
-        <button type="submit" class="btn btn-primary"><span class="material-symbols-outlined" style="font-size:17px">save</span> Save &amp; Print</button>
+        <button type="button" class="btn btn-secondary" onclick="submitBillForm(false)" style="padding:0.65rem 1.25rem;border-radius:var(--radius-md);background:var(--bg-muted);color:var(--text);border:1px solid var(--border);display:flex;align-items:center;gap:0.25rem;"><span class="material-symbols-outlined" style="font-size:17px">save</span> Just Save</button>
+        <button type="button" class="btn btn-primary" onclick="submitBillForm(true)" style="padding:0.65rem 1.25rem;border-radius:var(--radius-md);display:flex;align-items:center;gap:0.25rem;"><span class="material-symbols-outlined" style="font-size:17px">print</span> Save &amp; Print</button>
       </div>
     </form>
   </div>
@@ -1006,9 +1021,33 @@ async function saveCaseRecord(e) {
   if(men) details.push(`<strong>Mental Generals:</strong> ${men}`);
   
   // Gen/Sys Exam
-  const ex = [val('cr_ex_height'), val('cr_ex_weight'), val('cr_ex_bp'), val('cr_ex_temp')].filter(Boolean).join(', ');
-  const sys = [val('cr_sys_cvs'), val('cr_sys_cns'), val('cr_sys_rs'), val('cr_sys_pa')].filter(Boolean).join(', ');
-  if(ex || sys) details.push(`<strong>Examination:</strong> Gen: ${ex} | Sys: ${sys}`);
+  const exFields = [];
+  if(val('cr_ex_height')) exFields.push(`Height: ${val('cr_ex_height')}`);
+  if(val('cr_ex_weight')) exFields.push(`Weight: ${val('cr_ex_weight')}`);
+  if(val('cr_ex_build')) exFields.push(`Build: ${val('cr_ex_build')}`);
+  if(val('cr_ex_temp')) exFields.push(`Temp: ${val('cr_ex_temp')}`);
+  if(val('cr_ex_pulse')) exFields.push(`Pulse: ${val('cr_ex_pulse')}`);
+  if(val('cr_ex_bp')) exFields.push(`BP: ${val('cr_ex_bp')}`);
+  if(val('cr_ex_rr')) exFields.push(`RR: ${val('cr_ex_rr')}`);
+  if(val('cr_ex_pallor')) exFields.push(`Pallor: ${val('cr_ex_pallor')}`);
+  if(val('cr_ex_skin')) exFields.push(`Skin: ${val('cr_ex_skin')}`);
+  if(val('cr_ex_tongue')) exFields.push(`Tongue: ${val('cr_ex_tongue')}`);
+  if(val('cr_ex_lymph')) exFields.push(`Lymphadenopathy: ${val('cr_ex_lymph')}`);
+  if(val('cr_ex_oedema')) exFields.push(`Oedema: ${val('cr_ex_oedema')}`);
+  if(val('cr_ex_cyanosis')) exFields.push(`Cyanosis: ${val('cr_ex_cyanosis')}`);
+  
+  const sysFields = [];
+  if(val('cr_sys_cvs')) sysFields.push(`CVS: ${val('cr_sys_cvs')}`);
+  if(val('cr_sys_cns')) sysFields.push(`CNS: ${val('cr_sys_cns')}`);
+  if(val('cr_sys_rs')) sysFields.push(`RS: ${val('cr_sys_rs')}`);
+  if(val('cr_sys_pa')) sysFields.push(`P/A: ${val('cr_sys_pa')}`);
+
+  const ex = exFields.join(', ');
+  const sys = sysFields.join(', ');
+  const local = val('cr_ex_local');
+
+  if(ex || sys) details.push(`<strong>Examination:</strong> Gen: ${ex || '—'} | Sys: ${sys || '—'}`);
+  if(local) details.push(`<strong>Local Examination:</strong> ${local}`);
   
   // Diag/Treat
   const diag = val('cr_diagnosis'), miasm = val('cr_miasmatic'), inv = val('cr_investigation'), fu = val('cr_followup');
@@ -1748,15 +1787,21 @@ function calcBillTotal() {
   document.getElementById('bill_total_val').textContent = `₹ ${total.toFixed(2)}`;
 }
 
-async function saveBill(e) {
-  e.preventDefault();
+function submitBillForm(shouldPrint) {
+  const form = document.getElementById('billingForm');
+  if (!form.reportValidity()) return;
+  saveBill(shouldPrint);
+}
+
+async function saveBill(shouldPrint) {
   const data = {
     patient_id: document.getElementById('bill_patient_id').value || null,
     patient_name: document.getElementById('bill_patient_name').value || document.getElementById('bill_patient_search').value.trim(),
     appt_charges: parseFloat(document.getElementById('bill_appt_charges').value) || 0,
     med_charges: parseFloat(document.getElementById('bill_med_charges').value) || 0,
     is_first_visit: document.getElementById('bill_is_first').checked,
-    notes: document.getElementById('bill_notes').value.trim()
+    notes: document.getElementById('bill_notes').value.trim(),
+    status: document.getElementById('bill_status').value
   };
 
   try {
@@ -1765,8 +1810,9 @@ async function saveBill(e) {
     closeModal('billingModal');
     loadBills();
     
-    // Auto print bill on save
-    printInvoice(saved);
+    if (shouldPrint) {
+      printInvoice(saved);
+    }
   } catch (err) {
     toast(err.message, 'error');
   }
@@ -1793,6 +1839,7 @@ async function loadBills() {
               <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Medicines (₹)</th>
               <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Total (₹)</th>
               <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Type</th>
+              <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Status</th>
               <th style="padding:0.75rem 0.5rem; text-align:right; color:var(--text-muted)">Actions</th>
             </tr>
           </thead>
@@ -1808,6 +1855,11 @@ async function loadBills() {
                 <td style="padding:0.75rem 0.5rem">
                   <span class="badge" style="font-size:0.7rem; background:${b.is_first_visit ? 'rgba(8,145,178,0.1)' : 'rgba(255,255,255,0.05)'}; color:${b.is_first_visit ? 'var(--primary)' : 'var(--text-secondary)'}">
                     ${b.is_first_visit ? 'First Visit' : 'Follow-up'}
+                  </span>
+                </td>
+                <td style="padding:0.75rem 0.5rem">
+                  <span class="badge" style="font-size:0.7rem; background:${b.status === 'pending' ? 'rgba(239,68,68,0.1)' : 'rgba(16,185,129,0.1)'}; color:${b.status === 'pending' ? '#ef4444' : '#10b981'}; font-weight:600;">
+                    ${b.status === 'pending' ? 'Pending' : 'Received'}
                   </span>
                 </td>
                 <td style="padding:0.75rem 0.5rem; text-align:right;">
@@ -1885,7 +1937,7 @@ function printInvoice(bill) {
           <div class="clinic-details">
             <h2>Dr. Hiral Mehta</h2>
             <p>BHMS Homeopathic Clinic &amp; Wellness Portal</p>
-            <p>Phone: +91 98765 43210 | Email: contact@drhiral.com</p>
+            <p>Phone: +91 98900 05059 | Email: contact@drhiral.com</p>
           </div>
           <div class="invoice-title">
             <h1>INVOICE</h1>
@@ -1903,7 +1955,9 @@ function printInvoice(bill) {
           </tr>
           <tr>
             <td class="label">Visit Type:</td>
-            <td colspan="3">${bill.is_first_visit ? 'First Consultation' : 'Follow-up Consultation'}</td>
+            <td>${bill.is_first_visit ? 'First Consultation' : 'Follow-up Consultation'}</td>
+            <td class="label" style="text-align: right;">Payment Status:</td>
+            <td style="text-align: right; font-weight: bold; color: ${bill.status === 'pending' ? '#ef4444' : '#0f766e'}">${bill.status === 'pending' ? 'Pending' : 'Received'}</td>
           </tr>
         </table>
         

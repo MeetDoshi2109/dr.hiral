@@ -134,6 +134,7 @@ CREATE TABLE IF NOT EXISTS bills (
   total_amount  REAL DEFAULT 0,
   is_first_visit BOOLEAN DEFAULT FALSE,
   notes         TEXT,
+  status        TEXT DEFAULT 'received',
   created_at    TIMESTAMPTZ DEFAULT NOW()
 );
 

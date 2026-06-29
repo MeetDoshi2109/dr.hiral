@@ -80,9 +80,13 @@ if (usePostgres) {
               total_amount  REAL DEFAULT 0,
               is_first_visit BOOLEAN DEFAULT FALSE,
               notes         TEXT,
+              status        TEXT DEFAULT 'received',
               created_at    TIMESTAMPTZ DEFAULT NOW()
             )
           `);
+        })
+        .then(() => {
+          return pgPool.query("ALTER TABLE bills ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'received'");
         })
         .then(() => {
           return pgPool.query('SELECT COUNT(*) FROM patients');
@@ -336,9 +340,14 @@ function initSQLite() {
           total_amount  REAL DEFAULT 0,
           is_first_visit INTEGER DEFAULT 0,
           notes         TEXT,
+          status        TEXT DEFAULT 'received',
           created_at    TEXT DEFAULT CURRENT_TIMESTAMP
         )
       `);
+
+      sqliteDb.run("ALTER TABLE bills ADD COLUMN status TEXT DEFAULT 'received'", (err) => {
+        // Ignore error if column already exists
+      });
 
       sqliteDb.get("SELECT COUNT(*) as count FROM patients", (err, row) => {
         if (err) return;

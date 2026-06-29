@@ -24,7 +24,7 @@ router.get('/', requireAuth, async (req, res) => {
 // POST /api/bills — Create a new bill
 router.post('/', requireAuth, async (req, res) => {
   try {
-    const { patient_id, patient_name, appt_charges, med_charges, is_first_visit, notes } = req.body;
+    const { patient_id, patient_name, appt_charges, med_charges, is_first_visit, notes, status } = req.body;
     if (!patient_name) {
       return res.status(400).json({ error: 'Patient name is required' });
     }
@@ -36,9 +36,9 @@ router.post('/', requireAuth, async (req, res) => {
 
     // Use db.js uniform query engine
     const { rows } = await db.query(
-      `INSERT INTO bills (patient_id, patient_name, appt_charges, med_charges, total_amount, is_first_visit, notes)
-       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-      [patient_id || null, patient_name, apptChg, medChg, total, firstVisit, notes || '']
+      `INSERT INTO bills (patient_id, patient_name, appt_charges, med_charges, total_amount, is_first_visit, notes, status)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+      [patient_id || null, patient_name, apptChg, medChg, total, firstVisit, notes || '', status || 'received']
     );
 
     res.status(201).json(rows[0]);

@@ -7,7 +7,7 @@ const APP = {
   qualification: 'BHMS, CCH',
   specialty: 'Classical Homeopathy',
   clinic: 'Mehta Homeopathy Wellness Center',
-  phone: '+91 98765 43210',
+  phone: '+91 98900 05059',
   email: 'hiral.mehta@homeocare.in',
   password: 'Dr.Hiral@_Mehta0000',
   sessionKey: 'hm_auth_session',
