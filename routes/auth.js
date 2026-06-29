@@ -26,7 +26,7 @@ const loginLimiter = rateLimit({
 
 // POST /api/auth/login
 const DOCTOR_PWD = process.env.DOCTOR_PASSWORD || 'Dr.Hiral@_Mehta0000';
-const RECEPTIONIST_PWD = process.env.RECEPTIONIST_PASSWORD || 'Hiral@_Rec2026';
+const RECEPTIONIST_PWD = process.env.RECEPTIONIST_PASSWORD || 'ReceptionLogin9876';
 
 router.post('/login', loginLimiter, async (req, res) => {
   const { password, role } = req.body;
