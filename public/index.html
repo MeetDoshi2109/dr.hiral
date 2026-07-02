@@ -53,8 +53,10 @@
         <li><a href="/patient.html">Patient Portal</a></li>
       </ul>
       <div class="navbar-actions">
-        <button class="btn-ghost lang-toggle-icon notranslate" onclick="toggleLanguage()" aria-label="Toggle Language" style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; padding: 0; margin-right: 0.25rem; border: 1px solid rgba(255,255,255,0.15);">
-          <span id="lang-text" class="notranslate" style="font-size: 13px; font-weight: 700; font-family: 'Manrope', sans-serif;">हा</span>
+        <button class="btn-ghost lang-toggle-icon notranslate" onclick="toggleLanguage()" aria-label="Toggle Language"
+          style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; padding: 0; margin-right: 0.25rem; border: 1px solid rgba(255,255,255,0.15);">
+          <span id="lang-text" class="notranslate"
+            style="font-size: 13px; font-weight: 700; font-family: 'Manrope', sans-serif;">हा</span>
         </button>
         <button class="btn-ghost theme-toggle-icon" id="theme-toggle" aria-label="Toggle theme"
           style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; cursor: pointer;">
@@ -603,11 +605,11 @@
             <ul style="list-style:none;display:flex;flex-direction:column;gap:0.4rem;font-size:0.9rem">
               <li
                 style="display:flex;justify-content:space-between;color:var(--text-secondary);border-bottom:1px solid var(--border);padding-bottom:0.3rem">
-                <span>Mon-Fri</span><span style="color:var(--text)">9 AM – 6 PM</span>
+                <span>Mon-Sat (Morning)</span><span style="color:var(--text)">10:00 AM – 12:30 PM</span>
               </li>
               <li
                 style="display:flex;justify-content:space-between;color:var(--text-secondary);border-bottom:1px solid var(--border);padding-bottom:0.3rem">
-                <span>Sat</span><span style="color:var(--text)">10 AM – 2 PM</span>
+                <span>Mon-Sat (Evening)</span><span style="color:var(--text)">7:30 PM – 9:30 PM</span>
               </li>
               <li style="display:flex;justify-content:space-between;color:var(--text-secondary)"><span>Sun</span><span
                   style="color:var(--secondary)">Closed</span></li>
@@ -928,8 +930,8 @@
             <h4 style="font-weight:700; color:var(--text); margin-bottom:0.5rem;">Clinic Hours &amp; Contact</h4>
             <p style="margin-bottom:0.5rem;"><strong>Hours:</strong></p>
             <ul style="margin-bottom:0.75rem; list-style-type:square; padding-left:1.25rem;">
-              <li>Mon-Fri: 9:00 AM – 6:00 PM</li>
-              <li>Sat: 10:00 AM – 2:00 PM</li>
+              <li>Mon-Sat (Morning): 10:00 AM – 12:30 PM</li>
+              <li>Mon-Sat (Evening): 7:30 PM – 9:30 PM</li>
               <li>Sun: Closed</li>
             </ul>
             <p><strong>Email:</strong> drhiral007@gmail.com</p>
@@ -1202,15 +1204,20 @@
           <p class="text-secondary-c text-sm">Dr. Hiral · BHMS (MUHS)</p>
         </div>
         <!-- Verification QR Code -->
-        <div style="background:rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.5rem; display: flex; flex-direction: column; align-items: center;">
-          <img src="/images/doctorverify.png" alt="Verification QR Code" style="width: 100%; max-width: 400px; height: auto; object-fit: contain; margin-bottom: 1rem; border-radius: 8px; border: 1px solid var(--border);">
-          <p class="text-sm text-secondary-c" style="line-height: 1.5; max-width: 280px; margin: 0 auto 0.5rem;">Scan this QR code or click the button below to verify doctor registration credentials directly.</p>
+        <div
+          style="background:rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.5rem; display: flex; flex-direction: column; align-items: center;">
+          <img src="/images/doctorverify.png" alt="Verification QR Code"
+            style="width: 100%; max-width: 400px; height: auto; object-fit: contain; margin-bottom: 1rem; border-radius: 8px; border: 1px solid var(--border);">
+          <p class="text-sm text-secondary-c" style="line-height: 1.5; max-width: 280px; margin: 0 auto 0.5rem;">Scan
+            this QR code or click the button below to verify doctor registration credentials directly.</p>
         </div>
-        <a href="https://digikyd.com/bY9d" target="_blank" class="btn btn-primary w-full" style="padding:0.75rem; margin-bottom: 0.75rem; justify-content: center; text-decoration: none;">
+        <a href="https://digikyd.com/bY9d" target="_blank" class="btn btn-primary w-full"
+          style="padding:0.75rem; margin-bottom: 0.75rem; justify-content: center; text-decoration: none;">
           <span class="material-symbols-outlined" style="font-size:18px; margin-right: 4px;">verified</span>
           <span>Verify Doctor on digiKYD</span>
         </a>
-        <button class="btn btn-outline w-full" onclick="closeModal('cert-modal')" style="padding:0.75rem;">Close Verification View</button>
+        <button class="btn btn-outline w-full" onclick="closeModal('cert-modal')" style="padding:0.75rem;">Close
+          Verification View</button>
       </div>
     </div>
 
