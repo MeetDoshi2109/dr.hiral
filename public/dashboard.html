@@ -559,9 +559,13 @@
         <!-- Medical History -->
         <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
           <h4 class="mb-sm text-secondary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">history</span> Medical History</h4>
-          <div class="grid-2-col">
+          <div class="grid-2-col" style="margin-bottom:1rem">
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Family History</label><textarea class="form-input" id="cr_mh_family" rows="2"></textarea></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Past History</label><textarea class="form-input" id="cr_mh_past" rows="2"></textarea></div>
+          </div>
+          <div class="grid-2-col">
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Female History (Obstetric/Menstrual)</label><textarea class="form-input" id="cr_mh_female" rows="2"></textarea></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Addictions History</label><textarea class="form-input" id="cr_mh_addictions" rows="2"></textarea></div>
           </div>
         </div>
 
@@ -597,6 +601,7 @@
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Pulse rate</label><input class="form-input" id="cr_ex_pulse"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Blood pressure</label><input class="form-input" id="cr_ex_bp"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Resp. rate</label><input class="form-input" id="cr_ex_rr"></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">SpO2 (%)</label><input class="form-input" id="cr_ex_spo2"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Pallor</label><input class="form-input" id="cr_ex_pallor"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Skin complexion</label><input class="form-input" id="cr_ex_skin"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Tongue</label><input class="form-input" id="cr_ex_tongue"></div>
@@ -1171,8 +1176,10 @@ async function saveCaseRecord(e) {
   }
   
   // Medical History
-  const fam = val('cr_mh_family'), past = val('cr_mh_past');
-  if(fam||past) details.push(`<strong>History:</strong> Family: ${fam}. Past: ${past}`);
+  const fam = val('cr_mh_family'), past = val('cr_mh_past'), female = val('cr_mh_female'), addictions = val('cr_mh_addictions');
+  if(fam||past||female||additions) {
+    details.push(`<strong>History:</strong> Family: ${fam || '—'}. Past: ${past || '—'}. Female: ${female || '—'}. Addictions: ${additions || '—'}`);
+  }
   
   // Birth
   const ante = val('cr_bd_ante'), nat = val('cr_bd_natal'), post = val('cr_bd_post'), imm = val('cr_bd_immunisation'), mile = val('cr_bd_milestones'), moth = val('cr_bd_mother');
@@ -1191,6 +1198,7 @@ async function saveCaseRecord(e) {
   if(val('cr_ex_pulse')) exFields.push(`Pulse: ${val('cr_ex_pulse')}`);
   if(val('cr_ex_bp')) exFields.push(`BP: ${val('cr_ex_bp')}`);
   if(val('cr_ex_rr')) exFields.push(`RR: ${val('cr_ex_rr')}`);
+  if(val('cr_ex_spo2')) exFields.push(`SpO2: ${val('cr_ex_spo2')}%`);
   if(val('cr_ex_pallor')) exFields.push(`Pallor: ${val('cr_ex_pallor')}`);
   if(val('cr_ex_skin')) exFields.push(`Skin: ${val('cr_ex_skin')}`);
   if(val('cr_ex_tongue')) exFields.push(`Tongue: ${val('cr_ex_tongue')}`);
