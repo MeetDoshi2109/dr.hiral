@@ -10,6 +10,7 @@
 
 /* ── Design Tokens (Light) ── */
 :root {
+  color-scheme: light;
   --primary: #0d9488;
   --primary-light: #2dd4bf;
   --primary-dark: #0f766e;
@@ -56,6 +57,7 @@
 
 /* ── Dark Mode Tokens ── */
 .dark {
+  color-scheme: dark;
   --primary: #6bd8cb;
   --primary-light: #89f5e7;
   --primary-dark: #0d9488;
