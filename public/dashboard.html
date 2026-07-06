@@ -315,6 +315,26 @@
 
     <!-- BILLING TAB -->
     <div id="tab-billing" class="tab-panel reveal">
+      <!-- Billing Stats Grid -->
+      <div class="dash-grid" style="margin-bottom: 2rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <div class="stat-card" style="padding: 1rem 1.25rem;">
+          <div class="val" id="bTotalReceived" style="color: #10b981; font-size: 1.5rem;">₹ 0.00</div>
+          <div class="lbl" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-top: 0.25rem;">Total Received</div>
+        </div>
+        <div class="stat-card" style="padding: 1rem 1.25rem;">
+          <div class="val" id="bTotalPending" style="color: #ef4444; font-size: 1.5rem;">₹ 0.00</div>
+          <div class="lbl" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-top: 0.25rem;">Total Pending</div>
+        </div>
+        <div class="stat-card" style="padding: 1rem 1.25rem;">
+          <div class="val" id="bTodayReceived" style="color: var(--primary); font-size: 1.5rem;">₹ 0.00</div>
+          <div class="lbl" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-top: 0.25rem;">Today's Receipt</div>
+        </div>
+        <div class="stat-card" style="padding: 1rem 1.25rem;">
+          <div class="val" id="bTodayPending" style="color: #f59e0b; font-size: 1.5rem;">₹ 0.00</div>
+          <div class="lbl" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-top: 0.25rem;">Today's Pending</div>
+        </div>
+      </div>
+
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.5rem">
         <div>
           <h3 style="font-size:1.15rem;font-weight:700;margin-bottom:0.15rem">Billing & Invoices</h3>
@@ -2293,6 +2313,40 @@ async function saveBill(shouldPrint) {
 async function loadBills() {
   try {
     const list = await API.getBills();
+    
+    // Calculate stats dynamically
+    let totalReceived = 0;
+    let totalPending = 0;
+    let todayReceived = 0;
+    let todayPending = 0;
+
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const todayStr = `${yyyy}-${mm}-${dd}`;
+
+    list.forEach(b => {
+      const amount = parseFloat(b.total_amount) || 0;
+      const billDateStr = b.bill_date ? b.bill_date.split('T')[0] : '';
+      const isToday = billDateStr === todayStr;
+
+      if (b.status === 'pending') {
+        totalPending += amount;
+        if (isToday) todayPending += amount;
+      } else {
+        totalReceived += amount;
+        if (isToday) todayReceived += amount;
+      }
+    });
+
+    // Update UI elements
+    const formatCurrency = (val) => `₹ ${val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    document.getElementById('bTotalReceived').textContent = formatCurrency(totalReceived);
+    document.getElementById('bTotalPending').textContent = formatCurrency(totalPending);
+    document.getElementById('bTodayReceived').textContent = formatCurrency(todayReceived);
+    document.getElementById('bTodayPending').textContent = formatCurrency(todayPending);
+
     const el = document.getElementById('billingList');
     if (!list.length) {
       el.innerHTML = '<div class="empty-state"><span class="material-symbols-outlined">payments</span><h3>No bills recorded yet</h3><p>Click "Create New Bill" to generate one.</p></div>';
