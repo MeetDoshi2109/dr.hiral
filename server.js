@@ -21,14 +21,18 @@ app.use(cors({ origin: process.env.SITE_URL || true, credentials: true }));
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 300, message: { error: 'Too many requests' } }));
 
 // ── Middleware ────────────────────────────────────────
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Global Input Sanitization Middleware to prevent XSS / Script Injection
 app.use((req, res, next) => {
   if (req.body && typeof req.body === 'object') {
     for (const key in req.body) {
       if (typeof req.body[key] === 'string') {
+        if (req.body[key].startsWith('data:')) {
+          // Skip sanitizing base64/data URIs to prevent catastrophic backtracking or data corruption
+          continue;
+        }
         req.body[key] = req.body[key].replace(/<[^>]*>?/gm, '').trim();
       }
     }
