@@ -7,12 +7,30 @@ const db = require('../db/db');
 
 // Ensure VAPID keys are initialized
 const keysPath = path.join(__dirname, '..', 'db', 'vapid_keys.json');
-let vapidKeys;
-if (fs.existsSync(keysPath)) {
-  vapidKeys = JSON.parse(fs.readFileSync(keysPath, 'utf8'));
+let vapidKeys = null;
+
+if (process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
+  vapidKeys = {
+    publicKey: process.env.VAPID_PUBLIC_KEY,
+    privateKey: process.env.VAPID_PRIVATE_KEY
+  };
 } else {
-  vapidKeys = webPush.generateVAPIDKeys();
-  fs.writeFileSync(keysPath, JSON.stringify(vapidKeys, null, 2), 'utf8');
+  if (fs.existsSync(keysPath)) {
+    try {
+      vapidKeys = JSON.parse(fs.readFileSync(keysPath, 'utf8'));
+    } catch (e) {
+      console.error('Failed to read vapid_keys.json:', e);
+    }
+  }
+
+  if (!vapidKeys) {
+    vapidKeys = webPush.generateVAPIDKeys();
+    try {
+      fs.writeFileSync(keysPath, JSON.stringify(vapidKeys, null, 2), 'utf8');
+    } catch (err) {
+      console.warn('VAPID keys could not be saved to disk (normal on serverless/read-only filesystems):', err.message);
+    }
+  }
 }
 
 webPush.setVapidDetails(
