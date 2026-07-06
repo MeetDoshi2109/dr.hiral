@@ -82,6 +82,96 @@
       .rx-editor-row input:first-child { grid-column: span 2; }
       .rx-editor-row button { grid-column: span 2; justify-content: center; width: 100%; height: 36px; }
       .modal { padding: 1.25rem; }
+      
+      /* Custom Tree Select styling */
+      .tree-select-wrapper {
+        position: relative;
+        width: 100%;
+      }
+      .tree-select-trigger {
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 0.65rem 1.25rem;
+        font-size: 0.88rem;
+        color: var(--text);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        user-select: none;
+        min-height: 42px;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      .tree-select-trigger:hover {
+        border-color: var(--primary);
+      }
+      .tree-select-wrapper.open .tree-select-trigger {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(8,145,178,0.12);
+      }
+      .tree-select-trigger::after {
+        content: "arrow_drop_down";
+        font-family: "Material Symbols Outlined";
+        font-size: 20px;
+        color: var(--text-muted);
+      }
+      .tree-select-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 999;
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-lg);
+        min-width: 260px;
+        margin-top: 4px;
+        padding: 0.35rem 0;
+        list-style: none;
+      }
+      .tree-select-wrapper.open .tree-select-menu {
+        display: block;
+      }
+      .tree-select-menu li {
+        position: relative;
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.2s, color 0.2s;
+      }
+      .tree-select-menu li:hover {
+        background: var(--bg-muted);
+        color: var(--primary);
+      }
+      .tree-select-menu li.has-children::after {
+        content: "chevron_right";
+        font-family: "Material Symbols Outlined";
+        font-size: 16px;
+        color: var(--text-muted);
+      }
+      .tree-select-menu li ul {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 100%;
+        background: var(--bg-surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-lg);
+        min-width: 240px;
+        margin-left: 2px;
+        padding: 0.35rem 0;
+        list-style: none;
+      }
+      .tree-select-menu li:hover > ul {
+        display: block;
+      }
     }
   </style>
 </head>
@@ -368,42 +458,98 @@
         <div class="form-group"><label class="form-label">Blood Group</label><input class="form-input" id="pf_blood"></div>
       </div>
       <div class="form-group" style="margin-bottom:1rem">
-        <select class="form-input" id="pf_hahnemannian" style="background-color: var(--bg-surface);">
-          <option value="">— Select Classification —</option>
-          <option value="Indisposition (§150)">Indisposition (§150)</option>
-          <option value="Dynamic Diseases" disabled style="font-weight: bold; color: var(--text);">Dynamic Diseases</option>
-          <option value="Dynamic > Acute" disabled>&nbsp;&nbsp;├─ Acute Diseases (§72, §73, 152)</option>
-          <option value="Dynamic > Acute > Individual">&nbsp;&nbsp;│&nbsp;&nbsp;├─ Individual</option>
-          <option value="Dynamic > Acute > Sporadic">&nbsp;&nbsp;│&nbsp;&nbsp;├─ Sporadic</option>
-          <option value="Dynamic > Acute > Epidemic">&nbsp;&nbsp;│&nbsp;&nbsp;└─ Epidemic</option>
-          <option value="Dynamic > Chronic" disabled>&nbsp;&nbsp;└─ Chronic Diseases (§74, §82)</option>
-          <option value="Dynamic > Chronic > Fully Developed" disabled>&nbsp;&nbsp;&nbsp;&nbsp;├─ Fully Developed Symptoms</option>
-          <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Non-Miasmatic Chronic</option>
-          <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ Pseudo-Chronic (§77)</option>
-          <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Habit">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ Habit</option>
-          <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Living">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ Living</option>
-          <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Occupation">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;└─ Occupation</option>
-          <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Artificial-Chronic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;└─ Artificial Chronic (§76)</option>
-          <option value="Dynamic > Chronic > Fully Developed > Miasmatic" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Miasmatic Chronic</option>
-          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Single Disease</option>
-          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single > Psora">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Psora</option>
-          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single > Syphilis">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Syphilis</option>
-          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single > Sycosis">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Sycosis</option>
-          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Complex Disease</option>
-          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-sycotic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Psoro-sycotic</option>
-          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syphilis">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Psoro-syphilis</option>
-          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Syco-syphilitic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Syco-syphilitic</option>
-          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syco-syphilitic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Psoro-syco-syphilitic</option>
-          <option value="Dynamic > Chronic > Few Symptoms" disabled>&nbsp;&nbsp;&nbsp;&nbsp;└─ Few Symptoms</option>
-          <option value="Dynamic > Chronic > Few Symptoms > One-Sided" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ One-Sided Disease (§173)</option>
-          <option value="Dynamic > Chronic > Few Symptoms > One-Sided > Mental">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Only Mental (§210-§230)</option>
-          <option value="Dynamic > Chronic > Few Symptoms > One-Sided > Physical">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Only Physical</option>
-          <option value="Dynamic > Chronic > Few Symptoms > Local" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Local Disease</option>
-          <option value="Dynamic > Chronic > Few Symptoms > Local > Surgical" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Surgical (§186)</option>
-          <option value="Dynamic > Chronic > Few Symptoms > Local > Surgical > Pure">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Pure</option>
-          <option value="Dynamic > Chronic > Few Symptoms > Local > Surgical > Partial">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Partial</option>
-          <option value="Dynamic > Chronic > Few Symptoms > Local > Non-Surgical">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Non-Surgical (§187)</option>
-        </select>
+        <label class="form-label">Hahnemannian Classification of Disease</label>
+        <div class="tree-select-wrapper" id="pf_hahnemannian_wrapper">
+          <div class="tree-select-trigger" onclick="toggleTreeSelect(event, 'pf_hahnemannian_wrapper')">— Select Classification —</div>
+          <input type="hidden" id="pf_hahnemannian">
+          <ul class="tree-select-menu">
+            <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Indisposition (§150)')">Indisposition (§150)</li>
+            <li class="has-children" onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic Diseases')">
+              Dynamic Diseases
+              <ul>
+                <li class="has-children" onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Acute Diseases (§72, §73, 152)')">
+                  Acute Diseases (§72, §73, 152)
+                  <ul>
+                    <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Acute > Individual')">Individual</li>
+                    <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Acute > Sporadic')">Sporadic</li>
+                    <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Acute > Epidemic')">Epidemic</li>
+                  </ul>
+                </li>
+                <li class="has-children" onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic Diseases (§74, §82)')">
+                  Chronic Diseases (§74, §82)
+                  <ul>
+                    <li class="has-children" onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed Symptoms')">
+                      Fully Developed Symptoms
+                      <ul>
+                        <li class="has-children" onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic')">
+                          Non-Miasmatic Chronic
+                          <ul>
+                            <li class="has-children" onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic')">
+                              Pseudo-Chronic (§77)
+                              <ul>
+                                <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Habit')">Habit</li>
+                                <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Living')">Living</li>
+                                <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Occupation')">Occupation</li>
+                              </ul>
+                            </li>
+                            <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Artificial-Chronic')">Artificial Chronic (§76)</li>
+                          </ul>
+                        </li>
+                        <li class="has-children" onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic')">
+                          Miasmatic Chronic
+                          <ul>
+                            <li class="has-children" onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Single')">
+                              Single Disease
+                              <ul>
+                                <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Single > Psora')">Psora</li>
+                                <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Single > Syphilis')">Syphilis</li>
+                                <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Single > Sycosis')">Sycosis</li>
+                              </ul>
+                            </li>
+                            <li class="has-children" onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex')">
+                              Complex Disease
+                              <ul>
+                                <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-sycotic')">Psoro-sycotic</li>
+                                <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syphilis')">Psoro-syphilis</li>
+                                <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Syco-syphilitic')">Syco-syphilitic</li>
+                                <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syco-syphilitic')">Psoro-syco-syphilitic</li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="has-children" onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms')">
+                      Few Symptoms
+                      <ul>
+                        <li class="has-children" onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > One-Sided')">
+                          One-Sided Disease (§173)
+                          <ul>
+                            <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > One-Sided > Mental')">Only Mental (§210-§230)</li>
+                            <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > One-Sided > Physical')">Only Physical</li>
+                          </ul>
+                        </li>
+                        <li class="has-children" onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local')">
+                          Local Disease
+                          <ul>
+                            <li class="has-children" onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local > Surgical')">
+                              Surgical (§186)
+                              <ul>
+                                <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local > Surgical > Pure')">Pure</li>
+                                <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local > Surgical > Partial')">Partial</li>
+                              </ul>
+                            </li>
+                            <li onclick="selectTreeValue(event, 'pf_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local > Non-Surgical')">Non-Surgical (§187)</li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:1rem;margin-bottom:1rem">
         <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="pf_phone"></div>
@@ -653,42 +799,97 @@
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Diagnosis</label><input class="form-input" id="cr_diagnosis"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Miasmatic Diagnosis</label><input class="form-input" id="cr_miasmatic"></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Hahnemannian Classification</label>
-              <select class="form-input" id="cr_hahnemannian" style="background-color: var(--bg-surface);">
-                <option value="">— Select Classification —</option>
-                <option value="Indisposition (§150)">Indisposition (§150)</option>
-                <option value="Dynamic Diseases" disabled style="font-weight: bold; color: var(--text);">Dynamic Diseases</option>
-                <option value="Dynamic > Acute" disabled>&nbsp;&nbsp;├─ Acute Diseases (§72, §73, 152)</option>
-                <option value="Dynamic > Acute > Individual">&nbsp;&nbsp;│&nbsp;&nbsp;├─ Individual</option>
-                <option value="Dynamic > Acute > Sporadic">&nbsp;&nbsp;│&nbsp;&nbsp;├─ Sporadic</option>
-                <option value="Dynamic > Acute > Epidemic">&nbsp;&nbsp;│&nbsp;&nbsp;└─ Epidemic</option>
-                <option value="Dynamic > Chronic" disabled>&nbsp;&nbsp;└─ Chronic Diseases (§74, §82)</option>
-                <option value="Dynamic > Chronic > Fully Developed" disabled>&nbsp;&nbsp;&nbsp;&nbsp;├─ Fully Developed Symptoms</option>
-                <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Non-Miasmatic Chronic</option>
-                <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ Pseudo-Chronic (§77)</option>
-                <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Habit">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ Habit</option>
-                <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Living">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ Living</option>
-                <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Occupation">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;└─ Occupation</option>
-                <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Artificial-Chronic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;└─ Artificial Chronic (§76)</option>
-                <option value="Dynamic > Chronic > Fully Developed > Miasmatic" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Miasmatic Chronic</option>
-                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Single Disease</option>
-                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single > Psora">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Psora</option>
-                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single > Syphilis">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Syphilis</option>
-                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single > Sycosis">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Sycosis</option>
-                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Complex Disease</option>
-                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-sycotic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Psoro-sycotic</option>
-                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syphilis">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Psoro-syphilis</option>
-                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Syco-syphilitic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Syco-syphilitic</option>
-                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syco-syphilitic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Psoro-syco-syphilitic</option>
-                <option value="Dynamic > Chronic > Few Symptoms" disabled>&nbsp;&nbsp;&nbsp;&nbsp;└─ Few Symptoms</option>
-                <option value="Dynamic > Chronic > Few Symptoms > One-Sided" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ One-Sided Disease (§173)</option>
-                <option value="Dynamic > Chronic > Few Symptoms > One-Sided > Mental">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Only Mental (§210-§230)</option>
-                <option value="Dynamic > Chronic > Few Symptoms > One-Sided > Physical">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Only Physical</option>
-                <option value="Dynamic > Chronic > Few Symptoms > Local" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Local Disease</option>
-                <option value="Dynamic > Chronic > Few Symptoms > Local > Surgical" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Surgical (§186)</option>
-                <option value="Dynamic > Chronic > Few Symptoms > Local > Surgical > Pure">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Pure</option>
-                <option value="Dynamic > Chronic > Few Symptoms > Local > Surgical > Partial">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Partial</option>
-                <option value="Dynamic > Chronic > Few Symptoms > Local > Non-Surgical">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Non-Surgical (§187)</option>
-              </select>
+              <div class="tree-select-wrapper" id="cr_hahnemannian_wrapper">
+                <div class="tree-select-trigger" onclick="toggleTreeSelect(event, 'cr_hahnemannian_wrapper')">— Select Classification —</div>
+                <input type="hidden" id="cr_hahnemannian">
+                <ul class="tree-select-menu">
+                  <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Indisposition (§150)')">Indisposition (§150)</li>
+                  <li class="has-children" onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic Diseases')">
+                    Dynamic Diseases
+                    <ul>
+                      <li class="has-children" onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Acute Diseases (§72, §73, 152)')">
+                        Acute Diseases (§72, §73, 152)
+                        <ul>
+                          <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Acute > Individual')">Individual</li>
+                          <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Acute > Sporadic')">Sporadic</li>
+                          <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Acute > Epidemic')">Epidemic</li>
+                        </ul>
+                      </li>
+                      <li class="has-children" onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic Diseases (§74, §82)')">
+                        Chronic Diseases (§74, §82)
+                        <ul>
+                          <li class="has-children" onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed Symptoms')">
+                            Fully Developed Symptoms
+                            <ul>
+                              <li class="has-children" onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic')">
+                                Non-Miasmatic Chronic
+                                <ul>
+                                  <li class="has-children" onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic')">
+                                    Pseudo-Chronic (§77)
+                                    <ul>
+                                      <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Habit')">Habit</li>
+                                      <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Living')">Living</li>
+                                      <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Occupation')">Occupation</li>
+                                    </ul>
+                                  </li>
+                                  <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Artificial-Chronic')">Artificial Chronic (§76)</li>
+                                </ul>
+                              </li>
+                              <li class="has-children" onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic')">
+                                Miasmatic Chronic
+                                <ul>
+                                  <li class="has-children" onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Single')">
+                                    Single Disease
+                                    <ul>
+                                      <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Single > Psora')">Psora</li>
+                                      <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Single > Syphilis')">Syphilis</li>
+                                      <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Single > Sycosis')">Sycosis</li>
+                                    </ul>
+                                  </li>
+                                  <li class="has-children" onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex')">
+                                    Complex Disease
+                                    <ul>
+                                      <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-sycotic')">Psoro-sycotic</li>
+                                      <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syphilis')">Psoro-syphilis</li>
+                                      <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Syco-syphilitic')">Syco-syphilitic</li>
+                                      <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syco-syphilitic')">Psoro-syco-syphilitic</li>
+                                    </ul>
+                                  </li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+                          <li class="has-children" onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms')">
+                            Few Symptoms
+                            <ul>
+                              <li class="has-children" onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > One-Sided')">
+                                One-Sided Disease (§173)
+                                <ul>
+                                  <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > One-Sided > Mental')">Only Mental (§210-§230)</li>
+                                  <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > One-Sided > Physical')">Only Physical</li>
+                                </ul>
+                              </li>
+                              <li class="has-children" onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local')">
+                                Local Disease
+                                <ul>
+                                  <li class="has-children" onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local > Surgical')">
+                                    Surgical (§186)
+                                    <ul>
+                                      <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local > Surgical > Pure')">Pure</li>
+                                      <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local > Surgical > Partial')">Partial</li>
+                                    </ul>
+                                  </li>
+                                  <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local > Non-Surgical')">Non-Surgical (§187)</li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
             </div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Investigation</label><textarea class="form-input" id="cr_investigation" rows="2"></textarea></div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Prescription (Remedy/Potency)</label><textarea class="form-input" id="cr_prescription" rows="2" required></textarea></div>
