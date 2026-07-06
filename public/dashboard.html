@@ -135,6 +135,8 @@
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-lg);
       min-width: 260px;
+      max-height: 350px;
+      overflow-y: auto;
       margin-top: 4px;
       padding: 0.35rem 0 !important;
     }
@@ -147,9 +149,7 @@
       font-size: 0.85rem;
       color: var(--text-secondary);
       cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: block !important;
       transition: background 0.2s, color 0.2s;
     }
     .tree-select-menu li:hover {
@@ -161,19 +161,23 @@
       font-family: "Material Symbols Outlined";
       font-size: 16px;
       color: var(--text-muted);
+      position: absolute;
+      right: 1rem;
+      top: 0.6rem;
+      transition: transform 0.2s;
+    }
+    .tree-select-menu li.has-children:hover::after {
+      content: "expand_more";
     }
     .tree-select-menu li ul {
       display: none;
-      position: absolute;
-      top: 0;
-      left: 100%;
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-lg);
-      min-width: 240px;
-      margin-left: 2px;
-      padding: 0.35rem 0 !important;
+      position: static !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0.25rem 0 0.25rem 1rem !important;
+      margin: 0 !important;
+      width: 100% !important;
     }
     .tree-select-menu li:hover > ul {
       display: block;
