@@ -170,10 +170,7 @@
     }
   }
 
-  // Request notification permission silently
-  if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission();
-  }
+
 
   // Auto-lookup from URL ?pid= or LocalStorage
   const pid = new URLSearchParams(location.search).get('pid') || localStorage.getItem('my_patient_id');
@@ -186,6 +183,14 @@
 async function lookupPatient() {
   const id = document.getElementById('pidInput').value.trim();
   if (!id) { toast('Please enter your Patient ID', 'warning'); return; }
+
+  // Request notification permission on user gesture
+  if ('Notification' in window && Notification.permission === 'default') {
+    try {
+      Notification.requestPermission();
+    } catch (e) {}
+  }
+
   const btn = document.getElementById('lookupBtn');
   btn.disabled = true;
   btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;animation:spin 1s linear infinite">refresh</span>';
@@ -246,7 +251,7 @@ async function renderPatient(p) {
             try {
               new Notification('Upcoming Appointment Reminder', {
                 body: `Reminder: You have an appointment with Dr. Hiral today at ${a.appt_time} (in ${Math.round(diffMin)} minutes).`,
-                icon: '/images/logo.svg'
+                icon: window.location.origin + '/images/logo.svg'
               });
             } catch (e) {}
           }

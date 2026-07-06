@@ -293,7 +293,16 @@
         <h4 style="font-size: 1rem; font-weight:700; margin-bottom: 0.75rem; color: var(--secondary); display:flex; align-items:center; gap:0.4rem">
           <span class="material-symbols-outlined" style="color: var(--secondary);">shopping_cart</span> Medicines to be Reordered
         </h4>
-        <div id="reorderList" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem;"></div>
+        <div id="reorderListWrapper" style="position:relative; max-height:140px; overflow:hidden; transition: max-height 0.3s ease;">
+          <div id="reorderList" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem;"></div>
+          <div id="reorderFade" style="position:absolute; bottom:0; left:0; width:100%; height:40px; background:linear-gradient(to top, var(--bg-surface), transparent); pointer-events:none; display:none;"></div>
+        </div>
+        <div id="reorderToggleBtnContainer" style="display:none; justify-content:center; margin-top:0.75rem;">
+          <button class="btn btn-sm btn-ghost" onclick="toggleReorderCollapse()" style="display:inline-flex; align-items:center; gap:0.25rem; color:var(--secondary); font-weight:600;">
+            <span id="reorderToggleText">Show More</span>
+            <span class="material-symbols-outlined" id="reorderToggleIcon" style="font-size:16px">keyboard_arrow_down</span>
+          </button>
+        </div>
       </div>
 
       <div style="margin-bottom:1.25rem; position:relative; max-width:400px; width:100%;">
@@ -461,7 +470,7 @@
 
       <div class="form-group">
         <label class="form-label">Follow-up Date</label>
-        <input type="date" class="form-input" id="rx_follow_up" style="color-scheme: light dark;">
+        <input type="date" class="form-input" id="rx_follow_up">
       </div>
 
       <div style="display:flex;gap:0.75rem;justify-content:flex-end">
@@ -1411,10 +1420,60 @@ async function loadStock(q=''){
             </div>
           </div>
         `).join('');
+
+        // Dynamic collapse check after render
+        setTimeout(() => {
+          const wrapper = document.getElementById('reorderListWrapper');
+          const toggleBtnContainer = document.getElementById('reorderToggleBtnContainer');
+          const fade = document.getElementById('reorderFade');
+          if (wrapper && toggleBtnContainer) {
+            if (reorderList.scrollHeight > 140) {
+              if (!wrapper.classList.contains('expanded')) {
+                wrapper.style.maxHeight = '140px';
+                if (fade) fade.style.display = 'block';
+                document.getElementById('reorderToggleText').textContent = 'Show More';
+                document.getElementById('reorderToggleIcon').textContent = 'keyboard_arrow_down';
+              } else {
+                wrapper.style.maxHeight = reorderList.scrollHeight + 'px';
+                if (fade) fade.style.display = 'none';
+              }
+              toggleBtnContainer.style.display = 'flex';
+            } else {
+              wrapper.style.maxHeight = 'none';
+              wrapper.classList.remove('expanded');
+              if (fade) fade.style.display = 'none';
+              toggleBtnContainer.style.display = 'none';
+            }
+          }
+        }, 50);
       } else {
         reorderSection.style.display = 'none';
       }
     }
+
+    // Toggle collapse helper
+    window.toggleReorderCollapse = function() {
+      const wrapper = document.getElementById('reorderListWrapper');
+      const text = document.getElementById('reorderToggleText');
+      const icon = document.getElementById('reorderToggleIcon');
+      const fade = document.getElementById('reorderFade');
+      const list = document.getElementById('reorderList');
+      if (!wrapper || !list) return;
+
+      if (wrapper.style.maxHeight === '140px') {
+        wrapper.style.maxHeight = list.scrollHeight + 'px';
+        wrapper.classList.add('expanded');
+        text.textContent = 'Show Less';
+        icon.textContent = 'keyboard_arrow_up';
+        if (fade) fade.style.display = 'none';
+      } else {
+        wrapper.style.maxHeight = '140px';
+        wrapper.classList.remove('expanded');
+        text.textContent = 'Show More';
+        icon.textContent = 'keyboard_arrow_down';
+        if (fade) fade.style.display = 'block';
+      }
+    };
 
     const el = document.getElementById('stockList');
     if (!stock.length) {
@@ -1985,16 +2044,33 @@ function dismissNotificationBanner() {
   document.getElementById('notification-banner')?.classList.add('hidden');
 }
 
-async function requestNotificationPermission() {
-  if ('Notification' in window) {
-    const perm = await Notification.requestPermission();
+function requestNotificationPermission() {
+  if (!('Notification' in window)) return;
+
+  const handlePermission = (perm) => {
     if (perm === 'granted') {
       toast('Notifications enabled successfully!', 'success');
       try {
-        new Notification('Dr. Hiral Portal', { body: 'Live appointment notifications active.', icon: '/images/logo.svg' });
+        new Notification('Dr. Hiral Portal', { 
+          body: 'Live appointment notifications active.', 
+          icon: window.location.origin + '/images/logo.svg' 
+        });
       } catch (e) {}
+    } else if (perm === 'denied') {
+      toast('Notification permission was denied. Please enable them in your browser settings.', 'warning');
     }
     dismissNotificationBanner();
+  };
+
+  try {
+    const promise = Notification.requestPermission();
+    if (promise && typeof promise.then === 'function') {
+      promise.then(handlePermission);
+    } else {
+      Notification.requestPermission(handlePermission);
+    }
+  } catch (err) {
+    Notification.requestPermission(handlePermission);
   }
 }
 
@@ -2017,7 +2093,7 @@ async function pollPendingAppointments() {
         try {
           new Notification('New Appointment Request', {
             body: `${newest ? newest.patient_name : 'A patient'} has requested a new appointment.`,
-            icon: '/images/logo.svg'
+            icon: window.location.origin + '/images/logo.svg'
           });
         } catch (e) {}
       }
@@ -2057,7 +2133,7 @@ async function pollPendingAppointments() {
             try {
               new Notification('Upcoming Appointment Alert', {
                 body: `${a.patient_name} has an appointment scheduled at ${a.appt_time} (in ${Math.round(diffMin)} minutes).`,
-                icon: '/images/logo.svg'
+                icon: window.location.origin + '/images/logo.svg'
               });
             } catch (e) {}
           }

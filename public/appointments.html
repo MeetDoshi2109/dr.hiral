@@ -477,10 +477,7 @@
   });
   updateTimeSlots();
 
-  // Request notification permission silently
-  if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission();
-  }
+
   
   // Check appointment status on load
   checkApptStatus();
@@ -514,7 +511,7 @@ async function checkApptStatus() {
           ? `Your appointment is confirmed for ${appt.appt_time} on ${new Date(appt.appt_date).toLocaleDateString('en-IN')}.`
           : `Your request for ${appt.appt_time} on ${new Date(appt.appt_date).toLocaleDateString('en-IN')} could not be accommodated.`;
         try {
-          new Notification(title, { body, icon: '/images/logo.svg' });
+          new Notification(title, { body, icon: window.location.origin + '/images/logo.svg' });
         } catch (e) {}
       }
       toast(appt.status === 'accepted' ? 'Your appointment has been confirmed!' : 'Your appointment has been declined.', appt.status === 'accepted' ? 'success' : 'error');
@@ -550,7 +547,7 @@ async function checkApptStatus() {
               try {
                 new Notification('Upcoming Appointment Reminder', {
                   body: `You have an appointment today in ${Math.round(diffMin)} minutes at ${appt.appt_time}.`,
-                  icon: '/images/logo.svg'
+                  icon: window.location.origin + '/images/logo.svg'
                 });
               } catch (e) {}
             }
@@ -797,6 +794,14 @@ function confirmConsentAndSubmit() {
     return;
   }
   closeModal('terms-consent-modal');
+
+  // Request notification permission on user gesture
+  if ('Notification' in window && Notification.permission === 'default') {
+    try {
+      Notification.requestPermission();
+    } catch (e) {}
+  }
+
   bookAppt();
 }
 
