@@ -368,19 +368,41 @@
         <div class="form-group"><label class="form-label">Blood Group</label><input class="form-input" id="pf_blood"></div>
       </div>
       <div class="form-group" style="margin-bottom:1rem">
-        <label class="form-label">Hahnemannian Classification of Disease</label>
-        <select class="form-input" id="pf_hahnemannian">
+        <select class="form-input" id="pf_hahnemannian" style="background-color: var(--bg-surface);">
           <option value="">— Select Classification —</option>
-          <option value="Acute (Individual)">Acute (Individual)</option>
-          <option value="Acute (Sporadic)">Acute (Sporadic)</option>
-          <option value="Acute (Endemic)">Acute (Endemic)</option>
-          <option value="Acute (Epidemic)">Acute (Epidemic)</option>
-          <option value="Pseudo-Chronic (Lifestyle/Hygiene)">Pseudo-Chronic (Lifestyle/Hygiene)</option>
-          <option value="Artificial Chronic (Drug-induced)">Artificial Chronic (Drug-induced)</option>
-          <option value="True Chronic (Psora)">True Chronic (Psora)</option>
-          <option value="True Chronic (Syphilis)">True Chronic (Syphilis)</option>
-          <option value="True Chronic (Sycosis)">True Chronic (Sycosis)</option>
-          <option value="True Chronic (Mixed Miasmatic)">True Chronic (Mixed Miasmatic)</option>
+          <option value="Indisposition (§150)">Indisposition (§150)</option>
+          <option value="Dynamic Diseases" disabled style="font-weight: bold; color: var(--text);">Dynamic Diseases</option>
+          <option value="Dynamic > Acute" disabled>&nbsp;&nbsp;├─ Acute Diseases (§72, §73, 152)</option>
+          <option value="Dynamic > Acute > Individual">&nbsp;&nbsp;│&nbsp;&nbsp;├─ Individual</option>
+          <option value="Dynamic > Acute > Sporadic">&nbsp;&nbsp;│&nbsp;&nbsp;├─ Sporadic</option>
+          <option value="Dynamic > Acute > Epidemic">&nbsp;&nbsp;│&nbsp;&nbsp;└─ Epidemic</option>
+          <option value="Dynamic > Chronic" disabled>&nbsp;&nbsp;└─ Chronic Diseases (§74, §82)</option>
+          <option value="Dynamic > Chronic > Fully Developed" disabled>&nbsp;&nbsp;&nbsp;&nbsp;├─ Fully Developed Symptoms</option>
+          <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Non-Miasmatic Chronic</option>
+          <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ Pseudo-Chronic (§77)</option>
+          <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Habit">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ Habit</option>
+          <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Living">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ Living</option>
+          <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Occupation">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;└─ Occupation</option>
+          <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Artificial-Chronic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;└─ Artificial Chronic (§76)</option>
+          <option value="Dynamic > Chronic > Fully Developed > Miasmatic" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Miasmatic Chronic</option>
+          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Single Disease</option>
+          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single > Psora">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Psora</option>
+          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single > Syphilis">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Syphilis</option>
+          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single > Sycosis">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Sycosis</option>
+          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Complex Disease</option>
+          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-sycotic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Psoro-sycotic</option>
+          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syphilis">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Psoro-syphilis</option>
+          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Syco-syphilitic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Syco-syphilitic</option>
+          <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syco-syphilitic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Psoro-syco-syphilitic</option>
+          <option value="Dynamic > Chronic > Few Symptoms" disabled>&nbsp;&nbsp;&nbsp;&nbsp;└─ Few Symptoms</option>
+          <option value="Dynamic > Chronic > Few Symptoms > One-Sided" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ One-Sided Disease (§173)</option>
+          <option value="Dynamic > Chronic > Few Symptoms > One-Sided > Mental">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Only Mental (§210-§230)</option>
+          <option value="Dynamic > Chronic > Few Symptoms > One-Sided > Physical">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Only Physical</option>
+          <option value="Dynamic > Chronic > Few Symptoms > Local" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Local Disease</option>
+          <option value="Dynamic > Chronic > Few Symptoms > Local > Surgical" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Surgical (§186)</option>
+          <option value="Dynamic > Chronic > Few Symptoms > Local > Surgical > Pure">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Pure</option>
+          <option value="Dynamic > Chronic > Few Symptoms > Local > Surgical > Partial">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Partial</option>
+          <option value="Dynamic > Chronic > Few Symptoms > Local > Non-Surgical">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Non-Surgical (§187)</option>
         </select>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:1rem;margin-bottom:1rem">
@@ -633,16 +655,39 @@
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Hahnemannian Classification</label>
               <select class="form-input" id="cr_hahnemannian" style="background-color: var(--bg-surface);">
                 <option value="">— Select Classification —</option>
-                <option value="Acute (Individual)">Acute (Individual)</option>
-                <option value="Acute (Sporadic)">Acute (Sporadic)</option>
-                <option value="Acute (Endemic)">Acute (Endemic)</option>
-                <option value="Acute (Epidemic)">Acute (Epidemic)</option>
-                <option value="Pseudo-Chronic (Lifestyle/Hygiene)">Pseudo-Chronic (Lifestyle/Hygiene)</option>
-                <option value="Artificial Chronic (Drug-induced)">Artificial Chronic (Drug-induced)</option>
-                <option value="True Chronic (Psora)">True Chronic (Psora)</option>
-                <option value="True Chronic (Syphilis)">True Chronic (Syphilis)</option>
-                <option value="True Chronic (Sycosis)">True Chronic (Sycosis)</option>
-                <option value="True Chronic (Mixed Miasmatic)">True Chronic (Mixed Miasmatic)</option>
+                <option value="Indisposition (§150)">Indisposition (§150)</option>
+                <option value="Dynamic Diseases" disabled style="font-weight: bold; color: var(--text);">Dynamic Diseases</option>
+                <option value="Dynamic > Acute" disabled>&nbsp;&nbsp;├─ Acute Diseases (§72, §73, 152)</option>
+                <option value="Dynamic > Acute > Individual">&nbsp;&nbsp;│&nbsp;&nbsp;├─ Individual</option>
+                <option value="Dynamic > Acute > Sporadic">&nbsp;&nbsp;│&nbsp;&nbsp;├─ Sporadic</option>
+                <option value="Dynamic > Acute > Epidemic">&nbsp;&nbsp;│&nbsp;&nbsp;└─ Epidemic</option>
+                <option value="Dynamic > Chronic" disabled>&nbsp;&nbsp;└─ Chronic Diseases (§74, §82)</option>
+                <option value="Dynamic > Chronic > Fully Developed" disabled>&nbsp;&nbsp;&nbsp;&nbsp;├─ Fully Developed Symptoms</option>
+                <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Non-Miasmatic Chronic</option>
+                <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ Pseudo-Chronic (§77)</option>
+                <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Habit">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ Habit</option>
+                <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Living">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;├─ Living</option>
+                <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Occupation">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;└─ Occupation</option>
+                <option value="Dynamic > Chronic > Fully Developed > Non-Miasmatic > Artificial-Chronic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;│&nbsp;&nbsp;└─ Artificial Chronic (§76)</option>
+                <option value="Dynamic > Chronic > Fully Developed > Miasmatic" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Miasmatic Chronic</option>
+                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Single Disease</option>
+                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single > Psora">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Psora</option>
+                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single > Syphilis">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Syphilis</option>
+                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Single > Sycosis">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Sycosis</option>
+                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex" disabled>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Complex Disease</option>
+                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-sycotic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Psoro-sycotic</option>
+                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syphilis">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Psoro-syphilis</option>
+                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Syco-syphilitic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Syco-syphilitic</option>
+                <option value="Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syco-syphilitic">&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Psoro-syco-syphilitic</option>
+                <option value="Dynamic > Chronic > Few Symptoms" disabled>&nbsp;&nbsp;&nbsp;&nbsp;└─ Few Symptoms</option>
+                <option value="Dynamic > Chronic > Few Symptoms > One-Sided" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ One-Sided Disease (§173)</option>
+                <option value="Dynamic > Chronic > Few Symptoms > One-Sided > Mental">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Only Mental (§210-§230)</option>
+                <option value="Dynamic > Chronic > Few Symptoms > One-Sided > Physical">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Only Physical</option>
+                <option value="Dynamic > Chronic > Few Symptoms > Local" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Local Disease</option>
+                <option value="Dynamic > Chronic > Few Symptoms > Local > Surgical" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ Surgical (§186)</option>
+                <option value="Dynamic > Chronic > Few Symptoms > Local > Surgical > Pure">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;├─ Pure</option>
+                <option value="Dynamic > Chronic > Few Symptoms > Local > Surgical > Partial">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;└─ Partial</option>
+                <option value="Dynamic > Chronic > Few Symptoms > Local > Non-Surgical">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Non-Surgical (§187)</option>
               </select>
             </div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Investigation</label><textarea class="form-input" id="cr_investigation" rows="2"></textarea></div>
@@ -1306,12 +1351,15 @@ async function viewPatient(id){
         </div>
         <div>
           <label style="font-size:0.7rem; color:var(--text-muted); display:block; margin-bottom:0.15rem;">Select File *</label>
-          <input type="file" id="dr_doc_file" style="font-size:0.8rem; background:transparent; color:var(--text); width:100%;">
+          <input type="file" id="dr_doc_file" onchange="handleDocFileChange()" style="font-size:0.8rem; background:transparent; color:var(--text); width:100%;">
         </div>
       </div>
       <div style="margin-bottom:0.5rem;">
         <label style="font-size:0.7rem; color:var(--text-muted); display:block; margin-bottom:0.15rem;">Notes / Diagnosis Detail</label>
         <input class="form-input" id="dr_doc_notes" placeholder="Add diagnosis, doctor notes..." style="font-size:0.8rem; padding:0.4rem;">
+      </div>
+      <div id="dr_doc_preview_container" style="display:none; margin-top:0.75rem; margin-bottom:0.75rem; text-align:center;">
+        <img id="dr_doc_preview" style="max-height:150px; border-radius:8px; border:1px solid var(--border); box-shadow:var(--shadow-sm);" alt="File preview">
       </div>
       <button onclick="uploadDocByDoctor('${p.id}')" id="dr_doc_btn" class="btn btn-sm btn-primary" style="font-size:0.75rem; padding:0.35rem 0.8rem;">
         <span class="material-symbols-outlined" style="font-size:13px;">cloud_upload</span> Upload Report
@@ -1939,6 +1987,26 @@ async function deleteCustomKitFromTab(id) {
 }
 
 // ── Patient Documents Management by Doctor ────────────────
+window.handleDocFileChange = function() {
+  const fileInput = document.getElementById('dr_doc_file');
+  const previewContainer = document.getElementById('dr_doc_preview_container');
+  const previewImage = document.getElementById('dr_doc_preview');
+  if (!fileInput || !previewContainer || !previewImage) return;
+
+  const file = fileInput.files[0];
+  if (file && file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      previewImage.src = e.target.result;
+      previewContainer.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  } else {
+    previewImage.src = '';
+    previewContainer.style.display = 'none';
+  }
+};
+
 window.uploadDocByDoctor = async function(pid) {
   const nameInput = document.getElementById('dr_doc_name');
   const fileInput = document.getElementById('dr_doc_file');

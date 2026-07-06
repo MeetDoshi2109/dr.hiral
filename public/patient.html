@@ -355,12 +355,15 @@ async function renderPatient(p) {
         </div>
         <div class="form-group" style="margin:0;">
           <label class="form-label" style="font-size:0.72rem;">Select File (PDF, Image) *</label>
-          <input type="file" id="up_doc_file" style="font-size:0.8rem; background:transparent; color:var(--text); width:100%;">
+          <input type="file" id="up_doc_file" onchange="handlePatientDocFileChange()" style="font-size:0.8rem; background:transparent; color:var(--text); width:100%;">
         </div>
       </div>
       <div class="form-group" style="margin-bottom:0.75rem;">
         <label class="form-label" style="font-size:0.72rem;">Notes/Details</label>
         <textarea class="form-input" id="up_doc_notes" rows="1" placeholder="Add diagnosis, doctor name or details..." style="font-size:0.8rem; padding:0.45rem; resize:vertical;"></textarea>
+      </div>
+      <div id="up_doc_preview_container" style="display:none; margin-top:0.75rem; margin-bottom:0.75rem; text-align:center;">
+        <img id="up_doc_preview" style="max-height:150px; border-radius:8px; border:1px solid var(--border); box-shadow:var(--shadow-sm);" alt="File preview">
       </div>
       <button onclick="uploadPatientDoc('${p.id}')" id="up_doc_btn" class="btn btn-primary btn-sm" style="font-size:0.8rem; padding:0.45rem 1rem;">
         <span class="material-symbols-outlined" style="font-size:14px; margin-right:4px;">cloud_upload</span> Upload &amp; Share Document
@@ -468,6 +471,26 @@ async function renderPatient(p) {
 }
 
 // Frontend document upload handler
+window.handlePatientDocFileChange = function() {
+  const fileInput = document.getElementById('up_doc_file');
+  const previewContainer = document.getElementById('up_doc_preview_container');
+  const previewImage = document.getElementById('up_doc_preview');
+  if (!fileInput || !previewContainer || !previewImage) return;
+
+  const file = fileInput.files[0];
+  if (file && file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      previewImage.src = e.target.result;
+      previewContainer.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  } else {
+    previewImage.src = '';
+    previewContainer.style.display = 'none';
+  }
+};
+
 window.uploadPatientDoc = async function(pid) {
   const nameInput = document.getElementById('up_doc_name');
   const fileInput = document.getElementById('up_doc_file');
