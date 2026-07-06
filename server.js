@@ -229,6 +229,7 @@ app.use('/api/appointments', appointmentsRouter);
 app.use('/api/kits', kitsRouter);
 app.use('/api/stock', requireAuth, require('./routes/stock'));
 app.use('/api/bills', requireAuth, require('./routes/bills'));
+app.use('/api/notifications', require('./routes/notifications').router);
 
 // ── Database Backup API ────────────────────────────────
 app.get('/api/backup', async (req, res) => {

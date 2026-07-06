@@ -52,6 +52,19 @@ router.post('/', async (req, res) => {
        VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`,
       [patient_name, phone, email, appt_date, appt_time, reason, patient_id || null]
     );
+
+    // Broadcast push notification to all registered doctor/receptionist devices
+    try {
+      const { sendPushNotification } = require('./notifications');
+      sendPushNotification({
+        title: 'New Appointment Request',
+        body: `${patient_name} has requested an appointment at ${appt_time} on ${new Date(appt_date).toLocaleDateString('en-IN')}.`,
+        url: '/dashboard.html'
+      });
+    } catch (pushErr) {
+      console.error('Failed to broadcast push notification:', pushErr);
+    }
+
     res.status(201).json(rows[0]);
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
