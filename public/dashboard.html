@@ -2220,6 +2220,11 @@ window.selectTreeValue = function(event, wrapperId, value) {
   wrapper.classList.remove('open');
 };
 
+window.toggleBranch = function(event, element) {
+  event.stopPropagation();
+  element.classList.toggle('expanded');
+};
+
 window.setTreeSelectValue = function(id, value) {
   const input = document.getElementById(id);
   if (!input) return;
