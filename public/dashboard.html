@@ -1406,8 +1406,8 @@ async function editPatient(id){
 }
 
 function openCaseRecord(id) {
-  document.getElementById('cr_pid').value = id;
   document.getElementById('caseRecordForm').reset();
+  document.getElementById('cr_pid').value = id;
   setTreeSelectValue('cr_hahnemannian', '');
   openModal('caseRecordModal');
 }
