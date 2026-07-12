@@ -1438,10 +1438,14 @@ async function saveCaseRecord(e) {
       details.push(`<strong>Physical Generals:</strong> Appetite: ${app}, Thirst: ${th}, Likes: ${lk}, Dislikes: ${dk}, Stool: ${st}, Urine: ${ur}, Perspiration: ${per}, Thermals: ${therm}, Sleep/Dreams: ${sl}/${dr}`);
     }
     
+
     // Medical History
-    const fam = val('cr_mh_family'), past = val('cr_mh_past'), female = val('cr_mh_female'), addictions = val('cr_mh_addictions');
-    if(fam||past||female||additions) {
-      details.push(`<strong>History:</strong> Family: ${fam || '—'}. Past: ${past || '—'}. Female: ${female || '—'}. Addictions: ${additions || '—'}`);
+    const fam = val('cr_mh_family');
+    const past = val('cr_mh_past');
+    const female = val('cr_mh_female');
+    const addictions = val('cr_mh_addictions');
+    if (fam || past || female || addictions) {
+      details.push(`<strong>History:</strong> Family: ${fam || '—'}. Past: ${past || '—'}. Female: ${female || '—'}. Addictions: ${addictions || '—'}`);
     }
     
     // Birth
