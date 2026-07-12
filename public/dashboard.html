@@ -903,7 +903,7 @@
               </div>
             </div>
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Investigation</label><textarea class="form-input" id="cr_investigation" rows="2"></textarea></div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Prescription (Remedy/Potency)</label><textarea class="form-input" id="cr_prescription" rows="2" required></textarea></div>
+            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Prescription (Remedy/Potency)</label><textarea class="form-input" id="cr_prescription" rows="2"></textarea></div>
           </div>
           <div class="grid-2-col">
             <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Follow-Up Date</label><input type="date" class="form-input" id="cr_followup" style="color-scheme: light dark;"></div>
@@ -1482,6 +1482,11 @@ async function saveCaseRecord(e) {
   if(diag||miasm||inv||fu||hahn) details.push(`<strong>Diagnosis:</strong> ${diag} (Miasm: ${miasm}, Hahnemannian: ${hahn || '—'}). Investigations: ${inv}. Follow-up: ${fu ? fmtDate(fu) : '—'}`);
 
   const rx = val('cr_prescription');
+  
+  if (details.length === 0 && !rx) {
+    toast('Cannot save empty case record. Please fill in at least one clinical detail or prescription.', 'error');
+    return;
+  }
   
   const data = {
     note: details.join('<br><br>'),
