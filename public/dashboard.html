@@ -908,15 +908,110 @@
             </div>
           </div>
 
-          <!-- Diagnosis & Treatment -->
-          <div class="card" style="margin-bottom:1.5rem; background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2rem; box-shadow:var(--shadow-sm);">
-            <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
-              <span class="material-symbols-outlined" style="color:var(--primary); font-size:24px;">healing</span>
-              <div>
-                <h3 style="font-size:1.15rem; font-weight:700; color:var(--text); margin-bottom:0.15rem;">Diagnosis & Treatment</h3>
-                <p style="font-size:0.8rem; color:var(--text-muted);">Miasmatic diagnostics, classification tree, and prescription logs</p>
+            <div class="grid-2-col" style="margin-bottom:1.5rem">
+              <div class="form-group"><label class="form-label">Diagnosis</label><input class="form-input" id="cr_diagnosis"></div>
+              <div class="form-group"><label class="form-label">Miasmatic Diagnosis</label><input class="form-input" id="cr_miasmatic"></div>
+              <div class="form-group"><label class="form-label">Hahnemannian Classification</label>
+                <div class="tree-select-wrapper" id="cr_hahnemannian_wrapper">
+                  <div class="tree-select-trigger" onclick="toggleTreeSelect(event, 'cr_hahnemannian_wrapper')">— Select Classification —</div>
+                  <input type="hidden" id="cr_hahnemannian">
+                  <ul class="tree-select-menu">
+                    <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Indisposition (§150)')">Indisposition (§150)</li>
+                    <li class="has-children" onclick="toggleBranch(event, this)">
+                      Dynamic Diseases
+                      <ul>
+                        <li class="has-children" onclick="toggleBranch(event, this)">
+                          Acute Diseases (§72, §73, 152)
+                          <ul>
+                            <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Acute > Individual')">Individual</li>
+                            <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Acute > Sporadic')">Sporadic</li>
+                            <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Acute > Epidemic')">Epidemic</li>
+                          </ul>
+                        </li>
+                        <li class="has-children" onclick="toggleBranch(event, this)">
+                          Chronic Diseases (§74, §82)
+                          <ul>
+                            <li class="has-children" onclick="toggleBranch(event, this)">
+                              Fully Developed Symptoms
+                              <ul>
+                                <li class="has-children" onclick="toggleBranch(event, this)">
+                                  Non-Miasmatic Chronic
+                                  <ul>
+                                    <li class="has-children" onclick="toggleBranch(event, this)">
+                                      Pseudo-Chronic (§77)
+                                      <ul>
+                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Habit')">Habit</li>
+                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Living')">Living</li>
+                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Occupation')">Occupation</li>
+                                      </ul>
+                                    </li>
+                                    <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Artificial-Chronic')">Artificial Chronic (§76)</li>
+                                  </ul>
+                                </td>
+                                <li class="has-children" onclick="toggleBranch(event, this)">
+                                  Miasmatic Chronic
+                                  <ul>
+                                    <li class="has-children" onclick="toggleBranch(event, this)">
+                                      Single Disease
+                                      <ul>
+                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Single > Psora')">Psora</li>
+                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Single > Syphilis')">Syphilis</li>
+                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Single > Sycosis')">Sycosis</li>
+                                      </ul>
+                                    </li>
+                                    <li class="has-children" onclick="toggleBranch(event, this)">
+                                      Complex Disease
+                                      <ul>
+                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-sycotic')">Psoro-sycotic</li>
+                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syphilis')">Psoro-syphilis</li>
+                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Syco-syphilitic')">Syco-syphilitic</li>
+                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syco-syphilitic')">Psoro-syco-syphilitic</li>
+                                      </ul>
+                                    </li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>
+                            <li class="has-children" onclick="toggleBranch(event, this)">
+                              Few Symptoms
+                              <ul>
+                                <li class="has-children" onclick="toggleBranch(event, this)">
+                                  One-Sided Disease (§173)
+                                  <ul>
+                                    <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > One-Sided > Mental')">Only Mental (§210-§230)</li>
+                                    <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > One-Sided > Physical')">Only Physical</li>
+                                  </ul>
+                                </li>
+                                <li class="has-children" onclick="toggleBranch(event, this)">
+                                  Local Disease
+                                  <ul>
+                                    <li class="has-children" onclick="toggleBranch(event, this)">
+                                      Surgical (§186)
+                                      <ul>
+                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local > Surgical > Pure')">Pure</li>
+                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local > Surgical > Partial')">Partial</li>
+                                      </ul>
+                                    </li>
+                                    <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local > Non-Surgical')">Non-Surgical (§187)</li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
               </div>
+              <div class="form-group"><label class="form-label">Investigation</label><textarea class="form-input" id="cr_investigation" rows="2"></textarea></div>
+              <div class="form-group"><label class="form-label">Prescription (Remedy/Potency)</label><textarea class="form-input" id="cr_prescription" rows="2"></textarea></div>
             </div>
+            <div class="grid-2-col">
+              <div class="form-group"><label class="form-label">Follow-Up Date</label><input type="date" class="form-input" id="cr_followup" style="color-scheme: light dark;"></div>
+            </div>
+          </div>
+        </div>
         
         <div style="position:sticky;bottom:0;background:var(--bg-surface);backdrop-filter:blur(16px);padding:1rem 0;margin:0 -2.5rem;padding-left:2.5rem;padding-right:2.5rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:1rem;z-index:20;">
           <button type="button" class="btn-ghost" onclick="closeModal('caseRecordModal')" style="padding:0.75rem 1.5rem;border-radius:0.75rem;">Cancel</button>
