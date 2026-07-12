@@ -248,11 +248,11 @@
         <span id="lang-text" class="notranslate" style="font-size: 13px; font-weight: 700; font-family: 'Manrope', sans-serif;">हा</span>
       </button>
       <button class="btn-ghost theme-toggle-icon" id="theme-toggle" aria-label="Toggle theme">
-        <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+        <span class="material-symbols-outlined" id="theme-icon" aria-hidden="true">dark_mode</span>
       </button>
       <button id="logoutBtn" class="btn btn-outline btn-sm hidden" onclick="doLogout()">Logout</button>
       <button class="btn-ghost" id="menu-open" aria-label="Menu">
-        <span class="material-symbols-outlined">menu</span>
+        <span class="material-symbols-outlined" aria-hidden="true">menu</span>
       </button>
     </div>
   </nav>
@@ -261,7 +261,7 @@
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobile-menu">
   <button class="btn-ghost" id="menu-close" style="position:absolute;top:1.5rem;right:1.5rem" aria-label="Close">
-    <span class="material-symbols-outlined">close</span>
+    <span class="material-symbols-outlined" aria-hidden="true">close</span>
   </button>
   <nav style="display:flex;flex-direction:column;gap:1.5rem;margin-top:2rem">
     <a href="/" style="font-size:1.2rem;font-weight:600;color:var(--text)">Home</a>
@@ -763,8 +763,8 @@
               </div>
             </div>
             <div class="grid-2-col">
-              <div class="form-group"><label class="form-label">OPD Number</label><input class="form-input" id="cr_opd"></div>
-              <div class="form-group"><label class="form-label">Physician In-charge</label><input class="form-input" id="cr_physician" value="Dr. Hiral"></div>
+              <div class="form-group"><label class="form-label" for="cr_opd">OPD Number</label><input class="form-input" id="cr_opd"></div>
+              <div class="form-group"><label class="form-label" for="cr_physician">Physician In-charge</label><input class="form-input" id="cr_physician" value="Dr. Hiral"></div>
             </div>
           </div>
 
@@ -778,12 +778,12 @@
               </div>
             </div>
             <div class="grid-2-col" style="margin-bottom:1rem">
-              <div class="form-group"><label class="form-label">Location</label><input class="form-input" id="cr_cc_location"></div>
-              <div class="form-group"><label class="form-label">Sensation</label><input class="form-input" id="cr_cc_sensation"></div>
-              <div class="form-group"><label class="form-label">Modalities (Agg/Amel)</label><input class="form-input" id="cr_cc_modalities"></div>
-              <div class="form-group"><label class="form-label">Concomitant</label><input class="form-input" id="cr_cc_concomitant"></div>
+              <div class="form-group"><label class="form-label" for="cr_cc_location">Location</label><input class="form-input" id="cr_cc_location"></div>
+              <div class="form-group"><label class="form-label" for="cr_cc_sensation">Sensation</label><input class="form-input" id="cr_cc_sensation"></div>
+              <div class="form-group"><label class="form-label" for="cr_cc_modalities">Modalities (Agg/Amel)</label><input class="form-input" id="cr_cc_modalities"></div>
+              <div class="form-group"><label class="form-label" for="cr_cc_concomitant">Concomitant</label><input class="form-input" id="cr_cc_concomitant"></div>
             </div>
-            <div class="form-group"><label class="form-label">Associated Complaints</label><textarea class="form-input" id="cr_assoc_complaints" rows="2"></textarea></div>
+            <div class="form-group"><label class="form-label" for="cr_assoc_complaints">Associated Complaints</label><textarea class="form-input" id="cr_assoc_complaints" rows="2"></textarea></div>
           </div>
 
           <!-- Medical History -->
@@ -796,12 +796,12 @@
               </div>
             </div>
             <div class="grid-2-col" style="margin-bottom:1rem">
-              <div class="form-group"><label class="form-label">Family History</label><textarea class="form-input" id="cr_mh_family" rows="2"></textarea></div>
-              <div class="form-group"><label class="form-label">Past History</label><textarea class="form-input" id="cr_mh_past" rows="2"></textarea></div>
+              <div class="form-group"><label class="form-label" for="cr_mh_family">Family History</label><textarea class="form-input" id="cr_mh_family" rows="2"></textarea></div>
+              <div class="form-group"><label class="form-label" for="cr_mh_past">Past History</label><textarea class="form-input" id="cr_mh_past" rows="2"></textarea></div>
             </div>
             <div class="grid-2-col">
-              <div class="form-group"><label class="form-label">Female History (Obstetric/Menstrual)</label><textarea class="form-input" id="cr_mh_female" rows="2"></textarea></div>
-              <div class="form-group"><label class="form-label">Addictions History</label><textarea class="form-input" id="cr_mh_addictions" rows="2"></textarea></div>
+              <div class="form-group"><label class="form-label" for="cr_mh_female">Female History (Obstetric/Menstrual)</label><textarea class="form-input" id="cr_mh_female" rows="2"></textarea></div>
+              <div class="form-group"><label class="form-label" for="cr_mh_addictions">Addictions History</label><textarea class="form-input" id="cr_mh_addictions" rows="2"></textarea></div>
             </div>
           </div>
         </div>
