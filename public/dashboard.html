@@ -1414,88 +1414,92 @@ function openCaseRecord(id) {
 
 async function saveCaseRecord(e) {
   e.preventDefault();
-  const id = document.getElementById('cr_pid').value;
-  
-  // Helper to get val
-  const val = (elId) => document.getElementById(elId).value.trim();
-  
-  let details = [];
-  
-  // Chief Complaint
-  const loc = val('cr_cc_location'), sens = val('cr_cc_sensation'), mods = val('cr_cc_modalities'), conc = val('cr_cc_concomitant'), assoc = val('cr_assoc_complaints');
-  if(loc||sens||mods||conc||assoc) {
-    details.push(`<strong>Chief Complaint:</strong> Location: ${loc}, Sensation: ${sens}, Modalities: ${mods}, Concomitant: ${conc}. Associated: ${assoc}`);
-  }
-  
-  // Physical Generals
-  const app = val('cr_pg_appetite'), th = val('cr_pg_thirst'), lk = val('cr_pg_likes'), dk = val('cr_pg_dislikes'), st = val('cr_pg_stool'), ur = val('cr_pg_urine'), per = val('cr_pg_perspiration'), therm = val('cr_pg_thermals'), pf = val('cr_pg_factors'), sl = val('cr_pg_sleep'), dr = val('cr_pg_dreams');
-  if(app||th||lk||dk||st||ur||per||therm||pf||sl||dr) {
-    details.push(`<strong>Physical Generals:</strong> Appetite: ${app}, Thirst: ${th}, Likes: ${lk}, Dislikes: ${dk}, Stool: ${st}, Urine: ${ur}, Perspiration: ${per}, Thermals: ${therm}, Sleep/Dreams: ${sl}/${dr}`);
-  }
-  
-  // Medical History
-  const fam = val('cr_mh_family'), past = val('cr_mh_past'), female = val('cr_mh_female'), addictions = val('cr_mh_addictions');
-  if(fam||past||female||additions) {
-    details.push(`<strong>History:</strong> Family: ${fam || '—'}. Past: ${past || '—'}. Female: ${female || '—'}. Addictions: ${additions || '—'}`);
-  }
-  
-  // Birth
-  const ante = val('cr_bd_ante'), nat = val('cr_bd_natal'), post = val('cr_bd_post'), imm = val('cr_bd_immunisation'), mile = val('cr_bd_milestones'), moth = val('cr_bd_mother');
-  if(ante||nat||post||imm||mile||moth) details.push(`<strong>Birth details:</strong> Ante: ${ante}, Natal: ${nat}, Post: ${post}. Immunisation: ${imm}, Milestones: ${mile}. Mother hx: ${moth}`);
-  
-  // Mental
-  const men = val('cr_mental_generals');
-  if(men) details.push(`<strong>Mental Generals:</strong> ${men}`);
-  
-  // Gen/Sys Exam
-  const exFields = [];
-  if(val('cr_ex_height')) exFields.push(`Height: ${val('cr_ex_height')}`);
-  if(val('cr_ex_weight')) exFields.push(`Weight: ${val('cr_ex_weight')}`);
-  if(val('cr_ex_build')) exFields.push(`Build: ${val('cr_ex_build')}`);
-  if(val('cr_ex_temp')) exFields.push(`Temp: ${val('cr_ex_temp')}`);
-  if(val('cr_ex_pulse')) exFields.push(`Pulse: ${val('cr_ex_pulse')}`);
-  if(val('cr_ex_bp')) exFields.push(`BP: ${val('cr_ex_bp')}`);
-  if(val('cr_ex_rr')) exFields.push(`RR: ${val('cr_ex_rr')}`);
-  if(val('cr_ex_spo2')) exFields.push(`SpO2: ${val('cr_ex_spo2')}%`);
-  if(val('cr_ex_pallor')) exFields.push(`Pallor: ${val('cr_ex_pallor')}`);
-  if(val('cr_ex_skin')) exFields.push(`Skin: ${val('cr_ex_skin')}`);
-  if(val('cr_ex_tongue')) exFields.push(`Tongue: ${val('cr_ex_tongue')}`);
-  if(val('cr_ex_lymph')) exFields.push(`Lymphadenopathy: ${val('cr_ex_lymph')}`);
-  if(val('cr_ex_oedema')) exFields.push(`Oedema: ${val('cr_ex_oedema')}`);
-  if(val('cr_ex_cyanosis')) exFields.push(`Cyanosis: ${val('cr_ex_cyanosis')}`);
-  
-  const sysFields = [];
-  if(val('cr_sys_cvs')) sysFields.push(`CVS: ${val('cr_sys_cvs')}`);
-  if(val('cr_sys_cns')) sysFields.push(`CNS: ${val('cr_sys_cns')}`);
-  if(val('cr_sys_rs')) sysFields.push(`RS: ${val('cr_sys_rs')}`);
-  if(val('cr_sys_pa')) sysFields.push(`P/A: ${val('cr_sys_pa')}`);
-
-  const ex = exFields.join(', ');
-  const sys = sysFields.join(', ');
-  const local = val('cr_ex_local');
-
-  if(ex || sys) details.push(`<strong>Examination:</strong> Gen: ${ex || '—'} | Sys: ${sys || '—'}`);
-  if(local) details.push(`<strong>Local Examination:</strong> ${local}`);
-  
-  // Diag/Treat
-  const diag = val('cr_diagnosis'), miasm = val('cr_miasmatic'), inv = val('cr_investigation'), fu = val('cr_followup'), hahn = val('cr_hahnemannian');
-  if(diag||miasm||inv||fu||hahn) details.push(`<strong>Diagnosis:</strong> ${diag} (Miasm: ${miasm}, Hahnemannian: ${hahn || '—'}). Investigations: ${inv}. Follow-up: ${fu ? fmtDate(fu) : '—'}`);
-
-  const rx = val('cr_prescription');
-  
-  if (details.length === 0 && !rx) {
-    toast('Cannot save empty case record. Please fill in at least one clinical detail or prescription.', 'error');
-    return;
-  }
-  
-  const data = {
-    note: details.join('<br><br>'),
-    remedy: rx,
-    potency: "",
-    visit_date: new Date().toISOString()
-  };
-  
   try {
+    const pidEl = document.getElementById('cr_pid');
+    const id = pidEl ? pidEl.value : '';
+    
+    // Helper to get val safely without throwing TypeError if element is missing
+    const val = (elId) => {
+      const el = document.getElementById(elId);
+      return el ? el.value.trim() : '';
+    };
+    
+    let details = [];
+    
+    // Chief Complaint
+    const loc = val('cr_cc_location'), sens = val('cr_cc_sensation'), mods = val('cr_cc_modalities'), conc = val('cr_cc_concomitant'), assoc = val('cr_assoc_complaints');
+    if(loc||sens||mods||conc||assoc) {
+      details.push(`<strong>Chief Complaint:</strong> Location: ${loc}, Sensation: ${sens}, Modalities: ${mods}, Concomitant: ${conc}. Associated: ${assoc}`);
+    }
+    
+    // Physical Generals
+    const app = val('cr_pg_appetite'), th = val('cr_pg_thirst'), lk = val('cr_pg_likes'), dk = val('cr_pg_dislikes'), st = val('cr_pg_stool'), ur = val('cr_pg_urine'), per = val('cr_pg_perspiration'), therm = val('cr_pg_thermals'), pf = val('cr_pg_factors'), sl = val('cr_pg_sleep'), dr = val('cr_pg_dreams');
+    if(app||th||lk||dk||st||ur||per||therm||pf||sl||dr) {
+      details.push(`<strong>Physical Generals:</strong> Appetite: ${app}, Thirst: ${th}, Likes: ${lk}, Dislikes: ${dk}, Stool: ${st}, Urine: ${ur}, Perspiration: ${per}, Thermals: ${therm}, Sleep/Dreams: ${sl}/${dr}`);
+    }
+    
+    // Medical History
+    const fam = val('cr_mh_family'), past = val('cr_mh_past'), female = val('cr_mh_female'), addictions = val('cr_mh_addictions');
+    if(fam||past||female||additions) {
+      details.push(`<strong>History:</strong> Family: ${fam || '—'}. Past: ${past || '—'}. Female: ${female || '—'}. Addictions: ${additions || '—'}`);
+    }
+    
+    // Birth
+    const ante = val('cr_bd_ante'), nat = val('cr_bd_natal'), post = val('cr_bd_post'), imm = val('cr_bd_immunisation'), mile = val('cr_bd_milestones'), moth = val('cr_bd_mother');
+    if(ante||nat||post||imm||mile||moth) details.push(`<strong>Birth details:</strong> Ante: ${ante}, Natal: ${nat}, Post: ${post}. Immunisation: ${imm}, Milestones: ${mile}. Mother hx: ${moth}`);
+    
+    // Mental
+    const men = val('cr_mental_generals');
+    if(men) details.push(`<strong>Mental Generals:</strong> ${men}`);
+    
+    // Gen/Sys Exam
+    const exFields = [];
+    if(val('cr_ex_height')) exFields.push(`Height: ${val('cr_ex_height')}`);
+    if(val('cr_ex_weight')) exFields.push(`Weight: ${val('cr_ex_weight')}`);
+    if(val('cr_ex_build')) exFields.push(`Build: ${val('cr_ex_build')}`);
+    if(val('cr_ex_temp')) exFields.push(`Temp: ${val('cr_ex_temp')}`);
+    if(val('cr_ex_pulse')) exFields.push(`Pulse: ${val('cr_ex_pulse')}`);
+    if(val('cr_ex_bp')) exFields.push(`BP: ${val('cr_ex_bp')}`);
+    if(val('cr_ex_rr')) exFields.push(`RR: ${val('cr_ex_rr')}`);
+    if(val('cr_ex_spo2')) exFields.push(`SpO2: ${val('cr_ex_spo2')}%`);
+    if(val('cr_ex_pallor')) exFields.push(`Pallor: ${val('cr_ex_pallor')}`);
+    if(val('cr_ex_skin')) exFields.push(`Skin: ${val('cr_ex_skin')}`);
+    if(val('cr_ex_tongue')) exFields.push(`Tongue: ${val('cr_ex_tongue')}`);
+    if(val('cr_ex_lymph')) exFields.push(`Lymphadenopathy: ${val('cr_ex_lymph')}`);
+    if(val('cr_ex_oedema')) exFields.push(`Oedema: ${val('cr_ex_oedema')}`);
+    if(val('cr_ex_cyanosis')) exFields.push(`Cyanosis: ${val('cr_ex_cyanosis')}`);
+    
+    const sysFields = [];
+    if(val('cr_sys_cvs')) sysFields.push(`CVS: ${val('cr_sys_cvs')}`);
+    if(val('cr_sys_cns')) sysFields.push(`CNS: ${val('cr_sys_cns')}`);
+    if(val('cr_sys_rs')) sysFields.push(`RS: ${val('cr_sys_rs')}`);
+    if(val('cr_sys_pa')) sysFields.push(`P/A: ${val('cr_sys_pa')}`);
+  
+    const ex = exFields.join(', ');
+    const sys = sysFields.join(', ');
+    const local = val('cr_ex_local');
+  
+    if(ex || sys) details.push(`<strong>Examination:</strong> Gen: ${ex || '—'} | Sys: ${sys || '—'}`);
+    if(local) details.push(`<strong>Local Examination:</strong> ${local}`);
+    
+    // Diag/Treat
+    const diag = val('cr_diagnosis'), miasm = val('cr_miasmatic'), inv = val('cr_investigation'), fu = val('cr_followup'), hahn = val('cr_hahnemannian');
+    if(diag||miasm||inv||fu||hahn) details.push(`<strong>Diagnosis:</strong> ${diag} (Miasm: ${miasm}, Hahnemannian: ${hahn || '—'}). Investigations: ${inv}. Follow-up: ${fu ? fmtDate(fu) : '—'}`);
+  
+    const rx = val('cr_prescription');
+    
+    if (details.length === 0 && !rx) {
+      toast('Cannot save empty case record. Please fill in at least one clinical detail or prescription.', 'error');
+      return;
+    }
+    
+    const data = {
+      note: details.join('<br><br>'),
+      remedy: rx,
+      potency: "",
+      visit_date: new Date().toISOString()
+    };
+    
     await API.addTimeline(id, data);
     if(hahn) {
       try {
