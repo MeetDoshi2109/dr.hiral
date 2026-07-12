@@ -194,6 +194,38 @@
     .tree-select-menu li.expanded > ul {
       display: block;
     }
+    
+    /* Proforma Form Styling overrides */
+    #caseRecordModal .form-input {
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      transition: all 0.25s ease;
+    }
+    #caseRecordModal .form-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+      background: var(--bg-surface);
+    }
+    #caseRecordModal .form-label {
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 0.35rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    #caseRecordModal .modal-header {
+      background: var(--bg-surface-alt);
+      border-bottom: 1px solid var(--border);
+      padding: 1.75rem 2.5rem;
+    }
+    #caseRecordModal .proforma-tab-btn {
+      transition: all var(--transition-base);
+    }
   </style>
 </head>
 <body>
