@@ -58,7 +58,7 @@
     </ul>
     <div class="navbar-actions">
       <button class="btn-ghost lang-toggle-icon notranslate" onclick="toggleLanguage()" aria-label="Toggle Language" style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; padding: 0; margin-right: 0.25rem; border: 1px solid rgba(255,255,255,0.15);">
-        <span id="lang-text" class="notranslate" style="font-size: 13px; font-weight: 700; font-family: 'Manrope', sans-serif;">हा</span>
+        <span id="lang-text" class="notranslate" style="font-size: 13px; font-weight: 700; font-family: 'Manrope', sans-serif;">हिं</span>
       </button>
       <button class="btn-ghost theme-toggle-icon" id="theme-toggle" aria-label="Toggle theme">
         <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
@@ -143,20 +143,19 @@
 
         <!-- Returning Patient Search Box -->
         <div id="returning-patient-search" class="hidden" style="margin-bottom: 1.5rem; padding: 1.25rem; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: var(--radius-md); animation: fadeIn 0.3s ease;">
-          <div class="form-group" style="margin:0">
-            <label class="form-label" style="font-weight:600; margin-bottom:0.5rem;">
-              <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">search</span> Returning Patient Lookup
-            </label>
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-              <input class="form-input" id="lookup_query" placeholder="Enter Patient ID, Full Name, or Phone..." style="flex: 1; min-width: 200px;">
-              <button class="btn btn-primary" onclick="lookupPatientRecord()" style="padding: 0.65rem 1.25rem;">
-                <span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle;margin-right:4px;">search</span>Search
-              </button>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div class="form-group" style="margin:0">
+              <label class="form-label" style="font-weight:600; margin-bottom:0.5rem;" for="lookup_id">Patient ID *</label>
+              <input class="form-input" id="lookup_id" placeholder="e.g. PAT-A1B2C3D4">
             </div>
-            <p class="text-secondary-c text-xs" style="margin-top: 0.5rem; line-height:1.4;">
-              Enter your exact <strong>Patient ID</strong> (e.g. PAT-DEMO001), registered <strong>Full Name</strong>, or <strong>Phone Number</strong>.
-            </p>
+            <div class="form-group" style="margin:0">
+              <label class="form-label" style="font-weight:600; margin-bottom:0.5rem;" for="lookup_phone">Registered Phone *</label>
+              <input class="form-input" id="lookup_phone" placeholder="e.g. 9876543210">
+            </div>
           </div>
+          <button class="btn btn-primary w-full" onclick="lookupPatientRecord()" style="padding: 0.65rem 1.25rem; justify-content:center">
+            <span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle;margin-right:4px;">search</span>Search &amp; Link Record
+          </button>
         </div>
 
         <!-- Sleek Patient Summary Card -->
@@ -485,7 +484,8 @@
 
 async function checkApptStatus() {
   const myApptId = localStorage.getItem('my_appointment_id');
-  if (!myApptId) return;
+  const myApptPhone = localStorage.getItem('my_appointment_phone');
+  if (!myApptId || !myApptPhone) return;
 
   document.getElementById('bookingForm').classList.add('hidden');
   const statusView = document.getElementById('statusView');
@@ -500,7 +500,7 @@ async function checkApptStatus() {
   `;
 
   try {
-    const appt = await API.get(`/api/appointments/status/${myApptId}`);
+    const appt = await API.get(`/api/appointments/status/${myApptId}?phone=${encodeURIComponent(myApptPhone)}`);
     
     // Live Status Changes Alert
     const oldStatus = localStorage.getItem('my_appointment_status');
@@ -703,10 +703,11 @@ function setPatientType(type) {
 }
 
 async function lookupPatientRecord() {
-  const query = document.getElementById('lookup_query').value.trim();
-  if (!query) { toast('Please enter ID, Name, or Phone', 'warning'); return; }
+  const id = document.getElementById('lookup_id').value.trim();
+  const phone = document.getElementById('lookup_phone').value.trim();
+  if (!id || !phone) { toast('Please enter both Patient ID and Registered Phone', 'warning'); return; }
   try {
-    const patient = await API.lookupPatient(query);
+    const patient = await API.lookupPatient(id, phone);
     matchedPatient = patient;
     document.getElementById('af_patient_id').value = patient.id;
     document.getElementById('summary_name').textContent = patient.name;
@@ -736,6 +737,7 @@ function clearPatientLookup() {
 
 function clearStoredAppt() {
   localStorage.removeItem('my_appointment_id');
+  localStorage.removeItem('my_appointment_phone');
   localStorage.removeItem('my_patient_id');
   document.getElementById('statusView').classList.add('hidden');
   document.getElementById('bookingForm').classList.remove('hidden');
@@ -842,6 +844,7 @@ async function bookAppt() {
     });
     if (res && res.id) {
       localStorage.setItem('my_appointment_id', res.id);
+      localStorage.setItem('my_appointment_phone', phone);
       const cfIdEl = document.getElementById('cf_id');
       if (cfIdEl) cfIdEl.textContent = res.id;
     }
@@ -870,16 +873,19 @@ async function bookAppt() {
 
 async function fetchStatusDirectly() {
   const id = document.getElementById('status_appt_id').value.trim();
+  const phone = document.getElementById('status_phone').value.trim();
   if (!id) { toast('Please enter an Appointment ID', 'warning'); return; }
+  if (!phone) { toast('Please enter your registered phone number', 'warning'); return; }
   try {
-    const appt = await API.get(`/api/appointments/status/${id}`);
+    const appt = await API.get(`/api/appointments/status/${id}?phone=${encodeURIComponent(phone)}`);
     if (!appt || !appt.id) { throw new Error(); }
     localStorage.setItem('my_appointment_id', id);
+    localStorage.setItem('my_appointment_phone', phone);
     closeModal('check-status-modal');
     checkApptStatus();
     toast('Appointment found!', 'success');
   } catch (e) {
-    toast('Appointment ID not found or invalid.', 'error');
+    toast('Appointment ID or Phone number does not match.', 'error');
   }
 }
 </script>
@@ -901,8 +907,12 @@ async function fetchStatusDirectly() {
     
     <div style="display: flex; flex-direction: column; gap: 1rem; text-align: left;">
       <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
-        <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)">Appointment ID *</label>
+        <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)" for="status_appt_id">Appointment ID *</label>
         <input type="text" id="status_appt_id" class="form-input" placeholder="e.g. APPT-A1B2C3D4" style="width:100%; border:1.5px solid var(--border); background:rgba(255,255,255,0.02); color:var(--text); font-family:var(--font-body); outline:none" required>
+      </div>
+      <div class="form-group" style="display:flex; flex-direction:column; gap:0.35rem">
+        <label class="form-label" style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary)" for="status_phone">Registered Phone Number *</label>
+        <input type="text" id="status_phone" class="form-input" placeholder="e.g. 9876543210" style="width:100%; border:1.5px solid var(--border); background:rgba(255,255,255,0.02); color:var(--text); font-family:var(--font-body); outline:none" required>
       </div>
       
       <button onclick="fetchStatusDirectly()" class="btn btn-primary btn-lg w-full" style="margin-top: 0.5rem; justify-content:center">

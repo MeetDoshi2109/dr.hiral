@@ -34,17 +34,17 @@ function requirePatientOrDoctorAuth(req, res, next) {
 // GET /api/patients/lookup — public search for returning patients
 router.get('/lookup', async (req, res) => {
   try {
-    const { q } = req.query;
-    if (!q) return res.status(400).json({ error: 'Search query is required' });
-    const queryStr = q.trim();
-    // Search exact Patient ID, exact Phone Number, or exact Name (case-insensitive)
+    const { id, phone } = req.query;
+    if (!id || !phone) return res.status(400).json({ error: 'Patient ID and Registered Phone Number are required' });
+    const queryId = id.trim();
+    const queryPhone = phone.trim();
     const { rows } = await db.query(
       `SELECT id, name, age, gender, phone, email, blood_group, address, chief_complaint, history, notes, vitals, proforma_data 
        FROM patients 
-       WHERE id = $1 OR phone = $1 OR UPPER(name) = UPPER($1) LIMIT 1`,
-      [queryStr]
+       WHERE id = $1 AND phone = $2 LIMIT 1`,
+      [queryId, queryPhone]
     );
-    if (!rows.length) return res.status(404).json({ error: 'No matching patient found' });
+    if (!rows.length) return res.status(404).json({ error: 'No matching patient found with that ID and Phone combination' });
     
     // Save patientId in session to prevent IDOR in subsequent calls
     req.session.patientId = rows[0].id;

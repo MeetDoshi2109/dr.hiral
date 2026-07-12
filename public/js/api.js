@@ -48,7 +48,7 @@ const API = {
   deleteDocument:  (pid,did)  => API.delete(`/api/patients/${pid}/documents/${did}`),
 
   // Patients lookup (returning patient flow)
-  lookupPatient: (q) => API.get(`/api/patients/lookup?q=${encodeURIComponent(q)}`),
+  lookupPatient: (id, phone) => API.get(`/api/patients/lookup?id=${encodeURIComponent(id)}&phone=${encodeURIComponent(phone)}`),
 
   // QR
   getQR: (patientId) => API.get(`/api/qr/${patientId}`),
@@ -96,6 +96,7 @@ const API = {
 // ── Global Helpers ────────────────────────────────────
 function clearPatientSession() {
   localStorage.removeItem('my_patient_id');
+  localStorage.removeItem('my_patient_phone');
   localStorage.removeItem('my_appointment_id');
   location.href = '/patient.html';
 }

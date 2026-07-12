@@ -82,6 +82,7 @@ app.use((req, res, next) => {
     res.clearCookie('hiral_session', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
       path: '/'
     });
     if (cb) cb();
@@ -94,6 +95,7 @@ app.use((req, res, next) => {
       res.cookie('hiral_session', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
         path: '/',
         maxAge: 8 * 60 * 60 * 1000 // 8 hours
       });
@@ -236,7 +238,7 @@ app.use('/api/bills', requireAuth, require('./routes/bills'));
 app.use('/api/notifications', require('./routes/notifications').router);
 
 // ── Database Backup API ────────────────────────────────
-app.get('/api/backup', async (req, res) => {
+app.get('/api/backup', requireAuth, async (req, res) => {
   const db = require('./db/db');
   try {
     const [patients, timeline, appointments, prescriptions, kits, reviews, stock] = await Promise.all([

@@ -69,7 +69,7 @@
     </ul>
     <div class="navbar-actions">
       <button class="btn-ghost lang-toggle-icon notranslate" onclick="toggleLanguage()" aria-label="Toggle Language" style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; padding: 0; margin-right: 0.25rem; border: 1px solid rgba(255,255,255,0.15);">
-        <span id="lang-text" class="notranslate" style="font-size: 13px; font-weight: 700; font-family: 'Manrope', sans-serif;">हा</span>
+        <span id="lang-text" class="notranslate" style="font-size: 13px; font-weight: 700; font-family: 'Manrope', sans-serif;">हिं</span>
       </button>
       <button class="btn-ghost theme-toggle-icon" id="theme-toggle" aria-label="Toggle theme">
         <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
@@ -108,11 +108,18 @@
           <span class="status-dot online"></span> Patient Portal
         </div>
         <h1 style="font-size:1.9rem;margin-bottom:0.5rem">Your Health <span class="highlight">Records</span></h1>
-        <p class="text-secondary-c" style="margin-bottom:1.75rem">Enter your Patient ID to view your treatment history, prescriptions, and medicine transport status from Dr. Hiral.</p>
-        <div style="display:flex;gap:0.75rem;margin-bottom:0.75rem">
-          <input class="form-input" id="pidInput" placeholder="e.g. PAT-001" style="text-align:center;font-size:1rem;flex:1" autocomplete="off">
-          <button class="btn btn-primary" onclick="lookupPatient()" id="lookupBtn">
-            <span class="material-symbols-outlined" style="font-size:18px">search</span>
+        <p class="text-secondary-c" style="margin-bottom:1.75rem">Enter your Patient ID and Registered Phone Number to securely view your treatment history, prescriptions, and medicine transport status from Dr. Hiral.</p>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:0.75rem">
+          <div class="form-group" style="text-align:left;margin:0">
+            <label class="form-label" for="pidInput">Patient ID *</label>
+            <input class="form-input" id="pidInput" placeholder="e.g. PAT-A1B2C3D4" style="text-align:center;font-size:1rem;width:100%" autocomplete="off">
+          </div>
+          <div class="form-group" style="text-align:left;margin:0">
+            <label class="form-label" for="pPhoneInput">Registered Phone Number *</label>
+            <input class="form-input" id="pPhoneInput" placeholder="e.g. 9876543210" style="text-align:center;font-size:1rem;width:100%" autocomplete="off">
+          </div>
+          <button class="btn btn-primary" onclick="lookupPatient()" id="lookupBtn" style="margin-top:0.5rem;justify-content:center">
+            <span class="material-symbols-outlined" style="font-size:18px;margin-right:6px">search</span> Search &amp; Verify
           </button>
         </div>
         <p class="text-secondary-c text-xs">Or scan your QR code to open this page directly</p>
@@ -174,15 +181,21 @@
 
   // Auto-lookup from URL ?pid= or LocalStorage
   const pid = new URLSearchParams(location.search).get('pid') || localStorage.getItem('my_patient_id');
-  if (pid) { document.getElementById('pidInput').value = pid; lookupPatient(); }
+  const pphone = localStorage.getItem('my_patient_phone');
+  if (pid) document.getElementById('pidInput').value = pid;
+  if (pphone) document.getElementById('pPhoneInput').value = pphone;
+  if (pid && pphone) { lookupPatient(); }
 
   // Enter key
   document.getElementById('pidInput').addEventListener('keydown', e => { if (e.key === 'Enter') lookupPatient(); });
+  document.getElementById('pPhoneInput').addEventListener('keydown', e => { if (e.key === 'Enter') lookupPatient(); });
 })();
 
 async function lookupPatient() {
   const id = document.getElementById('pidInput').value.trim();
+  const phone = document.getElementById('pPhoneInput').value.trim();
   if (!id) { toast('Please enter your Patient ID', 'warning'); return; }
+  if (!phone) { toast('Please enter your registered phone number', 'warning'); return; }
 
   // Request notification permission on user gesture
   if ('Notification' in window && Notification.permission === 'default') {
@@ -196,12 +209,14 @@ async function lookupPatient() {
   btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px;animation:spin 1s linear infinite">refresh</span>';
   try {
     // Establish session on new device first
-    await API.lookupPatient(id);
+    await API.lookupPatient(id, phone);
     // Now session is set, fetch full record
     const p = await API.getPatient(id);
+    localStorage.setItem('my_patient_id', id);
+    localStorage.setItem('my_patient_phone', phone);
     await renderPatient(p);
   } catch (e) {
-    toast('Patient not found — please check your ID', 'error');
+    toast('Patient details mismatch — please check ID & Phone Number', 'error');
     btn.disabled = false;
     btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:18px">search</span>';
   }
