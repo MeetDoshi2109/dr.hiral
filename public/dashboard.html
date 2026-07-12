@@ -2394,6 +2394,10 @@ window.selectTreeValue = function(event, wrapperId, value) {
 
 window.toggleBranch = function(event, element) {
   event.stopPropagation();
+  const childUl = element.querySelector('ul');
+  if (childUl && (event.target === childUl || childUl.contains(event.target))) {
+    return;
+  }
   element.classList.toggle('expanded');
 };
 
