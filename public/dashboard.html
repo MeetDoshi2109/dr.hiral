@@ -288,7 +288,7 @@
 </div>
 
 <!-- DASHBOARD -->
-<div id="dashView" class="hidden page-wrap">
+<main id="dashView" class="hidden page-wrap">
   <div class="dash-container">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:2rem" class="reveal">
       <div>
@@ -296,16 +296,16 @@
         <p class="text-secondary-c">Your practice overview and patient management</p>
       </div>
       <button class="btn btn-primary" onclick="openModal('addPatientModal')">
-        <span class="material-symbols-outlined" style="font-size:18px">person_add</span> Add Patient
+        <span class="material-symbols-outlined" style="font-size:18px" aria-hidden="true">person_add</span> Add Patient
       </button>
     </div>
 
     <!-- BROWSER NOTIFICATION PERMISSION BANNER -->
     <div id="notification-banner" class="hidden" style="margin-bottom:1.5rem; background:rgba(8,145,178,0.06); border:1px solid rgba(8,145,178,0.2); border-radius:var(--radius-md); padding:1rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
       <div style="display:flex; align-items:center; gap:0.75rem;">
-        <span class="material-symbols-outlined" style="color:var(--primary); font-size:24px">notifications_active</span>
+        <span class="material-symbols-outlined" style="color:var(--primary); font-size:24px" aria-hidden="true">notifications_active</span>
         <div>
-          <h4 style="font-size:0.9rem; font-weight:600; margin-bottom:0.1rem">Enable Appointment Alerts</h4>
+          <h3 style="font-size:0.9rem; font-weight:600; margin-bottom:0.1rem">Enable Appointment Alerts</h3>
           <p style="font-size:0.78rem; color:var(--text-secondary)">Receive live desktop notifications when patients request new appointments.</p>
         </div>
       </div>
@@ -323,20 +323,20 @@
     </div>
 
     <div class="tab-bar reveal">
-      <button class="tab-btn active" data-tab="patients" onclick="switchTab('patients',this)"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom">group</span> Patients</button>
-      <button class="tab-btn" data-tab="appts" onclick="switchTab('appts',this)"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom">calendar_month</span> Appointments</button>
-      <button class="tab-btn" data-tab="rx" onclick="switchTab('rx',this)"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom">prescriptions</span> Prescriptions</button>
-      <button class="tab-btn" data-tab="stock" onclick="switchTab('stock',this)"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom">inventory_2</span> Medicine Stock</button>
+      <button class="tab-btn active" data-tab="patients" onclick="switchTab('patients',this)"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom" aria-hidden="true">group</span> Patients</button>
+      <button class="tab-btn" data-tab="appts" onclick="switchTab('appts',this)"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom" aria-hidden="true">calendar_month</span> Appointments</button>
+      <button class="tab-btn" data-tab="rx" onclick="switchTab('rx',this)"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom" aria-hidden="true">prescriptions</span> Prescriptions</button>
+      <button class="tab-btn" data-tab="stock" onclick="switchTab('stock',this)"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:text-bottom" aria-hidden="true">inventory_2</span> Medicine Stock</button>
     </div>
 
     <div id="tab-patients" class="tab-panel active reveal">
       <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap;">
         <div style="max-width:400px; width:100%; position:relative">
-          <span class="material-symbols-outlined" style="position:absolute;left:12px;top:10px;color:var(--text-muted)">search</span>
+          <span class="material-symbols-outlined" style="position:absolute;left:12px;top:10px;color:var(--text-muted)" aria-hidden="true">search</span>
           <input type="text" class="form-input" style="padding-left:2.5rem" placeholder="Search patients by name or ID..." id="patientSearch" oninput="loadPatients(this.value)">
         </div>
         <button class="btn btn-outline btn-sm" onclick="toggleSortByNextAppt()" id="sortApptBtn" style="display:inline-flex; align-items:center; gap:0.5rem; height:42px;">
-          <span class="material-symbols-outlined" id="sortIcon">sort</span>
+          <span class="material-symbols-outlined" id="sortIcon" aria-hidden="true">sort</span>
           <span>Sort by Next Appointment</span>
         </button>
       </div>
@@ -356,7 +356,7 @@
     <div id="tab-rx" class="tab-panel reveal">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.25rem">
         <div>
-          <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:0.15rem">Prescriptions &amp; Kits</h3>
+          <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:0.15rem">Prescriptions &amp; Kits</h2>
           <p style="font-size:0.8rem;color:var(--text-muted)">All issued prescriptions and editable medicine kits</p>
         </div>
         <div style="display:flex;gap:0.5rem;align-items:center">
@@ -376,7 +376,7 @@
         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem">
           <!-- Preset Kits -->
           <div class="card" style="padding:1.5rem; border:1px solid var(--border); background: rgba(255,255,255,0.01);">
-            <h4 style="font-size:1.05rem; font-weight:700; margin-bottom:1rem; color:var(--primary); display:flex; align-items:center; gap:0.4rem"><span class="material-symbols-outlined">auto_awesome</span> Preset Default Kits</h4>
+            <h3 style="font-size:1.05rem; font-weight:700; margin-bottom:1rem; color:var(--primary); display:flex; align-items:center; gap:0.4rem"><span class="material-symbols-outlined" aria-hidden="true">auto_awesome</span> Preset Default Kits</h3>
             <div style="display:flex; flex-direction:column; gap:0.75rem">
               <div style="padding:0.75rem 1rem; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid var(--border); display:flex; justify-content:space-between; align-items:center">
                 <div>
@@ -411,7 +411,7 @@
           
           <!-- Custom Kits -->
           <div class="card" style="padding:1.5rem; border:1px solid var(--border); background: rgba(255,255,255,0.01);">
-            <h4 style="font-size:1.05rem; font-weight:700; margin-bottom:1rem; color:var(--secondary); display:flex; align-items:center; gap:0.4rem"><span class="material-symbols-outlined">dashboard_customize</span> Custom Saved Kits</h4>
+            <h3 style="font-size:1.05rem; font-weight:700; margin-bottom:1rem; color:var(--secondary); display:flex; align-items:center; gap:0.4rem"><span class="material-symbols-outlined" aria-hidden="true">dashboard_customize</span> Custom Saved Kits</h3>
             <div id="rxCustomKitsList" style="display:flex; flex-direction:column; gap:0.75rem">
               <div style="font-size:0.85rem; color:var(--text-muted); text-align:center; padding:1.5rem 0">No custom kits found. Save a kit from the prescription modal.</div>
             </div>
@@ -423,19 +423,19 @@
     <div id="tab-stock" class="tab-panel reveal">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.5rem">
         <div>
-          <h3 style="font-size:1.15rem;font-weight:700;margin-bottom:0.15rem">Medicine Stock Inventory</h3>
+          <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:0.15rem">Medicine Stock Inventory</h2>
           <p style="font-size:0.8rem;color:var(--text-muted)">Independent medicine stock tracking not synced with prescriptions</p>
         </div>
         <button class="btn btn-primary" onclick="openStockModal(null)">
-          <span class="material-symbols-outlined" style="font-size:17px">add_circle</span> Add Medicine Stock
+          <span class="material-symbols-outlined" style="font-size:17px" aria-hidden="true">add_circle</span> Add Medicine Stock
         </button>
       </div>
 
       <!-- Reorder List Section -->
       <div id="reorderSection" class="card" style="padding: 1.25rem; margin-bottom: 1.5rem; border: 1px dashed var(--secondary); background: rgba(209,187,255,0.02); display:none">
-        <h4 style="font-size: 1rem; font-weight:700; margin-bottom: 0.75rem; color: var(--secondary); display:flex; align-items:center; gap:0.4rem">
-          <span class="material-symbols-outlined" style="color: var(--secondary);">shopping_cart</span> Medicines to be Reordered
-        </h4>
+        <h3 style="font-size: 1rem; font-weight:700; margin-bottom: 0.75rem; color: var(--secondary); display:flex; align-items:center; gap:0.4rem">
+          <span class="material-symbols-outlined" style="color: var(--secondary);" aria-hidden="true">shopping_cart</span> Medicines to be Reordered
+        </h3>
         <div id="reorderListWrapper" style="position:relative; max-height:140px; overflow:hidden; transition: max-height 0.3s ease;">
           <div id="reorderList" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem;"></div>
           <div id="reorderFade" style="position:absolute; bottom:0; left:0; width:100%; height:40px; background:linear-gradient(to top, var(--bg-surface), transparent); pointer-events:none; display:none;"></div>
@@ -480,17 +480,17 @@
 
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;margin-bottom:1.5rem">
         <div>
-          <h3 style="font-size:1.15rem;font-weight:700;margin-bottom:0.15rem">Billing & Invoices</h3>
+          <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:0.15rem">Billing & Invoices</h2>
           <p style="font-size:0.8rem;color:var(--text-muted)">Manage consultation fees, medicine charges, and print invoices</p>
         </div>
         <button class="btn btn-primary" onclick="openBillingModal()">
-          <span class="material-symbols-outlined" style="font-size:17px">receipt_long</span> Create New Bill
+          <span class="material-symbols-outlined" style="font-size:17px" aria-hidden="true">receipt_long</span> Create New Bill
         </button>
       </div>
       <div id="billingList" style="overflow-x:auto;"></div>
     </div>
   </div>
-</div>
+</main>
 
 <!-- MODALS -->
 <!-- ADD PATIENT -->
@@ -1447,18 +1447,18 @@ async function loadPatients(q=''){
           <span class="badge badge-primary" style="font-size:0.65rem;">${p.id}</span>
         </div>
         <div class="text-sm text-secondary-c">${p.age||'\u2014'} / ${p.gender||'\u2014'}</div>
-        <div class="text-sm text-secondary-c"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">call</span> ${p.phone||'\u2014'}</div>
+        <div class="text-sm text-secondary-c"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle" aria-hidden="true">call</span> ${p.phone||'\u2014'}</div>
         <div class="text-sm text-secondary-c truncate">${p.chief_complaint||'\u2014'}</div>
         <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
           <button class="btn btn-sm btn-primary" onclick="viewPatient('${p.id}')">View</button>
-          <button class="btn btn-sm btn-outline" style="color:#0ea5e9; border-color:rgba(14,165,233,0.3);" onclick="viewAppointmentsHistory('${p.id}','${p.name.replace(/'/g,"\\'")}')">
-            <span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle">calendar_month</span> Appointments
+          <button class="btn btn-sm btn-info-outline" onclick="viewAppointmentsHistory('${p.id}','${p.name.replace(/'/g,"\\'")}')">
+            <span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle" aria-hidden="true">calendar_month</span> Appointments
           </button>
-          <button class="btn btn-sm btn-outline" style="color:#10b981" onclick="openRxModal('${p.id}','${p.name.replace(/'/g,"\\'")}')">  <span class="material-symbols-outlined" style="font-size:16px">prescriptions</span> Rx</button>
-          <button class="btn btn-sm btn-outline" onclick="showQR('${p.id}')"><span class="material-symbols-outlined" style="font-size:16px">qr_code_2</span></button>
-          <button class="btn btn-sm btn-outline" style="color:var(--primary)" onclick="openCaseRecord('${p.id}')"><span class="material-symbols-outlined" style="font-size:16px">assignment</span> Proforma</button>
-          <button class="btn btn-sm btn-outline" onclick="editPatient('${p.id}')"><span class="material-symbols-outlined" style="font-size:16px">edit</span></button>
-          <button class="btn btn-sm" style="background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.2)" onclick="deletePatient('${p.id}','${p.name.replace(/'/g,"\\'")}')"><span class="material-symbols-outlined" style="font-size:16px">delete</span></button>
+          <button class="btn btn-sm btn-success-outline" onclick="openRxModal('${p.id}','${p.name.replace(/'/g,"\\'")}')"><span class="material-symbols-outlined" style="font-size:16px" aria-hidden="true">prescriptions</span> Rx</button>
+          <button class="btn btn-sm btn-outline" onclick="showQR('${p.id}')" aria-label="Show QR Code for ${p.name}"><span class="material-symbols-outlined" style="font-size:16px" aria-hidden="true">qr_code_2</span></button>
+          <button class="btn btn-sm btn-outline" onclick="openCaseRecord('${p.id}')" aria-label="Case Record Proforma for ${p.name}"><span class="material-symbols-outlined" style="font-size:16px" aria-hidden="true">assignment</span> Proforma</button>
+          <button class="btn btn-sm btn-outline" onclick="editPatient('${p.id}')" aria-label="Edit Patient Details for ${p.name}"><span class="material-symbols-outlined" style="font-size:16px" aria-hidden="true">edit</span></button>
+          <button class="btn btn-sm" style="background:var(--alert-danger-bg);color:var(--alert-danger);border:1px solid var(--alert-danger-border)" onclick="deletePatient('${p.id}','${p.name.replace(/'/g,"\\'")}')" aria-label="Delete Patient ${p.name}"><span class="material-symbols-outlined" style="font-size:16px" aria-hidden="true">delete</span></button>
         </div>
       </div>
     `).join('');
@@ -3100,18 +3100,18 @@ checkAuth();
 <!-- FLOATING DATABASE BACKUP REMINDER -->
 <div id="backup-reminder" style="position: fixed; bottom: 2rem; right: 6.5rem; z-index: 1000; max-width: 320px; background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); padding: 1.25rem; transition: transform 0.3s ease, opacity 0.3s ease; animation: slideInUp 0.5s ease-out;">
   <div style="display: flex; gap: 0.75rem; align-items: flex-start; margin-bottom: 0.75rem;">
-    <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(13, 148, 136, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-      <span class="material-symbols-outlined" style="font-size: 20px;">security</span>
+    <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(15, 118, 110, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+      <span class="material-symbols-outlined" style="font-size: 20px;" aria-hidden="true">security</span>
     </div>
     <div>
-      <h4 style="font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.15rem;">Backup Reminder</h4>
+      <h3 style="font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.15rem;">Backup Reminder</h3>
       <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.45;">Protect patient histories, records, and prescriptions with a secure offline backup.</p>
     </div>
   </div>
   <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
     <button onclick="dismissBackupReminder()" class="btn btn-ghost btn-sm" style="font-size: 0.75rem; padding: 0.35rem 0.75rem; cursor: pointer;">Later</button>
     <a href="/api/backup" download class="btn btn-primary btn-sm" style="font-size: 0.75rem; padding: 0.35rem 0.75rem; display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none; cursor: pointer;">
-      <span class="material-symbols-outlined" style="font-size: 14px;">download</span>
+      <span class="material-symbols-outlined" style="font-size: 14px;" aria-hidden="true">download</span>
       <span>Backup Now</span>
     </a>
   </div>
