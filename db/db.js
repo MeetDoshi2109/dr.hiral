@@ -92,6 +92,9 @@ if (usePostgres) {
           return pgPool.query("ALTER TABLE patients ADD COLUMN IF NOT EXISTS hahnemannian_classification TEXT");
         })
         .then(() => {
+          return pgPool.query("ALTER TABLE patients ADD COLUMN IF NOT EXISTS proforma_data JSONB DEFAULT '{}'");
+        })
+        .then(() => {
           return pgPool.query("ALTER TABLE medicine_stock ADD COLUMN IF NOT EXISTS reorder_needed BOOLEAN DEFAULT FALSE");
         })
         .then(() => {
@@ -233,6 +236,7 @@ function initSQLite() {
           history       TEXT,
           notes         TEXT,
           vitals        TEXT DEFAULT '{}',
+          proforma_data TEXT DEFAULT '{}',
           created_at    TEXT DEFAULT CURRENT_TIMESTAMP,
           last_visit    TEXT DEFAULT CURRENT_TIMESTAMP
         )
@@ -356,6 +360,10 @@ function initSQLite() {
       });
 
       sqliteDb.run("ALTER TABLE patients ADD COLUMN hahnemannian_classification TEXT", (err) => {
+        // Ignore error if column already exists
+      });
+
+      sqliteDb.run("ALTER TABLE patients ADD COLUMN proforma_data TEXT DEFAULT '{}'", (err) => {
         // Ignore error if column already exists
       });
 

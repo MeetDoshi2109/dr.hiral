@@ -39,7 +39,7 @@ router.get('/lookup', async (req, res) => {
     const queryStr = q.trim();
     // Search exact Patient ID, exact Phone Number, or exact Name (case-insensitive)
     const { rows } = await db.query(
-      `SELECT id, name, age, gender, phone, email, blood_group, address, chief_complaint, history, notes, vitals 
+      `SELECT id, name, age, gender, phone, email, blood_group, address, chief_complaint, history, notes, vitals, proforma_data 
        FROM patients 
        WHERE id = $1 OR phone = $1 OR UPPER(name) = UPPER($1) LIMIT 1`,
       [queryStr]
@@ -67,6 +67,7 @@ router.get('/:id', requirePatientOrDoctorAuth, async (req, res) => {
       patient.history = '*** Restricted ***';
       patient.notes = '*** Restricted ***';
       patient.vitals = {};
+      patient.proforma_data = {};
       return res.json({ ...patient, timeline: [], prescriptions: [], documents: [] });
     }
 
@@ -83,11 +84,11 @@ router.get('/:id', requirePatientOrDoctorAuth, async (req, res) => {
 // POST /api/patients  — create
 router.post('/', requireReceptionistOrDoctorAuth, async (req, res) => {
   try {
-    const { name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,vitals,hahnemannian_classification } = req.body;
+    const { name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,vitals,proforma_data,hahnemannian_classification } = req.body;
     const { rows } = await db.query(
-      `INSERT INTO patients (name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,vitals,hahnemannian_classification)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *`,
-      [name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,JSON.stringify(vitals||{}),hahnemannian_classification || '']
+      `INSERT INTO patients (name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,vitals,proforma_data,hahnemannian_classification)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *`,
+      [name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,JSON.stringify(vitals||{}),JSON.stringify(proforma_data||{}),hahnemannian_classification || '']
     );
     res.status(201).json(rows[0]);
   } catch (e) { res.status(500).json({ error: e.message }); }
@@ -96,22 +97,23 @@ router.post('/', requireReceptionistOrDoctorAuth, async (req, res) => {
 // PUT /api/patients/:id  — update
 router.put('/:id', requireReceptionistOrDoctorAuth, async (req, res) => {
   try {
-    let { name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,vitals,hahnemannian_classification } = req.body;
+    let { name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,vitals,proforma_data,hahnemannian_classification } = req.body;
     
     // Prevent receptionists from overwriting medical fields
     if (req.session && req.session.isReceptionist) {
-      const { rows: existing } = await db.query('SELECT history, notes, vitals FROM patients WHERE id=$1', [req.params.id]);
+      const { rows: existing } = await db.query('SELECT history, notes, vitals, proforma_data FROM patients WHERE id=$1', [req.params.id]);
       if (existing.length) {
         history = existing[0].history;
         notes = existing[0].notes;
         vitals = typeof existing[0].vitals === 'string' ? JSON.parse(existing[0].vitals) : existing[0].vitals;
+        proforma_data = typeof existing[0].proforma_data === 'string' ? JSON.parse(existing[0].proforma_data) : existing[0].proforma_data;
       }
     }
     const { rows } = await db.query(
       `UPDATE patients SET name=$1,age=$2,gender=$3,phone=$4,email=$5,blood_group=$6,
-       address=$7,chief_complaint=$8,history=$9,notes=$10,vitals=$11,hahnemannian_classification=$12,last_visit=NOW()
-       WHERE id=$13 RETURNING *`,
-      [name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,JSON.stringify(vitals||{}),hahnemannian_classification || '',req.params.id]
+       address=$7,chief_complaint=$8,history=$9,notes=$10,vitals=$11,proforma_data=$12,hahnemannian_classification=$13,last_visit=NOW()
+       WHERE id=$14 RETURNING *`,
+      [name,age,gender,phone,email,blood_group,address,chief_complaint,history,notes,JSON.stringify(vitals||{}),JSON.stringify(proforma_data||{}),hahnemannian_classification || '',req.params.id]
     );
     if (!rows.length) return res.status(404).json({ error: 'Patient not found' });
     res.json(rows[0]);

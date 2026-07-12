@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS patients (
   history       TEXT,
   notes         TEXT,
   vitals        JSONB DEFAULT '{}',
+  proforma_data JSONB DEFAULT '{}',
   hahnemannian_classification TEXT,
   created_at    TIMESTAMPTZ DEFAULT NOW(),
   last_visit    TIMESTAMPTZ DEFAULT NOW()
