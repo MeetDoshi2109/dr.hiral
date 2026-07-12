@@ -753,37 +753,55 @@
 
         <!-- Section 1: Complaints & History -->
         <div id="proforma_sec_complaints" class="proforma-section">
-          <!-- Preliminary Data (Some inputs for extra details) -->
-          <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
-            <h4 class="mb-sm text-primary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">badge</span> Preliminary Data</h4>
+          <!-- Preliminary Data -->
+          <div class="card" style="margin-bottom:1.5rem; background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2rem; box-shadow:var(--shadow-sm);">
+            <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <span class="material-symbols-outlined" style="color:var(--primary); font-size:24px;">badge</span>
+              <div>
+                <h3 style="font-size:1.15rem; font-weight:700; color:var(--text); margin-bottom:0.15rem;">Preliminary Data</h3>
+                <p style="font-size:0.8rem; color:var(--text-muted);">Administrative entry and record assignments</p>
+              </div>
+            </div>
             <div class="grid-2-col">
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">OPD Number</label><input class="form-input" id="cr_opd"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Physician In-charge</label><input class="form-input" id="cr_physician" value="Dr. Hiral"></div>
+              <div class="form-group"><label class="form-label">OPD Number</label><input class="form-input" id="cr_opd"></div>
+              <div class="form-group"><label class="form-label">Physician In-charge</label><input class="form-input" id="cr_physician" value="Dr. Hiral"></div>
             </div>
           </div>
 
           <!-- Chief Complaint -->
-          <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
-            <h4 class="mb-sm text-secondary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">personal_injury</span> Chief Complaint</h4>
-            <div class="grid-2-col" style="margin-bottom:1rem">
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Location</label><input class="form-input" id="cr_cc_location"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Sensation</label><input class="form-input" id="cr_cc_sensation"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Modalities (Agg/Amel)</label><input class="form-input" id="cr_cc_modalities"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Concomitant</label><input class="form-input" id="cr_cc_concomitant"></div>
+          <div class="card" style="margin-bottom:1.5rem; background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2rem; box-shadow:var(--shadow-sm);">
+            <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <span class="material-symbols-outlined" style="color:var(--secondary); font-size:24px;">personal_injury</span>
+              <div>
+                <h3 style="font-size:1.15rem; font-weight:700; color:var(--text); margin-bottom:0.15rem;">Chief Complaint</h3>
+                <p style="font-size:0.8rem; color:var(--text-muted);">Location, sensation, modalities, and concomitant details</p>
+              </div>
             </div>
-            <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Associated Complaints</label><textarea class="form-input" id="cr_assoc_complaints" rows="2"></textarea></div>
+            <div class="grid-2-col" style="margin-bottom:1rem">
+              <div class="form-group"><label class="form-label">Location</label><input class="form-input" id="cr_cc_location"></div>
+              <div class="form-group"><label class="form-label">Sensation</label><input class="form-input" id="cr_cc_sensation"></div>
+              <div class="form-group"><label class="form-label">Modalities (Agg/Amel)</label><input class="form-input" id="cr_cc_modalities"></div>
+              <div class="form-group"><label class="form-label">Concomitant</label><input class="form-input" id="cr_cc_concomitant"></div>
+            </div>
+            <div class="form-group"><label class="form-label">Associated Complaints</label><textarea class="form-input" id="cr_assoc_complaints" rows="2"></textarea></div>
           </div>
 
           <!-- Medical History -->
-          <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
-            <h4 class="mb-sm text-secondary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">history</span> Medical History</h4>
+          <div class="card" style="margin-bottom:1.5rem; background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2rem; box-shadow:var(--shadow-sm);">
+            <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <span class="material-symbols-outlined" style="color:var(--primary); font-size:24px;">history</span>
+              <div>
+                <h3 style="font-size:1.15rem; font-weight:700; color:var(--text); margin-bottom:0.15rem;">Medical History</h3>
+                <p style="font-size:0.8rem; color:var(--text-muted);">Family, past clinical histories, and habits</p>
+              </div>
+            </div>
             <div class="grid-2-col" style="margin-bottom:1rem">
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Family History</label><textarea class="form-input" id="cr_mh_family" rows="2"></textarea></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Past History</label><textarea class="form-input" id="cr_mh_past" rows="2"></textarea></div>
+              <div class="form-group"><label class="form-label">Family History</label><textarea class="form-input" id="cr_mh_family" rows="2"></textarea></div>
+              <div class="form-group"><label class="form-label">Past History</label><textarea class="form-input" id="cr_mh_past" rows="2"></textarea></div>
             </div>
             <div class="grid-2-col">
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Female History (Obstetric/Menstrual)</label><textarea class="form-input" id="cr_mh_female" rows="2"></textarea></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Addictions History</label><textarea class="form-input" id="cr_mh_addictions" rows="2"></textarea></div>
+              <div class="form-group"><label class="form-label">Female History (Obstetric/Menstrual)</label><textarea class="form-input" id="cr_mh_female" rows="2"></textarea></div>
+              <div class="form-group"><label class="form-label">Addictions History</label><textarea class="form-input" id="cr_mh_addictions" rows="2"></textarea></div>
             </div>
           </div>
         </div>
@@ -791,41 +809,59 @@
         <!-- Section 2: Generals & Milestones -->
         <div id="proforma_sec_generals" class="proforma-section" style="display:none;">
           <!-- Physical Generals -->
-          <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
-            <h4 class="mb-sm text-primary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">directions_run</span> Physical Generals</h4>
+          <div class="card" style="margin-bottom:1.5rem; background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2rem; box-shadow:var(--shadow-sm);">
+            <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <span class="material-symbols-outlined" style="color:var(--primary); font-size:24px;">directions_run</span>
+              <div>
+                <h3 style="font-size:1.15rem; font-weight:700; color:var(--text); margin-bottom:0.15rem;">Physical Generals</h3>
+                <p style="font-size:0.8rem; color:var(--text-muted);">Appetite, thirst, thermals, sleep and dreams</p>
+              </div>
+            </div>
             <div class="grid-3-col">
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Appetite</label><input class="form-input" id="cr_pg_appetite"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Thirst</label><input class="form-input" id="cr_pg_thirst"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Likes</label><input class="form-input" id="cr_pg_likes"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Dislikes</label><input class="form-input" id="cr_pg_dislikes"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Stool</label><input class="form-input" id="cr_pg_stool"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Urine</label><input class="form-input" id="cr_pg_urine"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Perspiration</label><input class="form-input" id="cr_pg_perspiration"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Thermals</label><input class="form-input" id="cr_pg_thermals"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Physical factors</label><input class="form-input" id="cr_pg_factors"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Sleep</label><input class="form-input" id="cr_pg_sleep"></div>
-              <div class="form-group" style="grid-column: span 2;"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Dreams</label><input class="form-input" id="cr_pg_dreams"></div>
+              <div class="form-group"><label class="form-label">Appetite</label><input class="form-input" id="cr_pg_appetite"></div>
+              <div class="form-group"><label class="form-label">Thirst</label><input class="form-input" id="cr_pg_thirst"></div>
+              <div class="form-group"><label class="form-label">Likes</label><input class="form-input" id="cr_pg_likes"></div>
+              <div class="form-group"><label class="form-label">Dislikes</label><input class="form-input" id="cr_pg_dislikes"></div>
+              <div class="form-group"><label class="form-label">Stool</label><input class="form-input" id="cr_pg_stool"></div>
+              <div class="form-group"><label class="form-label">Urine</label><input class="form-input" id="cr_pg_urine"></div>
+              <div class="form-group"><label class="form-label">Perspiration</label><input class="form-input" id="cr_pg_perspiration"></div>
+              <div class="form-group"><label class="form-label">Thermals</label><input class="form-input" id="cr_pg_thermals"></div>
+              <div class="form-group"><label class="form-label">Physical factors</label><input class="form-input" id="cr_pg_factors"></div>
+              <div class="form-group"><label class="form-label">Sleep</label><input class="form-input" id="cr_pg_sleep"></div>
+              <div class="form-group" style="grid-column: span 2;"><label class="form-label">Dreams</label><input class="form-input" id="cr_pg_dreams"></div>
             </div>
           </div>
 
           <!-- Birth & Developmental Details -->
-          <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
-            <h4 class="mb-sm text-primary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">child_care</span> Birth & Developmental Details</h4>
+          <div class="card" style="margin-bottom:1.5rem; background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2rem; box-shadow:var(--shadow-sm);">
+            <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <span class="material-symbols-outlined" style="color:var(--primary); font-size:24px;">child_care</span>
+              <div>
+                <h3 style="font-size:1.15rem; font-weight:700; color:var(--text); margin-bottom:0.15rem;">Birth & Developmental Details</h3>
+                <p style="font-size:0.8rem; color:var(--text-muted);">Natal history, immunisations, milestones and pregnancy records</p>
+              </div>
+            </div>
             <div class="grid-3-col" style="margin-bottom:1.5rem">
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Ante-natal</label><input class="form-input" id="cr_bd_ante"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Natal</label><input class="form-input" id="cr_bd_natal"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Post-natal</label><input class="form-input" id="cr_bd_post"></div>
+              <div class="form-group"><label class="form-label">Ante-natal</label><input class="form-input" id="cr_bd_ante"></div>
+              <div class="form-group"><label class="form-label">Natal</label><input class="form-input" id="cr_bd_natal"></div>
+              <div class="form-group"><label class="form-label">Post-natal</label><input class="form-input" id="cr_bd_post"></div>
             </div>
             <div class="grid-2-col">
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Immunisation History</label><textarea class="form-input" id="cr_bd_immunisation" rows="2"></textarea></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Developmental Milestones</label><textarea class="form-input" id="cr_bd_milestones" rows="2"></textarea></div>
-              <div class="form-group" style="grid-column: span 2;"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Mother's history during pregnancy</label><textarea class="form-input" id="cr_bd_mother" rows="2"></textarea></div>
+              <div class="form-group"><label class="form-label">Immunisation History</label><textarea class="form-input" id="cr_bd_immunisation" rows="2"></textarea></div>
+              <div class="form-group"><label class="form-label">Developmental Milestones</label><textarea class="form-input" id="cr_bd_milestones" rows="2"></textarea></div>
+              <div class="form-group" style="grid-column: span 2;"><label class="form-label">Mother's history during pregnancy</label><textarea class="form-input" id="cr_bd_mother" rows="2"></textarea></div>
             </div>
           </div>
 
           <!-- Mental Generals -->
-          <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
-            <h4 class="mb-sm text-secondary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">psychology</span> Mental Generals</h4>
+          <div class="card" style="margin-bottom:1.5rem; background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2rem; box-shadow:var(--shadow-sm);">
+            <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <span class="material-symbols-outlined" style="color:var(--secondary); font-size:24px;">psychology</span>
+              <div>
+                <h3 style="font-size:1.15rem; font-weight:700; color:var(--text); margin-bottom:0.15rem;">Mental Generals</h3>
+                <p style="font-size:0.8rem; color:var(--text-muted);">Mental state, temperament, and emotional tendencies</p>
+              </div>
+            </div>
             <div class="form-group"><textarea class="form-input" id="cr_mental_generals" rows="3" placeholder="Mental general states, temperaments..."></textarea></div>
           </div>
         </div>
@@ -833,146 +869,54 @@
         <!-- Section 3: Examination & Diag -->
         <div id="proforma_sec_exam" class="proforma-section" style="display:none;">
           <!-- Examination -->
-          <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
-            <h4 class="mb-sm text-primary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">stethoscope</span> Examination</h4>
+          <div class="card" style="margin-bottom:1.5rem; background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2rem; box-shadow:var(--shadow-sm);">
+            <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <span class="material-symbols-outlined" style="color:var(--primary); font-size:24px;">stethoscope</span>
+              <div>
+                <h3 style="font-size:1.15rem; font-weight:700; color:var(--text); margin-bottom:0.15rem;">General Examination</h3>
+                <p style="font-size:0.8rem; color:var(--text-muted);">Physical vital signs, systemic checks, and local evaluations</p>
+              </div>
+            </div>
             <div class="grid-4-col" style="margin-bottom:2rem;">
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Height</label><input class="form-input" id="cr_ex_height"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Weight</label><input class="form-input" id="cr_ex_weight"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Build</label><input class="form-input" id="cr_ex_build"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Temperature</label><input class="form-input" id="cr_ex_temp"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Pulse rate</label><input class="form-input" id="cr_ex_pulse"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Blood pressure</label><input class="form-input" id="cr_ex_bp"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Resp. rate</label><input class="form-input" id="cr_ex_rr"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">SpO2 (%)</label><input class="form-input" id="cr_ex_spo2"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Pallor</label><input class="form-input" id="cr_ex_pallor"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Skin complexion</label><input class="form-input" id="cr_ex_skin"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Tongue</label><input class="form-input" id="cr_ex_tongue"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Lymphadenopathy</label><input class="form-input" id="cr_ex_lymph"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Oedema</label><input class="form-input" id="cr_ex_oedema"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Cyanosis</label><input class="form-input" id="cr_ex_cyanosis"></div>
+              <div class="form-group"><label class="form-label">Height</label><input class="form-input" id="cr_ex_height"></div>
+              <div class="form-group"><label class="form-label">Weight</label><input class="form-input" id="cr_ex_weight"></div>
+              <div class="form-group"><label class="form-label">Build</label><input class="form-input" id="cr_ex_build"></div>
+              <div class="form-group"><label class="form-label">Temperature</label><input class="form-input" id="cr_ex_temp"></div>
+              <div class="form-group"><label class="form-label">Pulse rate</label><input class="form-input" id="cr_ex_pulse"></div>
+              <div class="form-group"><label class="form-label">Blood pressure</label><input class="form-input" id="cr_ex_bp"></div>
+              <div class="form-group"><label class="form-label">Resp. rate</label><input class="form-input" id="cr_ex_rr"></div>
+              <div class="form-group"><label class="form-label">SpO2 (%)</label><input class="form-input" id="cr_ex_spo2"></div>
+              <div class="form-group"><label class="form-label">Pallor</label><input class="form-input" id="cr_ex_pallor"></div>
+              <div class="form-group"><label class="form-label">Skin complexion</label><input class="form-input" id="cr_ex_skin"></div>
+              <div class="form-group"><label class="form-label">Tongue</label><input class="form-input" id="cr_ex_tongue"></div>
+              <div class="form-group"><label class="form-label">Lymphadenopathy</label><input class="form-input" id="cr_ex_lymph"></div>
+              <div class="form-group"><label class="form-label">Oedema</label><input class="form-input" id="cr_ex_oedema"></div>
+              <div class="form-group"><label class="form-label">Cyanosis</label><input class="form-input" id="cr_ex_cyanosis"></div>
             </div>
             
-            <h5 style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.05em;">Systemic Examination</h5>
+            <h5 style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">Systemic Examination</h5>
             <div class="grid-4-col" style="margin-bottom:2rem;">
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">CVS</label><input class="form-input" id="cr_sys_cvs"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">CNS</label><input class="form-input" id="cr_sys_cns"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">RS</label><input class="form-input" id="cr_sys_rs"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">P/A</label><input class="form-input" id="cr_sys_pa"></div>
+              <div class="form-group"><label class="form-label">CVS</label><input class="form-input" id="cr_sys_cvs"></div>
+              <div class="form-group"><label class="form-label">CNS</label><input class="form-input" id="cr_sys_cns"></div>
+              <div class="form-group"><label class="form-label">RS</label><input class="form-input" id="cr_sys_rs"></div>
+              <div class="form-group"><label class="form-label">P/A</label><input class="form-input" id="cr_sys_pa"></div>
             </div>
 
-            <h5 style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.05em;">Local Examination</h5>
+            <h5 style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:1rem;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">Local Examination</h5>
             <div class="form-group" style="margin-bottom:1rem;">
               <textarea class="form-input" id="cr_ex_local" rows="2" placeholder="Local examination findings..."></textarea>
             </div>
           </div>
 
           <!-- Diagnosis & Treatment -->
-          <div style="background:var(--bg-surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;">
-            <h4 class="mb-sm text-primary" style="display:flex;align-items:center;gap:0.5rem;font-size:1.1rem;"><span class="material-symbols-outlined" style="font-size:20px;">healing</span> Diagnosis & Treatment</h4>
-            <div class="grid-2-col" style="margin-bottom:1.5rem">
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Diagnosis</label><input class="form-input" id="cr_diagnosis"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Miasmatic Diagnosis</label><input class="form-input" id="cr_miasmatic"></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Hahnemannian Classification</label>
-                <div class="tree-select-wrapper" id="cr_hahnemannian_wrapper">
-                  <div class="tree-select-trigger" onclick="toggleTreeSelect(event, 'cr_hahnemannian_wrapper')">— Select Classification —</div>
-                  <input type="hidden" id="cr_hahnemannian">
-                  <ul class="tree-select-menu">
-                    <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Indisposition (§150)')">Indisposition (§150)</li>
-                    <li class="has-children" onclick="toggleBranch(event, this)">
-                      Dynamic Diseases
-                      <ul>
-                        <li class="has-children" onclick="toggleBranch(event, this)">
-                          Acute Diseases (§72, §73, 152)
-                          <ul>
-                            <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Acute > Individual')">Individual</li>
-                            <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Acute > Sporadic')">Sporadic</li>
-                            <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Acute > Epidemic')">Epidemic</li>
-                          </ul>
-                        </li>
-                        <li class="has-children" onclick="toggleBranch(event, this)">
-                          Chronic Diseases (§74, §82)
-                          <ul>
-                            <li class="has-children" onclick="toggleBranch(event, this)">
-                              Fully Developed Symptoms
-                              <ul>
-                                <li class="has-children" onclick="toggleBranch(event, this)">
-                                  Non-Miasmatic Chronic
-                                  <ul>
-                                    <li class="has-children" onclick="toggleBranch(event, this)">
-                                      Pseudo-Chronic (§77)
-                                      <ul>
-                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Habit')">Habit</li>
-                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Living')">Living</li>
-                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Pseudo-Chronic > Occupation')">Occupation</li>
-                                      </ul>
-                                    </li>
-                                    <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Non-Miasmatic > Artificial-Chronic')">Artificial Chronic (§76)</li>
-                                  </ul>
-                                </td>
-                                <li class="has-children" onclick="toggleBranch(event, this)">
-                                  Miasmatic Chronic
-                                  <ul>
-                                    <li class="has-children" onclick="toggleBranch(event, this)">
-                                      Single Disease
-                                      <ul>
-                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Single > Psora')">Psora</li>
-                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Single > Syphilis')">Syphilis</li>
-                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Single > Sycosis')">Sycosis</li>
-                                      </ul>
-                                    </li>
-                                    <li class="has-children" onclick="toggleBranch(event, this)">
-                                      Complex Disease
-                                      <ul>
-                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-sycotic')">Psoro-sycotic</li>
-                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syphilis')">Psoro-syphilis</li>
-                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Syco-syphilitic')">Syco-syphilitic</li>
-                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Fully Developed > Miasmatic > Complex > Psoro-syco-syphilitic')">Psoro-syco-syphilitic</li>
-                                      </ul>
-                                    </li>
-                                  </ul>
-                                </li>
-                              </ul>
-                            </li>
-                            <li class="has-children" onclick="toggleBranch(event, this)">
-                              Few Symptoms
-                              <ul>
-                                <li class="has-children" onclick="toggleBranch(event, this)">
-                                  One-Sided Disease (§173)
-                                  <ul>
-                                    <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > One-Sided > Mental')">Only Mental (§210-§230)</li>
-                                    <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > One-Sided > Physical')">Only Physical</li>
-                                  </ul>
-                                </li>
-                                <li class="has-children" onclick="toggleBranch(event, this)">
-                                  Local Disease
-                                  <ul>
-                                    <li class="has-children" onclick="toggleBranch(event, this)">
-                                      Surgical (§186)
-                                      <ul>
-                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local > Surgical > Pure')">Pure</li>
-                                        <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local > Surgical > Partial')">Partial</li>
-                                      </ul>
-                                    </li>
-                                    <li onclick="selectTreeValue(event, 'cr_hahnemannian_wrapper', 'Dynamic > Chronic > Few Symptoms > Local > Non-Surgical')">Non-Surgical (§187)</li>
-                                  </ul>
-                                </li>
-                              </ul>
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
+          <div class="card" style="margin-bottom:1.5rem; background:var(--bg-surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2rem; box-shadow:var(--shadow-sm);">
+            <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <span class="material-symbols-outlined" style="color:var(--primary); font-size:24px;">healing</span>
+              <div>
+                <h3 style="font-size:1.15rem; font-weight:700; color:var(--text); margin-bottom:0.15rem;">Diagnosis & Treatment</h3>
+                <p style="font-size:0.8rem; color:var(--text-muted);">Miasmatic diagnostics, classification tree, and prescription logs</p>
               </div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Investigation</label><textarea class="form-input" id="cr_investigation" rows="2"></textarea></div>
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Prescription (Remedy/Potency)</label><textarea class="form-input" id="cr_prescription" rows="2"></textarea></div>
             </div>
-            <div class="grid-2-col">
-              <div class="form-group"><label class="form-label" style="color:var(--text-secondary);font-size:0.75rem;">Follow-Up Date</label><input type="date" class="form-input" id="cr_followup" style="color-scheme: light dark;"></div>
-            </div>
-          </div>
-        </div>
         
         <div style="position:sticky;bottom:0;background:var(--bg-surface);backdrop-filter:blur(16px);padding:1rem 0;margin:0 -2.5rem;padding-left:2.5rem;padding-right:2.5rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:1rem;z-index:20;">
           <button type="button" class="btn-ghost" onclick="closeModal('caseRecordModal')" style="padding:0.75rem 1.5rem;border-radius:0.75rem;">Cancel</button>
