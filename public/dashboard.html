@@ -1153,6 +1153,22 @@
       </div>
 
       <div class="form-group">
+        <label class="form-label">Payment Mode</label>
+        <div style="display:flex;gap:0.75rem;">
+          <label style="flex:1;display:flex;align-items:center;gap:0.5rem;padding:0.65rem 1rem;border:2px solid var(--border);border-radius:var(--radius-md);cursor:pointer;transition:all 0.2s;" id="mode-cash-label">
+            <input type="radio" name="bill_payment_mode" id="bill_mode_cash" value="cash" onchange="updateModeStyle()" checked style="accent-color:var(--primary);">
+            <span class="material-symbols-outlined" style="font-size:18px;color:#10b981;">payments</span>
+            <span style="font-weight:600;font-size:0.88rem;">Cash</span>
+          </label>
+          <label style="flex:1;display:flex;align-items:center;gap:0.5rem;padding:0.65rem 1rem;border:2px solid var(--border);border-radius:var(--radius-md);cursor:pointer;transition:all 0.2s;" id="mode-online-label">
+            <input type="radio" name="bill_payment_mode" id="bill_mode_online" value="online" onchange="updateModeStyle()" style="accent-color:var(--primary);">
+            <span class="material-symbols-outlined" style="font-size:18px;color:var(--primary);">credit_card</span>
+            <span style="font-weight:600;font-size:0.88rem;">Online</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
         <label class="form-label">Billing Notes</label>
         <input class="form-input" id="bill_notes" placeholder="e.g. Standard consultation + 1 month meds">
       </div>
@@ -2760,8 +2776,20 @@ function openBillingModal() {
   document.getElementById('bill_patient_name').value = '';
   document.getElementById('bill_total_val').textContent = '₹ 0.00';
   document.getElementById('bill_is_first').checked = true;
+  document.getElementById('bill_mode_cash').checked = true;
+  updateModeStyle();
   updateBillDefaults();
   openModal('billingModal');
+}
+
+function updateModeStyle() {
+  const cashLabel = document.getElementById('mode-cash-label');
+  const onlineLabel = document.getElementById('mode-online-label');
+  const isCash = document.getElementById('bill_mode_cash').checked;
+  cashLabel.style.borderColor = isCash ? '#10b981' : 'var(--border)';
+  cashLabel.style.background = isCash ? 'rgba(16,185,129,0.07)' : '';
+  onlineLabel.style.borderColor = !isCash ? 'var(--primary)' : 'var(--border)';
+  onlineLabel.style.background = !isCash ? 'rgba(8,145,178,0.07)' : '';
 }
 
 async function searchBillPatient(q) {
@@ -2820,6 +2848,7 @@ function submitBillForm(shouldPrint) {
 }
 
 async function saveBill(shouldPrint) {
+  const selectedMode = document.querySelector('input[name="bill_payment_mode"]:checked');
   const data = {
     patient_id: document.getElementById('bill_patient_id').value || null,
     patient_name: document.getElementById('bill_patient_name').value || document.getElementById('bill_patient_search').value.trim(),
@@ -2827,7 +2856,8 @@ async function saveBill(shouldPrint) {
     med_charges: parseFloat(document.getElementById('bill_med_charges').value) || 0,
     is_first_visit: document.getElementById('bill_is_first').checked,
     notes: document.getElementById('bill_notes').value.trim(),
-    status: document.getElementById('bill_status').value
+    status: document.getElementById('bill_status').value,
+    payment_mode: selectedMode ? selectedMode.value : 'cash'
   };
 
   try {
@@ -2899,6 +2929,7 @@ async function loadBills() {
               <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Medicines (₹)</th>
               <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Total (₹)</th>
               <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Type</th>
+              <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Mode</th>
               <th style="padding:0.75rem 0.5rem; color:var(--text-muted)">Status</th>
               <th style="padding:0.75rem 0.5rem; text-align:right; color:var(--text-muted)">Actions</th>
             </tr>
@@ -2915,6 +2946,12 @@ async function loadBills() {
                 <td style="padding:0.75rem 0.5rem">
                   <span class="badge" style="font-size:0.7rem; background:${b.is_first_visit ? 'rgba(8,145,178,0.1)' : 'rgba(255,255,255,0.05)'}; color:${b.is_first_visit ? 'var(--primary)' : 'var(--text-secondary)'}">
                     ${b.is_first_visit ? 'First Visit' : 'Follow-up'}
+                  </span>
+                </td>
+                <td style="padding:0.75rem 0.5rem">
+                  <span class="badge" style="font-size:0.7rem; background:${b.payment_mode === 'online' ? 'rgba(8,145,178,0.1)' : 'rgba(16,185,129,0.08)'}; color:${b.payment_mode === 'online' ? 'var(--primary)' : '#10b981'}; font-weight:600; display:inline-flex; align-items:center; gap:3px;">
+                    <span style="font-size:11px; font-family:Material Symbols Outlined; font-weight:400;">${b.payment_mode === 'online' ? 'credit_card' : 'payments'}</span>
+                    ${b.payment_mode === 'online' ? 'Online' : 'Cash'}
                   </span>
                 </td>
                 <td style="padding:0.75rem 0.5rem">
@@ -3054,6 +3091,11 @@ function printInvoice(bill) {
             <td>${bill.is_first_visit ? 'First Consultation' : 'Follow-up Consultation'}</td>
             <td class="label" style="text-align: right;">Payment Status:</td>
             <td style="text-align: right; font-weight: bold; color: ${bill.status === 'pending' ? '#ef4444' : '#0f766e'}">${bill.status === 'pending' ? 'Pending' : 'Received'}</td>
+          </tr>
+          <tr>
+            <td class="label">Payment Mode:</td>
+            <td style="font-weight:bold; color: ${bill.payment_mode === 'online' ? '#0891b2' : '#059669'}">${bill.payment_mode === 'online' ? '💳 Online' : '💵 Cash'}</td>
+            <td></td><td></td>
           </tr>
         </table>
         
